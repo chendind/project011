@@ -1,0 +1,101 @@
+.after:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.before:before {
+  display: block;
+  content: '';
+  clear: both;
+}
+.veryCenter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.verticalCenter {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+}
+.horizontalCenter {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+header.mui-bar-nav {
+  border-bottom: 1px solid #e5e5e5;
+}
+.mui-bar-nav {
+  box-shadow: none;
+}
+.mui-bar {
+  background-color: #fff;
+}
+.mui-content {
+  background-color: #eee;
+}
+.mui-bar-tab {
+  background-color: #fff;
+}
+.mui-bar-tab .mui-tab-item {
+  color: #666;
+  height: 100%;
+}
+.user-bar-tab {
+  padding: 5px 0;
+}
+.user-bar-tab .mui-tab-item {
+  padding: 5px 0;
+  border-right: 1px solid #e5e5e5;
+}
+.user-bar-tab .mui-tab-item:last-child {
+  border-right: none;
+}
+.user-bar-tab .mui-tab-item .mui-text {
+  width: auto;
+  height: auto;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: 18px;
+}
+.user-bar-tab .mui-tab-item .mui-tab-label {
+  color: #999;
+}
+.mui-table-view:before,
+.mui-table-view:after {
+  height: 0;
+}
+.mui-table-view .mui-media-object.head-img {
+  border-radius: 50%;
+}
+.mui-table-view .mui-media-object.icon-img {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+.mui-navigate-right .mui-tip {
+  font-size: 11px;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  right: 35px;
+  display: inline-block;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  text-decoration: none;
+  color: #bbb;
+}
+textarea,
+input {
+  font-size: 14px;
+}
