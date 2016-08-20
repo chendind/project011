@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body style="background-color: #fff;">
+	<div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter">
+        <img style="width: 100px;height: 100px;" src="../source/images/rect.jpg" alt="">
+        <div style="margin: 10px 0 20px;"><p style="font-size: 18px;">零钱余额</p></div>
+        <div><p style="font-size: 40px;" class="linkColor">0.00</p></div>
+        <div style="margin-top: 50px;">
+            <a href="userPage_change_withdraw.html" class="mui-btn mui-btn-primary mui-btn-outlined mui-btn-long">
+                提现
+            </a>
+        </div>
+        <div style="margin-top: 35px;">
+            <p><a style="color: inherit;" href="userPage_change_detailList.html">零钱明细</a> ｜ 积分兑换</p>
+        </div>
+    </div>
+    <div style="top: 80%;" class="veryCenter innerCenter">
+        <p id="openUseRulesPopoverButton">使用规则</p>
+    </div>
+    <div id="useRulesPopover" class="mui-popover mui-popup userRulesPopover">
+        <h1 class="linkColor">零钱使用规则</h1>
+        <div>
+            <h4>什么是零钱？</h4>
+            <p>零钱是用户在云书APP上的资金，支持支付、提现等功能。</p>
+            <h4>如何赚取零钱？</h4>
+            <p>用户可以通过积分兑换的方式获得零钱。<br />用户可通过签到、领取免费教材、商城购买、注册、捐书等行为获得的积分，再通过积分兑换将积分兑换成零钱。<br />积分兑换零钱的公式为：100积分＝1元零钱。</p>
+            <h4>零钱提现</h4>
+            <p>若零钱积累达到一定数量，用户可以申请提现。具体累计金额请参见提现页面说明。</p>
+        </div>
+    </div>
+<script>
+mui.init();
+$("#openUseRulesPopoverButton").on('tap',function(){
+    mui("#useRulesPopover").popover("toggle");
+})
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

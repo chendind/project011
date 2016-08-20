@@ -48,6 +48,9 @@ body {
 .greyColor {
   color: #c8c7cc !important;
 }
+.greenColor {
+  color: #1cc100 !important;
+}
 .title {
   font-size: 14px;
   padding: 15px 10px 5px;
@@ -59,4 +62,42 @@ body {
   left: 50%;
   width: 1px;
   height: 80%;
+}
+.innerCenter > img {
+  display: block;
+  margin: 0 auto;
+}
+.innerCenter > div {
+  margin: 0 auto;
+  text-align: center;
+}
+.userRulesPopover {
+  width: 85%;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 0 20px;
+  -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
+  transform: translate3d(-50%, -50%, 0) scale(1);
+}
+.userRulesPopover > h1 {
+  font-size: 18px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.userRulesPopover > div {
+  border-top: 1px solid #e5e5e5;
+  text-align: left;
+  padding: 16px 0;
+}
+.userRulesPopover > div > h4 {
+  font-size: 15px;
+  color: #666;
+  text-align: left;
+}
+.userRulesPopover > div > p {
+  margin-bottom: 20px;
+}
+.userRulesPopover > div > p:last-child {
+  margin-bottom: 0;
 }
