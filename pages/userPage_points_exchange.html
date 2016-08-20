@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body style="background-color: #fff;">
+	<div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter">
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td class="innerCenter">
+                        <div>
+                            <p style="font-size:18px;" class="linkColor">可用积分</p>
+                            <p id="pointsValue" style="font-size:30px;" class="linkColor">0</p>
+                        </div>
+                    </td>
+                    <td class="innerCenter">
+                        <img style="width: 40px;" src="../source/images/rect.jpg" alt="">
+                    </td>
+                    <td class="innerCenter">
+                        <div>
+                            <p style="font-size:18px;" class="linkColor">兑换零钱</p>
+                            <p id="changeValue" style="font-size:30px;" class="linkColor">0.00</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="mui-input-row mui-input-range" style="padding: 0 50px;margin-top: 40px;">
+            <input id="pointsExchangeSlideBar" type="range" value="0" min="0" max="4400" >
+        </div>
+        <div><p>拖动杆杠以调节兑换积分／零钱数额</p></div>
+        <div>
+            <button id="exchangeButton" class="mui-btn mui-btn-disabled mui-btn-long" style="border-radius: 5px;margin-top: 20px;">
+                兑换
+            </button>
+        </div>
+    </div>
+    
+<script>
+mui.init();
+$("#pointsExchangeSlideBar").on('input',function(){
+    var v = $(this).val()-0;
+    $("#pointsValue").text(v);
+    $("#changeValue").text(v/100);
+    if(v){
+        $("#exchangeButton").removeClass("mui-btn-disabled").addClass("mui-btn-primary");
+    }
+    else{
+        $("#exchangeButton").addClass("mui-btn-disabled").removeClass("mui-btn-primary");
+    }
+});
+$("#exchangeButton").on('tap',function(){
+    if($(this).hasClass("mui-btn-primary")){
+        mui.confirm("确定要兑换吗"," ",["确定","取消"],function(data){
+            if(!data.value){
+                mui.toast("兑换成功");
+            }
+        })
+    }
+})
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

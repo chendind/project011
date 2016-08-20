@@ -14,6 +14,10 @@
     <script src="../source/js/public.js"></script>
 </head>
 <body>
+    <header id="header" class="mui-bar mui-bar-transparent">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">导航栏</h1>
+        </header>
     <nav class="mui-bar mui-bar-tab">
         <a href="#indexPage" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
@@ -48,27 +52,27 @@
                 </a>
             </li>
             <nav class="mui-bar-tab user-bar-tab">
-                <li class="mui-tab-item">
+                <a href="userPage_change.html" class="rightBorder">
                     <span class="mui-icon mui-text blueColor">
                         2.63
                         <span style="font-size: 11px;">元</span>
                     </span>
                     <span class="mui-tab-label">我的零钱</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a class="rightBorder">
                     <span class="mui-icon mui-text blueColor">
                         0
                         <span style="font-size: 11px;">张</span>
                     </span>
                     <span class="mui-tab-label">我的优惠券</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a href="userPage_points.html">
                     <span class="mui-icon mui-text blueColor">
                         20
                         <span style="font-size: 11px;">分</span>
                     </span>
                     <span class="mui-tab-label">积分商城</span>
-                </li>
+                </a>
             </nav>
         </ul>
         <ul class="mui-table-view" style="margin-bottom: 10px;">

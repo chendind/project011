@@ -81,21 +81,27 @@ header.mui-bar-nav {
 .user-bar-tab {
   padding: 5px 0;
 }
-.user-bar-tab .mui-tab-item {
+.user-bar-tab > a {
   padding: 5px 0;
-  border-right: 1px solid #e5e5e5;
 }
-.user-bar-tab .mui-tab-item:last-child {
-  border-right: none;
+.user-bar-tab > a .mui-icon {
+  padding-top: 0;
+  padding-bottom: 0;
 }
-.user-bar-tab .mui-tab-item .mui-text {
+.user-bar-tab > a .mui-icon ~ .mui-tab-label {
+  font-size: 11px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-bar-tab > a .mui-text {
   width: auto;
   height: auto;
   text-overflow: ellipsis;
   text-align: center;
   font-size: 18px;
 }
-.user-bar-tab .mui-tab-item .mui-tab-label {
+.user-bar-tab > a .mui-tab-label {
   color: #999;
 }
 .mui-input-group:before,
@@ -148,4 +154,33 @@ input {
   border-radius: 22px;
   padding: 10px 12px;
   font-size: 16px;
+}
+.mui-input-range input[type='range'] {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  margin: 17px 0;
+  padding: 0;
+  cursor: pointer;
+  border: 0;
+  border-radius: 5px;
+  outline: none;
+  background-color: #016df1;
+  -webkit-appearance: none !important;
+}
+.mui-input-range input[type='range']::-webkit-slider-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 2px solid #016df1;
+  background-color: #fff;
+  background-clip: padding-box;
+  -webkit-appearance: none !important;
+}
+.mui-btn-disabled {
+  background-color: #c8c7cc;
+  color: #fff;
+}
+.mui-input-range .mui-tooltip {
+  width: auto;
 }
