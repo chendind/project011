@@ -23,7 +23,7 @@
 		<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top: 10px;">
 	        <li class="mui-table-view-cell">
 	        	<a href="indexPage_textbook.html">
-		            <div class="mui-table">
+	        		<div class="mui-table">
 		            	<div class="mui-table-cell mui-col-xs-3">
 		                    <img style="width: 80%;" src="../source/images/rect.jpg" />
 		                </div>
@@ -32,10 +32,10 @@
 		                    <h6>申请人：李四</h6>
 		                    <h6>出版社：浙江教育出版社</h6>
 		                    <span class="mui-h4 linkColor">¥0.00</span>
-		                    <img class="smallCartIcon" src="../source/images/rect.jpg" />
 		                </div>
 		            </div>
-		        </a>
+	        	</a>
+	        	<img class="smallCartIcon" src="../source/images/rect.jpg" />
 	        </li>
 	    </ul>
 	    <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top: 10px;">
@@ -50,10 +50,10 @@
 		                    <h6>申请人：李四</h6>
 		                    <h6>出版社：浙江教育出版社</h6>
 		                    <span class="mui-h4 linkColor">¥0.00</span>
-		                    <img class="smallCartIcon" src="../source/images/rect.jpg" />
 		                </div>
 		            </div>
 		        </a>
+		        <img class="smallCartIcon" src="../source/images/rect.jpg" />
 	        </li>
 	    </ul>
 	</div>
@@ -62,6 +62,9 @@
     </div>
 <script>
 mui.init();
+$(".smallCartIcon").on('tap',function(e){
+	mui.toast("添加成功");
+})
 </script>
 </body>
 </html>
