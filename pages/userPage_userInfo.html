@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body>
+	<div class="mui-content">
+        <ul class="mui-table-view" style="margin-bottom: 10px;">
+            <li class="mui-table-view-cell">
+                <a style="line-height: 40px;" id="changePortraitButton">
+                    头像
+                    <img class="mui-media-object mui-pull-right head-img" src="../source/images/rect.jpg">
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view" style="margin-bottom: 10px;">
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right" href="userPage_userInfo_userName.html">
+                    用户名
+                    <span class="mui-tip">Yunshu_4379</span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right" id="userPage_userInfo_userSexButton">
+                   性别
+                   <span class="mui-tip">请选择</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view" style="margin-bottom: 10px;">
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right" href="userPage_userInfo_address.html">
+                    我的收件地址
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view" style="margin-bottom: 10px;">
+            <li class="mui-table-view-cell">
+                <a class="mui-navigate-right">
+                    手机号码
+                    <span class="mui-tip">15558938081</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="mui-table-view" style="margin-bottom: 10px;text-align: center;">
+            <li class="mui-table-view-cell">
+                <a class="redColor">注销</a>
+            </li>
+        </ul>
+	</div>
+    <div id="userPage_userInfo_userSexSheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+        <!-- 可选择菜单 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a>男</a>
+            </li>
+            <li class="mui-table-view-cell">
+                <a>女</a>
+            </li>
+        </ul>
+        <!-- 取消菜单 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#sheet1"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+<script>
+mui.init();
+$('#changePortraitButton').on('tap', function() {
+    var input = document.createElement("input");
+    input.type = "file";
+    input.click();
+});
+$("#userPage_userInfo_userSexButton").on('tap', function(){
+    mui("#userPage_userInfo_userSexSheet").popover('toggle')
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

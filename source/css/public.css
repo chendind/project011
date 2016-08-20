@@ -34,12 +34,29 @@
 }
 body {
   color: #555;
+  background-color: #eee;
 }
 .blueColor {
-  color: #016df1;
+  color: #016df1 !important;
+}
+.linkColor {
+  color: #007aff !important;
+}
+.redColor {
+  color: #fe3824 !important;
+}
+.greyColor {
+  color: #c8c7cc !important;
 }
 .title {
   font-size: 14px;
   padding: 15px 10px 5px;
   color: #999;
+}
+.verticalSplitLine {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  width: 1px;
+  height: 80%;
 }
