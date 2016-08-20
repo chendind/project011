@@ -15,10 +15,10 @@
 </head>
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="greyColor rightBorder" href="barracksReparation_rate.html">
+        <a class="greyColor rightBorder">
             设为默认地址
         </a>
-        <a class="greyColor" href="barracksReparation_rate.html">
+        <a id="addNewAddressButton" class="greyColor">
             保存
         </a>
     </nav>
@@ -26,32 +26,69 @@
         <form class="mui-input-group" style="margin-top: 10px;">
             <div class="mui-input-row">
                 <label>收件人</label>
-                <input type="text" class="mui-input-clear" placeholder="请填写收件人姓名" value="">
+                <input id="address_name" type="text" class="mui-input-clear" placeholder="请填写收件人姓名" value="">
             </div>
             <div class="mui-input-row">
                 <label>联系电话</label>
-                <input type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="">
+                <input id="address_phone" type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="">
             </div>
             <div class="mui-input-row">
                 <label>学号</label>
-                <input type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="">
+                <input id="address_id" type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="">
             </div>
             <div class="mui-input-row">
                 <label>学校</label>
-                <input type="text" class="mui-input-clear" placeholder="请填写收件校园" value="">
+                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="">
             </div>
             <div class="mui-input-row">
                 <label>宿舍园区</label>
-                <input type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="">
+                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="">
             </div>
             <div class="mui-input-row">
                 <label>寝室门牌</label>
-                <input type="text" class="mui-input-clear" placeholder="请填写寝室门牌" value="">
+                <input id="address_room" type="text" class="mui-input-clear" placeholder="请填写寝室门牌" value="">
             </div>
         </form>
 	</div>
 <script>
 mui.init();
+// window.addEventListener("beforeunload", function (e) {
+//   var confirmationMessage = "\o/";
+//   (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+//   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
+// });
+$("#addNewAddressButton").on('tap',function(){
+    var address_name = $.trim($("#address_name").val());
+    var address_phone = $.trim($("#address_phone").val());
+    var address_id = $.trim($("#address_id").val());
+    var address_school = $.trim($("#address_school").val());
+    var address_dom = $.trim($("#address_dom").val());
+    var address_room = $.trim($("#address_room").val());
+    if(!address_name){
+        mui.toast("请输入姓名");
+    }
+    else if(!address_phone){
+        mui.toast("请输入手机号码");
+    }
+    else if(!address_phone){
+        mui.toast("请输入手机号码");
+    }
+    else if(!address_id){
+        mui.toast("请输入学号");
+    }
+    else if(!address_school){
+        mui.toast("请选择学校");
+    }
+    else if(!address_dom){
+        mui.toast("请输入宿舍园区");
+    }
+    else if(!address_room){
+        mui.toast("请输入寝室门牌");
+    }
+    else{
+        mui.toast("保存成功");
+    }
+})
 </script>
 </body>
 </html>
