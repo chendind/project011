@@ -1,0 +1,104 @@
+@import url('init.less');
+body{
+	background-color: #fff;
+}
+.loginContainer{
+	width: 100%;
+	.loginContent{
+		width: 100%;
+		padding: 20px;
+		position: relative;
+		.closeicon{
+			position: absolute;
+			right: 10px;
+			top: 10px;
+			color: #999;
+			font-size: 17px;
+		}
+		.loginLogo{
+			width: 80px;
+			height: 45px;
+			margin: auto;
+			margin-top: 60px;
+			margin-bottom: 30px;
+			img{
+				width: 100%;
+				height: inherit;
+			}
+		}
+		.topPara{
+			width: 100%;
+			text-align: center;
+			font-size: 14px;
+			color: #333;
+			padding-bottom: 50px;
+		}
+		.loginBox{
+			padding: 30px;
+			.enterpnBox{
+				width: 100%;
+				border-bottom:1px solid #ccc; 
+				position: relative;
+				margin-bottom: 30px;
+				.enterpn{
+					font-size: 14px;
+					padding: 0;
+					height: auto;
+					border:none;
+					width: 100%;
+					padding-bottom: 10px;
+					margin-bottom: 0;
+				}
+			}
+			.entercnBox{
+				width: 100%;
+				position: relative;
+				border-bottom:1px solid #ccc;
+				margin-bottom: 25px;
+				.entercn{
+					font-size: 14px;
+					height: auto;
+					border:none;
+					padding: 0;
+					padding-right: 70px;
+					padding-bottom: 10px;
+					margin-bottom: 0;
+				}
+				.getcn{
+					position: absolute;
+					right: 0;
+					bottom: 0px;
+					width: 75px;
+					text-align: center;
+					color: @blue;
+					font-size: 12px;
+				}
+				.regetcn{
+					color: #9a9a9a;
+					font-size: 12px;
+				}
+			}
+			.registerBtn{
+				display: block;
+				text-align: center;
+				width: 50px;
+				margin: auto;
+				color: #666;
+				font-size: 14px;
+				margin-bottom: 23px;
+			}
+			.loginBtn{
+				display: block;
+				text-align: center;
+				width: 215px;
+				border:1px solid @blue;
+				border-radius: 3px;
+				font-size: 16px;
+				color: @blue;
+				height: 45px;
+				line-height: 45px;
+				margin: auto;
+			}
+		}
+	}
+}
