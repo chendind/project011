@@ -98,6 +98,13 @@ header.mui-bar-nav {
 .user-bar-tab .mui-tab-item .mui-tab-label {
   color: #999;
 }
+.mui-input-group:before,
+.mui-input-group:after {
+  height: 0;
+}
+.mui-input-group .mui-input-row:last-child:after {
+  height: 0;
+}
 .mui-table-view:before,
 .mui-table-view:after {
   height: 0;
@@ -110,7 +117,7 @@ header.mui-bar-nav {
   height: 20px;
   display: inline-block;
 }
-.mui-navigate-right .mui-tip {
+.mui-tip {
   font-size: 11px;
   line-height: 1;
   position: absolute;

@@ -71,6 +71,18 @@ header{
 		}
 	}
 }
+.mui-input-group{
+	&:before,&:after{
+		height: 0;
+	}
+	.mui-input-row{
+		&:last-child{
+			&:after{
+				height: 0;
+			}
+		}
+	}
+}
 .mui-table-view{
 	&:before,&:after{
 		height: 0;
@@ -85,18 +97,19 @@ header{
 	}
 }
 .mui-navigate-right{
-	.mui-tip{
-		font-size: 11px;
-	    line-height: 1;
-	    position: absolute;
-	    top: 50%;
-	    right: 35px;
-	    display: inline-block;
-	    -webkit-transform: translateY(-50%);
-	    transform: translateY(-50%);
-	    text-decoration: none;
-	    color: #bbb;
-	}
+	
+}
+.mui-tip{
+	font-size: 11px;
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    right: 35px;
+    display: inline-block;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-decoration: none;
+    color: #bbb;
 }
 textarea,input{
 	font-size: 14px;
