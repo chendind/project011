@@ -14,38 +14,40 @@
     <script src="../source/js/public.js"></script>
 </head>
 <body style="background-color: #fff;">
-	<div style="" class="innerCenter">
-        <img style="width: 100px;height: 100px;" src="../source/images/rect.jpg" alt="">
-        <div style="margin: 10px 0 20px;"><p style="font-size: 18px;">零钱余额</p></div>
-        <div><p style="font-size: 40px;" class="linkColor">0.00</p></div>
-        <div style="margin-top: 50px;">
-            <a href="userPage_change_withdraw.html" class="mui-btn mui-btn-primary mui-btn-outlined mui-btn-long">
-                提现
-            </a>
+    <nav class="mui-bar mui-bar-tab good-mui-bar-tab">
+        <a id="savePhoneButton">
+            加入购物车
+        </a>
+        <a id="savePhoneButton">
+            免费领取
+        </a>
+    </nav>
+	<div class="mui-content" style="background-color: #fff;">
+        <div class="textBookBox innerCenter" style="padding: 25px 0 20px;background-color: #efefef;">
+            <img style="width: 150px;" src="../source/images/rect.jpg" />
+            <div style="width: 50%;margin: 20px auto;">
+                <h4>毛泽东思想和中国特色社会主义理论体系概论</h4>
+            </div>
+            <div>
+                <p>作者：毛泽东<br />出版社：中信出版社<br />
+                    <span style="text-decoration:line-through;">市场价：¥68.00</span>
+                </p>
+            </div>
         </div>
-        <div style="margin-top: 35px;">
-            <p><a style="color: inherit;" href="userPage_change_detailList.html">零钱明细</a> ｜ 积分兑换</p>
+        <div class="innerCenter" style="padding: 30px;background-color: #fff;">
+            <div style="border-bottom: 1px solid #e5e5e5;padding: 10px 0;">
+                <h4>简介</h4>
+            </div>
+            <div style="padding: 15px 0 20px;">
+                <p style="line-height: 2;text-align: justify;">
+                    史蒂夫·乔布斯是一位极具创造力的企业家，史蒂夫·乔布斯有如过山车般精彩的人生和犀利激越的性格，充满追求完美和誓不罢休的激情，史蒂夫·乔布斯创造出个人电脑、动画电影、音乐、手机、平板电脑以及数字出版等6大产业的颠覆性变革。史蒂夫·乔布斯的个性经常让周围的人愤怒和绝望，但其所创造出的产品也与这种个性息息相关，全然不可分割的，正如苹果的硬件和软件一样。
+                </p>
+            </div>
         </div>
-    </div>
-    <div style="top: 80%;" class="veryCenter innerCenter">
-        <p id="openUseRulesPopoverButton">使用规则</p>
-    </div>
-    <div id="useRulesPopover" class="mui-popover mui-popup userRulesPopover">
-        <h1 class="linkColor">零钱使用规则</h1>
-        <div>
-            <h4>什么是零钱？</h4>
-            <p>零钱是用户在云书APP上的资金，支持支付、提现等功能。</p>
-            <h4>如何赚取零钱？</h4>
-            <p>用户可以通过积分兑换的方式获得零钱。<br />用户可通过签到、领取免费教材、商城购买、注册、捐书等行为获得的积分，再通过积分兑换将积分兑换成零钱。<br />积分兑换零钱的公式为：100积分＝1元零钱。</p>
-            <h4>零钱提现</h4>
-            <p>若零钱积累达到一定数量，用户可以申请提现。具体累计金额请参见提现页面说明。</p>
-        </div>
+            
     </div>
 <script>
 mui.init();
-$("#openUseRulesPopoverButton").on('tap',function(){
-    mui("#useRulesPopover").popover("toggle");
-})
 </script>
 </body>
 </html>

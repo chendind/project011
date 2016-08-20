@@ -104,6 +104,13 @@ header.mui-bar-nav {
 .user-bar-tab > a .mui-tab-label {
   color: #999;
 }
+.good-mui-bar-tab > a:first-child {
+  color: #007aff;
+}
+.good-mui-bar-tab > a:nth-child(2) {
+  color: #fff;
+  background-color: #016df1;
+}
 .mui-input-group:before,
 .mui-input-group:after {
   height: 0;
