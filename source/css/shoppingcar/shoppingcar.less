@@ -1,0 +1,105 @@
+@import url('../../less/init.less');
+@blue:#016df1;
+.mui-table-view{
+	background-color: transparent;
+	.mui-table-view-cell{
+		background-color: #fff;
+		height: 110px;
+		margin-bottom: 15px;
+		position: relative;
+		padding: 14px 36px;
+		.mui-numbox{
+			display: none;
+			width: 80px;
+			padding: 0 20px;
+			position: absolute;
+			bottom: -7px;
+			right: -25px;
+			border: none;
+			height: 20px;
+			background-color: #fff;
+			.mui-numbox-input{
+				border: none !important;
+			}
+			.mui-btn{
+				color: #fff;
+				background-color: #ccc;
+				border-radius: 50%;
+				width: 20px;
+			}
+		}
+		.mui-checkbox{
+			position: absolute;
+			height: 30px;
+			left: -50px;
+			top: 50%;
+			transform:translate(0,-50%);
+		}
+		.cost{
+			color: #016df1;
+			font-size: 14px;
+			position: absolute;
+			bottom: -7px;
+			left: 100px;
+		}
+		.number{
+			font-size: 14px;
+			position: absolute;
+			bottom: -7px;
+			right: -25px;
+		}
+		.edit{
+			position: absolute;
+			font-size: 14px;
+			top: 0px;
+			right: -25px;
+		}
+		.finish{
+			display: none;
+			position: absolute;
+			font-size: 14px;
+			top: 0px;
+			right: -25px;
+			color: @blue
+		}
+		.cont{
+			
+			.mui-media-object{
+				width: 83px;
+				height: 83px;
+				max-width: 80px;
+				margin-right: 15px;
+				
+			}
+			.mui-media-body{
+				.name{
+					color: #333;
+					font-size: 14px;
+				}
+				.detail{
+					font-size: 12px;
+				}
+			}
+		}
+	}	
+}
+.pay{
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 50px;
+	border-top: 1px solid #ebebeb;
+	background-color: #fff;
+	padding: 5px 120px 5px 0px;
+	.sure{
+		width: 120px;
+		height: 50px;
+		background-color: @blue;
+		text-align: center;
+		line-height: 50px;
+		color: #fff;
+		position: absolute;
+		right: 0px;
+		bottom: 0px;
+	}
+}
