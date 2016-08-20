@@ -111,3 +111,10 @@ body {
   width: 45px;
   height: 45px;
 }
+.smallCartIcon {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  bottom: 0px;
+  right: 0px;
+}
