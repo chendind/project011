@@ -101,3 +101,13 @@ body {
 .userRulesPopover > div > p:last-child {
   margin-bottom: 0;
 }
+.fixedCartButton {
+  position: fixed;
+  bottom: 65px;
+  right: 20px;
+}
+.fixedCartButton > img {
+  display: block;
+  width: 45px;
+  height: 45px;
+}
