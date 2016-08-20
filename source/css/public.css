@@ -56,6 +56,10 @@ body {
   padding: 15px 10px 5px;
   color: #999;
 }
+.imageIcon {
+  display: inline-block;
+  vertical-align: middle;
+}
 .verticalSplitLine {
   position: absolute;
   top: 10%;

@@ -47,6 +47,9 @@ header.mui-bar-nav {
 .mui-content {
   background-color: #eee;
 }
+.mui-table-cell {
+  vertical-align: top;
+}
 .mui-bar-tab {
   background-color: #fff;
 }
