@@ -1,0 +1,118 @@
+.after:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.before:before {
+  display: block;
+  content: '';
+  clear: both;
+}
+.veryCenter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.verticalCenter {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+}
+.horizontalCenter {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+body {
+  position: relative;
+}
+.serviceNum {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
+  background-color: #fff;
+}
+.serviceNum .topPara {
+  width: 100%;
+  color: #016df1;
+  font-size: 18px;
+  text-align: center;
+}
+.frequentQue {
+  height: 45px;
+  line-height: 45px;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 0;
+  padding-left: 16px;
+}
+.queList {
+  font-size: 14px;
+  color: #333;
+}
+.queList li {
+  padding: 16px;
+  position: relative;
+}
+.queList li .rightArrows {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  width: 40px;
+  color: #999;
+}
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  background: rgba(0, 0, 0, 0.6);
+}
+.serviceHotline {
+  background-color: #fff;
+  display: none;
+  width: 275px;
+  border-radius: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+}
+.serviceHotline .topNum {
+  width: 100%;
+  height: 55px;
+  line-height: 55px;
+  text-align: center;
+  font-size: 14px;
+  color: #030303;
+  margin-bottom: 0;
+}
+.serviceHotline .bottomBtn {
+  height: 45px;
+  line-height: 45px;
+  border-top: 1px solid #cbcbcb;
+  width: 100%;
+}
+.serviceHotline .bottomBtn a {
+  width: 50%;
+  display: block;
+  height: 45px;
+  line-height: 45px;
+  float: left;
+  text-align: center;
+}
+.serviceHotline .bottomBtn .leftBtn {
+  border-right: 1px solid #cbcbcb;
+}

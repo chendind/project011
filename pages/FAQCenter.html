@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/FAQ.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+</head>
+<body>
+	<div class="mui-content">
+        <div class="serviceNum">
+            <p class="topPara">
+                <span class="mui-icon mui-icon-phone"></span>&nbsp;
+                <span>客服热线</span>
+            </p>
+        </div>
+        <p class="frequentQue">常见问题</p>
+        <ul class="mui-table-view queList">
+            <li class="mui-table-view-cell" data-href="accountQue.html">
+            账号问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="logisticsQue.html">
+            物流问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="bookingQue.html">
+            订单问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="changeQue.html">
+            退换货问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="couponQue.html">
+            优惠券问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="marketQue.html">
+            商城问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="invoiceQue.html">
+            发票问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="integrationQue.html">
+            积分问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+            <li class="mui-table-view-cell" data-href="buyingQue.html">
+            抢购问题
+            <span class="mui-icon mui-icon-arrowright rightArrows"></span>
+            </li>
+        </ul>
+	</div>
+    <div class="mask"></div>
+    <div class="serviceHotline">
+        <p class="topNum">400-888-924</p>
+        <div class="bottomBtn">
+            <a class="leftBtn">拨号</a>
+            <a class="rightBtn">取消</a>
+        </div>
+    </div>
+<script>
+mui.init();
+$(".queList").on("tap","li",function(){
+    var thisurl=$(this).attr("data-href");
+    console.log(thisurl);
+    mui.openWindow({
+        url:thisurl,
+    })
+})
+$(".topPara").bind("click",function(){
+    $(".mask").show();
+    $(".serviceHotline").show()
+})
+$(".bottomBtn").on("click",".rightBtn",function(){
+    $(".mask").hide();
+    $(".serviceHotline").hide();
+})
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
