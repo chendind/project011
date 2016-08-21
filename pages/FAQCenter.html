@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../source/css/FAQ.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/public.js"></script>
 </head>
 <body>
 	<div class="mui-content">
@@ -70,13 +71,6 @@
     </div>
 <script>
 mui.init();
-$(".queList").on("tap","li",function(){
-    var thisurl=$(this).attr("data-href");
-    console.log(thisurl);
-    mui.openWindow({
-        url:thisurl,
-    })
-})
 $(".topPara").bind("click",function(){
     $(".mask").show();
     $(".serviceHotline").show()

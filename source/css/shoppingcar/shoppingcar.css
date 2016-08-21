@@ -110,20 +110,20 @@
   font-size: 12px;
 }
 .pay {
-  position: fixed;
+  position: absolute;
   bottom: 0px;
   width: 100%;
-  min-height: 50px;
+  height: 50px;
   border-top: 1px solid #ebebeb;
   background-color: #fff;
-  padding: 5px 31% 5px 0px;
+  padding-right: 120px;
+  line-height: 50px;
 }
 .pay .sure {
-  width: 30%;
+  width: 120px;
   min-height: 100%;
   background-color: #016df1;
   text-align: center;
-  line-height: 50px;
   color: #fff;
   position: absolute;
   right: 0px;

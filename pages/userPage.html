@@ -15,19 +15,19 @@
 </head>
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a href="#indexPage" class="mui-tab-item">
+        <a data-href="indexPage.html" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">首页</span>
         </a>
-        <a href="#discoveryPage" class="mui-tab-item">
+        <a data-href="discoveryPage.html" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">发现</span>
         </a>
-        <a href="#cartPage" class="mui-tab-item">
+        <a data-href="cartPage.html" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">购物车</span>
         </a>
-        <a href="#userPage" class="mui-tab-item mui-active">
+        <a class="mui-tab-item mui-active">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">我的</span>
         </a>
@@ -35,7 +35,7 @@
 	<div class="mui-content">
         <ul class="mui-table-view mui-table-view-chevron" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell mui-media">
-                <a class="mui-navigate-right" id="userPage_userInfo_link" href="userPage_userInfo.html">
+                <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo.html">
                     <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../source/images/rect.jpg">
                     <div class="mui-media-body">
                         Yunshu_4379
@@ -48,7 +48,7 @@
                 </a>
             </li>
             <nav class="mui-bar-tab user-bar-tab">
-                <a href="userPage_change.html" class="rightBorder">
+                <a data-href="userPage_change.html" class="rightBorder">
                     <span class="mui-icon mui-text blueColor">
                         2.63
                         <span style="font-size: 11px;">元</span>
@@ -62,7 +62,7 @@
                     </span>
                     <span class="mui-tab-label">我的优惠券</span>
                 </a>
-                <a href="userPage_points.html">
+                <a data-href="userPage_points.html">
                     <span class="mui-icon mui-text blueColor">
                         20
                         <span style="font-size: 11px;">分</span>
@@ -78,36 +78,37 @@
                     <span class="mui-tip">查看所有订单</span>
                 </a>
             </li>
+
             <nav class="mui-bar-tab user-bar-tab">
-                <li class="mui-tab-item">
+                <a class="rightBorder">
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">待下单</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a class="rightBorder">
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">待发货</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a class="rightBorder">
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">待收货</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a>
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">已完成</span>
-                </li>
+                </a>
             </nav>
         </ul>
         <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell">
-                <a class="mui-navigate-right">
+                <a data-href="userPage_history.html" class="mui-navigate-right">
                     <img class="mui-media-object mui-pull-left icon-img" src="../source/images/rect.jpg">
                     浏览历史
                 </a>
@@ -129,7 +130,7 @@
         </ul>
         <ul class="mui-table-view">
             <li class="mui-table-view-cell">
-                <a class="mui-navigate-right">
+                <a class="mui-navigate-right" data-href="FAQCenter.html">
                     <img class="mui-media-object mui-pull-left icon-img" src="../source/images/rect.jpg">
                     客服中心
                 </a>

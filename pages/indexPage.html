@@ -9,117 +9,15 @@
     <link rel="stylesheet" href="../source/mui/css/mui.css">
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
-    <style>
-        header.mui-bar {
-            background: rgba(255,255,255, 0);
-        }
-        .mui-bar .mui-title {
-            left: 70px;
-            right: 10px;
-        }
-        .mui-bar .mui-btn-link {
-            color: #000;
-        }
-        .mui-bar.top .mui-btn-link {
-            color: #fff;
-        }
-        .mui-bar.top .mui-search-right .mui-icon-search {
-            color: #eee;
-        }
-        .mui-bar.top input[type='search'] {
-            background: #3855d3;
-            color: #fff;
-        }
-        .mui-search-right {
-            position: relative;
-        }
-        .mui-search-right .mui-icon-search {
-            position: absolute;
-            right: 5px;
-            top: 10px;
-            font-size: 24px;
-        }
-        input[type='search'] {
-            font-size: 12px;
-            background: #f5f5f5;
-            border-radius: 12px;
-            padding-right: 30px;
-            text-align:left;
-        }
-        .index-bg-header {
-            height:135px;
-            background: #f0f9ff;
-            background: -moz-linear-gradient(top, #0000b7 0%, #4c79dc 100%);
-            background: -webkit-linear-gradient(top, #0000b7 0%, #4c79dc 100%);
-            background: linear-gradient(to bottom, #0000b7 0%, #4c79dc 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0000b7', endColorstr='#4c79dc',GradientType=0 );
-        }
-        .mui-bar-tab .mui-tab-item .mui-icon {
-            top: 3px;
-            width: 40px;
-            height: 40px;
-        }
-        .user-left-placeholder {
-            width:128px;height:120px;background:#ead3ff
-        }
-        .user-right-placeholder {
-            float:left;
-            width:45px;height:45px;border-radius:50%;background:#b1d5ff; 
-        }
-        .user-right-td {
-            padding-left:25px;border-left:1px solid #f2f2f2;
-        }
-        .user-right-placeholder.yellow {
-            background:#ffd693;
-        }
-        .user-right-line {
-            float: left;
-            width: 62.5%;
-            vertical-align: baseline;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-        .user-right-line p {
-            margin: 0;
-        }
-        .mui-table-view-cell:after {
-            background: none;
-        }
-        .user-book-image {
-            width: 76px;
-            height: 105px;
-            margin-bottom: 14px;
-            background: #fafafa;
-            box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.1),0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        }
-        .mui-tab-item.user-tab-item {
-            vertical-align: top;
-        }
-        .mui-tab-label.user-book-label {
-            display:inline-block;
-            width:80%;
-            height: 2.4em;
-            text-overflow:ellipsis;
-            white-space: normal;
-            word-break:break-all;
-            overflow:hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;  
-        }
-        .mui-tip {
-            font-size: 12px;
-            color: #000;
-        }
-    </style>
+    <link rel="stylesheet" href="../source/css/index.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
 </head>
 <body>
     <header id="header" class="mui-bar top mui-bar-transparent">
-        <a href="./indexPage_searchcitylist.html" class="mui-btn mui-btn-link">
-            杭州<span class="mui-icon mui-icon-arrowdown"></span>
+        <a data-href="./indexPage_searchcitylist.html" class="mui-btn mui-btn-link">
+            杭州<span style="font-size: 14px;top: -2px;" class="mui-icon mui-icon-arrowdown"></span>
         </a>
         <h1 class="mui-title">
             <div class="mui-search-right">
@@ -128,20 +26,20 @@
             </div>
         </h1>
     </header>
-    <nav class="mui-bar mui-bar-tab">
-        <a href="#indexPage" class="mui-tab-item">
+    <nav id="navigationBar" class="mui-bar mui-bar-tab">
+        <a class="mui-tab-item mui-active">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">首页</span>
         </a>
-        <a href="#discoveryPage" class="mui-tab-item">
+        <a data-href="discoveryPage.html" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">发现</span>
         </a>
-        <a href="#cartPage" class="mui-tab-item">
+        <a data-href="cartPage.html" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">购物车</span>
         </a>
-        <a href="#userPage" class="mui-tab-item mui-active">
+        <a data-href="userPage.html" class="mui-tab-item">
             <span class="mui-icon mui-icon-home"></span>
             <span class="mui-tab-label">我的</span>
         </a>
@@ -150,30 +48,30 @@
         <div class="index-bg-header"></div>
         <div style="margin-bottom:10px;">
             <nav class="mui-bar-tab user-bar-tab" style="padding:15px 0;">
-                <li class="mui-tab-item">
+                <a>
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">待下单</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a>
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">待发货</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a>
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">待收货</span>
-                </li>
-                <li class="mui-tab-item">
+                </a>
+                <a>
                     <span class="mui-icon">
                         
                     </span>
                     <span class="mui-tab-label">已完成</span>
-                </li>
+                </a>
             </nav>
         </div>
         <div style="padding:8px;background:#fff;margin-bottom:10px;">
@@ -181,96 +79,134 @@
                 <tbody>
                     <tr>
                         <td rowspan="2" style="width:45%;padding:7px;">
-                            <div class="user-left-placeholder"></div>
+                            <a class="full" data-href="indexPage_textbookList.html">
+                                <div class="user-left-placeholder"></div>
+                            </a>
                         </td>
                         <td class="user-right-td" style="border-bottom:1px solid #f2f2f2;">
-                            <div class="user-right-placeholder"></div>
-                            <div class="user-right-line">
-                                <p style="color:#b1d5ff;">热门教材</p>
-                                <p style="color:#999;">???????</p>
-                            </div>
+                            <a class="full" data-href="indexPage_textbookList.html">
+                                <div class="user-right-placeholder"></div>
+                                <div class="user-right-line">
+                                    <p style="color:#b1d5ff;">热门教材</p>
+                                    <p style="color:#999;">???????</p>
+                                </div>
+                            </a>
                         </td>
                     </tr>
                     <tr>
                         <td class="user-right-td">
-                            <div class="user-right-placeholder yellow"></div>
-                            <div class="user-right-line">
-                                <p style="color:#ffd693;">最新教材</p>
-                                <p style="color:#999;">???????</p>
-                            </div>
+                            <a class="full" data-href="indexPage_textbookList.html">
+                                <div class="user-right-placeholder yellow"></div>
+                                <div class="user-right-line">
+                                    <p style="color:#ffd693;">最新教材</p>
+                                    <p style="color:#999;">???????</p>
+                                </div>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <ul class="mui-table-view" style="margin-bottom: 10px;">
+        <ul class="mui-table-view">
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right">
                     毛概马哲<span class="mui-tip">查看更多</span>
                 </a>
             </li>
-            <nav class="mui-bar-tab user-bar-tab" style="padding:0 15px 15px;">
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+        </ul>
+        <ul class="mui-table-view mui-grid-view" style="margin-bottom: 10px;margin-top: -10px;">
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a data-href="indexPage_textbook.html">
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思主义毛(2013版)</span>
-                </li>
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思主义毛泽东思想好马克思主义毛泽东思想好马克思主义毛泽东思想好</span>
-                </li>
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a data-href="indexPage_textbook.html">
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思随时</span>
-                </li>
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思</span>
-                </li>
-            </nav>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a data-href="indexPage_textbook.html">
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
+                    </div>
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a data-href="indexPage_textbook.html">
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
+                    </div>
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
+                    </div>
+                </a>
+            </li>
         </ul>
         <div style="height:190px;background:#fff;margin-bottom:10px;">
             
         </div>
-        <ul class="mui-table-view" style="margin-bottom: 10px;">
+        <ul class="mui-table-view">
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right">
                     毛概马哲<span class="mui-tip">查看更多</span>
                 </a>
             </li>
-            <nav class="mui-bar-tab user-bar-tab" style="padding:0 15px 15px;">
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+        </ul>
+        <ul class="mui-table-view mui-grid-view" style="margin-bottom: 10px;margin-top: -10px;">
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a>
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思主义毛(2013版)</span>
-                </li>
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思主义毛泽东思想好马克思主义毛泽东思想好马克思主义毛泽东思想好</span>
-                </li>
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a>
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思随时</span>
-                </li>
-                <li class="mui-tab-item user-tab-item">
-                    <div class="user-book-image">
-                        <img src="" alt="">
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
                     </div>
-                    <span class="mui-tab-label user-book-label">马克思</span>
-                </li>
-            </nav>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a>
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
+                    </div>
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-sm-3 mui-col-xs-3">
+                <a>
+                    <div class="textbook_cover">
+                        <img class="" src="../source/images/rect.jpg" alt="">
+                    </div>
+                    <div class="mui-tab-label user-book-label">
+                        马克思主义毛泽东思想
+                    </div>
+                </a>
+            </li>
         </ul>
         <div style="height:46px;">
             <div style="height:100%;padding-top:5px;background:#eee;text-align:center;">
@@ -288,9 +224,23 @@ $(window).scroll(function(e){
         $('.mui-bar').addClass('top')
     }
 })
-$('.mui-search-right .mui-icon-search').click(function(){
+$('.mui-search-right .mui-icon-search').on('tap',function(){
     console.log('click search')
 })
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

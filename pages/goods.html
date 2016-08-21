@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/mui/js/mui.zoom.js"></script>
+    <script src="../source/mui/js/mui.previewimage.js"></script>    
+    <script src="../source/js/public.js"></script>
+    <link rel="stylesheet" href="../source/css/shoppingcar/goods.css">
+</head>
+<body>
+    <nav class="mui-bar mui-bar-tab good-mui-bar-tab">
+        <a id="savePhoneButton">
+            加入购物车
+        </a>
+        <a id="savePhoneButton">
+            免费领取
+        </a>
+    </nav>
+	<div class="mui-content">
+        <div class="mui-slider">
+            <div class="mui-slider-group mui-slider-loop">
+                <div class="mui-slider-item mui-slider-item-duplicate"><img src="../source/images/shuijiao.jpg" /></div>
+                <div class="mui-slider-item"><img src="../source/images/cbd.jpg" data-preview-src="" data-preview-group="1"></div>
+                <div class="mui-slider-item"><img src="../source/images/shuijiao.jpg" data-preview-src data-preview-group="1" /></div>
+                <div class="mui-slider-item"><img src="../source/images/cbd.jpg" data-preview-src="" data-preview-group="1" /></div>
+                <div class="mui-slider-item"><img src="../source/images/shuijiao.jpg" data-preview-src="" data-preview-group="1"/></div>
+                <div class="mui-slider-item mui-slider-item-duplicate"><img src="../source/images/cbd.jpg" /></div>
+            </div>
+        </div>
+	</div>
+    <div class="fixedCartButton">
+        <img src="../source/images/rect.jpg" />
+    </div>
+<script>
+mui.init();
+mui.previewImage();
+var gallery = mui('.mui-slider');
+gallery.slider({
+  interval:0//自动轮播周期，若为0则不自动播放，默认为0；
+});
+</script>
+</body>
+</html>

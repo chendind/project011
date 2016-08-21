@@ -43,7 +43,11 @@
                 background: #fff;
             }
             .mui-table-view-cell.mui-indexed-list-item {
-                padding: 20px 0;
+                padding: 15px 0;
+
+            }
+            .mui-table-view-cell.mui-indexed-list-item:after{
+                left: 0;
             }
             .mui-table-view-divider:before {
                 background: none;
@@ -72,7 +76,7 @@
             .user-city-item {
                 float: left;
                 text-align:center;
-                padding: 15px 0px;
+                padding: 10px 0px;
                 width: 30%;
                 width: calc((100% - 16px)/3);
                 margin-right: 8px;
@@ -92,7 +96,7 @@
     <body>
         <div class="mui-content">
             <div id='list' class="mui-indexed-list">
-                <div class="mui-indexed-list-search mui-input-row mui-search">
+                <div class="mui-indexed-list-search mui-input-row mui-search" style="border-bottom: none;">
                     <input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索城市">
                 </div>
                 <div class="mui-indexed-list-bar">
