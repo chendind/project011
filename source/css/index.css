@@ -15,7 +15,7 @@ header.mui-bar {
   color: #eee;
 }
 .mui-bar.top input[type='search'] {
-  background: #3855d3;
+  background-color: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 .mui-search-right {

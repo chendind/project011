@@ -216,14 +216,14 @@
     </div>
 <script>
 mui.init();
-$(window).scroll(function(e){
-    var pos = $(window).scrollTop()
+$(window).on('touchmove scroll',function(e){
+    var pos = $(this).scrollTop()
     if (pos > 100) {
-        $('.mui-bar').removeClass('top')
+        $('#header').removeClass('top')
     } else {
-        $('.mui-bar').addClass('top')
+        $('#header').addClass('top')
     }
-})
+});
 $('.mui-search-right .mui-icon-search').on('tap',function(){
     console.log('click search')
 })

@@ -4,7 +4,7 @@ $(function(){
 		mui.toast("添加成功");
 	});
 	$("body").on('tap','[data-href]',function(e){
-		// e.stopPropagation();
+		e.stopPropagation();
 		e.preventDefault();
 		var href = $(this).attr("data-href");
 		href&&(window.location.href=href);
