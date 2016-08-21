@@ -19,7 +19,7 @@
                 box-shadow: none;
             }
             .mui-content {
-                padding-left:15px;padding-top:10px;background-color:#fff;
+                padding-left:16px;padding-top:10px;background-color:#fff;
             }
             .mui-indexed-list {
                 background: #fff;
@@ -43,7 +43,9 @@
                 background: #fff;
             }
             .mui-table-view-cell.mui-indexed-list-item {
-                padding: 20px 0;
+                font-size: 14px;
+                line-height: 1;
+                padding: 18px 0;
             }
             .mui-table-view-divider:before {
                 background: none;
@@ -54,12 +56,25 @@
             .mui-indexed-list-bar {
                 background: #fff;
             }
-
+            input[type='search'] {
+                height: 30px;
+            }
+            .mui-indexed-list-search.mui-input-row.mui-search .mui-placeholder {
+                font-size: 14px;
+                line-height: 30px;
+            }
+            .mui-indexed-list-search.mui-input-row.mui-search .mui-placeholder .mui-icon.mui-icon-search{
+                font-size: 16px;
+            }
+            .mui-indexed-list-bar {
+                width: 18px;
+            } 
             h4 {
-                margin-bottom: 5px;
+                margin-bottom: 8px;
             }
             .user-city-list {
                 padding-right: 40px;
+                margin-bottom: 12px;
             }
             .user-city-row {
                 position: relative;
@@ -71,8 +86,10 @@
             }
             .user-city-item {
                 float: left;
+                font-size: 16px;
+                line-height: 1;
                 text-align:center;
-                padding: 15px 0px;
+                padding: 12px 0px;
                 width: 30%;
                 width: calc((100% - 16px)/3);
                 margin-right: 8px;
