@@ -83,15 +83,28 @@ body > nav.mui-bar.mui-bar-tab {
   top: 20%;
   right: 0;
 }
+.mui-tab-item .mui-icon > img,
+a .mui-icon > img {
+  display: inline-block;
+  width: 25px;
+}
+.mui-tab-item .mui-icon > img.selection,
+a .mui-icon > img.selection {
+  display: none;
+}
+.mui-tab-item.mui-active .mui-icon > img.normal,
+a.mui-active .mui-icon > img.normal {
+  display: none;
+}
+.mui-tab-item.mui-active .mui-icon > img.selection,
+a.mui-active .mui-icon > img.selection {
+  display: inline-block;
+}
 .user-bar-tab {
   padding: 5px 0;
 }
 .user-bar-tab > a {
   padding: 5px 0;
-}
-.user-bar-tab > a .mui-icon {
-  padding-top: 0;
-  padding-bottom: 0;
 }
 .user-bar-tab > a .mui-icon ~ .mui-tab-label {
   font-size: 11px;

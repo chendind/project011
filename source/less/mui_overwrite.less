@@ -53,6 +53,30 @@ body>nav.mui-bar.mui-bar-tab{
 	    		right: 0;
 	    	}
 	    }
+	    
+	}
+}
+.mui-tab-item,a{
+	.mui-icon {
+	    &>img{
+	    	display: inline-block;
+	    	width: 25px;
+	    	&.selection{
+	    		display: none;
+	    	}
+	    }
+    }
+	&.mui-active{
+		.mui-icon {
+		    &>img{
+		    	&.normal{
+		    		display: none;
+		    	}
+		    	&.selection{
+		    		display: inline-block;
+		    	}
+		    }
+		}
 	}
 }
 .user-bar-tab{
@@ -60,8 +84,6 @@ body>nav.mui-bar.mui-bar-tab{
 	&>a{
 		padding: 5px 0;
 		.mui-icon {
-		    padding-top: 0;
-		    padding-bottom: 0;
 		    &~.mui-tab-label {
 			    font-size: 11px;
 			    display: block;
