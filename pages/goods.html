@@ -36,9 +36,96 @@
                 <div class="mui-slider-item mui-slider-item-duplicate"><img src="../source/images/cbd.jpg" /></div>
             </div>
         </div>
+        <div class="goods-detail">
+            <div class="name">
+                <span></span>经济法练习题集－21世纪法学系列教材配套辅导用书 大中专教材21世纪法学系列教材配套辅导用书 大中专教材21世纪法学系列教材配套辅导用书 大中专教材21世纪法学系列教材配套辅导用书 大中专教材21世纪法学系列教材配套辅导用书 大中专教材
+            </div>
+            <div class="money">
+                ¥ 27.00
+            </div>
+            <div class="desc">
+                <div class="descone">
+                    <div class="tick">
+                        
+                    </div>
+                    <div class="word">
+                        七天质保
+                    </div>
+                    <div class="after"></div>
+                </div>
+                <div class="descone">
+                    <div class="tick">
+                        
+                    </div>
+                    <div class="word">
+                        正品新货
+                    </div>
+                    <div class="after"></div>
+                </div>
+                <div class="descone">
+                    <div class="tick">
+                        
+                    </div>
+                    <div class="word">
+                        闪电发货
+                    </div>
+                    <div class="after"></div>
+                </div>
+                <div class="descone">
+                    <div class="tick">
+                        
+                    </div>
+                    <div class="word">
+                        免邮费
+                    </div>
+                    <div class="after"></div>
+                </div>
+            </div>
+        </div>
+        <a href="#bottomPopover">
+            <div class="goods-choose">
+                <span class="choose">选择颜色分类</span>
+                <span class="mui-icon mui-icon-arrowright"></span>
+            </div>
+        </a>
 	</div>
     <div class="fixedCartButton">
         <img src="../source/images/rect.jpg" />
+    </div>
+    <div id="bottomPopover" class="mui-popover">
+        <div class="cont">
+           <div class="head">
+                <div class="headimg">
+                    <img src="">
+                </div>
+                <div class="headword" style="color:#016df1">
+                    ¥ 5.26
+                </div>
+                <div class="headword" style="color:#666">
+                    请选择 颜色属性
+                </div>
+                <span class="mui-icon mui-icon-close"></span>
+            </div> 
+            <div class="choosecolor">
+                <div>颜色属性</div>
+                <div class="color">常用色</div>
+                <div class="color">100ml高级灰</div>
+                <div class="color">300ml柠檬黄</div>
+                <div class="color">300ml白色</div>
+            </div>
+            <div class="choosenumber">
+                <span>购买数量</span>
+                <div class="mui-numbox" data-numbox-min="1">
+                      <!-- "-"按钮，点击可减小当前数值 -->
+                      <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+                      <input class="mui-numbox-input" type="number"/>
+                      <!-- "+"按钮，点击可增大当前数值 -->
+                      <button class="mui-btn mui-numbox-btn-plus" type="button"><span class="mui-icon mui-icon-plusempty" style="color:#fff;position:absolute;top:1px;left:1px;"></span></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sure">确定</div>
     </div>
 <script>
 mui.init();
@@ -46,6 +133,17 @@ mui.previewImage();
 var gallery = mui('.mui-slider');
 gallery.slider({
   interval:0//自动轮播周期，若为0则不自动播放，默认为0；
+});
+$(".color").click(function(event) {
+    $(".color").removeClass('color2')
+    $(this).toggleClass('color2');
+});
+
+$(".sure").click(function(event) {
+    mui('.mui-popover').popover('toggle');
+});
+$(".mui-icon-close").click(function(event) {
+    mui('.mui-popover').popover('toggle');
 });
 </script>
 </body>

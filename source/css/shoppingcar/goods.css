@@ -149,3 +149,187 @@ p img {
   max-width: 100%;
   height: auto;
 }
+.mui-content .mui-slider-group .mui-slider-item {
+  height: 300px;
+}
+.mui-content .mui-slider-group .mui-slider-item img {
+  height: 300px !important;
+}
+.mui-content .goods-detail {
+  width: 100%;
+  height: 165px;
+  background-color: #fff;
+  padding: 20px 15px;
+}
+.mui-content .goods-detail .name {
+  cursor: pointer;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-size: 14px;
+}
+.mui-content .goods-detail .name span {
+  margin-right: 10px;
+  height: 15px;
+  width: 25px;
+  background-color: #016df1;
+  display: inline-block;
+}
+.mui-content .goods-detail .money {
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  color: #ff3a52;
+  border-bottom: 1px solid #ccc;
+}
+.mui-content .goods-detail .desc {
+  width: 100%;
+  height: 35px;
+}
+.mui-content .goods-detail .desc .descone {
+  padding-left: 10px;
+  padding-top: 18px;
+  float: left;
+  width: 25%;
+  height: 35px;
+}
+.mui-content .goods-detail .desc .descone .tick {
+  float: left;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #016df1;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+.mui-content .goods-detail .desc .descone .word {
+  margin-top: -1px;
+  float: left;
+  font-size: 12px;
+  color: #999;
+}
+.mui-content .goods-choose {
+  width: 100%;
+  height: 50px;
+  background-color: #fff;
+  padding: 0px 17px;
+  margin-top: 10px;
+  position: relative;
+}
+.mui-content .goods-choose .choose {
+  line-height: 50px;
+  color: #333;
+  font-size: 16px;
+}
+.mui-content .goods-choose .mui-icon-arrowright {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  color: #333;
+}
+.mui-popover {
+  padding-bottom: 50px;
+  display: none;
+  position: fixed !important;
+  top: 200px !important;
+  bottom: 0px !important;
+  left: 0px !important;
+  width: 100%;
+  border-radius: 0px;
+  background-color: #fff;
+}
+.mui-popover .mui-bottom {
+  display: none !important;
+}
+.mui-popover .cont {
+  padding: 15px;
+}
+.mui-popover .cont .head {
+  padding-left: 115px;
+  position: relative;
+  height: 65px;
+  border-bottom: 1px solid #ccc;
+}
+.mui-popover .cont .head .mui-icon-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+.mui-popover .cont .head .headimg {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  left: 0px;
+  top: -55px;
+  background-color: #fff;
+}
+.mui-popover .cont .head .headimg img {
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+}
+.mui-popover .cont .choosecolor {
+  padding-top: 15px;
+}
+.mui-popover .cont .choosecolor .color {
+  border-radius: 12px;
+  margin-right: 10px;
+  margin-top: 10px;
+  float: left;
+  padding: 8px;
+  background-color: #eee;
+  color: #333;
+}
+.mui-popover .cont .choosecolor .color2 {
+  background-color: #016df1;
+  color: #fff;
+}
+.mui-popover .cont .choosenumber {
+  border-top: 1px solid #ccc;
+  width: 100%;
+  position: absolute;
+  left: -15px;
+  bottom: 50px;
+  height: 60px;
+  line-height: 60px;
+  padding-left: 30px;
+}
+.mui-popover .cont .choosenumber .mui-numbox {
+  width: 80px;
+  padding: 0 20px;
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
+  border: none;
+  height: 20px;
+  background-color: #fff;
+}
+.mui-popover .cont .choosenumber .mui-numbox .mui-numbox-input {
+  border: none !important;
+  width: 40px !important;
+  position: absolute;
+  top: 0px;
+  right: 20px;
+}
+.mui-popover .cont .choosenumber .mui-numbox .mui-btn {
+  color: #fff;
+  background-color: #ccc;
+  border-radius: 50%;
+  width: 20px;
+}
+.mui-popover .sure {
+  font-size: 18px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: #016df1;
+  color: #fff;
+}

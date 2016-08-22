@@ -1,3 +1,4 @@
+@blue:#016df1;
 .mui-preview-image.mui-fullscreen {
     position: fixed;
     z-index: 20;
@@ -148,4 +149,194 @@
 p img {
     max-width: 100%;
     height: auto;
+}
+.mui-content{
+    .mui-slider-group{
+        .mui-slider-item{
+            height: 300px;
+            img{
+              height: 300px !important;
+            }
+        }
+    }  
+    .goods-detail{
+        width: 100%;
+        height: 165px;
+        background-color: #fff;
+        padding: 20px 15px;
+        .name{
+            cursor: pointer;
+            color: black;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+            word-break: break-all;
+            font-size: 14px;
+            span{
+                margin-right: 10px;
+                height: 15px;
+                width: 25px;
+                background-color: @blue;
+                display: inline-block;
+            }
+        }
+        .money{
+            height: 50px;
+            line-height: 50px;
+            font-size: 18px;
+            color: #ff3a52;
+            border-bottom: 1px solid #ccc;
+        }
+        .desc{
+            width: 100%;
+            height: 35px;
+            .descone{
+                padding-left: 10px;
+                padding-top:18px;
+                float: left;
+                width: 25%;
+                height: 35px;
+                .tick{
+                    float: left;
+                    width: 16px;
+                    height: 16px;
+                    border: 1px solid @blue;
+                    border-radius: 50%;
+                    margin-right: 5px;
+                }
+                .word{
+                    margin-top: -1px;
+                    float: left;
+                    font-size: 12px;
+                    color: #999
+                }
+            }
+        }
+    } 
+    .goods-choose{
+        width: 100%;
+        height: 50px;
+        background-color: #fff;
+        padding: 0px 17px;
+        margin-top: 10px;
+        position: relative;
+        .choose{
+            line-height: 50px;
+            color: #333;
+            font-size: 16px;
+        }
+        .mui-icon-arrowright{
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            color: #333;
+        }
+    }
+}
+.mui-popover{
+    padding-bottom: 50px;
+    display: none;
+    position: fixed !important;
+    // height: 400px;
+    top: 200px !important;
+    bottom: 0px !important;
+    left: 0px !important;
+    width: 100%;
+    border-radius: 0px;
+    background-color: #fff;
+    .mui-bottom{
+        display: none !important;
+    }
+    .cont{
+        padding: 15px;
+        .head{
+            padding-left: 115px;
+            position: relative;
+            height: 65px;
+            border-bottom: 1px solid #ccc;
+            .mui-icon-close{
+                position: absolute;
+                top: 0px;
+                right: 0px;
+            }
+            .headimg{
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                padding: 5px;
+                left: 0px;
+                top: -55px;
+                background-color: #fff;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    background-color: #ccc;
+                }
+            }
+        }
+        .choosecolor{
+            padding-top: 15px;
+            .color{
+                border-radius: 12px;
+                margin-right: 10px;
+                margin-top: 10px;
+                float: left;
+                padding: 8px;
+                background-color: #eee;
+                color: #333;
+            }
+            .color2{
+                background-color: @blue;
+                color: #fff;
+            }
+        }
+        .choosenumber{
+            border-top: 1px solid #ccc;
+            width: 100%;
+            position: absolute;
+            left: -15px;
+            bottom: 50px;
+            height: 60px;
+            line-height: 60px;
+            padding-left: 30px;
+            .mui-numbox{
+
+                width: 80px;
+                padding: 0 20px;
+                position: absolute;
+                bottom:20px;
+                right: 15px;
+                border: none;
+                height: 20px;
+                background-color: #fff;
+                .mui-numbox-input{
+                    border: none !important;
+                    width: 40px !important;
+                    position: absolute;
+                    top: 0px;
+                    right: 20px;
+                }
+                .mui-btn{
+                    color: #fff;
+                    background-color: #ccc;
+                    border-radius: 50%;
+                    width: 20px;
+                }
+            }
+        }
+    }
+    .sure{
+        font-size: 18px;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background-color: @blue;
+        color: #fff;
+    }
 }
