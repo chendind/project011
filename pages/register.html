@@ -31,7 +31,7 @@
                     <input id="verifyCode" type="text" class="entercn" placeholder="请输入验证码">
                     <p class="getcn">获取验证码</p>
                 </div>
-                <a class="registerBtn">返回</a>
+                <a class="registerBtn mui-action-back">返回</a>
                 <a id="loginButton" class="loginBtn">注册</a>
             </div>
         </div>
@@ -42,17 +42,19 @@ mui.init();
 function getcn(){
     $(".getcn").one("tap",function() {
         var phone = $("#phone").val();
+        var that=$(this);
         if(phone.length != 11){
             mui.toast("请输入正确的手机号");
             getcn();
         }
         else{
             $.when(getVerifyCode(phone)).done(function(data){
-                if(data.status == 200){
+                if(data.resultCode == 200){
+                    mui.toast("发送成功");
                     var count=$('<span class="regetcn">重新发送'+
                         '&nbsp;(<i style="font-style:normal;">60</i>)'+
                         '</span>');
-                    var that=$(this);
+                    
                     that.empty();
                     that.append(count);
                     function reduceCount(){
@@ -88,7 +90,9 @@ $("#loginButton").on('tap',function(){
     else {
         $.when(userRegister(phone,verifyCode)).done(function(data){
             if(data.resultCode == 200){
-                
+                window.localStorage.setItem("token",data.data.token);
+                window.localStorage.setItem("version",data.data.version);
+                window.location.href="indexPage.html";
             }
         });
     }

@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>我的</title>
+    <title>云书</title>
     <link rel="stylesheet" href="../source/mui/css/mui.css">
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
     <link rel="stylesheet" href="../source/css/index.css">
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
@@ -17,7 +18,8 @@
 <body>
     <header id="header" class="mui-bar top mui-bar-transparent">
         <a data-href="./indexPage_searchcitylist.html" class="mui-btn mui-btn-link">
-            杭州<span style="font-size: 14px;top: -2px;" class="mui-icon mui-icon-arrowdown"></span>
+            <span id="currentCityName"></span>
+            <span style="font-size: 14px;top: -2px;" class="mui-icon mui-icon-arrowdown"></span>
         </a>
         <h1 class="mui-title">
             <div class="mui-search-right">
@@ -226,6 +228,10 @@
     </div>
 <script>
 mui.init();
+$.when(getCurrentCity()).done(function(){
+    console.log(this.data)
+    $("#currentCityName").text(data.address.city);
+});
 $(window).on('touchmove scroll',function(e){
     var pos = $(this).scrollTop()
     if (pos > 100) {

@@ -44,12 +44,13 @@ function getcn(){
     $(".getcn").one("click",function() {
         var phone = $("#phone").val();
         var verifyCode = $("#verifyCode").val();
-        $.when(userLogin(phone,verifyCode)).done(function(data){
-            if(data.status == 200){
+        var that=$(this);
+        $.when(getVerifyCode(phone)).done(function(data){
+            if(data.resultCode == 200){
+                mui.toast("发送成功");
                 var count=$('<span class="regetcn">重新发送'+
                     '&nbsp;(<i style="font-style:normal;">60</i>)'+
                     '</span>');
-                var that=$(this);
                 that.empty();
                 that.append(count);
                 function reduceCount(){
@@ -82,7 +83,9 @@ $("#loginButton").on('tap',function(){
     else {
         $.when(userLogin(phone,verifyCode)).done(function(data){
             if(data.resultCode == 200){
-                
+                window.localStorage.setItem("token",data.data.token);
+                window.localStorage.setItem("version",data.data.version);
+                window.location.href="indexPage.html";
             }
         });
     }

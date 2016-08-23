@@ -22,6 +22,16 @@ function ajaxDataHandle(){
 		this.data = new TextEncoder().encode(string);
 	}
 }
+function getAjaxHeader(){
+	var token = window.localStorage.getItem("token"),
+		version = window.localStorage.getItem("version"),
+	    header = {};
+	if(token&&version){
+		header.token = token;
+		header.version = version;
+	}
+	return header;
+}
 // 获得验证码
 function getVerifyCode(phone){
 	var ajax = $.ajax({
@@ -61,9 +71,6 @@ function userLogin(phone,verifyCode){
 		type: "POST",
 		beforeSend: ajaxDataHandle,
 		contentType: contentType,
-		xhrFields: {
-            withCredentials: true
-      	},
       	crossDomain: true,
 		data: {
 			"phone": phone,
@@ -127,6 +134,7 @@ function getAllCity(){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/cities",
 		type: "GET",
+		headers: getAjaxHeader(),
 		beforeSend: ajaxDataHandle,
 		contentType: contentType,
 		success: successHandle,
@@ -139,6 +147,7 @@ function searchCity(cityName){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/cities/"+cityName,
 		type: "GET",
+		headers: getAjaxHeader(),
 		beforeSend: ajaxDataHandle,
 		contentType: contentType,
 		success: successHandle,

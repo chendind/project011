@@ -22,10 +22,13 @@
 <body>
     <div class="mui-content">
         <div id='list' class="mui-indexed-list">
-            <div class="mui-indexed-list-search mui-input-row mui-search mui-search-withButton" style="border-bottom: none;">
-                <input id="searchCityInput" type="search" placeholder="搜索城市" value="杭州">
-                <div class="mui-search-button linkColor">取消</div>
+            <div style="padding: 10px 15px;">
+                <div class="mui-indexed-list-search mui-input-row mui-search mui-search-withButton" style="border-bottom: none;">
+                    <input id="searchCityInput" type="search" placeholder="搜索城市" value="杭州">
+                    <div class="mui-search-button linkColor">取消</div>
+                </div>
             </div>
+                
             <div class="mui-indexed-list-inner">
                 <h5>搜索结果</h5>
                 <div class="user-city-list">
@@ -37,8 +40,31 @@
         </div>
     </div>
 <script>
+var params = getQueryData();
+if(!params){
+    mui.alert("查询参数错误","",["确定"],function(){
+        mui.back();
+    });
+}
+else{
+    $.when(searchCity(keyword)).done(function(data){
+        if(data.resultCode == 200){
 
+        }
+    });
+}
 mui.init();
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
