@@ -1,3 +1,11 @@
+var currentCityId = window.localStorage.getItem("cityId");
+var currentCityName = window.localStorage.getItem("cityName");
+if(currentCityName&&currentCityId){
+	// 已获取当前城市及id
+}
+else{
+	window.location.href = "index.html";
+}
 $(function(){
 	mui("body").on('tap','.smallCartIcon',function(e){
 		e.stopPropagation();
@@ -25,23 +33,6 @@ function getQueryData(){
         }
     }
     return parseURI;
-}
-function getCurrentCity(deferred){
-	var _deferred = deferred?deferred:$.Deferred();
-	var geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(function(r){
-    	console.log(r);
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-        	deferred.data = r;
-            deferred.resolved();
-        }
-        else {
-            window.setTimeout(function(){
-            	getCurrentCity(_deferred);
-            },2000);
-        }        
-    },{enableHighAccuracy: true});
-    return deferred;
 }
 
 

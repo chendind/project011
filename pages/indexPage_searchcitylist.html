@@ -9,6 +9,7 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/mui.indexedlist.js"></script>
+    <script src="../source/js/public.js"></script>
     <script src="http://api.map.baidu.com/api?v=2.0&ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG"></script>
     <link href="../source/mui/css/mui.css" rel="stylesheet" />
     <link href="../source/css/mui.indexedlist.css" rel="stylesheet" />
@@ -48,9 +49,7 @@
     </div>
 
 <script>
-$.when(getCurrentCity()).done(function(data){
-    $("#currentCity").text(data.address.city);
-});
+    $("#currentCity").text(currentCityName);
     
     $.when(getAllCity()).done(function(data){
         if(data.resultCode == 200){

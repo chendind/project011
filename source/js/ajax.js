@@ -155,6 +155,55 @@ function searchCity(cityName){
 	});
 	return ajax;
 }
+// 获取轮播图
+function getBannersByCityId(cityId){
+	var ajax = $.ajax({
+		url: baseUrl + "/home/banners/"+cityId,
+		type: "GET",
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle
+	});
+	return ajax;
+}
+// 首页3+2推荐数据
+function getRecommends(cityId){
+	var ajax = $.ajax({
+		url: baseUrl + "/home/recommends/"+cityId,
+		type: "GET",
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle
+	});
+	return ajax;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
