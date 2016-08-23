@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +13,11 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
     <nav class="mui-bar mui-bar-tab">
         <a class="greyColor rightBorder">
@@ -22,87 +27,92 @@
             保存
         </a>
     </nav>
-	<div class="mui-content">
+    <div class="mui-content">
         <form class="mui-input-group" style="margin-top: 10px;">
             <div class="mui-input-row">
                 <label>收件人</label>
-                <input id="address_name" type="text" class="mui-input-clear" placeholder="请填写收件人姓名" value="">
+                <input id="address_name" type="text" class="mui-input-clear" placeholder="请填写收件人姓名" value="" v-model="name">
             </div>
             <div class="mui-input-row">
                 <label>联系电话</label>
-                <input id="address_phone" type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="">
+                <input id="address_phone" type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="" v-model="phone">
             </div>
             <div class="mui-input-row">
                 <label>学号</label>
-                <input id="address_id" type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="">
+                <input id="address_id" type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="" v-model="studentNo">
             </div>
             <div class="mui-input-row">
                 <label>学校</label>
-                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="">
+                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="school">
             </div>
             <div class="mui-input-row">
                 <label>宿舍园区</label>
-                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="">
+                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="dorm">
             </div>
             <div class="mui-input-row">
                 <label>寝室门牌</label>
-                <input id="address_room" type="text" class="mui-input-clear" placeholder="请填写寝室门牌" value="">
+                <input id="address_room" type="text" class="mui-input-clear" placeholder="请填写寝室门牌" value="" v-model="address">
             </div>
         </form>
-	</div>
-<script>
-mui.init();
-// window.addEventListener("beforeunload", function (e) {
-//   var confirmationMessage = "\o/";
-//   (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
-//   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
-// });
-$("#addNewAddressButton").on('tap',function(){
-    var address_name = $.trim($("#address_name").val());
-    var address_phone = $.trim($("#address_phone").val());
-    var address_id = $.trim($("#address_id").val());
-    var address_school = $.trim($("#address_school").val());
-    var address_dom = $.trim($("#address_dom").val());
-    var address_room = $.trim($("#address_room").val());
-    if(!address_name){
-        mui.toast("请输入姓名");
-    }
-    else if(!address_phone){
-        mui.toast("请输入手机号码");
-    }
-    else if(!address_phone){
-        mui.toast("请输入手机号码");
-    }
-    else if(!address_id){
-        mui.toast("请输入学号");
-    }
-    else if(!address_school){
-        mui.toast("请选择学校");
-    }
-    else if(!address_dom){
-        mui.toast("请输入宿舍园区");
-    }
-    else if(!address_room){
-        mui.toast("请输入寝室门牌");
-    }
-    else{
-        mui.toast("保存成功");
-    }
-})
-</script>
+    </div>
+    <script>
+    mui.init();
+    // window.addEventListener("beforeunload", function (e) {
+    //   var confirmationMessage = "\o/";
+    //   (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+    //   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
+    // });
+    $("#addNewAddressButton").on('tap', function() {
+        var address_name = $.trim($("#address_name").val());
+        var address_phone = $.trim($("#address_phone").val());
+        var address_id = $.trim($("#address_id").val());
+        var address_school = $.trim($("#address_school").val());
+        var address_dom = $.trim($("#address_dom").val());
+        var address_room = $.trim($("#address_room").val());
+        if (!address_name) {
+            mui.toast("请输入姓名");
+        } else if (!address_phone) {
+            mui.toast("请输入手机号码");
+        } else if (!address_phone) {
+            mui.toast("请输入手机号码");
+        } else if (!address_id) {
+            mui.toast("请输入学号");
+        } else if (!address_school) {
+            mui.toast("请选择学校");
+        } else if (!address_dom) {
+            mui.toast("请输入宿舍园区");
+        } else if (!address_room) {
+            mui.toast("请输入寝室门牌");
+        } else {
+            mui.toast("保存成功");
+        }
+    })
+    var vm = new Vue({
+        el: "body",
+        data: {
+            list: {}
+        },
+        computed: {
+        },
+        methods: {
+
+        },
+        created: function() {
+            var self = this;
+            var id;
+            if (window.location.search) {
+                id = (window.location.search.slice(1))
+                $.when(getOneAddress(id)).done(function(data) {
+                    console.log(data);
+                    self.$data = data.data.address
+                });
+            }
+        },
+        ready: function() {
+
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

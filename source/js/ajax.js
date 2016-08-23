@@ -115,10 +115,6 @@ function userProfile(type, value){
 		type: "POST",
 		beforeSend: ajaxDataHandle,
 		contentType: contentType,
-		data: {
-			"phone": phone,
-			"verifyCode": verifyCode
-		},
 		success: successHandle,
 		error: errorHandle
 	});

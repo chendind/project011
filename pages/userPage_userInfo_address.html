@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,87 +13,93 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js?2016"></script>
+    <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="linkColor" href="barracksReparation_rate.html">
+        <a class="linkColor" data-href="userPage_userInfo_addNewAddress.html">
             添加新地址
         </a>
     </nav>
-	<div class="mui-content">
+    <div class="mui-content">
         <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
-            <li class="mui-table-view-cell">
+            <li class="mui-table-view-cell" v-show="list.length==0">
                 <a data-href="userPage_userInfo_addNewAddress.html" style="height: 70px;">
                     <div class="veryCenter">
-                        <img class="mui-icon" style="width: 20px;" src="../source/images/rect.jpg" alt="">
-                        添加收货地址
+                        <img class="mui-icon" style="width: 20px;" src="../source/images/rect.jpg" alt=""> 添加收货地址
                     </div>
                 </a>
             </li>
         </ul>
-        <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
+        <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;" v-for="place in list">
             <li class="mui-table-view-cell">
                 <div class="mui-slider-right mui-disabled">
-                    <a class="mui-btn mui-btn-red removeAddressButton">删除</a>
+                    <a class="mui-btn mui-btn-red removeAddressButton" data-id={{place.id}}>删除</a>
                 </div>
-                <a data-href="userPage_userInfo_addNewAddress.html" class="mui-navigate-right mui-slider-handle">
+                <a data-href="userPage_userInfo_addNewAddress.html?{{place.id}}" class="mui-navigate-right mui-slider-handle">
                     <div class="mui-media-body">
-                        王靖栋 15558938081
+                        {{place.name}} {{place.phone}}
                         <p class='mui-ellipsis'>
-                            <span class="mui-badge mui-badge-primary">默</span>
-                            <span class="mui-badge mui-badge-warning">学</span>
-                            杭州科技大学学文苑寝室楼A603
+                            <span class="mui-badge mui-badge-primary" v-if="place.isDefault==1">默</span>
+                            <span class="mui-badge mui-badge-warning" v-if="place.type==0">学</span> {{place.school}}{{place.dorm}}{{place.address}}
                         </p>
                     </div>
                 </a>
             </li>
         </ul>
-        <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
-            <li class="mui-table-view-cell">
-                <div class="mui-slider-right mui-disabled">
-                    <a class="mui-btn mui-btn-red removeAddressButton">删除</a>
-                </div>
-                <a data-href="userPage_userInfo_addNewAddress.html" class="mui-navigate-right mui-slider-handle">
-                    <div class="mui-media-body">
-                        王靖栋 15558938081
-                        <p class='mui-ellipsis'>
-                            <span class="mui-badge mui-badge-primary">默</span>
-                            <span class="mui-badge mui-badge-warning">学</span>
-                            杭州科技大学学文苑寝室楼A603
-                        </p>
-                    </div>
-                </a>
-            </li>
-        </ul>
-	</div>
-<script>
-mui.init();
-$(".mui-content").on('tap','.removeAddressButton',function(){
-    var $this = $(this);
-    mui.confirm("确定删除吗？"," ",["确定","取消"],function(data){
-        if(data.index == 0){
-            // 删除
-            $this.closest(".mui-table-view").remove();
-        }
-        else{
+    </div>
+    <script>
+    mui.init();
+    $(".mui-content").on('tap', '.removeAddressButton', function() {
+        var $this = $(this);
+        mui.confirm("确定删除吗？", " ", ["确定", "取消"], function(data) {
+            if (data.index == 0) {
+                var id = $this.attr('data-id');
+                console.log(id);
+                // 删除
+                $.when(deleteOneAddress(id)).done(function(data) {
+                    console.log(data);
+                    $this.closest(".mui-table-view").remove();
+                });
+            } else {
 
-        }
+            }
+        });
     });
-});
-</script>
+    var vm = new Vue({
+        el: "body",
+        data: {
+            list: {}
+        },
+        computed: {
+            url: function() {
+                if (this.avatar) {
+                    return this.avatar
+                } else {
+                    return "../source/webslice/4.0_me/me_defaulthead.png"
+                }
+            }
+        },
+        methods: {
+
+        },
+        created: function() {
+            var self = this;
+            var id = localStorage.getItem("id");
+            $.when(getAllMyAddress()).done(function(data) {
+                console.log(data);
+                self.list = data.data.list
+            });
+        },
+        ready: function() {
+
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

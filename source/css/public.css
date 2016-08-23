@@ -42,6 +42,9 @@ body {
   background-color: #eee;
   font-size: 15px;
 }
+[v-cloak] {
+  display: none;
+}
 .blueColor {
   color: #016df1 !important;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,22 +13,26 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="//npmcdn.com/vue/dist/vue.min.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
-	<div class="mui-content">
+    <div class="mui-content">
         <ul class="mui-table-view" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell">
                 <a style="line-height: 40px;" id="changePortraitButton">
                     头像
-                    <img class="mui-media-object mui-pull-right head-img" src="../source/webslice/4.0_me/me_defaulthead.png">
+                    <img class="mui-media-object mui-pull-right head-img" :src="url">
                 </a>
             </li>
         </ul>
         <ul class="mui-table-view" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell">
-                <a class="mui-navigate-right" href="userPage_userInfo_userName.html">
+                <a class="mui-navigate-right" href="userPage_userInfo_userName.html" v-cloak>
                     用户名
-                    <span class="mui-tip">Yunshu_4379</span>
+                    <span class="mui-tip">{{name}}</span>
                 </a>
             </li>
             <li class="mui-table-view-cell">
@@ -48,7 +53,7 @@
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right" data-href="userPage_userInfo_phone.html">
                     手机号码
-                    <span class="mui-tip">15558938081</span>
+                    <span class="mui-tip" v-cloak>{{phone}}</span>
                 </a>
             </li>
         </ul>
@@ -57,7 +62,7 @@
                 <a class="redColor" id="logoutButton">注销</a>
             </li>
         </ul>
-	</div>
+    </div>
     <div id="userPage_userInfo_userSexSheet" class="mui-popover mui-popover-bottom mui-popover-action ">
         <!-- 可选择菜单 -->
         <ul class="mui-table-view">
@@ -75,35 +80,49 @@
             </li>
         </ul>
     </div>
-<script>
-mui.init();
-$('#changePortraitButton').on('tap', function() {
-    var input = document.createElement("input");
-    input.type = "file";
-    input.click();
-});
-$("#userPage_userInfo_userSexButton").on('tap', function(){
-    mui("#userPage_userInfo_userSexSheet").popover('toggle')
-});
-$("#logoutButton").on('tap',function(){
-    mui.confirm("确定注销吗？"," ",["<span class='redColor'>注销</span>","取消"],function(data){
+    <script>
+    mui.init();
+    $('#changePortraitButton').on('tap', function() {
+        var input = document.createElement("input");
+        input.type = "file";
+        input.click();
+    });
+    $("#userPage_userInfo_userSexButton").on('tap', function() {
+        mui("#userPage_userInfo_userSexSheet").popover('toggle')
+    });
+    $("#logoutButton").on('tap', function() {
+        mui.confirm("确定注销吗？", " ", ["<span class='redColor'>注销</span>", "取消"], function(data) {
 
+        })
     })
-})
-</script>
+    var vm = new Vue({
+        el: "body",
+        data: {
+
+        },
+        computed: {
+            url: function() {
+                if (this.avatar) {
+                    return this.avatar
+                } else {
+                    return "../source/webslice/4.0_me/me_defaulthead.png"
+                }
+            }
+        },
+        methods: {},
+        created: function() {
+            var self = this;
+            var id = localStorage.getItem("id");
+            $.when(getAllMyInfo()).done(function(data) {
+                console.log(data);
+                self.$data = data.data.user
+            });
+        },
+        ready: function() {
+
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
