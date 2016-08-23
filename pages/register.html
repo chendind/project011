@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="../source/css/public.css">
     <link rel="stylesheet" href="../source/css/login.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/js/ajax.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    
 </head>
 <body>
 	<!-- <div class="mui-content"> -->
@@ -23,14 +25,14 @@
             <p class="topPara">让全天下大学生用上免费教材</p>
             <div class="loginBox">
                 <div class="enterpnBox">
-                    <input type="text" class="enterpn" placeholder="请输入手机号">
+                    <input id="phone" type="text" class="enterpn" placeholder="请输入手机号">
                 </div>
                 <div class="entercnBox">
-                    <input type="text" class="entercn" placeholder="请输入验证码">
+                    <input id="verifyCode" type="text" class="entercn" placeholder="请输入验证码">
                     <p class="getcn">获取验证码</p>
                 </div>
                 <a class="registerBtn">返回</a>
-                <a class="loginBtn">注册</a>
+                <a id="loginButton" class="loginBtn">注册</a>
             </div>
         </div>
     </div>
@@ -38,29 +40,59 @@
 <script>
 mui.init();
 function getcn(){
-    $(".getcn").one("click",function() {
-        var count=$('<span class="regetcn">重新发送'+
-            '&nbsp;(<i style="font-style:normal;">60</i>)'+
-            '</span>');
-        var that=$(this);
-        that.empty();
-        that.append(count);
-        function reduceCount(){
-            var num=count.find("i").text();
-            num=num-1;
-            count.find("i").text(num);
-            that.append(count);
-            if(num==0){
-                clearInterval(reduceId);
-                that.text("获取验证码");
-                getcn();
-            }
+    $(".getcn").one("tap",function() {
+        var phone = $("#phone").val();
+        if(phone.length != 11){
+            mui.toast("请输入正确的手机号");
+            getcn();
         }
-        var reduceId=window.setInterval(reduceCount,1000);
-
-    })
+        else{
+            $.when(getVerifyCode(phone)).done(function(data){
+                if(data.status == 200){
+                    var count=$('<span class="regetcn">重新发送'+
+                        '&nbsp;(<i style="font-style:normal;">60</i>)'+
+                        '</span>');
+                    var that=$(this);
+                    that.empty();
+                    that.append(count);
+                    function reduceCount(){
+                        var num=count.find("i").text() - 1;
+                        count.find("i").text(num);
+                        that.append(count);
+                        if(num==0){
+                            clearInterval(reduceId);
+                            that.text("获取验证码");
+                            getcn();
+                        }
+                    }
+                    var reduceId = window.setInterval(reduceCount,1000);
+                }
+                else{
+                    getcn();
+                }
+            });
+        }
+    });
 }
 getcn();
+
+$("#loginButton").on('tap',function(){
+    var phone = $("#phone").val();
+    var verifyCode = $("#verifyCode").val();
+    if(phone.length != 11){
+        mui.toast("请输入正确的手机号");
+    }
+    else if(verifyCode.length != 4){
+        mui.toast("请输入正确的验证码");
+    }
+    else {
+        $.when(userRegister(phone,verifyCode)).done(function(data){
+            if(data.resultCode == 200){
+                
+            }
+        });
+    }
+})
 </script>
 </body>
 </html>
