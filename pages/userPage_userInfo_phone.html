@@ -71,8 +71,8 @@
     }
     getcn();
     $("#savePhoneButton").on('tap', function() {
-        var phone = $("#phone").val();
-        var verifyCode = $("#verifyCode").val();
+        var phone = $("#phone_number").val();
+        var verifyCode = $("#phone_verifyCode").val();
         if (phone.length != 11) {
             mui.toast("请输入正确的手机号");
         } else if (verifyCode.length != 4) {

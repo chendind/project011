@@ -55,7 +55,7 @@
                 <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo.html">
                     <img class="mui-media-object mui-pull-left head-img" id="head-img" :src="url">
                     <div class="mui-media-body" v-cloak>
-                        {{name}}
+                        {{decodeURI(name)}}
                         <p class='mui-ellipsis' v-cloak>{{phone}}</p>
                     </div>
                     <!-- <div class="mui-media-body">
