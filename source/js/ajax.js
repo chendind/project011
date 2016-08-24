@@ -29,7 +29,7 @@ function getAjaxHeader(){
 	if(token&&version){
 		header.token = token;
 		header.version = version;
-		header.orgin = "mp";
+		header.orgin = "OriginType";
 	}
 	return header;
 }
