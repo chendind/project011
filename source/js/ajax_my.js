@@ -54,3 +54,17 @@ function deleteOneAddress(id){
 	});
 	return ajax;
 }
+// 登出
+function logout(id){
+		var ajax = $.ajax({
+		url: baseUrl + "/users/logout/",
+		type: "POST",
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle,
+		crossDomain: true
+	});
+	return ajax;
+}

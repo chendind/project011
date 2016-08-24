@@ -13,7 +13,8 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
-    <script src="//npmcdn.com/vue/dist/vue.min.js"></script>
+    <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
+    <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
@@ -30,7 +31,7 @@
         </ul>
         <ul class="mui-table-view" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell">
-                <a class="mui-navigate-right" href="userPage_userInfo_userName.html" v-cloak>
+                <a class="mui-navigate-right" data-href="userPage_userInfo_userName.html" v-cloak>
                     用户名
                     <span class="mui-tip">{{name}}</span>
                 </a>
@@ -38,7 +39,7 @@
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right" id="userPage_userInfo_userSexButton">
                    性别
-                   <span class="mui-tip">请选择</span>
+                   <span class="mui-tip">{{gender}}</span>
                 </a>
             </li>
         </ul>
@@ -82,17 +83,29 @@
     </div>
     <script>
     mui.init();
-    $('#changePortraitButton').on('tap', function() {
-        var input = document.createElement("input");
-        input.type = "file";
-        input.click();
-    });
+    // $('#changePortraitButton').on('tap', function() {
+    //     var input = document.createElement("input");
+    //     input.type = "file";
+    //     input.click();
+    // });
     $("#userPage_userInfo_userSexButton").on('tap', function() {
         mui("#userPage_userInfo_userSexSheet").popover('toggle')
     });
     $("#logoutButton").on('tap', function() {
         mui.confirm("确定注销吗？", " ", ["<span class='redColor'>注销</span>", "取消"], function(data) {
-
+            console.log('test');
+            if (data.index == 0) {
+                $.when(userLogout()).done(function(data) {
+                    console.log(data);
+                    data=JSON.parse(data);
+                    if (data.resultCode == 200) {
+                        mui.toast("注销成功");
+                        mui.openWindow({
+                            url: "login.html"
+                        })
+                    }
+                });
+            }
         })
     })
     var vm = new Vue({
@@ -107,9 +120,22 @@
                 } else {
                     return "../source/webslice/4.0_me/me_defaulthead.png"
                 }
+            },
+            gender: function() {
+                if (this.sex) {
+                    if (this.sex == 0) {
+                        return "男"
+                    } else {
+                        return "女"
+                    }
+                } else {
+                    return "请选择"
+                }
             }
         },
-        methods: {},
+        methods: {
+
+        },
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");

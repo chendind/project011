@@ -20,14 +20,14 @@
 </head>
 
 <body>
-    <nav class="mui-bar mui-bar-tab">
+    <nav class="mui-bar mui-bar-tab" v-if="list.length">
         <a class="linkColor" data-href="userPage_userInfo_addNewAddress.html">
             添加新地址
         </a>
     </nav>
     <div class="mui-content">
         <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
-            <li class="mui-table-view-cell" v-show="list.length==0">
+            <li class="mui-table-view-cell" v-if="!list.length">
                 <a data-href="userPage_userInfo_addNewAddress.html" style="height: 70px;">
                     <div class="veryCenter">
                         <img class="mui-icon" style="width: 20px;" src="../source/images/rect.jpg" alt=""> 添加收货地址

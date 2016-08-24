@@ -20,10 +20,10 @@
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="greyColor rightBorder">
+        <a class="rightBorder" :class='{"greyColor":defalut}' @click="address.isDefault==0?address.isDefault=1:address.isDefault=0">
             设为默认地址
         </a>
-        <a id="addNewAddressButton" class="greyColor">
+        <a id="addNewAddressButton" :class="{greyColor:empty}">
             保存
         </a>
     </nav>
@@ -31,27 +31,27 @@
         <form class="mui-input-group" style="margin-top: 10px;">
             <div class="mui-input-row">
                 <label>收件人</label>
-                <input id="address_name" type="text" class="mui-input-clear" placeholder="请填写收件人姓名" value="" v-model="name">
+                <input id="address_name" type="text" class="mui-input-clear" placeholder="请填写收件人姓名" value="" v-model="address.name">
             </div>
             <div class="mui-input-row">
                 <label>联系电话</label>
-                <input id="address_phone" type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="" v-model="phone">
+                <input id="address_phone" type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="" v-model="address.phone">
             </div>
             <div class="mui-input-row">
                 <label>学号</label>
-                <input id="address_id" type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="" v-model="studentNo">
+                <input id="address_id" type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="" v-model="address.studentNo">
             </div>
             <div class="mui-input-row">
                 <label>学校</label>
-                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="school">
+                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="address.school">
             </div>
             <div class="mui-input-row">
                 <label>宿舍园区</label>
-                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="dorm">
+                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="address.dorm">
             </div>
             <div class="mui-input-row">
                 <label>寝室门牌</label>
-                <input id="address_room" type="text" class="mui-input-clear" placeholder="请填写寝室门牌" value="" v-model="address">
+                <input id="address_room" type="text" class="mui-input-clear" placeholder="请填写寝室门牌" value="" v-model="address.address">
             </div>
         </form>
     </div>
@@ -90,9 +90,31 @@
     var vm = new Vue({
         el: "body",
         data: {
-            list: {}
+            address :{
+                name: "",
+                phone: "",
+                studentNo: "",
+                school: "",
+                dorm: "",
+                address: "",
+                isDefault: 0
+            }
         },
         computed: {
+            defalut: function() {
+                if (this.address.isDefault == 0) {
+                    return true
+                } else {
+                    return false
+                }
+            },
+            empty: function() {
+                if (this.address.name !== "" && this.address.phone !== "" && this.address.studentNo !== "" && this.address.school !== "" && this.address.dorm !== "" && this.address.address !== "") {
+                    return false
+                } else {
+                    return true
+                }
+            }
         },
         methods: {
 
@@ -104,7 +126,7 @@
                 id = (window.location.search.slice(1))
                 $.when(getOneAddress(id)).done(function(data) {
                     console.log(data);
-                    self.$data = data.data.address
+                    self.$data.address = data.data.address
                 });
             }
         },
