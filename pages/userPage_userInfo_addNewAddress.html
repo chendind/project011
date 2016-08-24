@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="../source/mui/css/mui.css">
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/mui.picker.min.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/mui.picker.min.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
@@ -43,11 +45,11 @@
             </div>
             <div class="mui-input-row">
                 <label>学校</label>
-                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="address.school">
+                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="school" @click="schoolChoose">
             </div>
             <div class="mui-input-row">
                 <label>宿舍园区</label>
-                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="address.dorm">
+                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="dorm" @click="dormChoose">
             </div>
             <div class="mui-input-row">
                 <label>寝室门牌</label>
@@ -62,6 +64,7 @@
     //   (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
     //   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
     // });
+    var picker = new mui.PopPicker();
     $("#addNewAddressButton").on('tap', function() {
         var address_name = $.trim($("#address_name").val());
         var address_phone = $.trim($("#address_phone").val());
@@ -84,21 +87,32 @@
         } else if (!address_room) {
             mui.toast("请输入寝室门牌");
         } else {
-            mui.toast("保存成功");
+            $.when(addAddress(vm.address)).done(function(data) {
+                console.log(data);
+                if (data.resultCode == 200) {
+                    mui.toast("保存成功");
+                    self.$data.dormList = data.data.dorms
+                }
+            });
+            
         }
     })
     var vm = new Vue({
         el: "body",
         data: {
-            address :{
+            address: {
                 name: "",
                 phone: "",
                 studentNo: "",
-                school: "",
-                dorm: "",
+                dormId: 0,
                 address: "",
-                isDefault: 0
-            }
+                isDefault: 0,
+                schoolId: 0
+            },
+            schoolList: [],
+            dormList: [],
+            dorm: "",
+            school: ""
         },
         computed: {
             defalut: function() {
@@ -117,7 +131,42 @@
             }
         },
         methods: {
-
+            schoolChoose: function() {
+                var data = [];
+                var self = this;
+                for (var i = 0; i < this.schoolList.length; i++) {
+                    data[i] = {
+                        value: this.schoolList[i].id,
+                        text: this.schoolList[i].name
+                    }
+                }
+                picker.setData(data);
+                picker.show(function(selectItems) {
+                    self.school = selectItems[0].text;
+                    self.address.schoolId = selectItems[0].value;
+                    $.when(getDormList(selectItems[0].value)).done(function(data) {
+                        console.log(data);
+                        if (data.resultCode == 200) {
+                            self.$data.dormList = data.data.dorms
+                        }
+                    });
+                })
+            },
+            dormChoose: function() {
+                var data = [];
+                var self = this;
+                for (var i = 0; i < this.dormList.length; i++) {
+                    data[i] = {
+                        value: this.dormList[i].id,
+                        text: this.dormList[i].campus
+                    }
+                }
+                picker.setData(data);
+                picker.show(function(selectItems) {
+                    self.dorm = selectItems[0].text;
+                    self.address.dormId = selectItems[0].value;
+                })
+            }
         },
         created: function() {
             var self = this;
@@ -129,6 +178,12 @@
                     self.$data.address = data.data.address
                 });
             }
+            $.when(getSchoolList()).done(function(data) {
+                console.log(data);
+                if (data.resultCode == 200) {
+                    self.$data.schoolList = data.data.schools
+                }
+            });
         },
         ready: function() {
 
