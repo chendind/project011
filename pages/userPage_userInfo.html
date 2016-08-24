@@ -33,13 +33,13 @@
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right" data-href="userPage_userInfo_userName.html" v-cloak>
                     用户名
-                    <span class="mui-tip">{{name}}</span>
+                    <span class="mui-tip" v-cloak>{{name}}</span>
                 </a>
             </li>
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right" id="userPage_userInfo_userSexButton">
                    性别
-                   <span class="mui-tip">{{gender}}</span>
+                   <span class="mui-tip" v-cloak>{{(sex==0)?"男":"女"}}</span>
                 </a>
             </li>
         </ul>
@@ -67,17 +67,17 @@
     <div id="userPage_userInfo_userSexSheet" class="mui-popover mui-popover-bottom mui-popover-action ">
         <!-- 可选择菜单 -->
         <ul class="mui-table-view">
-            <li class="mui-table-view-cell">
+            <li class="mui-table-view-cell" @click="editSex(0)">
                 <a>男</a>
             </li>
-            <li class="mui-table-view-cell">
+            <li class="mui-table-view-cell" @click="editSex(1)">
                 <a>女</a>
             </li>
         </ul>
         <!-- 取消菜单 -->
         <ul class="mui-table-view">
             <li class="mui-table-view-cell">
-                <a href="#sheet1"><b>取消</b></a>
+                <a href="#" @click.prevent="cancelEdit"><b>取消</b></a>
             </li>
         </ul>
     </div>
@@ -97,7 +97,7 @@
             if (data.index == 0) {
                 $.when(userLogout()).done(function(data) {
                     console.log(data);
-                    data=JSON.parse(data);
+                    data = JSON.parse(data);
                     if (data.resultCode == 200) {
                         mui.toast("注销成功");
                         mui.openWindow({
@@ -111,7 +111,7 @@
     var vm = new Vue({
         el: "body",
         data: {
-
+            sex: 0
         },
         computed: {
             url: function() {
@@ -121,20 +121,22 @@
                     return "../source/webslice/4.0_me/me_defaulthead.png"
                 }
             },
-            gender: function() {
-                if (this.sex) {
-                    if (this.sex == 0) {
-                        return "男"
-                    } else {
-                        return "女"
-                    }
-                } else {
-                    return "请选择"
-                }
-            }
         },
         methods: {
-
+            editSex: function(sex) {
+                var self = this;
+                $.when(editSex(sex)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        mui.toast("修改成功")
+                        self.sex = sex;
+                        mui("#userPage_userInfo_userSexSheet").popover('hide')
+                    }
+                });
+            },
+            cancelEdit: function() {
+                mui("#userPage_userInfo_userSexSheet").popover('hide')
+            }
         },
         created: function() {
             var self = this;

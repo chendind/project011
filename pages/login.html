@@ -81,7 +81,7 @@ $("#loginButton").on('tap',function(){
         mui.toast("请输入正确的验证码");
     }
     else {
-        $.when(userLogin(phone,verifyCode)).done(function(data){
+        $.when(editPhoneNum(phone,verifyCode)).done(function(data){
             if(data.resultCode == 200){
                 window.localStorage.setItem("token",data.data.token);
                 window.localStorage.setItem("version",data.data.version);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,14 +13,17 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
     <nav class="mui-bar mui-bar-tab">
         <a id="savePhoneButton" class="greyColor">
             保存
         </a>
     </nav>
-	<div class="mui-content">
+    <div class="mui-content">
         <form class="mui-input-group" style="margin-top: 10px;">
             <div class="mui-input-row">
                 <label style="width: 26%;">手机号</label>
@@ -31,42 +35,58 @@
                 <span id="getVerifyCodeButton" class="mui-tip linkColor">获取验证码</span>
             </div>
         </form>
-	</div>
-<script>
-mui.init();
-$("#getVerifyCodeButton").on('tap',function(){
-    var phone_number = $.trim($("#phone_number").val());
-    if(!phone_number){
-        mui.toast("请输入正确的手机号");
+    </div>
+    <script>
+    mui.init();
+
+    function getcn() {
+        $("#getVerifyCodeButton").one("click", function() {
+            var phone = $("#phone_number").val();
+            var verifyCode = $("#phone_verifyCode").val();
+            var that = $(this);
+            $.when(getVerifyCode(phone)).done(function(data) {
+                if (data.resultCode == 200) {
+                    mui.toast("发送成功");
+                    var count = $('<span class="regetcn">重新发送' +
+                        '&nbsp;(<i style="font-style:normal;">60</i>)' +
+                        '</span>');
+                    that.empty();
+                    that.append(count);
+
+                    function reduceCount() {
+                        var num = count.find("i").text();
+                        num = num - 1;
+                        count.find("i").text(num);
+                        that.append(count);
+                        if (num == 0) {
+                            clearInterval(reduceId);
+                            that.text("获取验证码");
+                            getcn();
+                        }
+                    }
+                    var reduceId = window.setInterval(reduceCount, 1000);
+                }
+            });
+        });
     }
-    else{
-        $("#getVerifyCodeButton").removeClass("linkColor").addClass("greyColor");
-        $("#savePhoneButton").removeClass("greyColor").addClass("linkColor");
-    }
-});
-$("#savePhoneButton").on('tap',function(){
-    var phone_verifyCode = $.trim($("#phone_verifyCode").val());
-    if(!phone_verifyCode){
-        mui.toast("请输入验证码");
-    }
-    else{
-        
-    }
-})
-</script>
+    getcn();
+    $("#savePhoneButton").on('tap', function() {
+        var phone = $("#phone").val();
+        var verifyCode = $("#verifyCode").val();
+        if (phone.length != 11) {
+            mui.toast("请输入正确的手机号");
+        } else if (verifyCode.length != 4) {
+            mui.toast("请输入正确的验证码");
+        } else {
+            $.when(userLogin(phone, verifyCode)).done(function(data) {
+                if (data.resultCode == 200) {
+                    mui.toast("修改成功");
+                    mui.back();
+                }
+            });
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

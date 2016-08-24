@@ -111,3 +111,47 @@ function addAddress(data) {
     });
     return ajax;
 }
+// 修改性别
+function editSex(sex) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profile",
+        data:{"type":3,"sex":sex},
+        type: "PUT",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 修改用户名
+function editUsername(name) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profile",
+        data:{"type":2,"username":name},
+        type: "PUT",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+    });
+    return ajax;
+}
+// 修改手机号
+function editPhoneNum(phone,verfityCode) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profile",
+        data:{"type":5,"phone":phone,"verfityCode":verfityCode},
+        type: "PUT",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,31 +13,64 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
-	<div class="mui-content">
+    <nav class="mui-bar mui-bar-tab">
+        <a :class="{greyColor:empty}" @click="editUsername">
+            保存
+        </a>
+    </nav>
+    <div class="mui-content">
         <form class="mui-input-group" style="margin-top: 10px;">
             <div class="mui-input-row">
-                <input type="text" class="mui-input-clear" placeholder="请输入昵称">
+                <input type="text" class="mui-input-clear" placeholder="请输入昵称" v-model="username">
             </div>
         </form>
-	</div>
-<script>
-mui.init();
-</script>
+    </div>
+    <script>
+    mui.init();
+    var vm = new Vue({
+        el: "body",
+        data: {
+            username: ""
+        },
+        computed: {
+            empty: function() {
+                if (this.username !== "") {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        },
+        methods: {
+            editUsername: function() {
+                var self = this;
+                $.when(editUsername(self.username)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        mui.toast("修改成功")
+                        mui.back();
+                    }
+                });
+            }
+        },
+        created: function() {
+             var self = this;
+            $.when(getAllMyInfo()).done(function(data) {
+                console.log(data);
+                self.username = data.data.user.name
+            });
+        },
+        ready: function() {
+
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
