@@ -42,9 +42,6 @@ body {
   background-color: #eee;
   font-size: 15px;
 }
-[v-cloak] {
-  display: none;
-}
 .blueColor {
   color: #016df1 !important;
 }
@@ -93,11 +90,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-}
-.title {
-  font-size: 14px;
-  padding: 15px 10px 5px;
-  color: #999;
 }
 .imageIcon {
   display: inline-block;

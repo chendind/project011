@@ -29,6 +29,7 @@ function getAjaxHeader(){
 	if(token&&version){
 		header.token = token;
 		header.version = version;
+		header.orgin = "mp";
 	}
 	return header;
 }
@@ -195,9 +196,45 @@ function searchBooks(keyword,cityId,page){
 	});
 	return ajax;
 }
-
-
-
+// 根据城市id获取书库页面分类数据
+function getCategoryByCityId(cityId){
+	var ajax = $.ajax({
+		url: baseUrl + "/categories/"+cityId,
+		type: "GET",
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle
+	});
+	return ajax;
+}
+// 根据parentId获取分类数据
+function getCategoryChildrenByParentId(parentId){
+	var ajax = $.ajax({
+		url: baseUrl + "/categories/children/"+parentId,
+		type: "GET",
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle
+	});
+	return ajax;
+}
+// 根据分类id获取书籍列表
+function getBooksByCategoryId(categoryId){
+	var ajax = $.ajax({
+		url: baseUrl + "/categories/"+categoryId+"/books",
+		type: "POST",
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle
+	});
+	return ajax;
+}
 
 
 
