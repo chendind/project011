@@ -8,7 +8,8 @@ h5{
     color: #666;
 }
 .user-city-list{
-    padding-left: 15px;
+    padding: 0 15px;
+    margin-bottom: 12px;
 }
 .mui-bar {
     -webkit-box-shadow: none;
@@ -16,10 +17,10 @@ h5{
 }
 .mui-content {
     // padding-left:16px;
-    background-color:#fff;
+    // background-color:#fff;
 }
 .mui-indexed-list {
-    background: #fff;
+    // background: #fff;
     border: none;
 }
 .mui-indexed-list-search.mui-input-row.mui-search {
@@ -65,10 +66,6 @@ h5{
 h4 {
     margin-bottom: 8px;
 }
-.user-city-list {
-    padding-right: 40px;
-    margin-bottom: 12px;
-}
 .user-city-row {
     position: relative;
 }
@@ -83,12 +80,13 @@ h4 {
     line-height: 1;
     text-align:center;
     padding: 12px 0px;
-    width: 30%;
-    width: calc((100% - 16px)/3);
+    width: 31%;
+    width: ~"calc( ( 100% - 16px ) / 3)";
     margin-right: 8px;
     margin-bottom: 8px;
     border-radius: 5px;
-    background: #f6f6f6;
+    background-color: #fafafa;
+    color: #666;
 }
 .user-city-item.active {
     color: #419bf9;
@@ -103,17 +101,24 @@ h4 {
     padding-right: 50px !important;
     .mui-search-button{
         width: 60px;
-        height: 30px;
+        height: 34px;
         position: absolute;
         right: -10px;
         text-align: center;
-        top: 10px;
-        line-height: 30px;
+        top: 0px;
+        line-height: 34px;
+        z-index: 1;
     }
 }
-
-
-
+.mui-indexed-list-search input{
+    margin: 0;
+}
+.mui-ios .mui-indexed-list-inner{
+    width: 100%;
+}
+.mui-search:before{
+    margin-top: -10px;
+}
 
 
 

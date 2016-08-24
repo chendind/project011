@@ -32,7 +32,7 @@ $.when(getCurrentCity()).done(function(data){
                     window.localStorage.setItem("cityName",cityData.data.cities[0].name);
                     window.localStorage.setItem("cityId",cityData.data.cities[0].id);
                 }
-                mui.back();
+                window.location.href="indexPage.html";
             }
         });
     }

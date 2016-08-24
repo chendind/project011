@@ -23,7 +23,7 @@
         </a>
         <h1 class="mui-title">
             <div class="mui-search-right">
-                <input type="search" placeholder="搜索您需要的教材">
+                <input id="searchBookInput" type="search" placeholder="搜索您需要的教材">
                 <span class="mui-icon mui-icon-search"></span>
             </div>
         </h1>
@@ -253,9 +253,14 @@ $(window).on('touchmove scroll',function(e){
         $('#header').addClass('top')
     }
 });
-$('.mui-search-right .mui-icon-search').on('tap',function(){
-    console.log('click search')
-});
+$("#searchBookInput").on('keydown',function(e){
+    if(e.keyCode == 13){
+        var value = $(this).val();
+        var params = {};
+        params.keyword = value;
+        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+    }
+})
 function createBook(id,path,title,colNumber){
     var _colNumber = colNumber?colNumber:"3";
     var params = {};

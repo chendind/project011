@@ -177,6 +177,24 @@ function getRecommends(cityId){
 	});
 	return ajax;
 }
+// 搜索书本
+function searchBooks(keyword,cityId,page){
+	var ajax = $.ajax({
+		url: baseUrl + "/search",
+		type: "POST",
+		data: {
+			"keyword": keyword,
+			"cityId": cityId,
+			"page": page
+		},
+		headers: getAjaxHeader(),
+		beforeSend: ajaxDataHandle,
+		contentType: contentType,
+		success: successHandle,
+		error: errorHandle
+	});
+	return ajax;
+}
 
 
 

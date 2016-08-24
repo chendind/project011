@@ -22,7 +22,7 @@ function encodeObj(obj){
 	return encodeURI(JSON.stringify(obj));
 }
 function getQueryData(){
-    var URI = decodeURI(window.location.hash.split("?")[1]);
+    var URI = decodeURI(window.location.search.split("?")[1]);
     var parseURI = URI;
     if(URI){
         try{
