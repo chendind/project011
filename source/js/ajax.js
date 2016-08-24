@@ -1,5 +1,5 @@
 // 配置项
-var baseUrl = "http://120.26.94.240:8989";
+var baseUrl = "http://120.26.94.240:8980";
 var contentType = 'application/octet-stream';
 function successHandle(data){
 	if((data.resultCode!=200)&&data.message){
@@ -29,7 +29,7 @@ function getAjaxHeader(){
 	if(token&&version){
 		header.token = token;
 		header.version = version;
-		header.orgin = "OriginType";
+		header.OriginType = "mp";
 	}
 	return header;
 }

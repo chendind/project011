@@ -96,9 +96,9 @@ if(!params){
 else{
     $("#searchCityInput").val(params.keyword);
     checkInputValueAndShowBlock(params.keyword);
-    searchBooksByKeyWord(params.keyword, currentCityId, 0);
+    searchBooksByKeyWord(params.keyword, currentCityId, 1);
 }
-var pageCount = 0;
+var pageCount = 1;
 $("#searchCityInput").on('keyup',function(e){
     var v = $(this).val();
     checkInputValueAndShowBlock(v);
@@ -125,7 +125,7 @@ function checkInputValueAndShowBlock(v){
     }
 }
 function searchBooksByKeyWord(keyword, currentCityId, page){
-    if(page == 0){
+    if(page == 1){
         // 清除原来的搜索结果
         $("#bookList").empty();
     }
@@ -149,7 +149,7 @@ function searchBooksByKeyWord(keyword, currentCityId, page){
             }
             else{
                 // 没有数据
-                if(page == 0){
+                if(page == 1){
                     $("#noResultBlock").show();
                     $("#pullrefresh").hide();
                 }
@@ -176,10 +176,9 @@ mui.init({
         }
     }
 });
-// mui.ready(function() {
-//     mui('#pullrefresh').pullRefresh().pullupLoading();
-// });
-count = 0;
+mui.ready(function() {
+    mui('#pullrefresh').pullRefresh().pullupLoading();
+});
 function pullupRefresh() {
     // setTimeout(function() {
     //     mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
