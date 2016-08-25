@@ -48,6 +48,9 @@ body {
 [v-cloak] {
   display: none;
 }
+.mui-pull-bottom-wrapper {
+  text-align: center;
+}
 .blueColor {
   color: #016df1 !important;
 }

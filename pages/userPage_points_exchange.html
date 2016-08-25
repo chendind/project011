@@ -16,6 +16,11 @@
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+    <style>
+        .mui-tooltip{
+            display: none;
+        }
+    </style>
 </head>
 
 <body style="background-color: #fff;">
@@ -26,7 +31,7 @@
                     <td class="innerCenter">
                         <div>
                             <p style="font-size:18px;" class="linkColor">可用积分</p>
-                            <p id="pointsValue" style="font-size:30px;" class="linkColor">0</p>
+                            <p id="pointsValue" style="font-size:30px;" class="linkColor">{{scoreMax-score}}</p>
                         </div>
                     </td>
                     <td class="innerCenter">
@@ -35,14 +40,14 @@
                     <td class="innerCenter">
                         <div>
                             <p style="font-size:18px;" class="linkColor">兑换零钱</p>
-                            <p id="changeValue" style="font-size:30px;" class="linkColor">0.00</p>
+                            <p id="changeValue" style="font-size:30px;" class="linkColor">{{score/100}}</p>
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="mui-input-row mui-input-range" style="padding: 0 50px;margin-top: 40px;">
-            <input id="pointsExchangeSlideBar" type="range" value="0" min="0" max="{{scoreMax}}">
+            <input id="pointsExchangeSlideBar" type="range" value="{{scoreMax}}" min="0" max="{{scoreMax}}">
         </div>
         <div>
             <p>拖动杆杠以调节兑换积分／零钱数额</p>
@@ -57,7 +62,7 @@
     mui.init();
     $("#pointsExchangeSlideBar").on('input', function() {
         var v = $(this).val() - 0;
-        $("#pointsValue").text(v);
+        $("#pointsValue").text(vm.scoreMax-v);
         $("#changeValue").text(v / 100);
         vm.score = v;
         if (v) {
@@ -69,15 +74,15 @@
     $("#exchangeButton").on('tap', function() {
         if ($(this).hasClass("mui-btn-primary")) {
             mui.confirm("确定要兑换吗", " ", ["确定", "取消"], function(data) {
-                if (data.index==0) {
-                                    $.when(scoreExchange(self.score)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        mui.toast("兑换成功");
-                        $.when(getScore()).done(function(data) {
-                            self.scoreMax = data.data.user.score;
-                        });
-                    }
-                });
+                if (data.index == 0) {
+                    $.when(scoreExchange(vm.score)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("兑换成功");
+                            $.when(getScore()).done(function(data) {
+                                vm.scoreMax = data.data.user.score;
+                            });
+                        }
+                    });
                 }
             })
         }
@@ -89,13 +94,13 @@
             scoreMax: 0
         },
         computed: {},
-        methods: {
-        },
+        methods: {},
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");
             $.when(getScore()).done(function(data) {
                 self.scoreMax = data.data.user.score;
+                self.score=vm.scoreMax;
             });
         },
         ready: function() {

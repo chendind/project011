@@ -19,9 +19,6 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <style>
-    .mui-pull-bottom-wrapper {
-        text-align: center;
-    }
     </style>
 </head>
 
@@ -77,7 +74,8 @@
             var id = localStorage.getItem("id");
             $.when(getHistory(self.page, 10)).done(function(data) {
                 console.log(data);
-                self.$data.histories = data.data.histories
+                self.$data.histories = data.data.histories;
+                vm.page++;
             });
         },
         ready: function() {
@@ -91,15 +89,18 @@
                 up: {
                     callback: function() {
                         var self = this;
-                        vm.page++;
                         setTimeout(function() {
                             $.when(getHistory(vm.page, 10)).done(function(data) {
                                 console.log(data);
                                 if (data.data.histories) {
                                     vm.histories = vm.histories.concat(data.data.histories)
+                                    self.endPullUpToRefresh();
+                                    vm.page++;
+                                }else{
+                                    self.endPullUpToRefresh(true);
                                 }
                             });
-                            self.endPullUpToRefresh();
+                            
                         }, 1000);
                     }
                 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,52 +12,91 @@
     <link rel="stylesheet" href="../source/css/public.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/mui/js/mui.pullToRefresh.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
     <div class="mui-content">
-        <ul class="mui-table-view mui-table-view-chevron" style="margin-bottom: 10px;margin-top: 10px;">
-            <li class="mui-table-view-cell mui-media">
-                <a id="userPage_userInfo_link" href="userPage_change_detail.html">
-                    <div class="mui-media-body">
-                        捐书
-                        <p class='mui-ellipsis'>2016年07月15日 22:58:54</p>
-                    </div>
-                    <span class="mui-tip greenColor" style="font-size: 20px;">
-                        ＋15
+        <div class="mui-slider-group">
+            <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+                    <ul class="mui-table-view mui-table-view-chevron" style="margin-bottom: 10px;margin-top: 10px;">
+                        <li class="mui-table-view-cell mui-media" v-for="record in records">
+                            <a id="userPage_userInfo_link" href="userPage_change_detail.html">
+                                <div class="mui-media-body">
+                                    {{record.type==0?"捐书":"兑换零钱"}}
+                                    <p class='mui-ellipsis'>{{record.createTime}}</p>
+                                </div>
+                                <span class="mui-tip {{record.type==0?'greenColor':'redColor'}}" style="font-size: 20px;">
+                        {{record.type==0?"+":"-"}}{{record.score}}
                     </span>
-                </a>
-            </li>
-            <li class="mui-table-view-cell mui-media">
-                <a id="userPage_userInfo_link" href="userPage_change_detail.html">
-                    <div class="mui-media-body">
-                        兑换零钱
-                        <p class='mui-ellipsis'>2016-07-15 22:58:54</p>
-                    </div>
-                    <span class="mui-tip redColor" style="font-size: 20px;">
-                        －30
-                    </span>
-                </a>
-            </li>
-        </ul>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-<script>
-mui.init();
+    <script>
+    mui.init();
+    var vm = new Vue({
+            el: "body",
+            data: {
+                records: [],
+                page: 1
+            },
+            computed: {},
+            methods: {},
+            created: function() {
+                var self = this;
+                var id = localStorage.getItem("id");
+                $.when(scoreList(self.page, 10)).done(function(data) {
+                    console.log(data);
+                    self.$data.records = data.data.scoreRecords;
+                    vm.page++;
+                });
+            },
+            ready: function() {
 
-</script>
+            }
+        })
+        //阻尼系数
+    var deceleration = mui.os.ios ? 0.003 : 0.0009;
+    mui('.mui-scroll-wrapper').scroll({
+        bounce: false,
+        indicators: true, //是否显示滚动条
+        deceleration: deceleration
+    });
+    mui.ready(function() {
+        //循环初始化所有下拉刷新，上拉加载。
+        mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+            mui(pullRefreshEl).pullToRefresh({
+                up: {
+                    callback: function() {
+                        var self = this;
+                        vm.page++;
+                        setTimeout(function() {
+                            $.when(scoreList(vm.page, 10)).done(function(data) {
+                                console.log(data);
+                                if (data.data.scoreRecords) {
+                                    vm.records = vm.records.concat(data.data.scoreRecords);
+                                    self.endPullUpToRefresh();
+                                    vm.page++;
+                                } else {
+                                    self.endPullUpToRefresh(true);
+                                }
+                            });
+                        }, 1000);
+                    }
+                }
+            });
+        });
+    });
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

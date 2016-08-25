@@ -199,3 +199,31 @@ function scoreExchange(score) {
     });
     return ajax;
 }
+//积分记录列表
+function scoreList(page) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profiles/scores/records/"+page,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 零钱记录列表
+function moneyRecordList(page) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profiles/moneys/records/"+page,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
