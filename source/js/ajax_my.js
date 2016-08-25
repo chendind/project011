@@ -142,10 +142,26 @@ function editPhoneNum(phone,verfityCode) {
     return ajax;
 }
 // 浏览历史
-function getHistory() {
+function getHistory(page,pageSize) {
     var ajax = $.ajax({
         url: baseUrl + "/histories",
         type: "POST",
+        data:{"page":page,"pageSize":pageSize},
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 订单列表
+function getOrderList(page,status) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/list",
+        type: "POST",
+        data:{"page":page,"orderStatus":status},
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,

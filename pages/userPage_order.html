@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,104 +17,116 @@
     <script src="../source/js/public.js"></script>
     <style>
     .mui-control-content {
-                min-height: 215px;
-            }
-            .mui-control-content .mui-loading {
-                margin-top: 50px;
-            }
-
-            .mui-bar~.mui-content .mui-fullscreen {
-                top: 44px;
-                height: auto;
-            }
-            .mui-pull-top-tips {
-                position: absolute;
-                top: -20px;
-                left: 50%;
-                margin-left: -25px;
-                width: 40px;
-                height: 40px;
-                border-radius: 100%;
-                z-index: 1;
-            }
-            .mui-bar~.mui-pull-top-tips {
-                top: 24px;
-            }
-            .mui-pull-top-wrapper {
-                width: 42px;
-                height: 42px;
-                display: block;
-                text-align: center;
-                background-color: #efeff4;
-                border: 1px solid #ddd;
-                border-radius: 25px;
-                background-clip: padding-box;
-                box-shadow: 0 4px 10px #bbb;
-                overflow: hidden;
-            }
-            .mui-pull-top-tips.mui-transitioning {
-                -webkit-transition-duration: 200ms;
-                transition-duration: 200ms;
-            }
-            .mui-pull-top-tips .mui-pull-loading {
-                /*-webkit-backface-visibility: hidden;
+        min-height: 215px;
+    }
+    
+    .mui-control-content .mui-loading {
+        margin-top: 50px;
+    }
+    
+    .mui-bar~.mui-content .mui-fullscreen {
+        top: 44px;
+        height: auto;
+    }
+    
+    .mui-pull-top-tips {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        margin-left: -25px;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        z-index: 1;
+    }
+    
+    .mui-bar~.mui-pull-top-tips {
+        top: 24px;
+    }
+    
+    .mui-pull-top-wrapper {
+        width: 42px;
+        height: 42px;
+        display: block;
+        text-align: center;
+        background-color: #efeff4;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        background-clip: padding-box;
+        box-shadow: 0 4px 10px #bbb;
+        overflow: hidden;
+    }
+    
+    .mui-pull-top-tips.mui-transitioning {
+        -webkit-transition-duration: 200ms;
+        transition-duration: 200ms;
+    }
+    
+    .mui-pull-top-tips .mui-pull-loading {
+        /*-webkit-backface-visibility: hidden;
                 -webkit-transition-duration: 400ms;
                 transition-duration: 400ms;*/
-                
-                margin: 0;
-            }
-            .mui-pull-top-wrapper .mui-icon,
-            .mui-pull-top-wrapper .mui-spinner {
-                margin-top: 7px;
-            }
-            .mui-pull-top-wrapper .mui-icon.mui-reverse {
-                /*-webkit-transform: rotate(180deg) translateZ(0);*/
-            }
-            .mui-pull-bottom-tips {
-                text-align: center;
-                background-color: #efeff4;
-                font-size: 15px;
-                line-height: 40px;
-                color: #777;
-            }
-            .mui-pull-top-canvas {
-                overflow: hidden;
-                background-color: #fafafa;
-                border-radius: 40px;
-                box-shadow: 0 4px 10px #bbb;
-                width: 40px;
-                height: 40px;
-                margin: 0 auto;
-            }
-            .mui-pull-top-canvas canvas {
-                width: 40px;
-            }
-            .mui-slider-indicator.mui-segmented-control {
-                background-color: #efeff4;
-            }
+        margin: 0;
+    }
+    
+    .mui-pull-top-wrapper .mui-icon,
+    .mui-pull-top-wrapper .mui-spinner {
+        margin-top: 7px;
+    }
+    
+    .mui-pull-top-wrapper .mui-icon.mui-reverse {
+        /*-webkit-transform: rotate(180deg) translateZ(0);*/
+    }
+    
+    .mui-pull-bottom-tips {
+        text-align: center;
+        background-color: #efeff4;
+        font-size: 15px;
+        line-height: 40px;
+        color: #777;
+    }
+    
+    .mui-pull-top-canvas {
+        overflow: hidden;
+        background-color: #fafafa;
+        border-radius: 40px;
+        box-shadow: 0 4px 10px #bbb;
+        width: 40px;
+        height: 40px;
+        margin: 0 auto;
+    }
+    
+    .mui-pull-top-canvas canvas {
+        width: 40px;
+    }
+    
+    .mui-slider-indicator.mui-segmented-control {
+        background-color: #efeff4;
+    }
     </style>
 </head>
+
 <body>
-	<div class="mui-content">
+    <div class="mui-content">
         <div id="slider" class="mui-slider mui-fullscreen">
             <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-                <a class="mui-control-item mui-active" href="#item1mobile">
+                <a class="mui-control-item mui-active">
                     全部
                 </a>
-                <a class="mui-control-item" href="#item2mobile">
+                <a class="mui-control-item">
                     待下单
                 </a>
-                <a class="mui-control-item" href="#item3mobile">
+                <a class="mui-control-item">
                     待发货
                 </a>
-                <a class="mui-control-item" href="#item4mobile">
+                <a class="mui-control-item">
                     待收货
                 </a>
-                <a class="mui-control-item" href="#item5mobile">
+                <a class="mui-control-item">
                     已完成
                 </a>
             </div>
-           <div class="mui-slider-group">
+            <div class="mui-slider-group">
                 <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
                     <div id="scroll1" class="mui-scroll-wrapper">
                         <div class="mui-scroll">
@@ -216,7 +229,6 @@
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
                             <ul class="mui-table-view">
-                                
                             </ul>
                         </div>
                     </div>
@@ -225,7 +237,6 @@
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
                             <ul class="mui-table-view">
-                                
                             </ul>
                         </div>
                     </div>
@@ -234,84 +245,75 @@
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
                             <ul class="mui-table-view">
-                                
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-	</div>
-<script>
-mui.init();
-$(".mui-content").on('click','[data-cancelOrderButton]',function(){
-    var $this = $(this);
-    mui.confirm("确定取消订单吗？", " ", ["<span class='textColor'>确定</span>", "不"],function(data){
-        if(!data.index){
-            $this.closest(".order-table-view").remove();
-        }
-    });
-});
-//阻尼系数
-var deceleration = mui.os.ios?0.003:0.0009;
-mui('.mui-scroll-wrapper').scroll({
-    bounce: false,
-    indicators: true, //是否显示滚动条
-    deceleration:deceleration
-});
-mui.ready(function() {
-    //循环初始化所有下拉刷新，上拉加载。
-    mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
-        mui(pullRefreshEl).pullToRefresh({
-            down: {
-                callback: function() {
-                    var self = this;
-                    setTimeout(function() {
-                        var ul = self.element.querySelector('.mui-table-view');
-                        ul.insertBefore(createFragment(ul, index, 10, true), ul.firstChild);
-                        self.endPullDownToRefresh();
-                    }, 1000);
-                }
-            },
-            up: {
-                callback: function() {
-                    var self = this;
-                    setTimeout(function() {
-                        var ul = self.element.querySelector('.mui-table-view');
-                        ul.appendChild(createFragment(ul, index, 5));
-                        self.endPullUpToRefresh();
-                    }, 1000);
-                }
+    </div>
+    <script>
+    mui.init();
+    $(".mui-content").on('click', '[data-cancelOrderButton]', function() {
+        var $this = $(this);
+        mui.confirm("确定取消订单吗？", " ", ["<span class='textColor'>确定</span>", "不"], function(data) {
+            if (!data.index) {
+                $this.closest(".order-table-view").remove();
             }
         });
     });
-    var createFragment = function(ul, index, count, reverse) {
-        var length = ul.querySelectorAll('li').length;
-        var fragment = document.createDocumentFragment();
-        var li;
-        for (var i = 0; i < count; i++) {
-            li = document.createElement('li');
-            li.className = 'mui-table-view-cell';
-            li.innerHTML = '第' + (index + 1) + '个选项卡子项-' + (length + (reverse ? (count - i) : (i + 1)));
-            fragment.appendChild(li);
+    //阻尼系数
+    var deceleration = mui.os.ios ? 0.003 : 0.0009;
+    mui('.mui-scroll-wrapper').scroll({
+        bounce: false,
+        indicators: true, //是否显示滚动条
+        deceleration: deceleration
+    });
+    mui.ready(function() {
+        //循环初始化所有下拉刷新，上拉加载。
+        mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+            mui(pullRefreshEl).pullToRefresh({
+                down: {
+                    callback: function() {
+                        var self = this;
+                        setTimeout(function() {
+                            self.endPullDownToRefresh();
+                        }, 1000);
+                    }
+                },
+                up: {
+                    callback: function() {
+                        var self = this;
+                        setTimeout(function() {
+                            self.endPullUpToRefresh();
+                        }, 1000);
+                    }
+                }
+            });
+        });
+    });
+    var vm = new Vue({
+        el: "body",
+        data: {
+            orders: [],
+            page: 1,
+            orderStatus: 100
+        },
+        computed: {},
+        methods: {},
+        created: function() {
+            var self = this;
+            var id = localStorage.getItem("id");
+            $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
+                console.log(data);
+                self.$data.orders = data
+            });
+        },
+        ready: function() {
+
         }
-        return fragment;
-    };
-});
-</script>
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
