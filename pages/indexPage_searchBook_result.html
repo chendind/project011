@@ -96,7 +96,6 @@ if(!params){
 else{
     $("#searchCityInput").val(params.keyword);
     checkInputValueAndShowBlock(params.keyword);
-    searchBooksByKeyWord(params.keyword, currentCityId, 1);
 }
 var pageCount = 1;
 $("#searchCityInput").on('keyup',function(e){
@@ -191,7 +190,7 @@ function pullupRefresh() {
     //         table.appendChild(li);
     //     }
     // }, 1500);
-console.log(pageCount);
+    console.log(pageCount);
     searchBooksByKeyWord(params.keyword, currentCityId, pageCount);
 }
 </script>
