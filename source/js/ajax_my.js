@@ -171,3 +171,16 @@ function getOrderList(page,status) {
     });
     return ajax;
 }
+// 获取零钱和积分
+function getScore() {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profiles/infos",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}

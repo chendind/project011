@@ -7,7 +7,8 @@ body .shop_logbox {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   width: 150px;
   text-align: center;
@@ -31,3 +32,4 @@ body .shop_logbox .btn {
   font-size: 15px;
   color: #fff;
 }
+/*# sourceMappingURL=shoppingcar_login.css.map */

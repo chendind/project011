@@ -12,19 +12,22 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 .verticalCenter {
   position: absolute;
   top: 50%;
-  transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+      transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
 }
 .horizontalCenter {
   position: absolute;
   left: 50%;
-  transform: translate(-50%, 0);
+  -ms-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
 }
 .ellipsis {
@@ -41,6 +44,9 @@ body {
   color: #555;
   background-color: #eee;
   font-size: 15px;
+}
+[v-cloak] {
+  display: none;
 }
 .blueColor {
   color: #016df1 !important;
@@ -182,3 +188,4 @@ body {
 .mui-table-view-cell > .mui-slider-handle .mui-navigate-right:after {
   right: 15px;
 }
+/*# sourceMappingURL=public.css.map */
