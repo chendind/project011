@@ -57,7 +57,7 @@ function deleteOneAddress(id) {
 // 获取学校
 function getSchoolList() {
     var ajax = $.ajax({
-        url: baseUrl + "/schools/"+currentCityId,
+        url: baseUrl + "/schools/" + currentCityId,
         type: "GET",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -71,7 +71,7 @@ function getSchoolList() {
 //获取宿舍
 function getDormList(id) {
     var ajax = $.ajax({
-        url: baseUrl + "/schools/"+id+"/dorms",
+        url: baseUrl + "/schools/" + id + "/dorms",
         type: "GET",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -87,7 +87,7 @@ function addAddress(data) {
     var ajax = $.ajax({
         url: baseUrl + "/users/addresses",
         type: "POST",
-        data:data,
+        data: data,
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
@@ -101,7 +101,7 @@ function addAddress(data) {
 function editSex(sex) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profile",
-        data:{"type":3,"sex":sex},
+        data: { "type": 3, "sex": sex },
         type: "PUT",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -116,7 +116,7 @@ function editSex(sex) {
 function editUsername(name) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profile",
-        data:{"type":2,"username":name},
+        data: { "type": 2, "username": name },
         type: "PUT",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -127,10 +127,10 @@ function editUsername(name) {
     return ajax;
 }
 // 修改手机号
-function editPhoneNum(phone,verfityCode) {
+function editPhoneNum(phone, verfityCode) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profile",
-        data:{"type":5,"phone":phone,"verfityCode":verfityCode},
+        data: { "type": 5, "phone": phone, "verfityCode": verfityCode },
         type: "PUT",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -142,11 +142,11 @@ function editPhoneNum(phone,verfityCode) {
     return ajax;
 }
 // 浏览历史
-function getHistory(page,pageSize) {
+function getHistory(page, pageSize) {
     var ajax = $.ajax({
         url: baseUrl + "/histories",
         type: "POST",
-        data:{"page":page,"pageSize":pageSize},
+        data: { "page": page, "pageSize": pageSize },
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
@@ -157,11 +157,11 @@ function getHistory(page,pageSize) {
     return ajax;
 }
 // 订单列表
-function getOrderList(page,status) {
+function getOrderList(page, status) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/list",
         type: "POST",
-        data:{"page":page,"orderStatus":status},
+        data: { "page": page, "orderStatus": status },
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
@@ -175,6 +175,21 @@ function getOrderList(page,status) {
 function getScore() {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/infos",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 积分兑换零钱
+function scoreExchange(score) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profiles/scores/exchange",
+        type: "POST",
+        data: {"score": score},
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
