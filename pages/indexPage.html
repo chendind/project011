@@ -76,25 +76,25 @@
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_qianggou_icon.png" alt="">
                     </span>
-                    <span class="mui-tab-label">待下单</span>
+                    <span class="mui-tab-label">抢购</span>
                 </a>
                 <a>
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_jiaru_icon.png" alt="">
                     </span>
-                    <span class="mui-tab-label">待发货</span>
+                    <span class="mui-tab-label">加入</span>
                 </a>
                 <a>
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_juanshu_icon.png" alt="">
                     </span>
-                    <span class="mui-tab-label">待收货</span>
+                    <span class="mui-tab-label">捐书</span>
                 </a>
                 <a>
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_shuku_icon.png" alt="">
                     </span>
-                    <span class="mui-tab-label">已完成</span>
+                    <span class="mui-tab-label">书库</span>
                 </a>
             </nav>
         </div>
@@ -109,7 +109,7 @@
                         </td>
                         <td class="user-right-td" style="border-bottom:1px solid #f2f2f2;">
                             <a id="hotItemBox" class="full" data-href="indexPage_textbookList.html">
-                                <img class="user-right-placeholder" src="" alt="">
+                                <img class="user-right-placeholder" src="../source/images/oval-6-copy-4.png" alt="">
                                 <div class="user-right-line">
                                     <p style="color:#b1d5ff;">热门教材</p>
                                     <p style="color:#999;">???????</p>
@@ -120,7 +120,7 @@
                     <tr>
                         <td class="user-right-td">
                             <a id="newItemBox" class="full" data-href="indexPage_textbookList.html">
-                                <img class="user-right-placeholder" src="" alt="">
+                                <img class="user-right-placeholder" src="../source/images/oval-6-copy-5.png" alt="">
                                 <div class="user-right-line">
                                     <p style="color:#ffd693;">最新教材</p>
                                     <p style="color:#999;">???????</p>
@@ -203,9 +203,9 @@ $.when(getBannersByCityId(cityId)).done(function(data){
         $("#recommendItemBox").attr("data-href", recommendItem.url)
             .find(">img").attr("src", recommendItem.path);
         var hotItemBox = data.recommendLists[0];
-        $("#hotItemBox").attr("data-href", hotItemBox.id).find(">img").attr("src", hotItemBox.path);
+        // $("#hotItemBox").attr("data-href", hotItemBox.id).find(">img").attr("src", hotItemBox.path);
         var newItemBox = data.recommendLists[1];
-        $("#newItemBox").attr("data-href", newItemBox.id).find(">img").attr("src", newItemBox.path);
+        // $("#newItemBox").attr("data-href", newItemBox.id).find(">img").attr("src", newItemBox.path);
     }
 });
 $.when(getRecommends(cityId)).done(function(data){
@@ -268,6 +268,7 @@ function createBook(id,path,title,colNumber){
     var _colNumber = colNumber?colNumber:"3";
     var params = {};
     params.bookId = id;
+    console.log(params);
     var html = '<li class="mui-table-view-cell mui-media mui-col-sm-'+_colNumber+' mui-col-xs-'+_colNumber+'">'+
                 '<a data-href="indexPage_textbook.html?'+encodeObj(params)+'">'+
                     '<div class="textbook_cover">'+

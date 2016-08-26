@@ -189,7 +189,7 @@ function scoreExchange(score) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/scores/exchange",
         type: "POST",
-        data: {"score": score},
+        data: { "score": score },
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
@@ -202,7 +202,7 @@ function scoreExchange(score) {
 //积分记录列表
 function scoreList(page) {
     var ajax = $.ajax({
-        url: baseUrl + "/users/profiles/scores/records/"+page,
+        url: baseUrl + "/users/profiles/scores/records/" + page,
         type: "GET",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -216,8 +216,81 @@ function scoreList(page) {
 // 零钱记录列表
 function moneyRecordList(page) {
     var ajax = $.ajax({
-        url: baseUrl + "/users/profiles/moneys/records/"+page,
+        url: baseUrl + "/users/profiles/moneys/records/" + page,
         type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 零钱记录详细
+function moneyRecordDetail(id) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/profiles/moneys/records/jump/" + id,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 书本详情
+function bookDetail(id) {
+    var ajax = $.ajax({
+        url: baseUrl + "/books/" + id,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 购物车列表
+function cartList() {
+    var ajax = $.ajax({
+        url: baseUrl + "/shopping_carts",
+        type: "POST",
+        data: { "page": "1", "pageSize": "1000" },
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 增加到购物车
+function addToCart(id) {
+    var ajax = $.ajax({
+        url: baseUrl + "/shopping_cart",
+        type: "POST",
+        data: { "relationId": id, "type": "0", "num": "1", "featureId": "0", "cityId": currentCityId },
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 删除到购物车
+function deleteFromCart(id) {
+    var ajax = $.ajax({
+        url: baseUrl + "/shopping_carts/"+id,
+        type: "DELETE",
+        data: { "relationId": id, "type": "0", "num": "1", "featureId": "0", "cityId": currentCityId },
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,

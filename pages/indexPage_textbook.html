@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,25 +13,33 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body style="background-color: #fff;">
     <nav class="mui-bar mui-bar-tab good-mui-bar-tab">
-        <a id="savePhoneButton">
+        <a id="savePhoneButton" @click="addToCart">
             加入购物车
         </a>
         <a id="savePhoneButton">
             免费领取
         </a>
     </nav>
-	<div class="mui-content" style="background-color: #fff;">
+    <div class="mui-content" style="background-color: #fff;">
         <div class="textBookBox innerCenter" style="padding: 25px 0 20px;background-color: #efefef;">
-            <img style="width: 150px;" src="../source/images/rect.jpg" />
+            <img style="width: 150px;" :src="detail.path" />
             <div style="width: 50%;margin: 20px auto;">
-                <h4>毛泽东思想和中国特色社会主义理论体系概论</h4>
+                <h4>{{detail.title}}</h4>
             </div>
             <div>
-                <p>作者：毛泽东<br />出版社：中信出版社<br />
-                    <span style="text-decoration:line-through;">市场价：¥68.00</span>
+                <p>
+                    作者：
+                    <span v-for="person in detail.author">{{person}} </span>
+                    <br />出版社：{{detail.publisher}}
+                    <br />
+                    <span style="text-decoration:line-through;">市场价：{{detail.marketPrice}}</span>
                 </p>
             </div>
         </div>
@@ -40,7 +49,7 @@
             </div>
             <div style="padding: 15px 0 20px;">
                 <p style="line-height: 2;text-align: justify;">
-                    史蒂夫·乔布斯是一位极具创造力的企业家，史蒂夫·乔布斯有如过山车般精彩的人生和犀利激越的性格，充满追求完美和誓不罢休的激情，史蒂夫·乔布斯创造出个人电脑、动画电影、音乐、手机、平板电脑以及数字出版等6大产业的颠覆性变革。史蒂夫·乔布斯的个性经常让周围的人愤怒和绝望，但其所创造出的产品也与这种个性息息相关，全然不可分割的，正如苹果的硬件和软件一样。
+                    {{detail.intro}}
                 </p>
             </div>
         </div>
@@ -48,22 +57,76 @@
     <div class="fixedCartButton">
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </div>
-<script>
-mui.init();
-</script>
+    <script>
+    mui.init();
+    var vm = new Vue({
+        el: "body",
+        data: {
+            detail: [],
+            cartList: [],
+            page: 1
+        },
+        computed: {},
+        methods: {
+            noExisted: function() {
+                if (this.cartList.indexOf(this.detail.id) !== -1) {
+                    mui.toast("请勿重复添加");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            addToCart: function() {
+                var self = this;
+                if (self.noExisted()) {
+                    $.when(addToCart(self.detail.id)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("添加成功");
+                        }
+                        $.when(cartList()).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                if (data.data.carts) {
+                                    for (var i = 0; i < data.data.carts.length; i++) {
+                                        self.cartList.push(data.data.carts[i].id)
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+            }
+        },
+        created: function() {
+            var self = this;
+            var params = decodeURI(window.location.search).slice(1);
+            params = JSON.parse(params);
+            console.log(params);
+
+            $.when(bookDetail(params.bookId)).done(function(data) {
+                console.log(data);
+                if (data.resultCode == 200) {
+                    self.detail = data.data.book;
+                    self.detail.author = self.detail.author.slice(2, -2).split("，");
+                    console.log(self.detail.author);
+                }
+            });
+            $.when(cartList()).done(function(data) {
+                console.log(data);
+                if (data.resultCode == 200) {
+                    if (data.data.carts) {
+                        for (var i = 0; i < data.data.carts.length; i++) {
+                            self.cartList.push(data.data.carts[i].id)
+                        }
+                    }
+                }
+            });
+        },
+        ready: function() {
+
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
