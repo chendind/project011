@@ -53,43 +53,49 @@
     </nav>
     <div class="mui-content mui-fullscreen">
         <div style="position:relative;height: 100%;">
-            <ul class="mui-table-view">
-                <li class="mui-table-view-cell mui-media" v-for="record in cartList">
-                    <div class="mui-slider-right mui-discabled">
-                        <a class="mui-btn mui-btn-red" style="transform: translate(0px, 0px);" @click="deleteItem(record.id)">删除</a>
+            <div class="mui-slider-group">
+                <div class="mui-scroll-wrapper">
+                    <div class="mui-scroll">
+                        <ul class="mui-table-view">
+                            <li class="mui-table-view-cell mui-media" v-for="record in cartList">
+                                <div class="mui-slider-right mui-discabled">
+                                    <a class="mui-btn mui-btn-red" style="transform: translate(0px, 0px);" @click="deleteItem(record.id,record,$index)">删除</a>
+                                </div>
+                                <div class="mui-slider-handle" style="height:80px;transform: translate(0px, 0px);">
+                                    <div class="mui-input-row mui-checkbox mui-left">
+                                        <label></label>
+                                        <input name="checkbox1" :true-value="record.relationId" :false-value="false" type="checkbox" v-model="recordState[$index]">
+                                    </div>
+                                    <div class="cost">
+                                        ¥ 0.00
+                                    </div>
+                                    <div class="number">
+                                        x1
+                                    </div>
+                                    <div class="mui-numbox" data-numbox-min="1">
+                                        <!-- "-"按钮，点击可减小当前数值 -->
+                                        <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+                                        <input class="mui-numbox-input" type="number" />
+                                        <!-- "+"按钮，点击可增大当前数值 -->
+                                        <button class="mui-btn mui-numbox-btn-plus" type="button"><span class="mui-icon mui-icon-plusempty" style="color:#fff;position:absolute;top:1px;left:1px;"></span></button>
+                                    </div>
+                                    <div class="finish">
+                                        | 完成
+                                    </div>
+                                    <div class="cont">
+                                        <img class="mui-media-object mui-pull-left" :src="record.path">
+                                        <div class="mui-media-body">
+                                            <p class='mui-ellipsis name'>{{record.title}}</p>
+                                            <p class='mui-ellipsis detail'>作者：{{record.author}}</p>
+                                            <p class='mui-ellipsis detail'>出版社：{{record.publisher}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="mui-slider-handle" style="height:80px;transform: translate(0px, 0px);">
-                        <div class="mui-input-row mui-checkbox mui-left">
-                            <label></label>
-                            <input name="checkbox1" :true-value="record.id" :false-value="false" type="checkbox" v-model="recordState[$index]">
-                        </div>
-                        <div class="cost">
-                            ¥ 0.00
-                        </div>
-                        <div class="number">
-                            x1
-                        </div>
-                        <div class="mui-numbox" data-numbox-min="1">
-                            <!-- "-"按钮，点击可减小当前数值 -->
-                            <button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
-                            <input class="mui-numbox-input" type="number" />
-                            <!-- "+"按钮，点击可增大当前数值 -->
-                            <button class="mui-btn mui-numbox-btn-plus" type="button"><span class="mui-icon mui-icon-plusempty" style="color:#fff;position:absolute;top:1px;left:1px;"></span></button>
-                        </div>
-                        <div class="finish">
-                            | 完成
-                        </div>
-                        <div class="cont">
-                            <img class="mui-media-object mui-pull-left" :src="record.path">
-                            <div class="mui-media-body">
-                                <p class='mui-ellipsis name'>{{record.title}}</p>
-                                <p class='mui-ellipsis detail'>作者：{{record.author}}</p>
-                                <p class='mui-ellipsis detail'>出版社：{{record.publisher}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                </div>
+            </div>
             <div class="pay">
                 <div class="mui-input-row mui-checkbox mui-left mui-pull-left">
                     <label style="padding-left:35px;padding-right:0px;">
@@ -137,6 +143,13 @@
         $(this).prev().toggle();
         $(this).prevAll(".edit").toggle();
     });
+    //阻尼系数
+    var deceleration = mui.os.ios ? 0.003 : 0.0009;
+    mui('.mui-scroll-wrapper').scroll({
+        bounce: false,
+        indicators: true, //是否显示滚动条
+        deceleration: deceleration
+    });
     mui.init();
     var vm = new Vue({
         el: "body",
@@ -144,28 +157,30 @@
             cartList: [],
             recordState: [],
             allState: true,
-            
+
         },
         computed: {
-            choseList: function(){
+            choseList: function() {
                 return this.recordState.filter(function(index) {
-                    return index!==false
+                    return index !== false
                 });
             },
-            totalMoney:function(){
-                if (this.choseList.length==0) {
+            totalMoney: function() {
+                if (this.choseList.length == 0) {
                     return "¥0.00"
-                }else if(this.choseList.length>3){
+                } else if (this.choseList.length > 3) {
                     return "¥12.00"
-                }else{
+                } else {
                     return "¥6.00"
                 }
             },
         },
-        watch:{
-            "cartList.length-choseList.length":function(val,oldVal){
-                if (val==0) {
-                    expression
+        watch: {
+            "cartList.length-choseList.length": function(val, oldVal) {
+                if (val == 0) {
+                    this.allState = true;
+                } else {
+                    this.allState = false;
                 }
             }
         },
@@ -174,7 +189,7 @@
                 var self = this;
                 if (self.allState == false) {
                     for (var i = 0; i < self.cartList.length; i++) {
-                        vm.recordState.$set(i, self.cartList[i].id);
+                        vm.recordState.$set(i, self.cartList[i].relationId);
                     }
                 } else {
                     for (var i = 0; i < self.cartList.length; i++) {
@@ -182,9 +197,14 @@
                     }
                 }
             },
-            deleteItem:function(){
-                var self=this;
-
+            deleteItem: function(id,record,index) {
+                var self = this;
+                $.when(deleteFromCart(id)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.cartList.$remove(record);
+                        self.recordState.splice(index,1);
+                    }
+                });
             }
         },
         created: function() {
@@ -195,7 +215,7 @@
                     if (data.data.carts) {
                         self.cartList = data.data.carts;
                         for (var i = 0; i < self.cartList.length; i++) {
-                            vm.recordState.$set(i, self.cartList[i].id);
+                            vm.recordState.$set(i, self.cartList[i].relationId);
                         }
                     }
                 }

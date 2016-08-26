@@ -116,7 +116,7 @@
                 if (data.resultCode == 200) {
                     if (data.data.carts) {
                         for (var i = 0; i < data.data.carts.length; i++) {
-                            self.cartList.push(data.data.carts[i].id)
+                            self.cartList.push(data.data.carts[i].relationId)
                         }
                     }
                 }
