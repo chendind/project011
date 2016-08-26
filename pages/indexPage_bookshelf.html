@@ -43,17 +43,11 @@
 	<div class="mui-content mui-row mui-fullscreen" style="background-color: #fff;padding-top: 60px;">
 		<div class="mui-col-xs-3">
 			<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
-				<a href="#content1" class="mui-control-item mui-active">大学教材</a>
-				<a href="#content2" class="mui-control-item">兴趣爱好</a>
-				<a href="#content3" class="mui-control-item">社科相关</a>
-				<a href="#content4" class="mui-control-item">理科相关</a>
-				<a href="#content5" class="mui-control-item">工科相关</a>
-				<a href="#content6" class="mui-control-item">文科相关</a>
-				<a href="#content7" class="mui-control-item">综合其他</a>
+				
 			</div>
 		</div>
 		<div id="segmentedControlContents" class="mui-col-xs-9">
-			<div id="content1" class="mui-control-content mui-active">
+			<!-- <div id="content1" class="mui-control-content mui-active">
 				<div style="padding: 0 14px;">
 					<img style="width: 100%;display: block;" src="../source/images/pic.jpg" />
 				</div>
@@ -174,16 +168,75 @@
 			</div>
 			<div id="content7" class="mui-control-content">
 				7
-			</div>
+			</div> -->
 		</div>
 	</div>
 <script>
 mui.init();
+var deferred = $.Deferred();
 $.when(getCategoryByCityId(currentCityId)).done(function(data){
 	if(data.resultCode == 200){
-
+		var categories = data.data.categories;
+		var html = "";
+		var contentHtml = "";
+		for(var i = 0, length = categories.length; i<length ;i++){
+			var _category = categories[i];
+			html += '<a href="#content'+i+'" class="mui-control-item'+(i?'':' mui-active')+'" data-id="'+_category.id+'" data-index="'+i+'">'+_category.name+'</a>';
+			contentHtml += '<div id="content'+i+'" class="mui-control-content'+(i?'':' mui-active')+'"></div>';
+		}
+		$("#segmentedControls").append(html);
+		$("#segmentedControlContents").append(contentHtml);
+		deferred.resolve();
 	}
 });
+$.when(deferred).done(function(data){
+	var parentId = $("#segmentedControls .mui-control-item.mui-active").attr("data-id");
+	var parentIndex = $("#segmentedControls .mui-control-item.mui-active").attr("data-index");
+	insertChildrenHtml(parentId,parentIndex);
+});
+$("#segmentedControls").on('tap','.mui-control-item',function(){
+	if(!$(this).hasClass("beenLoad")){
+		var parentId = $(this).attr("data-id");
+		var parentIndex = $(this).attr("data-index");
+		insertChildrenHtml(parentId,parentIndex);
+	}
+});
+function insertChildrenHtml(parentId,parentIndex){
+	$.when(getCategoryChildrenByParentId(parentId)).done(function(data){
+		if(data.resultCode == 200){
+			$("#segmentedControls .mui-control-item").eq(parentIndex).addClass("beenLoad");
+			var subHtml = "";
+			if(data.data.categories){
+				for(var j = 0, subLen = data.data.categories.length; j < subLen; j++){
+					var category = data.data.categories[j];
+					subHtml += '<h5  style="padding: 0 14px;margin-bottom: 0;margin-top: 10px;">'+category.name+'</h5>';
+					subHtml += '<ul class="mui-table-view mui-grid-view" data-id="'+category.id+'">';
+					subHtml += getBooksHtml(category.subCates);
+					subHtml += '</ul>';
+				}
+			}
+			$("#content"+parentIndex).append(subHtml);
+		}
+	});
+}
+
+function getBooksHtml(subCates){
+	var html = "";
+	for(var o = 0, length = subCates.length; o < length; o++){
+		var subCate = subCates[o];
+		html += '<li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">'+
+	                '<a data-href="indexPage_textbook.html'+subCate.id+'">'+
+	                    '<div class="textbook_cover">'+
+	                        '<img src="'+subCate.path+'" alt="">'+
+	                    '</div>'+
+	                    '<div class="mui-tab-label user-book-label">'+
+	                        subCate.name+
+	                    '</div>'+
+	                '</a>'+
+	            '</li>';
+	}
+	return html;
+}
 </script>
 </body>
 </html>

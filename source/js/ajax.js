@@ -33,6 +33,12 @@ function getAjaxHeader(){
 	}
 	return header;
 }
+function dataFilter(data,dataType){
+	if(typeof data == "string"){
+		data = JSON.parse(data);
+	}
+	return data;
+}
 // 获得验证码
 function getVerifyCode(phone){
 	var ajax = $.ajax({
@@ -217,6 +223,7 @@ function getCategoryChildrenByParentId(parentId){
 		headers: getAjaxHeader(),
 		beforeSend: ajaxDataHandle,
 		contentType: contentType,
+		dataFilter: dataFilter,
 		success: successHandle,
 		error: errorHandle
 	});
