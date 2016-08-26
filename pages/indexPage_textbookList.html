@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../source/css/index.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/ajax.js"></script>
     <script src="../source/js/public.js"></script>
 </head>
 <body>
@@ -60,9 +61,35 @@
     </div>
 <script>
 mui.init();
+var params = getQueryData();
+if(!params){
+    mui.alert("查询参数错误","",["确定"],function(){
+        mui.back();
+    });
+}
+else{
+    if(params.subCateId){
+    	var subCateId = params.subCateId;
+    	$.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data){
+    		if(data.resultCode == 200){
+    			console.log(data);
+    		}
+    	});
+    }
+}
 $(".smallCartIcon").on('tap',function(e){
 	mui.toast("添加成功");
 })
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

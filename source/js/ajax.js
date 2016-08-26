@@ -230,13 +230,21 @@ function getCategoryChildrenByParentId(parentId){
 	return ajax;
 }
 // 根据分类id获取书籍列表
-function getBooksByCategoryId(categoryId){
+function getBooksByCategoryId(categoryId, cityId, sort, page, pageSize){
+	pageSize = pageSize?pageSize:"10";
 	var ajax = $.ajax({
 		url: baseUrl + "/categories/"+categoryId+"/books",
 		type: "POST",
+		data:{
+			"cityId":cityId,
+			"sort":sort,
+			"page":page,
+			"pageSize":pageSize
+		},
 		headers: getAjaxHeader(),
 		beforeSend: ajaxDataHandle,
 		contentType: contentType,
+		dataFilter: dataFilter,
 		success: successHandle,
 		error: errorHandle
 	});

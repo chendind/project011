@@ -260,7 +260,7 @@ $("#searchBookInput").on('keydown',function(e){
         params.keyword = value;
         window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
     }
-})
+});
 function createBook(id,path,title,colNumber){
     var _colNumber = colNumber?colNumber:"3";
     var params = {};

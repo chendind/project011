@@ -37,7 +37,7 @@
 <body>
 	<div style="padding: 10px 15px 0;position: fixed;top: 0;left:0;z-index:1;width: 100%;">
 		<div class="mui-input-row mui-search">
-			<input type="search" class="mui-input-clear" placeholder="在此搜索您需要的教材">
+			<input id="searchBookInput" type="search" class="mui-input-clear" placeholder="在此搜索您需要的教材">
 		</div>
 	</div>
 	<div class="mui-content mui-row mui-fullscreen" style="background-color: #fff;padding-top: 60px;">
@@ -47,131 +47,17 @@
 			</div>
 		</div>
 		<div id="segmentedControlContents" class="mui-col-xs-9">
-			<!-- <div id="content1" class="mui-control-content mui-active">
-				<div style="padding: 0 14px;">
-					<img style="width: 100%;display: block;" src="../source/images/pic.jpg" />
-				</div>
-				<h5  style="padding: 0 14px;margin-bottom: 0;margin-top: 10px;">毛概马哲</h5>
-				<ul class="mui-table-view mui-grid-view">
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		        </ul>
-		        <h5  style="padding: 0 14px;margin-bottom: 0;margin-top: 10px;">毛概马哲</h5>
-				<ul class="mui-table-view mui-grid-view">
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		        </ul>
-		        <h5  style="padding: 0 14px;margin-bottom: 0;margin-top: 10px;">毛概马哲</h5>
-				<ul class="mui-table-view mui-grid-view">
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		            <li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">
-		                <a data-href="indexPage_textbook.html">
-		                    <div class="textbook_cover">
-		                        <img class="" src="../source/images/rect.jpg" alt="">
-		                    </div>
-		                    <div class="mui-tab-label user-book-label">
-		                        马克思主义毛泽东思想
-		                    </div>
-		                </a>
-		            </li>
-		        </ul>
-			</div>
-			<div id="content2" class="mui-control-content">
-				2
-			</div>
-			<div id="content3" class="mui-control-content">
-				3
-			</div>
-			<div id="content4" class="mui-control-content">
-				4
-			</div>
-			<div id="content5" class="mui-control-content">
-				5
-			</div>
-			<div id="content6" class="mui-control-content">
-				6
-			</div>
-			<div id="content7" class="mui-control-content">
-				7
-			</div> -->
 		</div>
 	</div>
 <script>
+$("#searchBookInput").on('keydown',function(e){
+    if(e.keyCode == 13){
+        var value = $(this).val();
+        var params = {};
+        params.keyword = value;
+        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+    }
+});
 mui.init();
 var deferred = $.Deferred();
 $.when(getCategoryByCityId(currentCityId)).done(function(data){
@@ -225,7 +111,7 @@ function getBooksHtml(subCates){
 	for(var o = 0, length = subCates.length; o < length; o++){
 		var subCate = subCates[o];
 		html += '<li class="mui-table-view-cell mui-media mui-col-sm-4 mui-col-xs-4">'+
-	                '<a data-href="indexPage_textbook.html'+subCate.id+'">'+
+	                '<a data-href="indexPage_textbookList.html?'+encodeObj({"subCateId":subCate.id})+'">'+
 	                    '<div class="textbook_cover">'+
 	                        '<img src="'+subCate.path+'" alt="">'+
 	                    '</div>'+
