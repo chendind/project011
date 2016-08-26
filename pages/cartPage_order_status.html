@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body>
+  <!-- nav根据情况进行出现和隐藏 -->
+  <nav class="mui-bar mui-bar-tab">
+      <a id="applyRefundButton" class="linkColor">
+          申请退款
+      </a>
+      <div class="pay" style="display:none;">
+          <div class="amount" style="line-height:50px;padding-left: 15px;">
+              <span class="greyColor">需支付：</span><span class="blueColor">¥20.00</span>
+          </div>
+          <div class="sure greenBg">
+              微信支付
+          </div>
+      </div>
+  </nav>
+	<div class="mui-content">
+       <div class="statusBar">
+           <div class="innerCenter" style="background-color:#56be4b;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">您的订单已完成</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ffa43e;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.33;color: #ffffff;">请于09分59秒内付款<br />超时订单将自动取消</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ffa43e;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">您的包裹待发货</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ffa43e;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">您的包裹正在运输途中</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ffa43e;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">售后处理中</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ccc;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">交易关闭（超时付款）</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ccc;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">交易关闭（已退款）</div>
+           </div>
+           <div class="innerCenter" style="background-color:#ccc;padding-top: 11px;padding-bottom: 10px;">
+               <div style="font-size: 15px;line-height: 1.47;color: #ffffff;">交易关闭（手动关闭）</div>
+           </div>
+       </div>
+       <ul class="mui-table-view mui-table-view-chevron" style="margin-bottom: 10px;">
+            <li class="mui-table-view-cell mui-media">
+                <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo.html">
+                    <img class="mui-media-object mui-pull-left" src="../source/webslice/3.2_3.5placeorder&pay/logistics_icon.png" style="width: 22px;height: 20px;margin-top: 18px;margin-right: 20px;margin-left: 10px;">
+                    <div class="mui-media-body" style="font-size: 12px;">
+                        快件在<浙江省杭州市萧山中部公司>已签收<br />签收人：理工代理点北校区 7号楼 XXX
+                        <p class='mui-ellipsis' style="font-size: 12px;">2016-06-03 08:24:23</p>
+                    </div>
+                    <span class="mui-tip"></span>
+                </a>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                  <img class="mui-media-object mui-pull-left" src="../source/webslice/3.2_3.5placeorder&pay/address_gray.png" style="width: 21px;height: 23px;margin-top: 10px;margin-right: 20px;margin-left: 10px;">
+                  <div class="mui-media-body">
+                      王晶洞<span style="margin-left: 10px;">155567844535</span>
+                      <p class='mui-ellipsis'>杭州科技大学学文苑寝室楼A603</p>
+                  </div>
+                  <span class="mui-tip"></span>
+            </li>
+        </ul>
+        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
+            <li class="mui-table-view-cell">
+                <img class="mui-media-object mui-pull-left icon-img" src="../source/images/rect.jpg">
+                云书教材
+            </li>
+            <li class="mui-table-view-cell">
+                <a data-href="indexPage_textbook.html">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-3">
+                            <img style="width: 80%;" src="../source/images/rect.jpg" />
+                        </div>
+                        <div class="mui-table-cell mui-col-xs-9">
+                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
+                            <h6>申请人：李四</h6>
+                            <h6>出版社：浙江教育出版社</h6>
+                            <span class="mui-h4 linkColor">¥0.00</span>
+                            <span class="mui-h4 mui-pull-right">×1</span>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                运费
+                <span class="mui-tip" style="font-size: 14px;color: #666;">¥ <span>6.00</span></span>
+            </li>
+            <li class="mui-table-view-cell">
+                共2件合计（含运费）：
+                <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>6.00</span></span>
+            </li>
+        </ul>
+        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
+          <li class="mui-table-view-cell">
+                订单金额
+                <span class="mui-tip" style="font-size: 14px;color: #666;">¥ <span>38.00</span></span>
+            </li>
+            <li class="mui-table-view-cell">
+                实付金额
+                <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>4.00</span></span>
+            </li>
+        </ul>
+        <div style="padding: 16px;line-height: 1;background-color: #fff;margin-bottom: 10px;">
+            <div style="">
+                <p>订单号：15746966558360694</p>
+                <p>创建时间：2016-06-28 23:39:41</p>
+                <p>付款时间：2016-06-28 23:44:34</p>
+                <p>&nbsp;</p>
+                <p>订单备注：包装得好一点，谢谢</p>
+            </div>
+        </div>
+	</div>
+    
+<script>
+mui.init();
+$("#applyRefundButton").on('tap',function(){
+    mui.confirm("确定申请退款吗？"," ",["<span class='textColor'>确定</span>", "取消"],function(data) {
+        if (!data.index) {
+            // 点击了确定 data.index将等于 -1
+            mui.toast("申请成功，我们将尽快为您处理");
+        }
+    })
+})
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

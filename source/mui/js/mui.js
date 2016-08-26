@@ -7141,7 +7141,12 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 			}
 		};
 		var handleEvent = function(e) {
-			popup.close(btns.indexOf(e.target));
+			var _i = btns.indexOf(e.target);
+			var _t = e.target;
+			if(_i == -1){
+				_t = e.target.parentNode;
+			}
+			popup.close(btns.indexOf(_t));
 		};
 		$(popupElement).on('tap', '.' + CLASS_POPUP_BUTTON, handleEvent);
 		if (popupStack.length) {
