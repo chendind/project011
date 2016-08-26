@@ -17,44 +17,10 @@
 </head>
 <body>
 	<div class="mui-content">
-		<div class="index-bg-header"></div>
-		<ul class="mui-table-view" style="margin-top: 10px;">
-	        <li class="mui-table-view-cell">
-	        	<a href="indexPage_textbook.html">
-	        		<div class="mui-table">
-		            	<div class="mui-table-cell mui-col-xs-3">
-		                    <img style="width: 80%;" src="../source/images/rect.jpg" />
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9">
-		                    <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
-		                    <h6>申请人：李四</h6>
-		                    <h6>出版社：浙江教育出版社</h6>
-		                    <span class="mui-h4 linkColor">¥0.00</span>
-		                </div>
-		            </div>
-	        	</a>
-	        	<img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" />
-	        </li>
-	    </ul>
-	    <ul class="mui-table-view" style="margin-top: 10px;">
-	    	 <!-- mui-table-view-striped mui-table-view-condensed -->
-	        <li class="mui-table-view-cell">
-	        	<a href="indexPage_textbook.html">
-		            <div class="mui-table">
-		            	<div class="mui-table-cell mui-col-xs-3">
-		                    <img style="width: 80%;" src="../source/images/rect.jpg" />
-		                </div>
-		                <div class="mui-table-cell mui-col-xs-9">
-		                    <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
-		                    <h6>申请人：李四</h6>
-		                    <h6>出版社：浙江教育出版社</h6>
-		                    <span class="mui-h4 linkColor">¥0.00</span>
-		                </div>
-		            </div>
-		        </a>
-		        <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" />
-	        </li>
-	    </ul>
+		<div id="index-bg-header" class="index-bg-header" style="display: none;"></div>
+		<div id="bookList">
+			
+		</div>
 	</div>
 	<div class="fixedCartButton" style="bottom: 20px;">
         <img src="../source/webslice/0_common/web_common_cart.png" />
@@ -72,14 +38,50 @@ else{
     	var subCateId = params.subCateId;
     	$.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data){
     		if(data.resultCode == 200){
-    			console.log(data);
+    			if(data.data&&data.data.books.length){
+    				writeDataToTextbookList(data.data.books);
+    			}
+    			else{
+    				mui.alert("无书本信息","",["确定"],function(){
+				        mui.back();
+				    });
+    			}
+    		}
+    	});
+    }
+    else if(params.recommendId&&params.type){
+    	var recommendId = params.recommendId,
+    	type = params.type;
+    	$.when(getRecommendBooksByTypeAndId(type,recommendId)).done(function(data){
+    		if(data.resultCode == 200){
+    			if(data.data.list&&data.data.list.books.length){
+    				writeDataToTextbookList(data.data.list.books, data.data.list.path);
+    			}
+    			else{
+    				mui.alert("无书本信息","",["确定"],function(){
+				        mui.back();
+				    });
+    			}
     		}
     	});
     }
 }
 $(".smallCartIcon").on('tap',function(e){
 	mui.toast("添加成功");
-})
+});
+function writeDataToTextbookList(books,bannerImagePath){
+	if(bannerImagePath){
+		$("#index-bg-header").css({
+			"background-image": "url("+bannerImagePath+")"
+		}).show();
+	}
+	var html = "";
+	for(var i = 0, length = books.length; i<length; i++){
+		var book = books[i];
+		html += getSingleBookTableCell(book.id, book.path, book.title, book.author, book.publisher, book.marketPrice);
+	}
+	$("#bookList").append(html);
+}
 </script>
 </body>
 </html>

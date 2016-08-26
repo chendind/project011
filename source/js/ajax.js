@@ -39,18 +39,21 @@ function dataFilter(data,dataType){
 	}
 	return data;
 }
+$.ajaxSetup({
+	headers: getAjaxHeader(),
+	beforeSend: ajaxDataHandle,
+	contentType: contentType,
+	success: successHandle,
+	error: errorHandle
+});
 // 获得验证码
 function getVerifyCode(phone){
 	var ajax = $.ajax({
 		url: baseUrl + "/users/verify_code",
 		type: "POST",
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
 		data: {
 			"phone": phone
-		},
-		success: successHandle,
-		error: errorHandle
+		}
 	});
 	return ajax;
 }
@@ -59,15 +62,11 @@ function userRegister(phone,verifyCode){
 	var ajax = $.ajax({
 		url: baseUrl + "/users/register",
 		type: "POST",
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
       	crossDomain: true,
 		data: {
 			"phone": phone,
 			"verifyCode": verifyCode
-		},
-		success: successHandle,
-		error: errorHandle
+		}
 	});
 	return ajax;
 }
@@ -76,15 +75,11 @@ function userLogin(phone,verifyCode){
 	var ajax = $.ajax({
 		url: baseUrl + "/users/login",
 		type: "POST",
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
       	crossDomain: true,
 		data: {
 			"phone": phone,
 			"verifyCode": verifyCode
-		},
-		success: successHandle,
-		error: errorHandle
+		}
 	});
 	return ajax;
 }
@@ -92,56 +87,17 @@ function userLogin(phone,verifyCode){
 function userLogout(){
 	var ajax = $.ajax({
 		url: baseUrl + "/users/logout",
-		type: "POST",
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		type: "POST"
 	});
 	return ajax;
 }
-// 用户修改个人资料
-function userProfile(type, value){
-	var params = {};
-	if(type == 1){
-		// 修改头像
-		params.imgId = value;
-	}
-	else if(type == 2){
-		// 修改用户名
-		params.username = value;
-	}
-	else if(type == 3){
-		params.sex = value;
-	}
-	else if(type == 4){
-		// params.
-	}
-	var ajax = $.ajax({
-		url: baseUrl + "/users/login",
-		type: "POST",
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
-	});
-	return ajax;
-}
-
-
-
 
 // 首页
 // 获取城市
 function getAllCity(){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/cities",
-		type: "GET",
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		type: "GET"
 	});
 	return ajax;
 }
@@ -149,12 +105,7 @@ function getAllCity(){
 function searchCity(cityName){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/cities/"+cityName,
-		type: "GET",
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		type: "GET"
 	});
 	return ajax;
 }
@@ -162,12 +113,7 @@ function searchCity(cityName){
 function getBannersByCityId(cityId){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/banners/"+cityId,
-		type: "GET",
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		type: "GET"
 	});
 	return ajax;
 }
@@ -175,12 +121,15 @@ function getBannersByCityId(cityId){
 function getRecommends(cityId){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/recommends/"+cityId,
-		type: "GET",
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		type: "GET"
+	});
+	return ajax;
+}
+// 根据推荐列表id获取单品书籍列表
+function getRecommendBooksByTypeAndId(type,id){
+	var ajax = $.ajax({
+		url: baseUrl + "/recommendbooks/"+type+"/"+id,
+		type: "GET"
 	});
 	return ajax;
 }
@@ -193,12 +142,7 @@ function searchBooks(keyword,cityId,page){
 			"keyword": keyword,
 			"cityId": cityId,
 			"page": page
-		},
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		}
 	});
 	return ajax;
 }
@@ -206,12 +150,7 @@ function searchBooks(keyword,cityId,page){
 function getCategoryByCityId(cityId){
 	var ajax = $.ajax({
 		url: baseUrl + "/categories/"+cityId,
-		type: "GET",
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		success: successHandle,
-		error: errorHandle
+		type: "GET"
 	});
 	return ajax;
 }
@@ -220,12 +159,7 @@ function getCategoryChildrenByParentId(parentId){
 	var ajax = $.ajax({
 		url: baseUrl + "/categories/children/"+parentId,
 		type: "GET",
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		dataFilter: dataFilter,
-		success: successHandle,
-		error: errorHandle
+		dataFilter: dataFilter
 	});
 	return ajax;
 }
@@ -240,13 +174,7 @@ function getBooksByCategoryId(categoryId, cityId, sort, page, pageSize){
 			"sort":sort,
 			"page":page,
 			"pageSize":pageSize
-		},
-		headers: getAjaxHeader(),
-		beforeSend: ajaxDataHandle,
-		contentType: contentType,
-		dataFilter: dataFilter,
-		success: successHandle,
-		error: errorHandle
+		}
 	});
 	return ajax;
 }

@@ -34,6 +34,51 @@ function getQueryData(){
     }
     return parseURI;
 }
+function getCurrentCity(deferred){
+    var _deferred = deferred?deferred:$.Deferred();
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            _deferred.resolve(r);
+        }
+        else {
+            mui.toast("获取城市出错");
+        }        
+    },{enableHighAccuracy: true});
+    return _deferred;
+}
+
+
+
+/* 一些书本列表页面公用的方法
+*/
+var bookTableCellHtml = '<ul class="mui-table-view" style="margin-top: 10px;">'+
+        '<li class="mui-table-view-cell">'+
+            '<a href="indexPage_textbook.html">'+
+                '<div class="mui-table">'+
+                    '<div class="mui-table-cell mui-col-xs-3">'+
+                        '<img class="bookCoverImage" style="width: 80%;" src="" />'+
+                    '</div>'+
+                    '<div class="mui-table-cell mui-col-xs-9">'+
+                       '<h4 style="margin-bottom: 10px;font-size: 15px;" class="title mui-ellipsis"></h4>'+
+                        '<h6>作者：<span class="author"></span></h6>'+
+                        '<h6>出版社：<span class="publisher"></span></h6>'+
+                        '<span class="mui-h4 linkColor">¥<span class="marketPrice"></span></span>'+
+                    '</div>'+
+                '</div>'+
+            '</a>'+
+            '<img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" />'+
+        '</li>'+
+    '</ul>';
+function getSingleBookTableCell(id,path,title,author,publisher,marketPrice){
+    var tableCell = $(bookTableCellHtml);
+    tableCell.find('.bookCoverImage').attr("src",path).end()
+        .find('.title').text(title).end()
+        .find('.author').text(author).end()
+        .find('.publisher').text(publisher).end()
+        .find('.marketPrice').text(marketPrice).end();
+    return $("<div>").append(tableCell).html();
+}
 
 
 

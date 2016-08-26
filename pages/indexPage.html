@@ -219,7 +219,8 @@ $.when(getRecommends(cityId)).done(function(data){
 
         var txts = data.txts;
         // 第一个block
-        $("#firstRecommendBlock").find(".name").text(txts[0].name);
+        $("#firstRecommendBlock").find(".name").text(txts[0].name).end()
+            .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[0].id,"type":1}));
         var firstRecommendBlockHtml = "";
         for(var i = 0, length = txts[0].books.length; i<length; i++){
             var book = txts[0].books[i];
@@ -227,7 +228,8 @@ $.when(getRecommends(cityId)).done(function(data){
         }
         $("#firstRecommendBlock").next("ul").append(firstRecommendBlockHtml);
         // 第二个block
-        $("#secondRecommendBlock").find(".name").text(txts[1].name);
+        $("#secondRecommendBlock").find(".name").text(txts[1].name).end()
+            .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[1].id,"type":1}));
         var secondRecommendBlockHtml = "";
         for(var i = 0, length = txts[1].books.length; i<length; i++){
             var book = txts[1].books[i];
@@ -235,7 +237,8 @@ $.when(getRecommends(cityId)).done(function(data){
         }
         $("#secondRecommendBlock").next("ul").append(secondRecommendBlockHtml);
         // 第三个block
-        $("#thirdRecommendBlock").find(".name").text(txts[2].name);
+        $("#thirdRecommendBlock").find(".name").text(txts[2].name).end()
+            .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[2].id,"type":1}));
         var thirdRecommendBlockHtml = "";
         for(var i = 0, length = txts[2].books.length; i<length; i++){
             var book = txts[2].books[i];

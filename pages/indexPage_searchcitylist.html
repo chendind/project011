@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <title></title>
+    <script src="http://api.map.baidu.com/api?v=2.0&ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/mui.indexedlist.js"></script>
     <script src="../source/js/public.js"></script>
-    <script src="http://api.map.baidu.com/api?v=2.0&ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG"></script>
     <link href="../source/mui/css/mui.css" rel="stylesheet" />
     <link href="../source/css/mui.indexedlist.css" rel="stylesheet" />
     <link href="../source/css/searchcity.css" rel="stylesheet" />
@@ -48,8 +48,29 @@
     </div>
 
 <script>
-    $("#currentCity").text(currentCityName);
-    
+$.when(getCurrentCity()).done(function(data){
+    var cityName = data.address.city;
+    if(cityName){
+        $.when(searchCity(cityName)).done(function(cityData){
+            if(cityData.resultCode == 200){
+                var _cityId, _cityName;
+                if(!cityData.data.cities.length){
+                    // 一个未知的城市
+                    cityName = "杭州市";
+                    cityId = "1";
+                }
+                else{
+                    cityName = cityData.data.cities[0].name;
+                    cityId = cityData.data.cities[0].id;
+                }
+                $("#currentCity").text(cityName).attr("data-id",cityId);
+            }
+        });
+    }
+    else{
+        mui.toast("获取城市出错");
+    }
+});
     $.when(getAllCity()).done(function(data){
         if(data.resultCode == 200){
             // 字母列表
@@ -81,17 +102,13 @@ function getCharCityBlock(char, cityList){
     }
     return li1+li2;
 }
-
-
-// $("#searchCityInput").bind('keydown',function(e){
-//     if(e.keyCode == 13){
-//         var keyword = $(this).val();
-//         var params = {};
-//         params.keyword = keyword;
-//         window.location.href = "indexPage_searchcity_result.html?"+encodeObj(params);
-        
-//     }
-// })
+$("#list").on('tap','.user-city-item,.mui-indexed-list-item',function(){
+    var cityId = $(this).attr("data-id");
+    var cityName = $(this).text();
+    window.localStorage.setItem("cityId",cityId);
+    window.localStorage.setItem("cityName",cityName);
+    window.location.href = "indexPage.html";
+});
 </script>
 </body>
 </html>
