@@ -12,6 +12,9 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+        <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
 <body>
     <nav class="mui-bar mui-bar-tab">
@@ -93,7 +96,37 @@
     
 <script>
 mui.init();
+    var vm = new Vue({
+        el: "body",
+        data: {
 
+        },
+        computed: {
+
+        },
+        watch: {
+
+        },
+        methods: {
+
+        },
+        created: function() {
+            var self = this;
+            var data=getQueryData()
+            var num=data.length;
+            var ids=data.join(",");
+            console.log(ids);
+            $.when(createOrder(ids,num,"shoppingCart")).done(function(data) {
+                console.log(data);
+                if (data.resultCode == 200) {
+
+                }
+            });
+        },
+        ready: function() {
+
+        }
+    })
 </script>
 </body>
 </html>

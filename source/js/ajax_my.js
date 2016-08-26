@@ -290,7 +290,21 @@ function deleteFromCart(id) {
     var ajax = $.ajax({
         url: baseUrl + "/shopping_carts/"+id,
         type: "DELETE",
-        data: { "relationId": id, "type": "0", "num": "1", "featureId": "0", "cityId": currentCityId },
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 生成订单
+function createOrder(ids,num,type) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders",
+        type: "POST",
+        data: { "ids": ids, "type":type, "num": num, "featureId": "0", "cityId": currentCityId },
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
