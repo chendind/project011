@@ -11,14 +11,9 @@ function errorHandle(data){
 }
 function ajaxDataHandle(){
 	var data = this.data;
+	console.log(data);
 	if(data){
-		var arr = data.split("&");
-		var obj = {};
-		for(var i = 0, length = arr.length; i<length; i++){
-			var o = arr[i].split("=");
-			obj[o[0]] = o[1];
-		}
-		var string = JSON.stringify(obj);
+		var string = JSON.stringify(data);
 		this.data = new TextEncoder().encode(string);
 	}
 }
@@ -43,6 +38,7 @@ $.ajaxSetup({
 	headers: getAjaxHeader(),
 	beforeSend: ajaxDataHandle,
 	contentType: contentType,
+	processData: false,
 	success: successHandle,
 	error: errorHandle
 });

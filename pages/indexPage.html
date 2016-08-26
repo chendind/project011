@@ -72,13 +72,13 @@
         </div>
         <div style="margin-bottom:10px;background-color: #fff;">
             <nav class="mui-bar-tab user-bar-tab">
-                <a>
+                <a data-href="../webview/index.html">
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_qianggou_icon.png" alt="">
                     </span>
                     <span class="mui-tab-label">抢购</span>
                 </a>
-                <a>
+                <a data-href="../webview/join_info.html">
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_jiaru_icon.png" alt="">
                     </span>
@@ -268,7 +268,6 @@ function createBook(id,path,title,colNumber){
     var _colNumber = colNumber?colNumber:"3";
     var params = {};
     params.bookId = id;
-    console.log(params);
     var html = '<li class="mui-table-view-cell mui-media mui-col-sm-'+_colNumber+' mui-col-xs-'+_colNumber+'">'+
                 '<a data-href="indexPage_textbook.html?'+encodeObj(params)+'">'+
                     '<div class="textbook_cover">'+

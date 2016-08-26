@@ -54,9 +54,9 @@
             </div>
         </div>
     </div>
-    <div class="fixedCartButton">
+    <a data-href="cartPage.html" class="fixedCartButton">
         <img src="../source/webslice/0_common/web_common_cart.png" />
-    </div>
+    </a>
     <script>
     mui.init();
     var vm = new Vue({
@@ -99,20 +99,15 @@
         },
         created: function() {
             var self = this;
-            var params = decodeURI(window.location.search).slice(1);
-            params = JSON.parse(params);
-            console.log(params);
+            var params = getQueryData();
 
             $.when(bookDetail(params.bookId)).done(function(data) {
-                console.log(data);
                 if (data.resultCode == 200) {
                     self.detail = data.data.book;
-                    self.detail.author = self.detail.author.slice(2, -2).split("，");
-                    console.log(self.detail.author);
+                    self.detail.author = self.detail.author.split("，");
                 }
             });
             $.when(cartList()).done(function(data) {
-                console.log(data);
                 if (data.resultCode == 200) {
                     if (data.data.carts) {
                         for (var i = 0; i < data.data.carts.length; i++) {

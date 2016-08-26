@@ -1,0 +1,353 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta content="telephone=no" name="format-detection" />
+<meta name="keywords" content="seokeywords"/>
+<meta name="description" content="seodescription"/>
+<title></title>
+<style>
+	@font-face {
+	font-family: 'icomoon';
+	src:url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+	}
+	body{font-family: 'icomoon';background-color: #eeeeee;}
+	body,p{margin:0px;padding: 0px;}
+	.contant{position: relative;width:100%;background-size: 100% 100%;height: 270px;}
+	.contant .rule_tip{margin-left: 10px;top: 12px;position: absolute;width:14px;height:14px;background: url(../webviewSource/img/panicbuy_rule_button.png) no-repeat;background-size: 100%;}
+	.contant .rule_tip_btn{z-index: 10;margin-left: 90%;top: 12px;position: absolute;width: 34px;height: 34px;}
+	.contant .desc{width: 100%;height: 185px;}
+	.contant .desc .middle .img_button{margin-left:12px;background: url(../webviewSource/img/qianggou_image.png) no-repeat;background-size: 100%;width:172px;height:185px;float: left;}
+	.contant .desc .middle .text_desc{position: absolute;margin-top: 24px;left: 50%;width: 50%;}
+	.contant .desc .middle .text_desc .bookname{font-size: 18px;font-weight: 400;color: #262626;margin-top:27px;}
+	.contant .desc .middle .text_desc .actor{font-size: 12px;font-weight: 400;color: #666666;margin-top:8px;}
+	.contant .desc .middle .text_desc .chubanshe{font-size: 12px;font-weight: 400;color: #666666;margin-top:5px;}
+	.contant .desc .middle .text_desc .miaoshu{width: 176px;height: 154px;overflow: hidden;font-size: 12px;font-weight: 400;line-height: 1.5;color: #666666;margin-top:24px;}
+	.contant .jiage{width: 100%;position: absolute;bottom: 18px;}
+	.contant .jiage .new_prize{float: left;margin-top:5px;margin-left: 5%;height: 28px;font-size: 32px;font-weight: 300;line-height: 0.88;color: #ff3a52;}
+	.contant .jiage .old_prize{float: left;margin-left: 5px;margin-top: 5px;}
+	.contant .jiage .old_prize .img_tip{object-fit: contain;}
+	.contant .jiage .old_prize .old_prize_desc{margin-top: 2px;height: 15px;font-size: 10px;font-weight: 400;line-height: 1.5;color: #797979;}
+	.middle_list{background-color: white;float: left;width:100%;text-align: center;height:48px;line-height:48px;}
+	.middle_list .txt{padding-left:5px;margin-left:1.3%;float: left;width:22%;height: 48px;line-height:48px;font-size: 12px;font-weight: 400;color: #8f8e94;}
+	.middle_list .txt a{background: url(../webviewSource/img/panicbuy_promise.png) no-repeat;width:20px;height:20px;display: block;margin-top: 14px;float: left;background-size: 100%;}
+	.imglist{float: left;width:100%;}
+	.footer{z-index:100;bottom: 0px;position: fixed;float: left;width:100%;height: 49px;font-size: 17px;font-weight: 400;line-height: 0.88;color: #ffffff;}
+	.footer .footer_time{float: left;background-color: #4e4e4e;width:65%;height: 49px;line-height:49px;}
+	.footer .footer_time #time{margin-left:5%;}
+	.footer .footer_btn{float: left;background-color: #999999;width:35%;height: 49px;line-height:49px;text-align: center;}
+	
+	.black_bg{display:none;position: absolute;z-index:110;background-color: black;width:100%;height:100%;top:0px;left:0px;opacity: 0.6;}
+	.rule_black_bg{position: absolute;z-index:111;width:100%;height:100%;top:0px;left:0px;display: none;}
+	.rule_black_bg .rule_content{width: 260px;height: 456px;border-radius: 8px;background-color: #ffffff;margin:auto;padding:0px 23px;margin-top: 18px;}
+	.rule_black_bg .rule_close{margin: auto;margin-top:30px;background: url(../webviewSource/img/panicbuy_rule_close.png) no-repeat;background-size: 100%;width:54px;height:54px;}
+	.rule_black_bg .rule_content .rule_title{font-size: 17px;font-weight: 600;text-align: center;color: #016df1;height:57px;line-height:57px;border-bottom: solid 1px #e5e5e5;}
+	.rule_black_bg .rule_content .rule_contant_box{overflow:hidden;height: 380px;}
+	.rule_black_bg .rule_content .rule_contant{overflow-y:auto;height: 380px;font-size: 13px;font-weight: 400;line-height: 1.54;color: #666666;}
+	.rule_black_bg .rule_content .rule_contant p{margin-top:10px;}
+	
+	.net_error_bg{display:none;}
+	.network_error{margin:auto;z-index:111;width: 176px;height: 44px;opacity: 0.6;border-radius: 8px;-webkit-backdrop-filter: blur(15px);backdrop-filter: blur(15px);background-color: #000000;}
+	.net_error_bg .network_error_txt{position: relative;top: -30px;text-align: center;color: white;z-index: 112;font-size: 16px;font-weight: 400;line-height: 1;color: #ffffff;}
+	
+	.info_error_bg{display:none;}
+	.info_error{margin:auto;z-index:111;width: 288px;height: 44px;opacity: 0.6;border-radius: 8px;-webkit-backdrop-filter: blur(15px);backdrop-filter: blur(15px);background-color: #000000;}
+	.info_error_bg .info_error_txt{position: absolute;top: 15px;text-align: center;z-index: 112;font-size: 16px;font-weight: 400;line-height: 1;color: #ffffff;width: 100%;}
+	.imglist img{width:100%;}
+	@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2){
+		.contant{
+			height: 240px;
+		}
+	    .rule_black_bg .rule_content {
+	        height:396px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant_box{
+	    	height:330px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant{
+	    	height:330px;
+	    	font-size: 12px;
+	    }
+	    .rule_black_bg .rule_close {
+	        margin-top: 20px;
+	    }
+	}
+	@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2){
+	    .contant{
+			height: 270px;
+		}
+		.rule_black_bg .rule_content {
+	        height:456px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant_box{
+	    	height:380px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant{
+	    	height:380px;
+	    	font-size: 13px;
+	    }
+	    .rule_black_bg .rule_close {
+	        margin-top: 30px;
+	    }
+	}
+	@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3){
+	    .contant{
+			height: 290px;
+		}
+		.rule_black_bg .rule_content {
+	        height:512px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant_box{
+	    	height:420px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant{
+	    	height:420px;
+	    }
+	    .rule_black_bg .rule_close {
+	        margin-top: 50px;
+	    }
+	    .rule_black_bg .rule_content .rule_contant p {
+		    margin-top: 20px;
+		}
+	}
+</style>
+<script type="text/javascript" src="../source/js/jquery-1.11.1.min.js" ></script>
+<script>
+	function checkTime(i) {
+       	if (i<10) {
+        	i="0"+i;
+        }
+        return i;
+   }
+	var s_time="";//开始时间
+	var e_time="";//结束时间
+	var info_id="";//产品id
+	var foot_btn_open_setting_val=0;
+	function showtime() {
+		s_time=s_time.replace(/-/g,"/");
+		e_time=e_time.replace(/-/g,"/");
+      	var nowtime=new Date(),
+      	starttime=new Date(s_time),
+        endtime=new Date(e_time);
+        if(Date.parse(starttime)>Date.parse(nowtime))
+        {
+        	lefttime=parseInt((starttime.getTime()-nowtime.getTime())/1000),
+	        h=Math.floor(lefttime/(60*60)%24),
+	        m=Math.floor(lefttime/60%60),
+	        s=Math.floor(lefttime%60);
+	      	$("#time").html("距离开始  "+checkTime(h)+":"+checkTime(m)+":"+checkTime(s));
+	      	setTimeout(showtime, 1000);  
+        }
+        else if(Date.parse(endtime)>Date.parse(nowtime))
+        {
+        	if(foot_btn_open_setting_val==0)
+        	{
+        		$(".footer").on({
+					"click": function () {
+						//$(".black_bg").css("top",document.body.scrollTop);
+						//$(".info_error_bg").css("top",document.body.scrollTop).css("position","relative");
+						//$(".black_bg").fadeIn(500,function(){
+							//$(".info_error_bg").fadeIn(500);
+						//});
+						//alert("1");
+						window.location.href="cloudbook://app/paincbuy/"+info_id;
+					}
+				}, ".footer_btn");
+				foot_btn_open_setting_val++;
+        	}
+        	lefttime=parseInt((endtime.getTime()-nowtime.getTime())/1000),
+	        h=Math.floor(lefttime/(60*60)%24),
+	        m=Math.floor(lefttime/60%60),
+	        s=Math.floor(lefttime%60);
+	      	$("#time").html("距离结束  "+checkTime(h)+":"+checkTime(m)+":"+checkTime(s));
+	      	$(".footer_btn").css("background-color","#ff3a52");
+	      	setTimeout(showtime, 1000);  
+	      	$("body").on({
+				"click": function () {
+					$(".black_bg").hide();
+					$(".info_error_bg").hide();
+				}
+			}, ".info_error_bg");
+        }else{
+	       	$("#time").html("距离结束  00:00:00");
+	       	$(".footer_btn").css("background-color","#999999");
+	      	$(".footer").on({
+				"click": function () {
+					return;
+				}
+			}, ".footer_btn");
+        }
+    }
+	$(function () {
+		GetData();
+        $("body").on({
+			"click": function () {
+				return;
+			}
+		}, ".contant");
+		$('.black_bg').on('touchmove', function (event) {
+    		event.preventDefault();
+		});
+        $('.rule_black_bg').on('touchmove', function (event) {
+    		event.preventDefault();
+		});
+		$('.net_error_bg').on('touchmove', function (event) {
+    		event.preventDefault();
+		});
+		$('.info_error_bg').on('touchmove', function (event) {
+    		event.preventDefault();
+		});
+		$(".contant").on({
+			"click": function () {
+				$(".black_bg").css("top","0px");
+				//$(".rule_content").css("height",parseInt(window.screen.height-100)+"px");
+				$(".black_bg").show();
+				$(".rule_black_bg").show();
+				
+			}
+		}, ".rule_tip_btn");
+		$(".rule_black_bg").on({
+			"click": function () {
+				$(".rule_black_bg").hide();
+				$(".black_bg").hide();
+			}
+		}, ".rule_close");
+		$("body").on({
+			"click": function () {
+				$(".black_bg").hide();
+				$(".info_error_bg").hide();
+				$(".net_error_bg	").hide();
+				$(".rule_black_bg").hide();
+			}
+		}, ".black_bg");
+	});
+	//请求数据
+	function GetData()
+	{
+		$.ajax({
+			type:'get',
+			url:'http://120.26.94.240:8989/panicBuy',
+			async:false,
+			dataType:'json',
+			success:function(data){
+				if(data.resultCode==200)
+				{
+				    $(".contant").css("background","url("+data.data.detail.path+") no-repeat");
+				    $(".contant").css("background-size","100% 100%");
+				    $(".bookname").html(data.data.detail.name);
+				    $(".miaoshu").html(data.data.detail.introduce);
+				    $(".new_prize").html("&yen;"+data.data.detail.sellPrice);
+				    $("#sale_price").html("立省&yen;"+data.data.detail.savePrice);
+				    $("#market_price").html("市场价：&yen;"+data.data.detail.marketPrice);
+				    var imglist=data.data.detail.detail_imgs.split(',');
+				    for(var i=0;i<imglist.length;i++)
+				    {
+				    	$(".imglist").append("<img src='"+imglist[i]+"'>");
+				    }
+				    s_time=data.data.detail.startTime;
+				    e_time=data.data.detail.endTime;
+				    info_id=data.data.detail.id;
+				    showtime();
+				}
+			},
+			error:function()
+			{
+				//alert("1");
+				//异常处理
+			}
+		});
+	}
+</script>
+</head>
+<body>
+<div class="contant">
+	<div class="rule_tip_btn">
+		<div class="rule_tip"></div>
+	</div>
+	<div class="desc">
+		<div class="middle">
+			<div class="text_desc">
+				<p class="bookname"></p>
+				<!--
+                	<p class="actor">(日)清少纳言/著  周作人/译</p>
+					<p class="chubanshe">上海人民出版社</p>
+                -->
+				<p class="miaoshu"></p>
+			</div>
+		</div>
+	</div>
+	<div class="jiage">
+		<div class="new_prize"></div>
+		<div class="old_prize">
+			<div class="img_tip"><img style="width: 33px;height: 12px;" src="../webviewSource/img/panicbuy_xianshiqiang.png"></div>
+			<div class="old_prize_desc">
+				<span id="sale_price"></span>
+				<span id="market_price" style="text-decoration: line-through;"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="middle_list">
+	<div class="txt"><a></a>七天质保</div>
+	<div class="txt"><a></a>正品新书</div>
+	<div class="txt"><a></a>闪电发货</div>
+	<div class="txt"><a></a>免邮费</div>
+</div>
+<div class="imglist" style="margin-bottom:49px;"></div>
+<div class="footer">
+	<div class="footer_time"><span id="time"></span></div>
+	<div class="footer_btn">立即抢购</div>
+</div>
+<!--
+	作者：周小亮
+	时间：2016-07-28
+	描述：蒙版背景
+-->
+<div class="black_bg"></div>
+<!--
+	作者：周小亮
+	时间：2016-07-28
+	描述：抢购规则提示
+-->
+<div class="rule_black_bg">
+	<div class="rule_content">
+		<div class="rule_title">抢购规则</div>
+		<div class="rule_contant_box">
+			<div class="rule_contant">
+				<p>抢购活动于每天不固定时间限量开抢，先到先得，抢完为止。</p>
+				<p>本活动仅限活动页面带有“限量购”标签的书籍，用户将享受活动特殊优惠价格。</p>
+				<p>抢购成功后，用户在书籍出库之前均可申请退款，云书将在2个工作日内进行审核。收到书籍如无质量问题不可退货。若出现非人为的书籍损坏，自收到书籍7日内可联系客服申请换货。</p>
+				<p>活动过程中，不允许出现恶意购买、虚拟交易等违规操作。如出现以上行为，云书将自动取消该用户的活动资格并有权撤销违规交易及取消用户后续参加云书任何活动的权利。</p>
+				<p>本活动最终解释说明归杭州云书网络科技有限公司所有。如有任何疑问，可咨询云书客服人员，客服电话：0571-89979839。</p>
+				
+			</div>
+		</div>
+	</div>
+	<div class="rule_close"></div>
+</div>
+<!--
+	作者：周小亮
+	时间：2016-07-28
+	描述：网络异常提示
+-->
+<div class="net_error_bg">
+	<div class="network_error"></div>
+	<div class="network_error_txt">网络忙，请稍后再试</div>
+</div>
+<!--
+	作者：周小亮
+	时间：2016-07-28
+	描述：错误提示
+-->
+<div class="info_error_bg">
+	<div class="info_error"></div>
+	<div class="info_error_txt">本次活动商品已抢完，下次早点来哦</div>
+</div>
+</body>
+</html>
