@@ -93,7 +93,7 @@ function addAddress(data) {
         contentType: contentType,
         success: successHandle,
         error: errorHandle,
-        crossDomain: true
+        crossDomain: true,
     });
     return ajax;
 }

@@ -51,9 +51,9 @@
             <span class="mui-tab-label">我的</span>
         </a>
     </nav>
-    <div class="mui-content mui-fullscreen">
+    <div class="mui-content mui-fullscreen" v-cloak>
         <div style="position:relative;height: 100%;">
-            <div class="mui-slider-group">
+            <div class="mui-slider-group" v-if="cartList.length!==0">
                 <div class="mui-scroll-wrapper">
                     <div class="mui-scroll">
                         <ul class="mui-table-view">
@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            <div class="pay">
+            <div class="pay" v-if="cartList.length!==0">
                 <div class="mui-input-row mui-checkbox mui-left mui-pull-left">
                     <label style="padding-left:35px;padding-right:0px;">
                         <p>全部</p>
@@ -104,22 +104,22 @@
                     <input name="checkbox1" value="Item 1" type="checkbox" style="left:3px;top:11px;" v-model="allState" :true-value="true" :false-value="false" @click="allSelect">
                 </div>
                 <div class="mui-pull-right" style="margin-right: 15px;">
-                    <p>共{{choseList.length}}件合计：<span class="blueColor" style="font-size: 18px;">{{totalMoney}}</span></p>
+                    <p>共{{choseList.length>6?6:choseList.length}}件合计：<span class="blueColor" style="font-size: 18px;">{{totalMoney}}</span></p>
                 </div>
                 <a class="sure" data-href="cartPage_orderConfirm.html">
                     立即结算
                 </a>
             </div>
-            <!-- <div class="shop_logbox">
+            <div class="shop_logbox" v-if="cartList.length==0">
                 <img src="../source/images/cbd.jpg">
                 <div class="word">
                     购物车空空如也～
                 </div>
-                <div class="btn">
+                <a class="btn" data-href="indexPage.html" style="display:block">
                     随便逛逛
-                </div>
+                </a>
             </div>
-            <div class="shop_logbox">
+<!--             <div class="shop_logbox">
                 <img src="../source/images/pic.jpg">
                 <div class="word">
                     请先登录
@@ -197,14 +197,19 @@
                     }
                 }
             },
-            deleteItem: function(id,record,index) {
+            deleteItem: function(id, record, index) {
                 var self = this;
-                $.when(deleteFromCart(id)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        self.cartList.$remove(record);
-                        self.recordState.splice(index,1);
+                mui.confirm("确定删除吗？", " ", ["<span class='redColor'>删除</span>", "取消"], function(data) {
+                    console.log('test');
+                    if (data.index == 0) {
+                        $.when(deleteFromCart(id)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                self.cartList.$remove(record);
+                                self.recordState.splice(index, 1);
+                            }
+                        });
                     }
-                });
+                })
             }
         },
         created: function() {

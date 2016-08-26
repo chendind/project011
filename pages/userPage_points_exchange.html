@@ -65,7 +65,7 @@
         $("#pointsValue").text(vm.scoreMax-v);
         $("#changeValue").text(v / 100);
         vm.score = v;
-        if (v) {
+        if (vm.score-v) {
             $("#exchangeButton").removeClass("mui-btn-disabled").addClass("mui-btn-primary");
         } else {
             $("#exchangeButton").addClass("mui-btn-disabled").removeClass("mui-btn-primary");
