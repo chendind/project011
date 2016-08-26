@@ -35,6 +35,7 @@ if(!params){
 }
 else{
     if(params.subCateId){
+        // 某个子类
     	var subCateId = params.subCateId;
     	$.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data){
     		if(data.resultCode == 200){
@@ -49,10 +50,14 @@ else{
     		}
     	});
     }
-    else if(params.recommendId&&params.type){
-    	var recommendId = params.recommendId,
+    else if(params.recommendId||params.hotId||params.newId){
+        /* 推荐书籍
+           热门书籍
+           最新书籍
+        */
+    	var id = params.recommendId||params.hotId||params.newId,
     	type = params.type;
-    	$.when(getRecommendBooksByTypeAndId(type,recommendId)).done(function(data){
+    	$.when(getRecommendBooksByTypeAndId(type,id)).done(function(data){
     		if(data.resultCode == 200){
     			if(data.data.list&&data.data.list.books.length){
     				writeDataToTextbookList(data.data.list.books, data.data.list.path);

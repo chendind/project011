@@ -203,9 +203,9 @@ $.when(getBannersByCityId(cityId)).done(function(data){
         $("#recommendItemBox").attr("data-href", recommendItem.url)
             .find(">img").attr("src", recommendItem.path);
         var hotItemBox = data.recommendLists[0];
-        // $("#hotItemBox").attr("data-href", hotItemBox.id).find(">img").attr("src", hotItemBox.path);
+        $("#hotItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"hotId":hotItemBox.id,"type":0}));
         var newItemBox = data.recommendLists[1];
-        // $("#newItemBox").attr("data-href", newItemBox.id).find(">img").attr("src", newItemBox.path);
+        $("#newItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"newId":hotItemBox.id,"type":0}));
     }
 });
 $.when(getRecommends(cityId)).done(function(data){
@@ -213,9 +213,9 @@ $.when(getRecommends(cityId)).done(function(data){
         var data = data.data;
         var imgs = data.imgs;
         // 第一张图
-        $("#firstRecommendImage").attr("href", imgs[0].url).find(">img").attr("src", imgs[0].path);
+        $("#firstRecommendImage").attr("data-href", imgs[0].url).find(">img").attr("src", imgs[0].path);
         // 第二张图
-        $("#secondRecommendImage").attr("href", imgs[1].url).find(">img").attr("src", imgs[1].path);
+        $("#secondRecommendImage").attr("data-href", imgs[1].url).find(">img").attr("src", imgs[1].path);
 
         var txts = data.txts;
         // 第一个block
