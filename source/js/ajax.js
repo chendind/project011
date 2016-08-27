@@ -11,7 +11,6 @@ function errorHandle(data){
 }
 function ajaxDataHandle(){
 	var data = this.data;
-	console.log(data);
 	if(data){
 		var string = JSON.stringify(data);
 		this.data = new TextEncoder().encode(string);
@@ -91,10 +90,18 @@ function userLogout(){
 }
 
 // 首页
-// 获取城市
+// 按首字母获取城市
 function getAllCity(){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/cities",
+		type: "GET"
+	});
+	return ajax;
+}
+// 获取城市列表
+function getCityList(){
+	var ajax = $.ajax({
+		url: baseUrl + "/apply/cities",
 		type: "GET"
 	});
 	return ajax;
@@ -176,7 +183,19 @@ function getBooksByCategoryId(categoryId, cityId, sort, page, pageSize){
 	});
 	return ajax;
 }
-
+function getCurrentCity(deferred){
+    var _deferred = deferred?deferred:$.Deferred();
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            _deferred.resolve(r);
+        }
+        else {
+            mui.toast("获取城市出错");
+        }        
+    },{enableHighAccuracy: true});
+    return _deferred;
+}
 
 
 

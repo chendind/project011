@@ -257,4 +257,14 @@ input {
 .mui-card-header:after {
   margin: 0 15px;
 }
+.ys-input-group .mui-input-row {
+  border-bottom: 1px solid #c8c7cc;
+}
+.ys-input-group .mui-input-row input {
+  padding-left: 0;
+  padding-right: 0;
+}
+.ys-input-group .mui-input-row:after {
+  display: none;
+}
 /*# sourceMappingURL=mui_overwrite.css.map */

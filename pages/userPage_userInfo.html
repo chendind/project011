@@ -93,7 +93,6 @@
     });
     $("#logoutButton").on('tap', function() {
         mui.confirm("确定注销吗？", " ", ["<span class='redColor'>注销</span>", "取消"], function(data) {
-            console.log('test');
             if (data.index == 0) {
                 $.when(userLogout()).done(function(data) {
                     console.log(data);

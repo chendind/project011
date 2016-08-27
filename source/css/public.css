@@ -44,6 +44,7 @@ body {
   color: #555;
   background-color: #eee;
   font-size: 15px;
+  font-family: -apple-system, BlinkMacSystemFont;
 }
 [v-cloak] {
   display: none;
@@ -73,6 +74,9 @@ body {
 }
 .greenColor {
   color: #1cc100 !important;
+}
+.yellowColor {
+  color: #ffce00 !important;
 }
 .greenBg {
   background-color: #1cc100 !important;
