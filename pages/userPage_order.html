@@ -113,19 +113,19 @@
     <div class="mui-content">
         <div id="slider" class="mui-slider mui-fullscreen">
             <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-                <a id="orderStatus_1" class="mui-control-item" href="item1mobile">
+                <a class="mui-control-item mui-active" href="#item1mobile">
                     全部
                 </a>
-                <a id="orderStatus_2" class="mui-control-item" href="item2mobile">
+                <a class="mui-control-item" href="#item2mobile">
                     待下单
                 </a>
-                <a id="orderStatus_3" class="mui-control-item" href="item3mobile">
+                <a class="mui-control-item" href="#item3mobile">
                     待发货
                 </a>
-                <a id="orderStatus_4" class="mui-control-item" href="item4mobile">
+                <a class="mui-control-item" href="#item4mobile">
                     待收货
                 </a>
-                <a id="orderStatus_5" class="mui-control-item" href="item5mobile">
+                <a class="mui-control-item" href="#item5mobile">
                     已完成
                 </a>
             </div>
@@ -354,17 +354,7 @@
     <script>
     mui.init();
     var params = getQueryData();
-    if(params){
-        var orderStatus = params.orderStatus;
-        console.log(orderStatus);
-        $("#orderStatus_"+orderStatus).addClass("active");
-        $("#item"+orderStatus+"mobile").addClass("active");
-    }
-    else{
-        $("#orderStatus_"+1).addClass("active");
-        $("#item"+1+"mobile").addClass("active");
-    }
-
+    
     //阻尼系数
     var deceleration = mui.os.ios ? 0.003 : 0.0009;
     mui('.mui-scroll-wrapper').scroll({
@@ -394,6 +384,12 @@
                 }
             });
         });
+        if(params){
+            // 根据参数进行位置初始化
+            if(params.orderStatus){
+                mui.data[$("#slider").attr("data-slider")].gotoItem(params.orderStatus-1,1);
+            }
+        }
     });
     var vm = new Vue({
         el: "body",
@@ -416,14 +412,11 @@
                 mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
                     if (data.index == 0) {
                         $.when(cancelOrder(orderNo)).done(function(data) {
-                            console.log(data);
                             if (data.resultCode == 200) {
                                 $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
-                                    console.log(data);
                                     self.$data.orders = data.data.orders
                                 });
                                 $.when(getOrderList(self.page, 0)).done(function(data) {
-                                    console.log(data);
                                     self.$data.subOrders0 = data.data.orders
                                 });
                             }
@@ -434,7 +427,6 @@
                 });
             },
             turnUrl :function(orderNo){
-                console.log('test');
                 var URI=encodeObj({"orderNo":orderNo});
                 mui.openWindow({
                     url:"cartPage_order_status.html?"+URI
@@ -445,13 +437,10 @@
             var self = this;
             var id = localStorage.getItem("id");
             $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
-                console.log(data);
                 self.$data.orders = data.data.orders
             });
             for (var i = 0; i < 4; i++) {
                 $.when(getOrderList(self.page, i)).done(function(data) {
-                    console.log(data);
-                    console.log(i);
                     if (data.data.orders) {
                         self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders
                     }
@@ -459,7 +448,7 @@
             }
         },
         ready: function() {
-
+            
         }
     })
     </script>
