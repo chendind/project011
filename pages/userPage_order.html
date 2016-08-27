@@ -384,11 +384,14 @@
                 }
             });
         });
+        // 根据参数进行位置初始化
         if(params){
-            // 根据参数进行位置初始化
             if(params.orderStatus){
-                mui.data[$("#slider").attr("data-slider")].gotoItem(params.orderStatus-1,1);
+                mui('.mui-slider').slider().gotoItem(params.orderStatus-1,0);
             }
+        }
+        else{
+            mui('.mui-slider').slider().gotoItem(0,0);
         }
     });
     var vm = new Vue({

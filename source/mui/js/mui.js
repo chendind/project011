@@ -4150,7 +4150,6 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 			} else {
 				this.setTranslate(x, y);
 			}
-
 		},
 		scrollToBottom: function(time, easing) {
 			time = time || this.options.scrollTime;
