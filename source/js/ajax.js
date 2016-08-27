@@ -25,6 +25,8 @@ function getAjaxHeader(){
 		header.token = token;
 		header.version = version;
 		header.OriginType = "mp";
+	}else{
+		header.version="1.0"
 	}
 	return header;
 }

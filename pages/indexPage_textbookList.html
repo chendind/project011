@@ -59,8 +59,8 @@
         },
         computed: {},
         methods: {
-            noExisted: function() {
-                if (this.cartList.indexOf(this.detail.id) !== -1) {
+            noExisted: function(id) {
+                if (this.cartList.indexOf(id) !== -1) {
                     mui.toast("请勿重复添加");
                     return false;
                 } else {
@@ -69,7 +69,7 @@
             },
             addToCart: function(id) {
                 var self = this;
-                if (self.noExisted()) {
+                if (self.noExisted(id)) {
                     $.when(addToCart(id)).done(function(data) {
                         if (data.resultCode == 200) {
                             mui.toast("添加成功");
