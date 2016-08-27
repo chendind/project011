@@ -22,10 +22,10 @@
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="rightBorder" :class='{"greyColor":defalut}' @click="address.isDefault==0?address.isDefault=1:address.isDefault=0">
+        <a class="rightBorder" :class='{"greyColor":empty}' @click="setDefault">
             设为默认地址
         </a>
-        <a id="addNewAddressButton" :class="{greyColor:empty}">
+        <a id="addNewAddressButton" :class="{greyColor:empty}" @click="save">
             保存
         </a>
     </nav>
@@ -65,37 +65,6 @@
     //   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
     // });
     var picker = new mui.PopPicker();
-    $("#addNewAddressButton").on('tap', function() {
-        var address_name = $.trim($("#address_name").val());
-        var address_phone = $.trim($("#address_phone").val());
-        var address_id = $.trim($("#address_id").val());
-        var address_school = $.trim($("#address_school").val());
-        var address_dom = $.trim($("#address_dom").val());
-        var address_room = $.trim($("#address_room").val());
-        if (!address_name) {
-            mui.toast("请输入姓名");
-        } else if (!address_phone) {
-            mui.toast("请输入手机号码");
-        } else if (!address_phone) {
-            mui.toast("请输入手机号码");
-        } else if (!address_id) {
-            mui.toast("请输入学号");
-        } else if (!address_school) {
-            mui.toast("请选择学校");
-        } else if (!address_dom) {
-            mui.toast("请输入宿舍园区");
-        } else if (!address_room) {
-            mui.toast("请输入寝室门牌");
-        } else {
-            $.when(addAddress(vm.address)).done(function(data) {
-                if (data.resultCode == 200) {
-                    mui.toast("保存成功");
-                    self.$data.dormList = data.data.dorms
-                }
-            });
-            
-        }
-    })
     var vm = new Vue({
         el: "body",
         data: {
@@ -103,10 +72,10 @@
                 name: "",
                 phone: "",
                 studentNo: "",
-                dormId: 0,
+                dormId: null,
                 address: "",
                 isDefault: 0,
-                schoolId: 0
+                schoolId: null
             },
             schoolList: [],
             dormList: [],
@@ -130,6 +99,33 @@
             }
         },
         methods: {
+            setDefault: function() {
+                this.address.isDefault = 1;
+                this.save();
+            },
+            save: function() {
+                var msg = this.address;
+                if (!msg.name) {
+                    mui.toast("请输入姓名");
+                } else if (!msg.phone) {
+                    mui.toast("请输入手机号码");
+                } else if (!msg.studentNo) {
+                    mui.toast("请输入学号");
+                } else if (!msg.schoolId) {
+                    mui.toast("请选择学校");
+                } else if (!msg.dormId) {
+                    mui.toast("请输入宿舍园区");
+                } else if (!msg.address) {
+                    mui.toast("请输入寝室门牌");
+                } else {
+                    $.when(addAddress(this.address)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("保存成功");
+                            mui.back();
+                        }
+                    });
+                }
+            },
             schoolChoose: function() {
                 var data = [];
                 var self = this;
@@ -171,11 +167,21 @@
             var self = this;
             var id;
             if (window.location.search) {
-                id = (window.location.search.slice(1))
-                $.when(getOneAddress(id)).done(function(data) {
-                    console.log(data);
-                    self.$data.address = data.data.address
-                });
+                var data = getQueryData();
+                if (data.id) {
+                    $.when(getOneAddress(data.id)).done(function(data) {
+                        console.log(data);
+                        self.$data.address = data.data.address
+                        $.when(getDormList(self.address.dormId)).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                self.$data.dormList = data.data.dorms;
+                                self.school=self.address.school;
+                                self.dorm=self.address.dorm;
+                            }
+                        });
+                    });
+                }
             }
             $.when(getSchoolList()).done(function(data) {
                 console.log(data);

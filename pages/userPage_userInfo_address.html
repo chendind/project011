@@ -40,14 +40,16 @@
                 <div class="mui-slider-right mui-disabled">
                     <a class="mui-btn mui-btn-red removeAddressButton" data-id={{place.id}}>删除</a>
                 </div>
-                <a data-href="userPage_userInfo_addNewAddress.html?{{place.id}}" class="mui-navigate-right mui-slider-handle">
+                <a class="mui-slider-handle" @click="choosePlace(place.id)">
                     <div class="mui-media-body">
                         {{place.name}} {{place.phone}}
                         <p class='mui-ellipsis'>
-                            <span class="mui-badge mui-badge-primary" v-if="place.isDefault==1">默</span>
-                            <span class="mui-badge mui-badge-warning" v-if="place.type==0">学</span> {{place.school}}{{place.dorm}}{{place.address}}
+                            <span class="mui-badge mui-badge-primary" v-if="place.isDefault==1">默认</span>
+                            <span class="mui-badge mui-badge-warning" v-if="place.type==0">学校</span>
+                            <span>{{place.school}}{{place.dorm}}{{place.address}}</span>
                         </p>
                     </div>
+                    <a data-href="#" style="display:block;position:absolute;right:17px;top:27px" @click.stop.prevent="editAddress(place.id)"><img src="../source/images/edit.png" alt="" style="height:24px;width:24px;"></a>
                 </a>
             </li>
         </ul>
@@ -85,7 +87,20 @@
             }
         },
         methods: {
-
+            editAddress: function(id) {
+                mui.openWindow({
+                    url: "userPage_userInfo_addNewAddress.html?" + encodeObj({"id":id})
+                })
+            },
+            choosePlace: function(id) {
+                if (window.location.search) {
+                    var tradeNo = getQueryData().tradeNo;
+                    $.when(editOrderPlace(tradeNo,id)).done(function(data) {
+                        console.log(data);
+                        mui.back();
+                    });
+                }
+            }
         },
         created: function() {
             var self = this;

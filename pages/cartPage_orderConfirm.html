@@ -20,26 +20,26 @@
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <div class="pay">
+        <div class="pay" v-cloak>
             <div class="amount" style="line-height:50px;padding-left: 15px;">
-                <span class="greyColor">需支付：</span><span class="blueColor">¥{{detail.realFee}}</span>
+                <span class="greyColor">需支付：</span><span class="blueColor">{{payMoney|currency "¥"}}</span>
             </div>
-            <div class="sure greenBg">
+            <div class="sure greenBg" @click="changeMessage">
                 微信支付
             </div>
         </div>
     </nav>
-    <div class="mui-content"  v-cloak>
+    <div class="mui-content" v-cloak>
         <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
             <li class="mui-table-view-cell" v-if="!detail.address">
-                <a data-href="userPage_userInfo_addNewAddress.html" style="height: 70px;" >
+                <a data-href="userPage_userInfo_addNewAddress.html?{{tradeNoObj}}" style="height: 70px;">
                     <div class="veryCenter">
                         <img class="imageIcon" style="width: 20px;" src="../source/images/rect.jpg" alt=""> 添加收货地址
                     </div>
                 </a>
             </li>
-            <li class="mui-table-view-cell mui-media">
-                <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo_address.html">
+            <li class="mui-table-view-cell mui-media" v-if="detail.address">
+                <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo_address.html?{{tradeNoObj}}">
                     <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../source/images/location.png" style="width:18.5px;height:20.9px;margin-top:12px">
                     <div class="mui-media-body">
                         {{detail.name}} {{detail.phone}}
@@ -53,7 +53,7 @@
                 <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png" style="width:20px;height:20px;"> {{detail.books.name}}
             </li>
             <li class="mui-table-view-cell">
-                <a v-for="book in detail.books.datas" data-href="indexPage_textbook.html?{{encode(book.id)}}" >
+                <a v-for="book in detail.books.datas" data-href="indexPage_textbook.html?{{encode({bookId:book.id})}}">
                     <div class="mui-table">
                         <div class="mui-table-cell mui-col-xs-3">
                             <img style="width: 80%;" :src="book.path" />
@@ -80,16 +80,16 @@
         <form class="mui-input-group" style="margin-bottom: 10px;">
             <div class="mui-input-row">
                 <label style="width: 25%;">备注</label>
-                <input style="width: 75%;text-align: right;" type="text" placeholder="请输入备注">
+                <input style="width: 75%;text-align: right;" type="text" placeholder="请输入备注" v-model="detail.message">
             </div>
         </form>
         <form class="mui-input-group" style="margin-bottom: 10px;">
             <div class="mui-input-row mui-checkbox" style="margin-bottom: 10px;">
                 <label>
                     零钱 <span class="greyColor"> | 余额：¥ {{detail.myTotalChange}}</span>
-                    <span class="mui-tip redColor" style="font-size: 14px;right: 40px;">－¥ <span>6.00</span></span>
+                    <span class="mui-tip redColor" style="font-size: 14px;right: 40px;">－ <span>{{changeMoney |currency "¥" }}</span></span>
                 </label>
-                <input class="smallCheckbox" type="checkbox">
+                <input class="smallCheckbox" type="checkbox" v-model="isChange" :true-value="changeMoney" :false-value="0">
             </div>
         </form>
     </div>
@@ -99,28 +99,63 @@
         el: "body",
         data: {
             detail: {
-                books:[]
-            }
+                books: []
+            },
+            isChange: 0,
+            tradeNoObj:''
         },
         computed: {
-
+            changeMoney: function() {
+                var self = this;
+                if (self.detail.myTotalChange > self.detail.totalFee) {
+                    return self.detail.myTotalChange
+                } else {
+                    return self.detail.totalFee
+                }
+            },
+            payMoney: function() {
+                return this.detail.realFee - this.isChange
+            }
         },
         watch: {
 
         },
         methods: {
-            encode:function(data){
+            encode: function(data) {
                 return encodeObj(data);
+            },
+            wechatPay: function() {
+                $.when(wechatPay(this.detail.tradeNumber, this.change)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+
+                    }
+                });
+            },
+            changeMessage: function() {
+                var self=this;
+                if (self.detail.message) {
+                    $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
+                        console.log(data);
+                        if (data.resultCode == 200) {
+                            self.wechatPay();
+                        }
+                    });
+                } else {
+                    self.wechatPay();
+                }
             }
         },
         created: function() {
             var self = this;
-            var tradeNo=window.location.search.slice(1);
+            var data = getQueryData();
+            self.tradeNoObj=encodeObj(data);
+            var tradeNo = data.tradeNo;
             console.log(tradeNo);
             $.when(orderConfirm(tradeNo)).done(function(data) {
                 console.log(data);
                 if (data.resultCode == 200) {
-                    self.detail=data.data.order;
+                    self.detail = data.data.order;
                 }
             });
         },

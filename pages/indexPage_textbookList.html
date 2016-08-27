@@ -38,13 +38,13 @@
                             </div>
                         </div>
                     </a>
-                    <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" / @click="addToCart(book.id)">
+                    <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" @click.prevent="addToCart(book.id)" />
                 </li>
             </ul>
         </div>
     </div>
     <div class="fixedCartButton" style="bottom: 20px;">
-    <span class="mui-badge mui-badge-primary" v-if="cartList.length>0">{{cartList.length}}</span>
+        <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </div>
     <script>
@@ -54,12 +54,12 @@
         data: {
             cartList: [],
             bookList: [],
-            page: 1,
             bannerImagePath: ""
         },
         computed: {},
         methods: {
             noExisted: function(id) {
+                console.log(id);
                 if (this.cartList.indexOf(id) !== -1) {
                     mui.toast("请勿重复添加");
                     return false;
@@ -69,22 +69,23 @@
             },
             addToCart: function(id) {
                 var self = this;
+                console.log(id);
                 if (self.noExisted(id)) {
                     $.when(addToCart(id)).done(function(data) {
                         if (data.resultCode == 200) {
                             mui.toast("添加成功");
-                        }
-                        $.when(cartList()).done(function(data) {
-                            console.log(data);
-                            if (data.resultCode == 200) {
-                                if (data.data.carts) {
-                                    self.cartList = [];
-                                    for (var i = 0; i < data.data.carts.length; i++) {
-                                        self.cartList.push(data.data.carts[i].relationId)
+                            $.when(cartList()).done(function(data) {
+                                console.log(data);
+                                if (data.resultCode == 200) {
+                                    if (data.data.carts) {
+                                        self.cartList = [];
+                                        for (var i = 0; i < data.data.carts.length; i++) {
+                                            self.cartList.push(data.data.carts[i].relationId)
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
+                        }
                     });
                 }
             },

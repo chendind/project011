@@ -7,10 +7,6 @@ else{
 	window.location.href = "index.html";
 }
 $(function(){
-	mui("body").on('tap','.smallCartIcon',function(e){
-		e.stopPropagation();
-		mui.toast("添加成功");
-	});
 	$("body").on('tap','[data-href]',function(e){
 		e.stopPropagation();
 		e.preventDefault();

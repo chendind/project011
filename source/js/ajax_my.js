@@ -56,7 +56,7 @@ function deleteOneAddress(id) {
 }
 // 获取学校
 function getSchoolList(cityId) {
-    if(!cityId){
+    if (!cityId) {
         cityId = currentCityId;
     }
     var ajax = $.ajax({
@@ -291,7 +291,7 @@ function addToCart(id) {
 // 删除到购物车
 function deleteFromCart(id) {
     var ajax = $.ajax({
-        url: baseUrl + "/shopping_carts/"+id,
+        url: baseUrl + "/shopping_carts/" + id,
         type: "DELETE",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -303,11 +303,11 @@ function deleteFromCart(id) {
     return ajax;
 }
 // 生成订单
-function createOrder(ids,num,type) {
+function createOrder(ids, num, type) {
     var ajax = $.ajax({
         url: baseUrl + "/orders",
         type: "POST",
-        data: { "ids": ids, "type":type, "num": num, "featureId": "0", "cityId": currentCityId },
+        data: { "ids": ids, "type": type, "num": num, "featureId": "0", "cityId": currentCityId },
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,
@@ -320,7 +320,7 @@ function createOrder(ids,num,type) {
 // 订单详情
 function orderDetail(tradeNo) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/"+tradeNo,
+        url: baseUrl + "/orders/" + tradeNo,
         type: "GET",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
@@ -334,8 +334,66 @@ function orderDetail(tradeNo) {
 // 确认订单
 function orderConfirm(tradeNo) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/confirm/"+tradeNo+"/"+currentCityId,
+        url: baseUrl + "/orders/confirm/" + tradeNo + "/" + currentCityId,
         type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 获取订单详情
+function orderDetail(tradeNo) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/" + tradeNo,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 微信支付
+function wechatPay(tradeNo,change) {
+    var ajax = $.ajax({
+        url: baseUrl + "/trade/wxPayParams",
+        type: "POST",
+        data:{"tradeNo":tradeNo,"payType":"1","change":change},
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 修改留言
+function changeMessage(tradeNo,message) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/"+tradeNo+"/message",
+        type: "PUT",
+        data:{"message":message},
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 修改订单地址
+function editOrderPlace(tradeNo,aid) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/"+tradeNo+"/address/"+aid,
+        type: "PUT",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,
         contentType: contentType,

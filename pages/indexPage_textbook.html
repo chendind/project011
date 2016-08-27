@@ -55,7 +55,7 @@
         </div>
     </div>
     <a data-href="cartPage.html" class="fixedCartButton">
-    <span class="mui-badge mui-badge-primary" v-if="cartList.length>0">{{cartList.length}}</span>
+    <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
     <script>
@@ -105,7 +105,7 @@
                     if (data.resultCode == 200) {
                         var tradeNo = data.data.tradeNumber;
                         mui.openWindow({
-                            url: "cartPage_orderConfirm.html?" + tradeNo
+                            url: "cartPage_orderConfirm.html?" + encodeObj({"tradeNo":tradeNo })
                         })
                     }
                 });

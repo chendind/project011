@@ -224,7 +224,7 @@
                     if (data.resultCode == 200) {
                         var tradeNo = data.data.tradeNumber;
                         mui.openWindow({
-                            url: "cartPage_orderConfirm.html?" + tradeNo
+                            url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo }) 
                         })
                     }
                 });

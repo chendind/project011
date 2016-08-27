@@ -113,19 +113,19 @@
     <div class="mui-content">
         <div id="slider" class="mui-slider mui-fullscreen">
             <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-                <a class="mui-control-item mui-active">
+                <a class="mui-control-item mui-active" href="item1mobile">
                     全部
                 </a>
-                <a class="mui-control-item">
+                <a class="mui-control-item" href="item2mobile">
                     待下单
                 </a>
-                <a class="mui-control-item">
+                <a class="mui-control-item" href="item3mobile">
                     待发货
                 </a>
-                <a class="mui-control-item">
+                <a class="mui-control-item" href="item4mobile">
                     待收货
                 </a>
-                <a class="mui-control-item">
+                <a class="mui-control-item" href="item5mobile">
                     已完成
                 </a>
             </div>
@@ -156,63 +156,16 @@
                                 </li>
                                 <li class="mui-table-view-cell third">
                                     <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?6:3|currency'¥'}}</span>
+                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
                                     <div class="mui-pull-right">
-                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
                                             立即付款
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="mui-table-view order-table-view">
-                                <li class="mui-table-view-cell first">
-                                    <span class="textColor">订单号：46518512787395</span>
-                                    <span class="mui-pull-right blueColor">待下单</span>
-                                </li>
-                                <li class="mui-table-view-cell second">
-                                    <a href="indexPage_textbook.html">
-                                        <div class="mui-table">
-                                            <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" src="../source/images/rect.jpg" />
-                                            </div>
-                                            <div class="mui-table-cell mui-col-xs-9">
-                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
-                                                <h6>申请人：李四</h6>
-                                                <h6>出版社：浙江教育出版社</h6>
-                                                <span class="mui-h4 linkColor">¥0.00</span>
-                                                <span class="mui-h4 mui-pull-right">×1</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="mui-table-view-cell second">
-                                    <a href="indexPage_textbook.html">
-                                        <div class="mui-table">
-                                            <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" src="../source/images/rect.jpg" />
-                                            </div>
-                                            <div class="mui-table-cell mui-col-xs-9">
-                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
-                                                <h6>申请人：李四</h6>
-                                                <h6>出版社：浙江教育出版社</h6>
-                                                <span class="mui-h4 linkColor">¥0.00</span>
-                                                <span class="mui-h4 mui-pull-right">×1</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="mui-table-view-cell third">
-                                    <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">¥ 0.00</span>
-                                    <div class="mui-pull-right">
-                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor">
-                                            取消订单
-                                        </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short">
-                                            立即付款
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                            查看详情
                                         </div>
                                     </div>
                                 </li>
@@ -223,7 +176,42 @@
                 <div id="item2mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view">
+                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                                <li class="mui-table-view-cell first">
+                                    <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
+                                    <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
+                                </li>
+                                <li class="mui-table-view-cell second">
+                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="book.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{book.title}}</h4>
+                                                <h6 v-cloak>作者：{{book.author}}</h6>
+                                                <h6 v-cloak>出版社：{{book.publisher}}</h6>
+                                                <span class="mui-h4 linkColor">¥0.00</span>
+                                                <span class="mui-h4 mui-pull-right">×1</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell third">
+                                    <span class="textColor">共一件商品，合计：</span>
+                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <div class="mui-pull-right">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                            取消订单
+                                        </button>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                            立即付款
+                                        </div>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                            查看详情
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -231,7 +219,42 @@
                 <div id="item3mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view">
+                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                                <li class="mui-table-view-cell first">
+                                    <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
+                                    <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
+                                </li>
+                                <li class="mui-table-view-cell second">
+                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="book.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{book.title}}</h4>
+                                                <h6 v-cloak>作者：{{book.author}}</h6>
+                                                <h6 v-cloak>出版社：{{book.publisher}}</h6>
+                                                <span class="mui-h4 linkColor">¥0.00</span>
+                                                <span class="mui-h4 mui-pull-right">×1</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell third">
+                                    <span class="textColor">共一件商品，合计：</span>
+                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <div class="mui-pull-right">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                            取消订单
+                                        </button>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                            立即付款
+                                        </div>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                            查看详情
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -239,7 +262,42 @@
                 <div id="item4mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view">
+                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                                <li class="mui-table-view-cell first">
+                                    <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
+                                    <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
+                                </li>
+                                <li class="mui-table-view-cell second">
+                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="book.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{book.title}}</h4>
+                                                <h6 v-cloak>作者：{{book.author}}</h6>
+                                                <h6 v-cloak>出版社：{{book.publisher}}</h6>
+                                                <span class="mui-h4 linkColor">¥0.00</span>
+                                                <span class="mui-h4 mui-pull-right">×1</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell third">
+                                    <span class="textColor">共一件商品，合计：</span>
+                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <div class="mui-pull-right">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                            取消订单
+                                        </button>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                            立即付款
+                                        </div>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                            查看详情
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -247,7 +305,42 @@
                 <div id="item5mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view">
+                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                                <li class="mui-table-view-cell first">
+                                    <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
+                                    <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
+                                </li>
+                                <li class="mui-table-view-cell second">
+                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="book.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{book.title}}</h4>
+                                                <h6 v-cloak>作者：{{book.author}}</h6>
+                                                <h6 v-cloak>出版社：{{book.publisher}}</h6>
+                                                <span class="mui-h4 linkColor">¥0.00</span>
+                                                <span class="mui-h4 mui-pull-right">×1</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell third">
+                                    <span class="textColor">共一件商品，合计：</span>
+                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <div class="mui-pull-right">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                            取消订单
+                                        </button>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                            立即付款
+                                        </div>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                            查看详情
+                                        </div>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -301,7 +394,8 @@
         data: {
             orders: [],
             page: 1,
-            orderStatus: 100
+            orderStatus: 100,
+            subOrders: []
         },
         computed: {},
         methods: {},
@@ -312,6 +406,12 @@
                 console.log(data);
                 self.$data.orders = data.data.orders
             });
+            for (var i = 0; i < 4; i++) {
+                $.when(getOrderList(self.page, i)).done(function(data) {
+                    console.log(data);
+                    self.$data.subOrders[i] = data.data.orders
+                });
+            }
         },
         ready: function() {
 
