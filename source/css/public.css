@@ -12,22 +12,19 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 .verticalCenter {
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
 }
 .horizontalCenter {
   position: absolute;
   left: 50%;
-  -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
 }
 .ellipsis {
@@ -191,4 +188,40 @@ body {
 .mui-table-view-cell > .mui-slider-handle .mui-navigate-right:after {
   right: 15px;
 }
-/*# sourceMappingURL=public.css.map */
+.timelineBox {
+  padding: 21px;
+}
+.timelineBox .innerBox .line {
+  position: relative;
+  padding: 0px 10px 15px 20px;
+  line-height: 1;
+  color: #999;
+  font-size: 16px;
+}
+.timelineBox .innerBox .line:after {
+  position: absolute;
+  left: -6px;
+  top: 1px;
+  content: '';
+  display: block;
+  width: 11px;
+  height: 11px;
+  background-color: #999;
+  border-radius: 50%;
+}
+.timelineBox .innerBox .line:before {
+  position: absolute;
+  left: -1px;
+  top: 2px;
+  content: '';
+  display: block;
+  height: 100%;
+  width: 1px;
+  background-color: #999;
+}
+.timelineBox .innerBox .line.been:after {
+  background-color: #016df1;
+}
+.timelineBox .innerBox .line:last-child:before {
+  display: none;
+}
