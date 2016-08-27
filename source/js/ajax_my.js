@@ -403,3 +403,18 @@ function editOrderPlace(tradeNo,aid) {
     });
     return ajax;
 }
+// 取消订单
+function cancelOrder(tradeNo) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/"+tradeNo+"/close",
+        type: "PUT",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+//

@@ -129,8 +129,8 @@
                     已完成
                 </a>
             </div>
-            <div class="mui-slider-group">
-                <div id="item1mobile" class="mui-slider-item mui-control-content">
+            <div class="mui-slider-group" v-cloak>
+                <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
                     <div id="scroll1" class="mui-scroll-wrapper">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
@@ -158,13 +158,13 @@
                                     <span class="textColor">共一件商品，合计：</span>
                                     <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
                                     <div class="mui-pull-right">
-                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                        <a class="mui-btn mui-btn-primary mui-btn-short"  v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             立即付款
-                                        </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                        </a>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看详情
                                         </div>
                                     </div>
@@ -176,13 +176,13 @@
                 <div id="item2mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders0" v-show="order.bookList">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
                                 <li class="mui-table-view-cell second">
-                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                    <a data-href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -201,13 +201,13 @@
                                     <span class="textColor">共一件商品，合计：</span>
                                     <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
                                     <div class="mui-pull-right">
-                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             立即付款
                                         </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看详情
                                         </div>
                                     </div>
@@ -219,7 +219,7 @@
                 <div id="item3mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders1" v-show="order.bookList">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
@@ -244,14 +244,17 @@
                                     <span class="textColor">共一件商品，合计：</span>
                                     <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
                                     <div class="mui-pull-right">
-                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)" >
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             立即付款
                                         </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0&&order.orderStatus!==1" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看详情
+                                        </div>
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus ==1">
+                                            查看物流
                                         </div>
                                     </div>
                                 </li>
@@ -262,7 +265,7 @@
                 <div id="item4mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders2" v-show="order.bookList">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
@@ -290,10 +293,10 @@
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" @click="turnUrl(order.tradeNumber)">
                                             立即付款
                                         </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0" @click="turnUrl(order.tradeNumber)">
                                             查看详情
                                         </div>
                                     </div>
@@ -305,7 +308,7 @@
                 <div id="item5mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders3" v-show="order.bookList">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
@@ -333,10 +336,10 @@
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" @click="turnUrl(order.tradeNumber)">
                                             立即付款
                                         </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0" @click="turnUrl(order.tradeNumber)">
                                             查看详情
                                         </div>
                                     </div>
@@ -350,6 +353,7 @@
     </div>
     <script>
     mui.init();
+<<<<<<< HEAD
     var params = getQueryData();
     if(params){
         var orderStatus = params.orderStatus;
@@ -370,6 +374,8 @@
             }
         });
     });
+=======
+>>>>>>> origin/master
     //阻尼系数
     var deceleration = mui.os.ios ? 0.003 : 0.0009;
     mui('.mui-scroll-wrapper').scroll({
@@ -406,10 +412,46 @@
             orders: [],
             page: 1,
             orderStatus: 100,
-            subOrders: []
+            subOrders0: [],
+            subOrders1: [],
+            subOrders2: [],
+            subOrders3: [],
         },
         computed: {},
-        methods: {},
+        methods: {
+            encode: function(data) {
+                return encodeObj(data);
+            },
+            cancelOrder: function(orderNo) {
+                var self=this;
+                mui.confirm("确定删除吗？", " ", ["确定", "取消"], function(data) {
+                    if (data.index == 0) {
+                        $.when(cancelOrder(orderNo)).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
+                                    console.log(data);
+                                    self.$data.orders = data.data.orders
+                                });
+                                $.when(getOrderList(self.page, 0)).done(function(data) {
+                                    console.log(data);
+                                    self.$data.subOrders0 = data.data.orders
+                                });
+                            }
+                        });
+                    } else {
+
+                    }
+                });
+            },
+            turnUrl :function(orderNo){
+                console.log('test');
+                var URI=encodeObj({"orderNo":orderNo});
+                mui.openWindow({
+                    url:"cartPage_order_status.html?"+URI
+                })
+            },
+        },
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");
@@ -420,7 +462,10 @@
             for (var i = 0; i < 4; i++) {
                 $.when(getOrderList(self.page, i)).done(function(data) {
                     console.log(data);
-                    self.$data.subOrders[i] = data.data.orders
+                    console.log(i);
+                    if (data.data.orders) {
+                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders
+                    }
                 });
             }
         },
