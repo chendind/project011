@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body>
+	<div class="mui-content">
+		<div style="padding: 16px;line-height: 1;background-color: #fff;margin-bottom: 10px;">
+	        <div style="">
+	            <p>运输编号：15746966558360694</p>
+	            <p>运输方式：云书自运</p>
+	            <p>客服电话：<a href="tel:4001-888-924">4001-888-924</a></p>
+	        </div>
+	    </div>
+		<div class="mui-card">
+            <div class="mui-card-content">
+                <div class="mui-card-header">物流跟踪</div>
+                <div class="timelineBox">
+                    <div class="innerBox">
+                        <div class="line been">
+                        	派件中，派件员：XXXXXXXXXX
+                        	<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
+                        </div>
+                        <div class="line">
+                        	包裹已到达杭州中转中心
+							<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
+                        </div>
+                        <div class="line">
+                        	包裹已出库
+							<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
+                        </div>
+                        <div class="line">
+                        	包裹打包完成
+							<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	
+<script>
+mui.init();
+var params = getQueryData();
+if(!params){
+    // mui.alert("查询参数错误","",["确定"],function(){
+    //     mui.back();
+    // });
+}
+else{
+  console.log(params.status, params.orderId);
+}
+
+</script>
+</body>
+</html>

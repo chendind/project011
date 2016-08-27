@@ -12,22 +12,19 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 .verticalCenter {
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
 }
 .horizontalCenter {
   position: absolute;
   left: 50%;
-  -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
 }
 .ellipsis {
@@ -163,8 +160,7 @@ a.mui-active .mui-icon > img.selection {
   right: 15px;
   display: inline-block;
   -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
+  transform: translateY(-50%);
   text-decoration: none;
   color: #bbb;
 }
@@ -250,4 +246,10 @@ input {
   width: 100%;
   height: 100%;
 }
-/*# sourceMappingURL=mui_overwrite.css.map */
+.mui-card {
+  margin: 10px 0px;
+  box-shadow: none;
+}
+.mui-card-header:after {
+  margin: 0 15px;
+}

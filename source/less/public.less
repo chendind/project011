@@ -155,6 +155,61 @@ body{
 .mui-table-view-cell > .mui-slider-handle.mui-navigate-right:after, .mui-table-view-cell > .mui-slider-handle .mui-navigate-right:after{
 	right: 15px;
 }
+.timelineBox{
+	padding: 21px;
+	.innerBox{
+		.line{
+			position: relative;
+			padding: 0px 10px 15px 20px;
+			line-height: 1;
+			color: #999;
+			font-size: 16px;
+			&:after{
+				position: absolute;
+				left: -6px;
+				top: 1px;
+				content: '';
+				display: block;
+				width: 11px;
+				height: 11px;
+				background-color: #999;
+				border-radius: 50%;
+			}
+			&:before{
+				position: absolute;
+				left: -1px;
+				top: 2px;
+				content: '';
+				display: block;
+				height: 100%;
+				width: 1px;
+				background-color: #999;
+			}
+			&.been{
+				&:after{
+					background-color: #016df1;
+				}
+			}
+			&:last-child{
+				&:before{
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -259,7 +259,8 @@
     mui.init();
     $(".mui-content").on('click', '[data-cancelOrderButton]', function() {
         var $this = $(this);
-        mui.confirm("确定取消订单吗？", " ", ["<span class='textColor'>确定</span>", "不"], function(data) {
+        mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
+            console.log(data);
             if (!data.index) {
                 $this.closest(".order-table-view").remove();
             }
