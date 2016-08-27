@@ -32,7 +32,7 @@
             </div>
             <div class="innerCenter" style="margin-top: 26px;">
                 <div>
-                    <a href="" class="mui-btn mui-btn-primary mui-btn-outlined" style="margin-right: 30px;">订单详情</a>
+                    <a id="orderDetailButton" class="mui-btn mui-btn-primary mui-btn-outlined" style="margin-right: 30px;">订单详情</a>
                     <a href="indexPage.html" class="mui-btn mui-btn-primary mui-btn-outlined">返回首页</a>
                 </div>
             </div>
@@ -41,7 +41,13 @@
     
 <script>
 mui.init();
-
+$("#orderDetailButton").on('tap',function(){
+    var params = {
+        "status": "0",// 0表示成功
+        "orderId": "1"// 这里填入orderid
+    };
+    window.location.href = "cartPage_order_status.html?"+encodeObj(params);
+});
 </script>
 </body>
 </html>

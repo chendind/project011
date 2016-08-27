@@ -100,22 +100,28 @@
         created: function() {
             var self = this;
             var params = getQueryData();
-
-            $.when(bookDetail(params.bookId)).done(function(data) {
-                if (data.resultCode == 200) {
-                    self.detail = data.data.book;
-                    self.detail.author = self.detail.author.split("，");
-                }
-            });
-            $.when(cartList()).done(function(data) {
-                if (data.resultCode == 200) {
-                    if (data.data.carts) {
-                        for (var i = 0; i < data.data.carts.length; i++) {
-                            self.cartList.push(data.data.carts[i].relationId)
+            if(!params){
+                mui.alert("查询参数错误","",["确定"],function(){
+                    mui.back();
+                });
+            }
+            else{
+                $.when(bookDetail(params.bookId)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.detail = data.data.book;
+                        self.detail.author = self.detail.author.split("，");
+                    }
+                });
+                $.when(cartList()).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data.carts) {
+                            for (var i = 0; i < data.data.carts.length; i++) {
+                                self.cartList.push(data.data.carts[i].relationId)
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         },
         ready: function() {
 

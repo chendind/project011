@@ -58,7 +58,7 @@
        </div>
        <ul class="mui-table-view mui-table-view-chevron" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell mui-media">
-                <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo.html">
+                <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="">
                     <img class="mui-media-object mui-pull-left" src="../source/webslice/3.2_3.5placeorder&pay/logistics_icon.png" style="width: 22px;height: 20px;margin-top: 18px;margin-right: 20px;margin-left: 10px;">
                     <div class="mui-media-body" style="font-size: 12px;">
                         快件在<浙江省杭州市萧山中部公司>已签收<br />签收人：理工代理点北校区 7号楼 XXX
@@ -129,6 +129,15 @@
     
 <script>
 mui.init();
+var params = getQueryData();
+if(!params){
+    mui.alert("查询参数错误","",["确定"],function(){
+        // mui.back();
+    });
+}
+else{
+  console.log(params.status, params.orderId);
+}
 $("#applyRefundButton").on('tap',function(){
     mui.confirm("确定申请退款吗？"," ",["<span class='textColor'>确定</span>", "取消"],function(data) {
         if (!data.index) {
@@ -136,7 +145,7 @@ $("#applyRefundButton").on('tap',function(){
             mui.toast("申请成功，我们将尽快为您处理");
         }
     })
-})
+});
 </script>
 </body>
 </html>
