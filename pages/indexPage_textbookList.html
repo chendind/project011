@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,91 +13,155 @@
     <link rel="stylesheet" href="../source/css/index.css">
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
 </head>
+
 <body>
-	<div class="mui-content">
-		<div id="index-bg-header" class="index-bg-header" style="display: none;"></div>
-		<div id="bookList">
-			
-		</div>
-	</div>
-	<div class="fixedCartButton" style="bottom: 20px;">
+    <div class="mui-content">
+        <img id="index-bg-header" class="index-bg-header" v-if="bannerImagePath" :src="bannerImagePath"></img>
+        <div id="bookList">
+            <ul class="mui-table-view" style="margin-top: 10px;" v-for="book in bookList">
+                <li class="mui-table-view-cell">
+                    <a href="indexPage_textbook.html?{{encode(book.id)}}">
+                        <div class="mui-table">
+                            <div class="mui-table-cell mui-col-xs-3">
+                                <img class="bookCoverImage" style="width: 80%;" :src="book.path" />
+                            </div>
+                            <div class="mui-table-cell mui-col-xs-9">
+                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="title mui-ellipsis"></h4>
+                                <h6>作者：<span class="author">{{book.author}}</span></h6>
+                                <h6>出版社：<span class="publisher">{{book.publisher}}</span></h6>
+                                <span class="mui-h4 linkColor">¥<span class="marketPrice">0.00</span></span>
+                            </div>
+                        </div>
+                    </a>
+                    <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" / @click="addToCart(book.id)">
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="fixedCartButton" style="bottom: 20px;">
+    <span class="mui-badge mui-badge-primary" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </div>
-<script>
-mui.init();
-var params = getQueryData();
-if(!params){
-    mui.alert("查询参数错误","",["确定"],function(){
-        mui.back();
-    });
-}
-else{
-    if(params.subCateId){
-        // 某个子类
-    	var subCateId = params.subCateId;
-    	$.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data){
-    		if(data.resultCode == 200){
-    			if(data.data&&data.data.books.length){
-    				writeDataToTextbookList(data.data.books);
-    			}
-    			else{
-    				mui.alert("无书本信息","",["确定"],function(){
-				        mui.back();
-				    });
-    			}
-    		}
-    	});
-    }
-    else if(params.recommendId||params.hotId||params.newId){
-        /* 推荐书籍
-           热门书籍
-           最新书籍
-        */
-    	var id = params.recommendId||params.hotId||params.newId,
-    	type = params.type;
-    	$.when(getRecommendBooksByTypeAndId(type,id)).done(function(data){
-    		if(data.resultCode == 200){
-    			if(data.data.list&&data.data.list.books.length){
-    				writeDataToTextbookList(data.data.list.books, data.data.list.path);
-    			}
-    			else{
-    				mui.alert("无书本信息","",["确定"],function(){
-				        mui.back();
-				    });
-    			}
-    		}
-    	});
-    }
-}
-$(".smallCartIcon").on('tap',function(e){
-	mui.toast("添加成功");
-});
-function writeDataToTextbookList(books,bannerImagePath){
-	if(bannerImagePath){
-		$("#index-bg-header").css({
-			"background-image": "url("+bannerImagePath+")"
-		}).show();
-	}
-	var html = "";
-	for(var i = 0, length = books.length; i<length; i++){
-		var book = books[i];
-		html += getSingleBookTableCell(book.id, book.path, book.title, book.author, book.publisher, book.marketPrice);
-	}
-	$("#bookList").append(html);
-}
-</script>
+    <script>
+    mui.init();
+    var vm = new Vue({
+        el: "body",
+        data: {
+            cartList: [],
+            bookList: [],
+            page: 1,
+            bannerImagePath: ""
+        },
+        computed: {},
+        methods: {
+            noExisted: function() {
+                if (this.cartList.indexOf(this.detail.id) !== -1) {
+                    mui.toast("请勿重复添加");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            addToCart: function(id) {
+                var self = this;
+                if (self.noExisted()) {
+                    $.when(addToCart(id)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("添加成功");
+                        }
+                        $.when(cartList()).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                if (data.data.carts) {
+                                    self.cartList = [];
+                                    for (var i = 0; i < data.data.carts.length; i++) {
+                                        self.cartList.push(data.data.carts[i].relationId)
+                                    }
+                                }
+                            }
+                        });
+                    });
+                }
+            },
+            createOrder: function() {
+                var ids = this.detail.id;
+                $.when(createOrder(ids, "1", "bookOnly")).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        var tradeNo = data.data.tradeNumber;
+                        mui.openWindow({
+                            url: "cartPage_orderConfirm.html?" + tradeNo
+                        })
+                    }
+                });
+            },
+            encode: function(data) {
+                return encodeObj(data);
+            }
+        },
+        created: function() {
+            var self = this;
+            var params = getQueryData();
+            $.when(cartList()).done(function(data) {
+                if (data.resultCode == 200) {
+                    if (data.data.carts) {
+                        for (var i = 0; i < data.data.carts.length; i++) {
+                            self.cartList.push(data.data.carts[i].relationId)
+                        }
+                    }
+                }
+            });
+            if (!params) {
+                mui.alert("查询参数错误", "", ["确定"], function() {
+                    mui.back();
+                });
+            } else {
+                if (params.subCateId) {
+                    // 某个子类
+                    var subCateId = params.subCateId;
+                    $.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            if (data.data && data.data.books.length) {
+                                self.bookList = data.data.books
+                            } else {
+                                mui.alert("无书本信息", "", ["确定"], function() {
+                                    mui.back();
+                                });
+                            }
+                        }
+                    });
+                } else if (params.recommendId || params.hotId || params.newId) {
+                    /* 推荐书籍
+                       热门书籍
+                       最新书籍
+                    */
+                    var id = params.recommendId || params.hotId || params.newId,
+                        type = params.type;
+                    $.when(getRecommendBooksByTypeAndId(type, id)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            if (data.data.list && data.data.list.books.length) {
+                                self.bookList = data.data.list.books
+                                self.bannerImagePath = data.data.list.path;
+                            } else {
+                                mui.alert("无书本信息", "", ["确定"], function() {
+                                    mui.back();
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        },
+        ready: function() {
+
+        }
+    })
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-

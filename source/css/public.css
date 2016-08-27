@@ -48,6 +48,11 @@ body {
 [v-cloak] {
   display: none;
 }
+.mui-badge {
+  position: relative;
+  left: 28px;
+  top: 3px;
+}
 .mui-pull-bottom-wrapper {
   text-align: center;
 }

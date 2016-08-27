@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,56 +13,55 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
-        <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
     <nav class="mui-bar mui-bar-tab">
         <div class="pay">
             <div class="amount" style="line-height:50px;padding-left: 15px;">
-                <span class="greyColor">需支付：</span><span class="blueColor">¥20.00</span>
+                <span class="greyColor">需支付：</span><span class="blueColor">¥{{detail.realFee}}</span>
             </div>
             <div class="sure greenBg">
                 微信支付
             </div>
         </div>
     </nav>
-	<div class="mui-content">
+    <div class="mui-content"  v-cloak>
         <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
-            <li class="mui-table-view-cell">
-                <a data-href="userPage_userInfo_addNewAddress.html" style="height: 70px;">
+            <li class="mui-table-view-cell" v-if="!detail.address">
+                <a data-href="userPage_userInfo_addNewAddress.html" style="height: 70px;" >
                     <div class="veryCenter">
-                        <img class="imageIcon" style="width: 20px;" src="../source/images/rect.jpg" alt="">
-                        添加收货地址
+                        <img class="imageIcon" style="width: 20px;" src="../source/images/rect.jpg" alt=""> 添加收货地址
                     </div>
                 </a>
             </li>
             <li class="mui-table-view-cell mui-media">
                 <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_userInfo_address.html">
-                    <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../source/images/rect.jpg">
+                    <img class="mui-media-object mui-pull-left head-img" id="head-img" src="../source/images/location.png" style="width:18.5px;height:20.9px;margin-top:12px">
                     <div class="mui-media-body">
-                        王靖栋 15558938081
-                        <p class='mui-ellipsis'>杭州科技大学学文苑寝室楼A603</p>
+                        {{detail.name}} {{detail.phone}}
+                        <p class='mui-ellipsis'>{{detail.address}}</p>
                     </div>
                 </a>
             </li>
         </ul>
         <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
             <li class="mui-table-view-cell">
-                <img class="mui-media-object mui-pull-left icon-img" src="../source/images/rect.jpg">
-                云书教材
+                <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png" style="width:20px;height:20px;"> {{detail.books.name}}
             </li>
             <li class="mui-table-view-cell">
-                <a data-href="indexPage_textbook.html">
+                <a v-for="book in detail.books.datas" data-href="indexPage_textbook.html?{{encode(book.id)}}" >
                     <div class="mui-table">
                         <div class="mui-table-cell mui-col-xs-3">
-                            <img style="width: 80%;" src="../source/images/rect.jpg" />
+                            <img style="width: 80%;" :src="book.path" />
                         </div>
                         <div class="mui-table-cell mui-col-xs-9">
-                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">信息化推进办公室张彦合同付款信息化</h4>
-                            <h6>申请人：李四</h6>
-                            <h6>出版社：浙江教育出版社</h6>
+                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">{{book.title}}</h4>
+                            <h6>作者：{{book.author}}</h6>
+                            <h6>出版社：{{book.publisher}}</h6>
                             <span class="mui-h4 linkColor">¥0.00</span>
                             <span class="mui-h4 mui-pull-right">×1</span>
                         </div>
@@ -70,11 +70,11 @@
             </li>
             <li class="mui-table-view-cell">
                 运费
-                <span class="mui-tip" style="font-size: 14px;color: #666;">¥ <span>6.00</span></span>
+                <span class="mui-tip" style="font-size: 14px;color: #666;">¥ <span>{{detail.books.expressPrice}}</span></span>
             </li>
             <li class="mui-table-view-cell">
-                共2件合计（含运费）：
-                <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>6.00</span></span>
+                共{{detail.books.number}}件合计（含运费）：
+                <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>{{detail.books.totalFee}}</span></span>
             </li>
         </ul>
         <form class="mui-input-group" style="margin-bottom: 10px;">
@@ -86,20 +86,21 @@
         <form class="mui-input-group" style="margin-bottom: 10px;">
             <div class="mui-input-row mui-checkbox" style="margin-bottom: 10px;">
                 <label>
-                    零钱 <span class="greyColor"> | 余额：¥ 8.00</span>
+                    零钱 <span class="greyColor"> | 余额：¥ {{detail.myTotalChange}}</span>
                     <span class="mui-tip redColor" style="font-size: 14px;right: 40px;">－¥ <span>6.00</span></span>
                 </label>
                 <input class="smallCheckbox" type="checkbox">
             </div>
         </form>
-	</div>
-    
-<script>
-mui.init();
+    </div>
+    <script>
+    mui.init();
     var vm = new Vue({
         el: "body",
         data: {
-
+            detail: {
+                books:[]
+            }
         },
         computed: {
 
@@ -108,18 +109,18 @@ mui.init();
 
         },
         methods: {
-
+            encode:function(data){
+                return encodeObj(data);
+            }
         },
         created: function() {
             var self = this;
-            var data=getQueryData()
-            var num=data.length;
-            var ids=data.join(",");
-            console.log(ids);
-            $.when(createOrder(ids,num,"shoppingCart")).done(function(data) {
+            var tradeNo=window.location.search.slice(1);
+            console.log(tradeNo);
+            $.when(orderConfirm(tradeNo)).done(function(data) {
                 console.log(data);
                 if (data.resultCode == 200) {
-
+                    self.detail=data.data.order;
                 }
             });
         },
@@ -127,20 +128,7 @@ mui.init();
 
         }
     })
-</script>
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -23,7 +23,7 @@
         <a id="savePhoneButton" @click="addToCart">
             加入购物车
         </a>
-        <a id="savePhoneButton">
+        <a id="savePhoneButton" @click="createOrder">
             免费领取
         </a>
     </nav>
@@ -55,6 +55,7 @@
         </div>
     </div>
     <a data-href="cartPage.html" class="fixedCartButton">
+    <span class="mui-badge mui-badge-primary" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
     <script>
@@ -87,14 +88,27 @@
                             console.log(data);
                             if (data.resultCode == 200) {
                                 if (data.data.carts) {
+                                    self.cartList=[];
                                     for (var i = 0; i < data.data.carts.length; i++) {
-                                        self.cartList.push(data.data.carts[i].id)
+                                        self.cartList.push(data.data.carts[i].relationId)
                                     }
                                 }
                             }
                         });
                     });
                 }
+            },
+            createOrder:function() {
+                var ids=this.detail.id;
+                $.when(createOrder(ids, "1", "bookOnly")).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        var tradeNo = data.data.tradeNumber;
+                        mui.openWindow({
+                            url: "cartPage_orderConfirm.html?" + tradeNo
+                        })
+                    }
+                });
             }
         },
         created: function() {

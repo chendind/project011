@@ -314,3 +314,31 @@ function createOrder(ids,num,type) {
     });
     return ajax;
 }
+// 订单详情
+function orderDetail(tradeNo) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/"+tradeNo,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 确认订单
+function orderConfirm(tradeNo) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/confirm/"+tradeNo+"/"+currentCityId,
+        type: "GET",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
