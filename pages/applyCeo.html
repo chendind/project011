@@ -36,15 +36,16 @@
                 <input type="text" class="mui-input-clear" placeholder="请选择学校" v-model="school" @click="schoolChoose">
             </div>
             <div class="mui-input-row">
-                <input type="text" class="mui-input-clear" placeholder="请输入手机号">
+                <input type="text" class="mui-input-clear" placeholder="请输入手机号" v-model="phone">
             </div>
             <div class="mui-input-row">
                 <input type="text" class="mui-input-clear" placeholder="请输入验证码">
+                <div class="mui-tip linkColor" @click="getMessage">获取验证码</div>
             </div>
         </form>
         <div class="innerCenter" style="margin-top: 60px;">
             <div>
-                <div class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">提交申请</div>
+                <div id="applyCeoButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;color:#4D99F5">提交申请</div>
             </div>
         </div>
     </div>
@@ -77,11 +78,18 @@ var vm = new Vue({
             sex: "",
             city: "",
             school: "",
+            phone: "",
             cityList: [],
             schoolList: []
         },
         computed: {
-            
+            empty: function() {
+                if (this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.cityList.length && this.schoolList.length) {
+                    return false
+                } else {
+                    return true
+                }
+            }
         },
         methods: {
             editSex: function(sex) {
@@ -110,20 +118,33 @@ var vm = new Vue({
                     })
                 });
             },
-            schoolChoose: function(){
+            schoolChoose: function(e){
                 var data = [];
                 var self = this;
-                for (var i = 0; i < this.schoolList.length; i++) {
-                    data[i] = {
-                        value: this.schoolList[i].id,
-                        text: this.schoolList[i].name
-                    }
+                if(!self.$data.schoolList.length){
+                    mui.toast("请先选择城市");
+                    e.target.blur();
                 }
-                picker.setData(data);
-                picker.show(function(selectItems) {
-                    self.school = selectItems[0].text;
-                    // self.address.dormId = selectItems[0].value;
-                })
+                else{
+                    for (var i = 0; i < self.schoolList.length; i++) {
+                        data[i] = {
+                            value: self.schoolList[i].id,
+                            text: self.schoolList[i].name
+                        }
+                    }
+                    picker.setData(data);
+                    picker.show(function(selectItems) {
+                        self.school = selectItems[0].text;
+                    });
+                }
+                    
+            },
+            getMessage: function(){
+                $.when(sendMessageForApplyCeo(self.phone)).done(function(data){
+                    if(data.resultCode == 200){
+                        mui.toast("发送成功");
+                    }
+                });
             }
         },
         created: function() {

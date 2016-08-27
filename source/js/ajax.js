@@ -20,12 +20,16 @@ function getAjaxHeader(){
 	var token = window.localStorage.getItem("token"),
 		version = window.localStorage.getItem("version"),
 	    header = {};
-	if(token&&version){
+	if(token){
 		header.token = token;
 		header.version = version;
 		header.OriginType = "mp";
 	}else{
 		header.version="1.0"
+	}
+	else{
+		header.version = "1.0";
+		header.OriginType = "mp";
 	}
 	return header;
 }
@@ -196,7 +200,15 @@ function getCurrentCity(deferred){
     },{enableHighAccuracy: true});
     return _deferred;
 }
-
+// 申请成为ceo
+// 申请成为ceo发送验证码
+function sendMessageForApplyCeo(phone){
+	var ajax = $.ajax({
+		url: baseUrl + "/apply/"+phone+"/message",
+		type: "GET"
+	});
+	return ajax;
+}
 
 
 
