@@ -353,7 +353,6 @@
     </div>
     <script>
     mui.init();
-<<<<<<< HEAD
     var params = getQueryData();
     if(params){
         var orderStatus = params.orderStatus;
@@ -365,17 +364,7 @@
         $("#orderStatus_"+1).addClass("active");
         $("#item"+1+"mobile").addClass("active");
     }
-    $(".mui-content").on('click', '[data-cancelOrderButton]', function() {
-        var $this = $(this);
-        mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
-            console.log(data);
-            if (!data.index) {
-                $this.closest(".order-table-view").remove();
-            }
-        });
-    });
-=======
->>>>>>> origin/master
+
     //阻尼系数
     var deceleration = mui.os.ios ? 0.003 : 0.0009;
     mui('.mui-scroll-wrapper').scroll({
@@ -424,7 +413,7 @@
             },
             cancelOrder: function(orderNo) {
                 var self=this;
-                mui.confirm("确定删除吗？", " ", ["确定", "取消"], function(data) {
+                mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
                     if (data.index == 0) {
                         $.when(cancelOrder(orderNo)).done(function(data) {
                             console.log(data);
