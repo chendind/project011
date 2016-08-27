@@ -11,7 +11,6 @@ function errorHandle(data){
 }
 function ajaxDataHandle(){
 	var data = this.data;
-	console.log(data);
 	if(data){
 		var string = JSON.stringify(data);
 		this.data = new TextEncoder().encode(string);
@@ -182,7 +181,19 @@ function getBooksByCategoryId(categoryId, cityId, sort, page, pageSize){
 	});
 	return ajax;
 }
-
+function getCurrentCity(deferred){
+    var _deferred = deferred?deferred:$.Deferred();
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            _deferred.resolve(r);
+        }
+        else {
+            mui.toast("获取城市出错");
+        }        
+    },{enableHighAccuracy: true});
+    return _deferred;
+}
 
 
 

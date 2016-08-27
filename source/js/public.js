@@ -34,19 +34,7 @@ function getQueryData(){
     }
     return parseURI;
 }
-function getCurrentCity(deferred){
-    var _deferred = deferred?deferred:$.Deferred();
-    var geolocation = new BMap.Geolocation();
-    geolocation.getCurrentPosition(function(r){
-        if(this.getStatus() == BMAP_STATUS_SUCCESS){
-            _deferred.resolve(r);
-        }
-        else {
-            mui.toast("获取城市出错");
-        }        
-    },{enableHighAccuracy: true});
-    return _deferred;
-}
+
 
 
 
