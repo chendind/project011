@@ -42,7 +42,7 @@ function getQueryData(){
 */
 var bookTableCellHtml = '<ul class="mui-table-view" style="margin-top: 10px;">'+
         '<li class="mui-table-view-cell">'+
-            '<a href="indexPage_textbook.html">'+
+            '<a data-href="">'+
                 '<div class="mui-table">'+
                     '<div class="mui-table-cell mui-col-xs-3">'+
                         '<img class="bookCoverImage" style="width: 80%;" src="" />'+
@@ -64,7 +64,8 @@ function getSingleBookTableCell(id,path,title,author,publisher,marketPrice){
         .find('.title').text(title).end()
         .find('.author').text(author).end()
         .find('.publisher').text(publisher).end()
-        .find('.marketPrice').text(marketPrice).end();
+        .find('.marketPrice').text(marketPrice).end()
+        .find("a").attr("data-href","indexPage_textbook.html?"+encodeObj({"bookId":id}));
     return $("<div>").append(tableCell).html();
 }
 
