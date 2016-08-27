@@ -113,24 +113,24 @@
     <div class="mui-content">
         <div id="slider" class="mui-slider mui-fullscreen">
             <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-                <a class="mui-control-item mui-active" href="item1mobile">
+                <a id="orderStatus_1" class="mui-control-item" href="item1mobile">
                     全部
                 </a>
-                <a class="mui-control-item" href="item2mobile">
+                <a id="orderStatus_2" class="mui-control-item" href="item2mobile">
                     待下单
                 </a>
-                <a class="mui-control-item" href="item3mobile">
+                <a id="orderStatus_3" class="mui-control-item" href="item3mobile">
                     待发货
                 </a>
-                <a class="mui-control-item" href="item4mobile">
+                <a id="orderStatus_4" class="mui-control-item" href="item4mobile">
                     待收货
                 </a>
-                <a class="mui-control-item" href="item5mobile">
+                <a id="orderStatus_5" class="mui-control-item" href="item5mobile">
                     已完成
                 </a>
             </div>
             <div class="mui-slider-group">
-                <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+                <div id="item1mobile" class="mui-slider-item mui-control-content">
                     <div id="scroll1" class="mui-scroll-wrapper">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
@@ -350,6 +350,17 @@
     </div>
     <script>
     mui.init();
+    var params = getQueryData();
+    if(params){
+        var orderStatus = params.orderStatus;
+        console.log(orderStatus);
+        $("#orderStatus_"+orderStatus).addClass("active");
+        $("#item"+orderStatus+"mobile").addClass("active");
+    }
+    else{
+        $("#orderStatus_"+1).addClass("active");
+        $("#item"+1+"mobile").addClass("active");
+    }
     $(".mui-content").on('click', '[data-cancelOrderButton]', function() {
         var $this = $(this);
         mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
