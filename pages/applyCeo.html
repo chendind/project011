@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui.picker.min.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/login.css">
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/mui.picker.min.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body>
+    <div class="mui-content" style="background-color: #fff;">
+        <h1 style="margin: 61px auto;width: 247px;height: 19px;font-size: 19px;font-weight: 600;text-align: center;color: #333333;">立即申请成为<span class="blueColor">云书</span><span class="yellowColor">/</span>CEO</h1>
+        <form class="mui-input-group ys-input-group" style="margin: 0 40px;">
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-clear" placeholder="请输入姓名">
+            </div>
+            <div class="mui-input-row">
+                <input id="sexInput" type="text" placeholder="请选择性别" v-model="sex">
+            </div>
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-clear" placeholder="请选择城市" v-model="city" @click="cityChoose">
+            </div>
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-clear" placeholder="请选择学校" v-model="school" @click="schoolChoose">
+            </div>
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-clear" placeholder="请输入手机号">
+            </div>
+            <div class="mui-input-row">
+                <input type="text" class="mui-input-clear" placeholder="请输入验证码">
+            </div>
+        </form>
+        <div class="innerCenter" style="margin-top: 60px;">
+            <div>
+                <div class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">提交申请</div>
+            </div>
+        </div>
+    </div>
+    <div id="applyCeo_userSexSheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+        <!-- 可选择菜单 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell" @click="editSex('男')">
+                <a>男</a>
+            </li>
+            <li class="mui-table-view-cell" @click="editSex('女')">
+                <a>女</a>
+            </li>
+        </ul>
+        <!-- 取消菜单 -->
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <a href="#" @click.prevent="cancelEdit"><b>取消</b></a>
+            </li>
+        </ul>
+    </div>
+<script>
+mui.init();
+var picker = new mui.PopPicker();
+$("#sexInput").on('tap',function(){
+    mui("#applyCeo_userSexSheet").popover('toggle')
+});
+var vm = new Vue({
+        el: "body",
+        data: {
+            sex: "",
+            city: "",
+            school: "",
+            cityList: [],
+            schoolList: []
+        },
+        computed: {
+            
+        },
+        methods: {
+            editSex: function(sex) {
+                this.sex = sex;
+                mui("#applyCeo_userSexSheet").popover('hide');
+            },
+            cancelEdit: function() {
+                mui("#applyCeo_userSexSheet").popover('hide')
+            },
+            cityChoose: function(){
+                var data = [];
+                var self = this;
+                console.log(this.cityList);
+                for (var i = 0; i < this.cityList.length; i++) {
+                    data[i] = {
+                        value: this.cityList[i].id,
+                        text: this.cityList[i].name
+                    }
+                }
+                picker.setData(data);
+                picker.show(function(selectItems) {
+                    self.city = selectItems[0].text;
+                    // self.address.dormId = selectItems[0].value;
+                    $.when(getSchoolList(selectItems[0].value)).done(function(data){
+                        self.$data.schoolList = data.data.schools;
+                    })
+                });
+            },
+            schoolChoose: function(){
+                var data = [];
+                var self = this;
+                for (var i = 0; i < this.schoolList.length; i++) {
+                    data[i] = {
+                        value: this.schoolList[i].id,
+                        text: this.schoolList[i].name
+                    }
+                }
+                picker.setData(data);
+                picker.show(function(selectItems) {
+                    self.school = selectItems[0].text;
+                    // self.address.dormId = selectItems[0].value;
+                })
+            }
+        },
+        created: function() {
+            var self = this;
+            var id = localStorage.getItem("id");
+            $.when(getCityList()).done(function(data) {
+                self.$data.cityList = data.data.cities;
+            });
+        },
+        ready: function() {
+
+        }
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

@@ -55,9 +55,12 @@ function deleteOneAddress(id) {
     return ajax;
 }
 // 获取学校
-function getSchoolList() {
+function getSchoolList(cityId) {
+    if(!cityId){
+        cityId = currentCityId;
+    }
     var ajax = $.ajax({
-        url: baseUrl + "/schools/" + currentCityId,
+        url: baseUrl + "/schools/" + cityId,
         type: "GET",
         headers: getAjaxHeader(),
         beforeSend: ajaxDataHandle,

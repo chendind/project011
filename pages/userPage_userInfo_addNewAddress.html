@@ -88,7 +88,6 @@
             mui.toast("请输入寝室门牌");
         } else {
             $.when(addAddress(vm.address)).done(function(data) {
-                console.log(data);
                 if (data.resultCode == 200) {
                     mui.toast("保存成功");
                     self.$data.dormList = data.data.dorms

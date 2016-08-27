@@ -89,10 +89,18 @@ function userLogout(){
 }
 
 // 首页
-// 获取城市
+// 按首字母获取城市
 function getAllCity(){
 	var ajax = $.ajax({
 		url: baseUrl + "/home/cities",
+		type: "GET"
+	});
+	return ajax;
+}
+// 获取城市列表
+function getCityList(){
+	var ajax = $.ajax({
+		url: baseUrl + "/apply/cities",
 		type: "GET"
 	});
 	return ajax;
