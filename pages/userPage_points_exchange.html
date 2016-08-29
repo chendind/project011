@@ -24,7 +24,7 @@
 </head>
 
 <body style="background-color: #fff;">
-    <div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter">
+    <div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter" v-if="showState">
         <table style="width: 100%;">
             <tbody>
                 <tr>
@@ -53,7 +53,7 @@
             <p>拖动杆杠以调节兑换积分／零钱数额</p>
         </div>
         <div>
-            <button id="exchangeButton" class="mui-btn mui-btn-disabled mui-btn-long" style="border-radius: 5px;margin-top: 20px;">
+            <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" style="border-radius: 5px;margin-top: 20px;">
                 兑换
             </button>
         </div>
@@ -65,7 +65,8 @@
         $("#pointsValue").text(vm.scoreMax-v);
         $("#changeValue").text(v / 100);
         vm.score = v;
-        if (vm.score-v) {
+        console.log(v);
+        if (v) {
             $("#exchangeButton").removeClass("mui-btn-disabled").addClass("mui-btn-primary");
         } else {
             $("#exchangeButton").addClass("mui-btn-disabled").removeClass("mui-btn-primary");
@@ -91,7 +92,8 @@
         el: "body",
         data: {
             score: 0,
-            scoreMax: 0
+            scoreMax: 0,
+            showState:false
         },
         computed: {},
         methods: {},
@@ -101,6 +103,7 @@
             $.when(getScore()).done(function(data) {
                 self.scoreMax = data.data.user.score;
                 self.score=vm.scoreMax;
+                self.showState=true;
             });
         },
         ready: function() {
