@@ -25,7 +25,7 @@
         <div id="bookList">
             <ul class="mui-table-view" style="margin-top: 10px;" v-for="book in bookList">
                 <li class="mui-table-view-cell">
-                    <a href="indexPage_textbook.html?{{encode(book.id)}}">
+                    <a href="indexPage_textbook.html?{{encode({'bookId':book.id})}}">
                         <div class="mui-table">
                             <div class="mui-table-cell mui-col-xs-3">
                                 <img class="bookCoverImage" style="width: 80%;" :src="book.path" />
@@ -43,10 +43,10 @@
             </ul>
         </div>
     </div>
-    <div class="fixedCartButton" style="bottom: 20px;">
+    <a class="fixedCartButton" style="bottom: 20px;"  data-href="cartPage.html">
         <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
-    </div>
+    </a>
     <script>
     mui.init();
     var vm = new Vue({
@@ -88,18 +88,6 @@
                         }
                     });
                 }
-            },
-            createOrder: function() {
-                var ids = this.detail.id;
-                $.when(createOrder(ids, "1", "bookOnly")).done(function(data) {
-                    console.log(data);
-                    if (data.resultCode == 200) {
-                        var tradeNo = data.data.tradeNumber;
-                        mui.openWindow({
-                            url: "cartPage_orderConfirm.html?" + tradeNo
-                        })
-                    }
-                });
             },
             encode: function(data) {
                 return encodeObj(data);

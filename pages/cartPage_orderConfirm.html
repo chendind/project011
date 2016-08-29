@@ -30,6 +30,12 @@
         </div>
     </nav>
     <div class="mui-content" v-cloak>
+        <div class="statusBar" v-if="countState">
+            <div class="innerCenter" style="background-color:#ffa43e;padding-top: 11px;padding-bottom: 10px;">
+                <div style="font-size: 15px;line-height: 1.33;color: #ffffff;">请于{{expireTime}}内付款
+                    <br />超时订单将自动取消</div>
+            </div>
+        </div>
         <ul class="mui-table-view address-mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
             <li class="mui-table-view-cell" v-if="!detail.address">
                 <a data-href="userPage_userInfo_addNewAddress.html?{{tradeNoObj}}" style="height: 70px;">
@@ -102,7 +108,9 @@
                 books: []
             },
             isChange: 0,
-            tradeNoObj:''
+            tradeNoObj: '',
+            countState: false,
+            nowTime:""
         },
         computed: {
             changeMoney: function() {
@@ -115,6 +123,21 @@
             },
             payMoney: function() {
                 return this.detail.realFee - this.isChange
+            },
+            expireTime: function() {
+                var time = this.detail.expireTime.split(" ")[0].split("-");
+                var smallTime = this.detail.expireTime.split(" ")[1].split(":");
+                var date = new Date(parseInt(time[0]), parseInt(time[1]) - 1, parseInt(time[2]), parseInt(smallTime[0]), parseInt(smallTime[1]), parseInt(smallTime[2]))
+                console.log(date);
+                console.log(this.nowTime);
+                console.log(restTime);
+                var restTime = (date.getTime() - this.nowTime.getTime()) / 1000;
+                var minutes = parseInt(restTime / 60);
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                var seconds = parseInt(restTime % 60);
+                return minutes + "分" + seconds + "秒";
             }
         },
         watch: {
@@ -133,7 +156,7 @@
                 });
             },
             changeMessage: function() {
-                var self=this;
+                var self = this;
                 if (self.detail.message) {
                     $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
                         console.log(data);
@@ -149,15 +172,31 @@
         created: function() {
             var self = this;
             var data = getQueryData();
-            self.tradeNoObj=encodeObj(data);
-            var tradeNo = data.tradeNo;
-            console.log(tradeNo);
-            $.when(orderConfirm(tradeNo)).done(function(data) {
-                console.log(data);
-                if (data.resultCode == 200) {
-                    self.detail = data.data.order;
-                }
-            });
+            self.tradeNoObj = encodeObj(data);
+            if (data.tradeNo) {
+                var tradeNo = data.tradeNo;
+                $.when(orderConfirm(tradeNo)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        self.detail = data.data.order;
+                    }
+                });
+            }
+            if (data.orderNo) {
+                var orderNo = data.orderNo;
+                $.when(orderConfirm(orderNo)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        self.detail = data.data.order;
+                        self.countState = true;
+                        self.nowTime = new Date(); 
+                        setInterval(function(){
+                            self.nowTime=new Date();
+                        },1000)
+                    }
+                });
+            }
+
         },
         ready: function() {
 

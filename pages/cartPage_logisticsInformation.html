@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,55 +14,81 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
 </head>
+
 <body>
-	<div class="mui-content">
-		<div style="padding: 16px;line-height: 1;background-color: #fff;margin-bottom: 10px;">
-	        <div style="">
-	            <p>运输编号：15746966558360694</p>
-	            <p>运输方式：云书自运</p>
-	            <p>客服电话：<a href="tel:4001-888-924">4001-888-924</a></p>
-	        </div>
-	    </div>
-		<div class="mui-card">
+    <div class="mui-content" v-cloak>
+        <div style="padding: 16px;line-height: 1;background-color: #fff;margin-bottom: 10px;">
+            <div style="">
+                <p>运输编号：{{detail.expressNo}}</p>
+                <p>运输方式：{{detail.expressCompany}}</p>
+                <p>客服电话：<a href="tel:{{detail.expressPhone}}">{{detail.expressPhone}}</a></p>
+            </div>
+        </div>
+        <div class="mui-card">
             <div class="mui-card-content">
                 <div class="mui-card-header">物流跟踪</div>
                 <div class="timelineBox">
                     <div class="innerBox">
-                        <div class="line been">
-                        	派件中，派件员：XXXXXXXXXX
-                        	<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
-                        </div>
-                        <div class="line">
-                        	包裹已到达杭州中转中心
-							<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
-                        </div>
-                        <div class="line">
-                        	包裹已出库
-							<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
-                        </div>
-                        <div class="line">
-                        	包裹打包完成
-							<p class="mui-ellipsis" style="margin-top: 10px;">2016年6月29日 10:38</p>
+                        <div v-for="record in express" class="line {{$index==0?'been':''}}" >
+                            {{record.data}}
+                            <p class="mui-ellipsis" style="margin-top: 10px;">{{record.time}}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-	</div>
-	
-<script>
-mui.init();
-var params = getQueryData();
-if(!params){
-    // mui.alert("查询参数错误","",["确定"],function(){
-    //     mui.back();
-    // });
-}
-else{
-  console.log(params.status, params.orderId);
-}
+    </div>
+    <script>
+    mui.init();
+    var params = getQueryData();
+    if (!params) {
+        // mui.alert("查询参数错误","",["确定"],function(){
+        //     mui.back();
+        // });
+    } else {
+        console.log(params.status, params.orderId);
+    }
+    var vm = new Vue({
+        el: "body",
+        data: {
+            showState: false,
+            data: [],
+            detail:"",
+            express:[]
+        },
+        computed: {},
+        methods: {
+            encode: function(data) {
+                return encodeObj(data);
+            },
+        },
+        created: function() {
+            var self = this;
+            self.location = window.location.search;
+            var orderNo = getQueryData().orderNo;
+            console.log(getQueryData());
+            $.when(orderDetail(orderNo)).done(function(data) {
+                console.log(data);
+                self.$data.data = data.data.order;
+                var msg = data.data.order;
+                $.when(expressDetail(orderNo,msg.company,msg.isYunExpress,msg.expressNumber)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode==200) {
+                         self.$data.detail = data.data.express;
+                         self.express=self.detail.expresses
+                    }
+                });
+            });
+        },
+        ready: function() {
 
-</script>
+        }
+    })
+    </script>
 </body>
+
 </html>

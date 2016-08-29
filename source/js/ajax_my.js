@@ -417,4 +417,32 @@ function cancelOrder(tradeNo) {
     });
     return ajax;
 }
-//
+//查询物流信息
+function expressDetail(tradeNo,company,isYun,expressNo) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/"+tradeNo+"/express",
+        type: "POST",
+        data:{"company":company,"isYunExpress":isYun,"expressNumber":expressNo},
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}
+// 申请退款
+function applyRefund(tradeNo) {
+    var ajax = $.ajax({
+        url: baseUrl + "/orders/"+tradeNo+"/cancel",
+        type: "PUT",
+        headers: getAjaxHeader(),
+        beforeSend: ajaxDataHandle,
+        contentType: contentType,
+        success: successHandle,
+        error: errorHandle,
+        crossDomain: true
+    });
+    return ajax;
+}                           

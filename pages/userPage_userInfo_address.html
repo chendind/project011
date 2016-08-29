@@ -94,7 +94,13 @@
             },
             choosePlace: function(id) {
                 if (window.location.search) {
-                    var tradeNo = getQueryData().tradeNo;
+                    var tradeNo;
+                    if (getQueryData().tradeNo) {
+                        tradeNo = getQueryData().tradeNo;
+                    }else{
+                        tradeNo = getQueryData().orderNo;
+                    }
+                    
                     $.when(editOrderPlace(tradeNo,id)).done(function(data) {
                         console.log(data);
                         mui.back();

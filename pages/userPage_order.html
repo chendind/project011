@@ -161,12 +161,15 @@
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)">
                                             取消订单
                                         </button>
-                                        <a class="mui-btn mui-btn-primary mui-btn-short"  v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
+                                        <a class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_orderConfirm.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             立即付款
                                         </a>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
+                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus<0||order.orderStatus>3" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看详情
                                         </div>
+                                        <a class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus ==1||order.orderStatus ==2" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
+                                            查看物流
+                                        </a>
                                     </div>
                                 </li>
                             </ul>
@@ -204,9 +207,9 @@
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
+                                        <a class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_orderConfirm.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             立即付款
-                                        </div>
+                                        </a>
                                         <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看详情
                                         </div>
@@ -244,18 +247,18 @@
                                     <span class="textColor">共一件商品，合计：</span>
                                     <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
                                     <div class="mui-pull-right">
-                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)" >
+                                        <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" @click="cancelOrder(order.tradeNumber)">
                                             取消订单
                                         </button>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
+                                        <a class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus==0" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             立即付款
-                                        </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0&&order.orderStatus!==1" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
+                                        </a>
+                                        <a class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus!==0&&order.orderStatus!==1" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看详情
-                                        </div>
-                                        <div class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus ==1">
+                                        </a>
+                                        <a class="mui-btn mui-btn-primary mui-btn-short" v-if="order.orderStatus ==1" data-href="cartPage_order_status.html?{{encode({'orderNo':order.tradeNumber})}}">
                                             查看物流
-                                        </div>
+                                        </a>
                                     </div>
                                 </li>
                             </ul>
@@ -354,7 +357,7 @@
     <script>
     mui.init();
     var params = getQueryData();
-    
+
     //阻尼系数
     var deceleration = mui.os.ios ? 0.003 : 0.0009;
     mui('.mui-scroll-wrapper').scroll({
@@ -370,7 +373,17 @@
                     callback: function() {
                         var self = this;
                         setTimeout(function() {
-                            self.endPullDownToRefresh();
+                            var status = index == 0 ? 100 : index;
+                            $.when(getOrderList(1, status)).done(function(data) {
+                                if (data.data.orders) {
+                                    vm.$data.orders = data.data.orders;
+                                    self.endPullDownToRefresh();
+                                    vm.page[index] = 2;
+                                } else {
+                                    self.endPullDownToRefresh(true);
+                                    vm.page[index] = 1;
+                                }
+                            });
                         }, 1000);
                     }
                 },
@@ -378,27 +391,41 @@
                     callback: function() {
                         var self = this;
                         setTimeout(function() {
-                            self.endPullUpToRefresh();
+                            console.log(index);
+                            if (vm.page[index] == 1) {
+                                self.endPullUpToRefresh(true);
+                            } else {
+                                var status = index == 0 ? 100 : index;
+                                $.when(getOrderList(vm.page[index], status)).done(function(data) {
+                                    if (data.data.orders) {
+                                        vm.$data.orders = vm.$data.orders.concat(data.data.orders);
+                                        self.endPullUpToRefresh();
+                                        vm.page[index]++;
+                                    } else {
+                                        self.endPullUpToRefresh(true);
+                                    }
+                                });
+
+                            }
                         }, 1000);
                     }
                 }
             });
         });
         // 根据参数进行位置初始化
-        if(params){
-            if(params.orderStatus){
-                mui('.mui-slider').slider().gotoItem(params.orderStatus-1,0);
+        if (params) {
+            if (params.orderStatus) {
+                mui('.mui-slider').slider().gotoItem(params.orderStatus - 1, 0);
             }
-        }
-        else{
-            mui('.mui-slider').slider().gotoItem(0,0);
+        } else {
+            mui('.mui-slider').slider().gotoItem(0, 0);
         }
     });
     var vm = new Vue({
         el: "body",
         data: {
             orders: [],
-            page: 1,
+            page: [1, 1, 1, 1, 1],
             orderStatus: 100,
             subOrders0: [],
             subOrders1: [],
@@ -411,7 +438,7 @@
                 return encodeObj(data);
             },
             cancelOrder: function(orderNo) {
-                var self=this;
+                var self = this;
                 mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
                     if (data.index == 0) {
                         $.when(cancelOrder(orderNo)).done(function(data) {
@@ -429,29 +456,33 @@
                     }
                 });
             },
-            turnUrl :function(orderNo){
-                var URI=encodeObj({"orderNo":orderNo});
+            turnUrl: function(orderNo) {
+                var URI = encodeObj({
+                    "orderNo": orderNo
+                });
                 mui.openWindow({
-                    url:"cartPage_order_status.html?"+URI
+                    url: "cartPage_order_status.html?" + URI
                 })
             },
         },
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");
-            $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
-                self.$data.orders = data.data.orders
+            $.when(getOrderList(self.page[0], self.orderStatus)).done(function(data) {
+                self.$data.orders = data.data.orders;
+                self.page[0]++
             });
             for (var i = 0; i < 4; i++) {
-                $.when(getOrderList(self.page, i)).done(function(data) {
+                $.when(getOrderList(self.page[i + 1], i)).done(function(data) {
                     if (data.data.orders) {
-                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders
+                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                        self.page[data.data.orders[0].orderStatus + 1]++
                     }
                 });
             }
         },
         ready: function() {
-            
+
         }
     })
     </script>

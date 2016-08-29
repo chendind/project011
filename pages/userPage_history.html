@@ -19,6 +19,7 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <style>
+
     </style>
 </head>
 
@@ -29,7 +30,7 @@
                 <div class="mui-scroll">
                     <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top: 10px;" v-for="history in histories">
                         <li class="mui-table-view-cell">
-                            <a href="indexPage_textbook.html">
+                            <a href="indexPage_textbook.html?{{encode({'bookId':history.relationId})}}">
                                 <div class="mui-table">
                                     <div class="mui-table-cell mui-col-xs-3">
                                         <img style="width: 80%;" :src="history.path" />
@@ -42,8 +43,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <img class="smallCartIcon" src="../source/images/rect.jpg" />
-                        </li>
+                            <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" @click="addToCart(history.relationId)"/>
                     </ul>
                 </div>
             </div>
@@ -65,10 +65,46 @@
         el: "body",
         data: {
             histories: [],
-            page: 1
+            page: 1,
+            cartList:[]
         },
         computed: {},
-        methods: {},
+        methods: {
+            encode: function(data) {
+                return encodeObj(data);
+            },
+            noExisted: function(id) {
+                console.log(id);
+                if (this.cartList.indexOf(id) !== -1) {
+                    mui.toast("请勿重复添加");
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            addToCart: function(id) {
+                var self = this;
+                console.log(id);
+                if (self.noExisted(id)) {
+                    $.when(addToCart(id)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("添加成功");
+                            $.when(cartList()).done(function(data) {
+                                console.log(data);
+                                if (data.resultCode == 200) {
+                                    if (data.data.carts) {
+                                        self.cartList = [];
+                                        for (var i = 0; i < data.data.carts.length; i++) {
+                                            self.cartList.push(data.data.carts[i].relationId)
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            },
+        },
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");
@@ -76,6 +112,15 @@
                 console.log(data);
                 self.$data.histories = data.data.histories;
                 vm.page++;
+            });
+            $.when(cartList()).done(function(data) {
+                if (data.resultCode == 200) {
+                    if (data.data.carts) {
+                        for (var i = 0; i < data.data.carts.length; i++) {
+                            self.cartList.push(data.data.carts[i].relationId)
+                        }
+                    }
+                }
             });
         },
         ready: function() {
@@ -96,11 +141,11 @@
                                     vm.histories = vm.histories.concat(data.data.histories)
                                     self.endPullUpToRefresh();
                                     vm.page++;
-                                }else{
+                                } else {
                                     self.endPullUpToRefresh(true);
                                 }
                             });
-                            
+
                         }, 1000);
                     }
                 }
