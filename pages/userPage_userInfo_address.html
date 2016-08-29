@@ -15,6 +15,7 @@
     <script src="../source/js/public.js?2016"></script>
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
@@ -40,7 +41,7 @@
                 <div class="mui-slider-right mui-disabled">
                     <a class="mui-btn mui-btn-red removeAddressButton" data-id={{place.id}}>删除</a>
                 </div>
-                <a class="mui-slider-handle" @click="choosePlace(place.id)">
+                <a class="mui-slider-handle" v-tap="choosePlace(place.id)">
                     <div class="mui-media-body">
                         {{place.name}} {{place.phone}}
                         <p class='mui-ellipsis'>
@@ -49,7 +50,7 @@
                             <span>{{place.school}}{{place.dorm}}{{place.address}}</span>
                         </p>
                     </div>
-                    <a data-href="#" style="display:block;position:absolute;right:17px;top:27px" @click.stop.prevent="editAddress(place.id)"><img src="../source/images/edit.png" alt="" style="height:24px;width:24px;"></a>
+                    <a data-href="#" style="display:block;position:absolute;right:17px;top:27px" v-tap.stop.prevent="editAddress(place.id)"><img src="../source/images/edit.png" alt="" style="height:24px;width:24px;"></a>
                 </a>
             </li>
         </ul>

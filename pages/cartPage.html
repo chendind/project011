@@ -16,6 +16,7 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
@@ -59,7 +60,7 @@
                         <ul class="mui-table-view">
                             <li class="mui-table-view-cell mui-media" v-for="record in cartList">
                                 <div class="mui-slider-right mui-discabled">
-                                    <a class="mui-btn mui-btn-red" style="transform: translate(0px, 0px);" @click="deleteItem(record.id,record,$index)">删除</a>
+                                    <a class="mui-btn mui-btn-red" style="transform: translate(0px, 0px);" v-tap="deleteItem(record.id,record,$index)">删除</a>
                                 </div>
                                 <div class="mui-slider-handle" style="height:80px;transform: translate(0px, 0px);">
                                     <div class="mui-input-row mui-checkbox mui-left">
@@ -101,12 +102,12 @@
                     <label style="padding-left:35px;padding-right:0px;">
                         <p>全部</p>
                     </label>
-                    <input name="checkbox1" value="Item 1" type="checkbox" style="left:3px;top:11px;" v-model="allState" :true-value="true" :false-value="false" @click="allSelect">
+                    <input name="checkbox1" value="Item 1" type="checkbox" style="left:3px;top:11px;" v-model="allState" :true-value="true" :false-value="false" v-tap="allSelect">
                 </div>
                 <div class="mui-pull-right" style="margin-right: 15px;">
                     <p>共{{choseList.length>6?6:choseList.length}}件合计：<span class="blueColor" style="font-size: 18px;">{{totalMoney}}</span></p>
                 </div>
-                <a class="sure" @click.prevent="createOrder" data-href="#" >
+                <a class="sure" v-tap.prevent="createOrder" data-href="#" >
                     立即结算
                 </a>
             </div>
@@ -190,7 +191,7 @@
         methods: {
             allSelect: function() {
                 var self = this;
-                if (self.allState == false) {
+                if (self.allState == true) {
                     for (var i = 0; i < self.cartList.length; i++) {
                         vm.recordState.$set(i, self.cartList[i].id);
                     }

@@ -15,6 +15,7 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
@@ -22,7 +23,7 @@
 <body>
     <!-- nav根据情况进行出现和隐藏 -->
     <nav class="mui-bar mui-bar-tab" v-if="data.orderStatus>0" v-cloak>
-        <a id="applyRefundButton" class="linkColor" @click="applyRefund">
+        <a id="applyRefundButton" class="linkColor" v-tap="applyRefund">
           申请退款
       </a>
         <div class="pay" style="display:none;">

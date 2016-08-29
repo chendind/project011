@@ -14,13 +14,14 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a :class="{greyColor:empty}" @click="editUsername">
+        <a :class="{greyColor:empty}" v-tap="editUsername">
             保存
         </a>
     </nav>

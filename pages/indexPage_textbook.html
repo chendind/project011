@@ -14,16 +14,17 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
 
 <body style="background-color: #fff;">
     <nav class="mui-bar mui-bar-tab good-mui-bar-tab">
-        <a id="savePhoneButton" @click="addToCart">
+        <a id="savePhoneButton" v-tap="addToCart">
             加入购物车
         </a>
-        <a id="savePhoneButton" @click="createOrder">
+        <a id="savePhoneButton" v-tap="createOrder">
             免费领取
         </a>
     </nav>

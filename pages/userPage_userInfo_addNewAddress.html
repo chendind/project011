@@ -16,16 +16,17 @@
     <script src="../source/js/mui.picker.min.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="rightBorder" :class='{"greyColor":empty}' @click="setDefault">
+        <a class="rightBorder" :class='{"greyColor":empty}' v-tap="setDefault">
             设为默认地址
         </a>
-        <a id="addNewAddressButton" :class="{greyColor:empty}" @click="save">
+        <a id="addNewAddressButton" :class="{greyColor:empty}" v-tap="save">
             保存
         </a>
     </nav>
@@ -45,11 +46,11 @@
             </div>
             <div class="mui-input-row">
                 <label>学校</label>
-                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="school" @click="schoolChoose">
+                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="school" v-tap="schoolChoose">
             </div>
             <div class="mui-input-row">
                 <label>宿舍园区</label>
-                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="dorm" @click="dormChoose">
+                <input id="address_dom" type="text" class="mui-input-clear" placeholder="请选择宿舍园区" value="" v-model="dorm" v-tap="dormChoose">
             </div>
             <div class="mui-input-row">
                 <label>寝室门牌</label>

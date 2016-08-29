@@ -15,6 +15,7 @@
     <script src="../source/js/public.js"></script>
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
@@ -67,17 +68,17 @@
     <div id="userPage_userInfo_userSexSheet" class="mui-popover mui-popover-bottom mui-popover-action ">
         <!-- 可选择菜单 -->
         <ul class="mui-table-view">
-            <li class="mui-table-view-cell" @click="editSex(0)">
+            <li class="mui-table-view-cell" v-tap="editSex('0')">
                 <a>男</a>
             </li>
-            <li class="mui-table-view-cell" @click="editSex(1)">
+            <li class="mui-table-view-cell" v-tap="editSex('1')">
                 <a>女</a>
             </li>
         </ul>
         <!-- 取消菜单 -->
         <ul class="mui-table-view">
             <li class="mui-table-view-cell">
-                <a href="#" @click.prevent="cancelEdit"><b>取消</b></a>
+                <a href="#" v-tap.prevent="cancelEdit"><b>取消</b></a>
             </li>
         </ul>
     </div>
@@ -110,7 +111,9 @@
     var vm = new Vue({
         el: "body",
         data: {
-            sex: 0
+            sex: "0",
+            name:"",
+            phone:""
         },
         computed: {
             url: function() {

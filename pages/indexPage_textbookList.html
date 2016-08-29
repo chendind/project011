@@ -14,6 +14,7 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
@@ -38,7 +39,7 @@
                             </div>
                         </div>
                     </a>
-                    <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" @click.prevent="addToCart(book.id)" />
+                    <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" v-tap.prevent="addToCart(book.id)" />
                 </li>
             </ul>
         </div>

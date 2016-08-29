@@ -16,6 +16,7 @@
     <script src="../source/mui/js/mui.pullToRefresh.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <style>
@@ -43,7 +44,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" @click="addToCart(history.relationId)"/>
+                            <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" v-tap="addToCart(history.relationId)"/>
                     </ul>
                 </div>
             </div>

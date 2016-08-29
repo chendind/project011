@@ -14,6 +14,7 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
 </head>
@@ -24,7 +25,7 @@
             <div class="amount" style="line-height:50px;padding-left: 15px;">
                 <span class="greyColor">需支付：</span><span class="blueColor">{{payMoney|currency "¥"}}</span>
             </div>
-            <div class="sure greenBg" @click="changeMessage">
+            <div class="sure greenBg" v-tap="changeMessage">
                 微信支付
             </div>
         </div>
