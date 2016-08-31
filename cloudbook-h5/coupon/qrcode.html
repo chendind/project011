@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta name="keywords" content="seokeywords"/>
+		<meta name="description" content="seodescription"/>
+		<title></title>
+		<style>
+			body{margin:0px;padding: 0px;font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Microsoft Yahei","Arial",sans-serif;}
+			.text{margin: auto;width: 70px;height: 17px;font-size: 17px;font-weight: 400;text-align: center;color: #333333;margin-top:160px;}
+			.code{margin: auto;width: 173px;height: 17px;font-size: 17px;font-weight: 400;text-align: center;color: #333333;margin-top:30px;margin-bottom:100px;}
+  			.btn_box{margin: auto;width: 214px;height: 46px;border-radius: 5px;background-color: #016df1;border: solid 1px #016df1;}
+			.btn_box .usebtn{margin: auto;font-size: 17px;font-weight: 400;text-align: center;color: #ffffff;line-height:46px;}
+			
+
+			.black_bg{display:none;position: fixed;z-index:110;background-color: black;width:100%;height:100%;top:0px;left:0px;opacity: 0.4;}
+			
+			.net_error_bg{display:none;margin-top: -150px;}
+			.network_error{margin:auto;z-index:111;width: 90%;height: 50px;opacity: 0.6;border-radius: 8px;-webkit-backdrop-filter: blur(15px);backdrop-filter: blur(15px);background-color: #000000;}
+			.net_error_bg .network_error_txt{width: 90%;margin: auto;position: relative;top: -35px;text-align: center;color: white;z-index: 112;font-size: 16px;font-weight: 400;line-height: 1;color: #ffffff;}
+	
+
+			.commit_again{display:none;margin: auto;z-index: 111;position: relative;width: 300px;height: 165px;top: -180px;background-color: rgba(253, 253, 253, 0.9);border-radius: 12px;-webkit-backdrop-filter: blur(10px);backdrop-filter: blur(10px);background-color: rgba(253, 253, 253, 0.9);}
+			.commit_again .commit_title{padding-top:20px;margin-bottom:8px;height: 20px;font-size: 17px;font-weight: 600;letter-spacing: -0.4px;text-align: center;color: #030303;line-height: 20px;}
+			.commit_again .commit_tip{height: 16px;font-size: 13px;font-weight: 400;line-height: 1.23;letter-spacing: -0.1px;text-align: center;color: #030303;}
+			.commit_again .commit_input input{padding-left: 5px;font-size: 13px;font-weight: 400;line-height: 1;letter-spacing: -0.1px;margin:20px 0px 12px 27px;border: solid 0.5px #4d4d4d;width: 237px;height: 24px;}
+			.commit_again .commit_box{text-align: center;color: #0076ff;font-weight: 600;border-top: 1px solid #4d4d4d;}
+			.commit_again .commit_box .sure_btn{width: 149px;float: left;height: 40px;line-height: 40px;}
+			.commit_again .commit_box .cancel_btn{width: 150px;float: left;height: 40px;line-height: 40px;border-right: 1px solid #4d4d4d;}
+		</style>
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+		<script type="text/javascript" src="js/encoding-indexes.js" ></script>
+		<script type="text/javascript" src="js/encoding.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script>
+			var token=getQueryStr("ticket");
+			var serial=getQueryStr("serial");
+			var couponid=getQueryStr("couponId");
+			window.onload=function(){
+				$(".commit_box").on({
+					"click":function(){
+						CommitData();
+					}
+				},".sure_btn");
+				$(".commit_box").on({
+					"click":function(){
+						$(".black_bg").hide();
+						$(".commit_again").hide();
+						$("#code").val("");
+					}
+				},".cancel_btn");
+				var content = document.querySelector(".black_bg");
+				content.addEventListener("touchend", function(){
+				    $(".black_bg").hide();
+					$(".net_error_bg").hide();
+					$(".commit_again").hide();
+				});
+				
+				$(".code").html(serial);
+				$('.black_bg').on('touchmove', function (event) {
+		    		event.preventDefault();
+				});
+		        $('.net_error_bg').on('touchmove', function (event) {
+		    		event.preventDefault();
+				});
+				$('.commit_again').on('touchmove', function (event) {
+		    		event.preventDefault();
+				});
+			}
+			function ShowTip()
+			{
+				$(".black_bg").css("top",document.body.scrollTop);
+				$(".black_bg").show();
+				$(".commit_again").show();
+			}
+			function CommitData()
+			{
+				if($("#code").val()!=""&&$("#code").val()!=null)
+				{
+					$(".btn_box").off('click',".addbtn");
+					var data='{"shopSecret": "'+$("#code").val()+'",';
+					data+='"couponId": "'+couponid+'",';
+					data+='"serial": "'+serial+'"}';
+					var uint8array = new TextEncoder().encode(data);
+					$.ajax({
+						type:"POST",
+						url:"http://120.26.94.240:8989/users/coupons/scan_use",
+						async:true,
+						contentType:'application/octet-stream',
+						data:uint8array,
+						beforeSend: function(request) {
+	                        request.setRequestHeader("token",token);
+	                        request.setRequestHeader("OriginType","h5");
+	                    },
+						processData:false,
+						success:function(data){
+							if(data.resultCode==200)
+							{
+								$(".black_bg").hide();
+								$(".commit_again").hide();
+								$(".btn_box").hide();
+								$(".text").html("使用成功");
+								$("#code").val("");
+								$(".text").css("color","#56be4b");
+							}
+							else
+							{
+								$(".black_bg").css("top",document.body.scrollTop);
+								$(".commit_again").hide();
+								$(".net_error_bg").show();
+								$(".network_error_txt").html(data.message);
+								$("#code").val("");
+							}
+						},
+						error:function()
+						{
+							$(".black_bg").css("top",document.body.scrollTop);
+							$(".commit_again").hide();
+							$(".net_error_bg").show();
+							$(".network_error_txt").html(data.message);
+							$("#code").val("");
+						}
+					});			
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="text">扫描结果</div>
+		<div class="code"></div>
+		<div class="btn_box" onclick="ShowTip()"><div class="usebtn">使用</div></div>
+		<div class="black_bg"></div>
+		<div class="net_error_bg">
+			<div class="network_error"></div>
+			<div class="network_error_txt"></div>
+		</div>
+		<div class="commit_again">
+			<div class="commit_title">确认使用吗？</div>
+			<div class="commit_tip">输入商家秘钥以确认</div>
+			<div class="commit_input"><input id="code" placeholder="请输入商家秘钥"/></div>
+			<div class="commit_box">
+				<div class="cancel_btn">取消</div><div class="sure_btn">确定</div>
+			</div>
+		</div>
+	</body>
+</html>

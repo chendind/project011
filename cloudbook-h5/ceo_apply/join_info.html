@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta name="keywords" content="seokeywords"/>
+		<meta name="description" content="seodescription"/>
+		<title></title>
+		<style>
+			body{margin:0px;padding:0px;font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Microsoft Yahei","Arial",sans-serif;overflow: hidden;height: 100%;}
+			.header .title{margin:61px auto;width: 247px;height: 19px;font-size: 19px;font-weight: 600;text-align: center;color: #333333;}
+			.header .title .yunshu{color:#016DF1;}
+			.header .title .fenge{color:#FFCE00;}
+			.contant{margin:auto 40px;}
+			.contant div{margin-bottom:20px;}
+			.contant input{font-size: 14px;color: #555;padding: 0.5em 0em;border: 0;width: 100%;border-bottom: 1px solid #e5e5e5;background: none;-webkit-appearance: none;border-radius: 0;}
+			.contant .authcode{position: absolute;right: 40px;font-size: 12px;margin-top: -30px;padding: 10px;line-height: 1;color: #016df1;}
+			.footer{margin-top:50px;}
+			.footer .btn_box .btn_commit{margin: auto;width: 214px;height: 40px;border-radius: 4.5px;background-color: #016df1;font-size: 16px;line-height: 40px;font-weight: 400;text-align: center;color: #4D99F5;}
+			
+			
+			.black_bg{display:none;position: fixed;z-index:110;background-color: black;width:100%;height:100%;top:0px;left:0px;opacity: 0.6;}
+			
+			.net_error_bg{display:none;margin-top: -300px;}
+			.network_error{margin:auto;z-index:111;width: 80%;height: 50px;opacity: 0.6;border-radius: 8px;-webkit-backdrop-filter: blur(15px);backdrop-filter: blur(15px);background-color: #000000;}
+			.net_error_bg .network_error_txt{margin:auto;width: 80%;position: relative;top: -35px;text-align: center;color: white;z-index: 112;font-size: 16px;font-weight: 400;line-height: 1;color: #ffffff;}
+	
+	
+	
+			.commit_again{display:none;margin: auto;z-index: 111;position: relative;width: 300px;height: 120px;top: -350px;background-color: rgba(253, 253, 253, 0.9);border-radius: 10px;}
+			.commit_again .commit_title{height: 68px;font-size: 17px;font-weight: 600;letter-spacing: -0.4px;text-align: center;color: #030303;line-height: 68px;}
+			.commit_again .commit_box{text-align: center;color: #0076ff;font-weight: 600;border-top: 1px solid #4d4d4d;}
+			.commit_again .commit_box .sure_btn{width: 149px;float: left;height: 50px;line-height: 50px;border-right: 1px solid #4d4d4d;}
+			.commit_again .commit_box .cancel_btn{width: 150px;float: left;height: 50px;line-height: 50px;}
+			
+			.list_box{display:none;background-attachment: fixed;position: relative;margin:auto;z-index:111;width: 80%;border-radius: 8px;-webkit-backdrop-filter: blur(15px);backdrop-filter: blur(15px);background-color: #ffffff;margin-top: -460px;overflow: hidden;}
+			.list_box .list{position: relative;text-align: center;z-index: 112;font-size: 16px;font-weight: 400;line-height: 1;height: 100%;overflow: auto;}
+			.list_box .list div{line-height: 50px;border-bottom: 1px solid #ddd;}
+			input:focus{outline:none;}
+		</style>
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+		<script type="text/javascript" src="js/encoding-indexes.js" ></script>
+		<script type="text/javascript" src="js/encoding.js" ></script>
+		<script>
+			var zhengze= /^1[3|4|5|7|8][0-9]\d{8}$/;
+			window.onload=function(){
+				var content=document.querySelector(".black_bg");
+				content.addEventListener("touchend",function(){
+					$(".black_bg").hide();
+					$(".net_error_bg").hide();
+					$(".list_box").hide();
+					$(".commit_again").hide();
+				});
+				content.addEventListener("click",function(){
+					$(".black_bg").hide();
+					$(".net_error_bg").hide();
+					$(".list_box").hide();
+					$(".commit_again").hide();
+				});
+				$(".contant").on({
+					"click":function(){
+						ShowSex();
+					}
+				},"#btn_sex");
+				$(".contant").on({
+					"click":function(){
+						ShowCity();
+					}
+				},"#btn_city");
+				$(".contant").on({
+					"click":function(){
+						ShowSchool();
+					}
+				},"#btn_school");
+				
+				$('.black_bg').on('touchmove', function (event) {
+		    		event.preventDefault();
+				});
+		        $('.net_error_bg').on('touchmove', function (event) {
+		    		event.preventDefault();
+				});
+				$('.commit_again').on('touchmove', function (event) {
+		    		event.preventDefault();
+				});
+				$(".contant").on({
+					"click":function(){
+						GetCode();
+					}
+				},".authcode");
+				$("#btn_name").blur(function(){
+					if(checkVal_veri())
+					{
+						$(".btn_commit").css("color","#fff");
+						$(".btn_box").on({
+							"click":function(){
+								Commit_once();
+							}
+						},".btn_commit");
+					}
+				});
+				$("#btn_tel").blur(function(){
+					if(checkVal_veri())
+					{
+						$(".btn_commit").css("color","#fff");
+						$(".btn_box").on({
+							"click":function(){
+								Commit_once();
+							}
+						},".btn_commit");
+					}
+				});
+				$("#btn_code").blur(function(){
+					if(checkVal_veri())
+					{
+						$(".btn_commit").css("color","#fff");
+						$(".btn_box").on({
+							"click":function(){
+								Commit_once();
+							}
+						},".btn_commit");
+					}
+				});
+				$(".commit_box").on({
+					"click":function(){
+						CommitInfo();
+					}
+				},".sure_btn");
+				$(".commit_box").on({
+					"click":function(){
+						$(".black_bg").hide();
+						$(".commit_again").hide();
+					}
+				},".cancel_btn");
+			}
+			function checkVal_veri()
+			{
+				if($("#btn_name").val()==""||$("#btn_name").val()==null)
+				{
+					return false;
+				}else if($("#btn_sex").val()==""||$("#btn_sex").val()==null){
+					return false;
+				}else if($("#btn_city").val()==""||$("#btn_city").val()==null){
+					return false;
+				}else if($("#btn_school").val()==""||$("#btn_school").val()==null){
+					return false;
+				}else if($("#btn_tel").val()==""||$("#btn_tel").val()==null){
+					return false;
+				}else if($("#btn_code").val()==""||$("#btn_code").val()==null){
+					return false;
+				}
+				return true;
+			}
+			//请求数据
+			function GetCode()
+			{
+				$(".contant").off('click',".authcode");
+				if(!zhengze.test($("#btn_tel").val()))
+				{
+					$(".network_error_txt").html("请输入正确的手机号");
+					$(".black_bg").css("top",document.body.scrollTop);
+					//$(".net_error_bg").css("top",document.body.scrollTop).css("position","relative");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					$(".contant").on({
+						"click":function(){
+							GetCode();
+						}
+					},".authcode");
+				}
+				else
+				{
+					$.ajax({
+						type:'get',
+						url:'http://120.26.94.240:8989/apply/'+$("#btn_tel").val()+'/message',
+						async:true,
+						dataType:'json',
+						beforeSend: function(request) {
+	                        request.setRequestHeader("OriginType","h5");
+	                    },
+						success:function(data){
+							if(data.resultCode==200)
+							{
+								showtime();
+								$(".authcode").css("color","#9e9e9e");
+							}
+						},
+						error:function()
+						{
+							//alert("1");
+							//异常处理
+						}
+					});
+				}
+			}
+			var time=60;
+			function showtime()
+			{
+				if(time==0)
+				{
+					$(".authcode").html("获取验证码");
+					$(".authcode").css("color","#016df1");
+					$(".contant").on({
+						"click":function(){
+							GetCode();
+						}
+					},".authcode");
+					time=60;
+					return;
+				}
+				$(".authcode").html("重新获取("+(time--)+")");
+				setTimeout(showtime,1000);
+			}
+			function Commit_once()
+			{
+				
+				if(checkVal())
+				{
+					//$(".black_bg").css("top",document.body.scrollTop);
+					$(".black_bg").show();
+					$(".commit_again").show();
+					$(".black_bg").css("top","0px");
+				}
+			}
+			/*
+			 {
+							"verifycode":$("#btn_code").val(),
+							"phone":$("#btn_tel").val(),
+							"name":$("#btn_name").val(),
+							"sex":$("#btn_sex").attr("sexid"),
+							"cityid":$("#btn_city").attr("cid"),
+							"schoolid":$("#btn_school").attr("sid")
+							//"verifyCode":"722068","phone":"18757550369","name":"9635","sex":"1","cityId":"1","schoolId":"2","inviteCode":"9635"
+						}
+			 */
+			function CommitInfo()
+			{
+				if(checkVal())
+				{
+					$(".commit_box").off('click',".sure_btn");
+					var data='{"verifyCode":"'+$("#btn_code").val()+'",';
+					data+='"phone":"'+$("#btn_tel").val()+'",';
+					data+='"name":"'+$("#btn_name").val()+'",';
+					data+='"sex":"'+$("#btn_sex").attr("sexid")+'",';
+					data+='"cityId":"'+$("#btn_city").attr("cid")+'",';
+					data+='"schoolId":"'+$("#btn_school").attr("sid")+'"}';
+					var uint8array = new TextEncoder().encode(data);
+					$.ajax({
+						type:'POST',
+						url:'http://120.26.94.240:8989/ceoApply',
+						async:true,
+						contentType:'application/octet-stream',
+						processData:false,
+						data:uint8array,
+						beforeSend: function(request) {
+	                        request.setRequestHeader("OriginType","h5");
+	                    },
+						success:function(data){
+							if(data.resultCode==200)
+							{
+								$(".commit_again").hide();
+								$(".network_error_txt").html("提交申请成功，我们将尽快联系您");
+								$(".black_bg").css("top",document.body.scrollTop);
+								$(".net_error_bg").show();
+								$("#btn_code").val("");
+								$("#btn_tel").val("");
+								$("#btn_name").val("");
+								$("#btn_sex").attr("sexid","");
+								$("#btn_city").attr("cid","");
+								$("#btn_school").attr("sid","");
+								$("#btn_sex").val("");
+								$("#btn_city").val("");
+								$("#btn_school").val("");
+							}
+							else
+							{
+								$(".commit_again").hide();
+								$(".network_error_txt").html(data.message);
+								$(".black_bg").css("top",document.body.scrollTop);
+								$(".net_error_bg").show();
+							}
+							$(".commit_box").on({
+								"click":function(){
+									CommitInfo();
+								}
+							},".sure_btn");
+						},
+						error:function()
+						{
+							$(".commit_again").hide();
+							$(".network_error_txt").html(data.message);
+							$(".black_bg").css("top",document.body.scrollTop);
+							$(".net_error_bg").show();
+							$(".commit_box").on({
+								"click":function(){
+									CommitInfo();
+								}
+							},".sure_btn");
+						}
+					});
+				}
+				return false;
+			}
+			function checkVal()
+			{
+				$(".black_bg").css("top",document.body.scrollTop);
+				if($("#btn_name").val()==""||$("#btn_name").val()==null)
+				{
+					$(".network_error_txt").html("请输入正确的姓名");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					return false;
+				}else if($("#btn_sex").val()==""||$("#btn_sex").val()==null){
+					$(".network_error_txt").html("请选择正确的性别");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					return false;
+				}else if($("#btn_city").val()==""||$("#btn_city").val()==null){
+					$(".network_error_txt").html("请选择正确的城市");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					return false;
+				}else if($("#btn_school").val()==""||$("#btn_school").val()==null){
+					$(".network_error_txt").html("请选择正确的学校");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					return false;
+				}else if($("#btn_tel").val()==""||$("#btn_tel").val()==null||!zhengze.test($("#btn_tel").val())){
+					$(".network_error_txt").html("请输入正确的手机号");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					return false;
+				}else if($("#btn_code").val()==""||$("#btn_code").val()==null){
+					$(".network_error_txt").html("请输入正确的验证码");
+					$(".black_bg").show();
+					$(".net_error_bg").show();
+					return false;
+				}
+				return true;
+			}
+			function ShowCity()
+			{
+				$.ajax({
+						type:'Get',
+						url:'http://120.26.94.240:8989/apply/cities',
+						async:true,
+						dataType:'json',
+						beforeSend: function(request) {
+	                        request.setRequestHeader("OriginType","h5");
+	                    },
+						success:function(data){
+							if(data.resultCode==200)
+							{
+								var json=data.data.cities;
+								$(".list").html("");
+								if(json.length<6)
+								{
+									$(".list_box").css("max-height","300px");
+									$(".list_box").css("height","");
+								}
+								else
+								{
+									$(".list_box").css("max-height","");
+									$(".list_box").css("height","300px");
+								}
+								$.each(json, function(index,item) {
+									$(".list").append("<div id='city_"+item.id+"' onclick='javascript:GetCity("+item.id+")'>"+item.name+"</div>");
+								});
+								$(".black_bg").show();
+								$(".list_box").show();
+							}
+						},
+						error:function()
+						{
+							//alert("1");
+							//异常处理
+						}
+					});
+			}
+			function GetCity(id)
+			{
+				var cityname=$("#city_"+id).html();
+				$("#btn_city").val(cityname);
+				$("#btn_city").attr("cid",id);
+				$("#btn_school").val("");
+				$("#btn_school").attr("sid","");
+				$(".black_bg").hide();
+				$(".list_box").hide();
+			}
+			function ShowSchool()
+			{
+				$.ajax({
+						type:'Get',
+						url:'http://120.26.94.240:8989/schools/'+$("#btn_city").attr("cid"),
+						async:true,
+						dataType:'json',
+						beforeSend: function(request) {
+	                        request.setRequestHeader("OriginType","h5");
+	                    },
+						success:function(data){
+							if(data.resultCode==200)
+							{
+								var json=data.data.schools;
+								$(".list").html("");
+								if(json.length<6)
+								{
+									$(".list_box").css("max-height","300px");
+									$(".list_box").css("height","");
+								}
+								else
+								{
+									$(".list_box").css("max-height","");
+									$(".list_box").css("height","300px");
+								}
+								$.each(json, function(index,item) {
+									$(".list").append("<div id='school_"+item.id+"' onclick='javascript:GetSchool("+item.id+")'>"+item.name+"</div>");
+								});
+								$(".black_bg").show();
+								$(".list_box").show();
+							}
+						},
+						error:function()
+						{
+							//alert("1");
+							//异常处理
+						}
+					});
+			}
+			function GetSchool(id)
+			{
+				var schoolname=$("#school_"+id).html();
+				$("#btn_school").val(schoolname);
+				$("#btn_school").attr("sid",id);
+				$(".black_bg").hide();
+				$(".list_box").hide();
+			}     
+			function ShowSex()
+			{
+				$(".list_box").css("max-height","300px");
+				$(".list_box").css("height","");
+				$(".list").html("");
+				$(".list").append("<div id='sex_1' onclick='javascript:GetSex(1)'>男</div>");
+				$(".list").append("<div id='sex_0' onclick='javascript:GetSex(0)'>女</div>");
+				$(".black_bg").show();
+				$(".list_box").show();
+			}
+			function GetSex(id)
+			{
+				var sex_val=$("#sex_"+id).html();
+				$("#btn_sex").val(sex_val);
+				$("#btn_sex").attr("sexid",id);
+				$(".black_bg").hide();
+				$(".list_box").hide();
+			}     
+		</script>
+	</head>
+	<body>
+		<form id="form">
+			<div class="header">
+				<div class="title">立即申请成为<span class="yunshu">云书</span><span class="fenge">/</span>校园 CEO</div>
+			</div>
+			<div class="contant">
+				<div><input id="btn_name" type="text" placeholder="请输入姓名" /></div>
+				<div><input id="btn_sex" type="text" placeholder="请选择性别"  readonly="readonly"  style="ime-mode:disabled" /></div>
+				<div><input id="btn_city" type="text" placeholder="请选择城市"  readonly="readonly" style="ime-mode:disabled" /></div>
+				<div><input id="btn_school" type="text" placeholder="请选择学校"  readonly="readonly" style="ime-mode:disabled" /></div>
+				<div><input id="btn_tel" type="text" placeholder="请输入手机号" /></div>
+				<div><input id="btn_code" style="position: relative;"  type="text" placeholder="请输入验证码" /><div class="authcode">获取验证码</div></div>
+			</div>
+			<div class="footer">
+				<div class="btn_box"><div class="btn_commit">提交申请</div></div>
+			</div>
+			<div class="black_bg"></div>
+			<div class="net_error_bg">
+				<div class="network_error"></div>
+				<div class="network_error_txt"></div>
+			</div>
+			<div class="commit_again">
+				<div class="commit_title">确定提交申请吗？</div>
+				<div class="commit_box">
+					<div class="sure_btn">确定</div><div class="cancel_btn">取消</div>
+				</div>
+			</div>
+			<div class="list_box">
+				<div class="list">
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

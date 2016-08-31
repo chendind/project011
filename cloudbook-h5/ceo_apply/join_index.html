@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta name="keywords" content="seokeywords"/>
+		<meta name="description" content="seodescription"/>
+		<title></title>
+		<style>
+			body,p{margin:0px;padding:0px;font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Microsoft Yahei","Arial",sans-serif;}
+			.header{position: relative;width: 100%;}
+			.header .img img{width:100%;}
+			.header .title{position: absolute;z-index: 5;top: 100px;width: 100%;text-align: center;color: white;}
+			.header .title .big{font-size: 20px;font-weight: 600;line-height: 1.2;color: #ffffff;}
+			.header .title .small{font-size: 15px;font-weight: 400;line-height: 1.6;color: #f3f3f3;}
+			.contant{margin:0px 20px;}
+			.contant .title{color:#016df1;text-align: center;font-weight: 700;margin-top:30px;font-size: 15px;}
+			.contant .title span{color:#FFCE00;}
+			.contant p{margin:30px 0px 30px 0px;font-size: 15px;line-height: 1.6;}
+			.contant .center{text-align: center;margin:30px 0px 0px 0px;}
+			.contant .center_tip{text-align: center;margin-top:0px;color:#9e9e9e;}
+			.footer{margin-top:67px;}
+			.footer .desc{text-align:center;height: 56px;font-size: 15px;font-weight: 600;line-height: 1.87;text-align: center;color: #666666;}
+			.footer .join_btn{margin:auto;text-align:center;width: 150px;height: 40px;border-radius: 4.5px;background-color: #016df1;font-size: 16px;font-weight: 600;line-height: 40px;text-align: center;color: #ffffff;margin-top:60px;margin-bottom:60px;}
+		</style>
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+		<script>
+			window.onload=function(){
+				$(".title").css("top",parseInt($("#header_img").css("height"))/2.2+"px");
+				$(".join_box").on({
+					"click":function(){
+						window.location.href="join_info.html";
+					}
+				},".join_btn")
+			}
+		</script>
+	</head>
+	<body style="background: url(img/bg.png) no-repeat;">
+		<div class="header">
+			<div class="img"><img id="header_img" src="img/join_title_image.png"></div>
+			<div class="title">
+				<p class="big">「云书校园 CEO」全国招募启动</p>
+				<p class="small">——  酷炫得不像实力派</p>
+			</div>
+		</div>
+		<div class="contant">
+			<div class="title">云书是什么<span>？</span></div> 
+
+			<p>云书是一个送免费教材的平台，用免费循环的模式传递二手教材，致力于实现高校教材循环渠道化和效率化。目前已覆盖浙江、江苏所有高校，教材总库存超过50万册。</p>
+			
+			<p>提高每本教材的使用价值，构建高校二手书循环流通系统，是我们的责任与使命。</p>
+			
+			<p>我们的目标是“让全天下的大学生都用上免费教材”，为了实现这个酷酷的梦想，我们需要更多的小伙伴加入我们，可能，未来改变世界就有你的一份力量，我们的征程是星辰与大海！</p>
+
+
+         	<div class="title">为什么要成为「云书校园 CEO」<span>？</span></div> 
+
+            <p class="center">/ 工作自由 /</p>
+            <p class="center_tip">若为自由故，一切皆可抛。</p>
+
+			<p>工作时间：自由支配！工作地点：你的学校！抛开文凭限制，不需要专业对口，我们给你一个展示自我能力的机会。</p>
+
+            <p class="center">/ 经济独立 /</p>
+            <p class="center_tip">妈妈再也不用担心你的生活费</p>
+
+			<p>你可能要组建初期云书合伙人校园团队，管理维护团队并配合云书在校园的落地工作。收书、推广、配送、商务合作，你可以获得普通兼职难以企及的高额报酬。</p>
+
+            <p class="center">/ 酷炫经历 /</p>
+            <p class="center_tip">酷炫得不像实力派 </p>
+
+			<p>结交本地互联网精英，无限制拓展你的人脉。零距离接触高校创业团队，获得"云书校园CEO”实习证明。永远谨记：做什么不要紧，撇开成功与否，一定要酷。</p>
+
+
+            <div class="title"> 我们想找寻这样的你<span>……</span></div> 
+
+			<p>你应该是一个体力惊人的女汉子or男子汉；</p>
+			<p>你应该是一个目标清晰、执行力强、做事积极的小巨人；</p>
+			<p>你应该是一个为人亲和、与团队能融为一体的小可爱；</p>
+			<p>你应该是一个有能力、有想法、期待变革的年轻人；</p>
+		</div>
+		<div class="footer">
+			<div class="desc">如果你符合上述要求，还等什么，<br/>
+				快点击按钮加入酷炫得不像实力派的我们吧！
+			</div>
+			<div class="join_box"><div class="join_btn">立即加入</div></div>
+		</div>
+	</body>
+</html>

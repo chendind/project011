@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta name="keywords" content="seokeywords"/>
+		<meta name="description" content="seodescription"/>
+		<title></title>
+		<style>
+			body{background-color: #eeeeee;}
+			body,p{margin:0px;padding: 0px;font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Microsoft Yahei","Arial",sans-serif;}
+			.conpon_list{margin:0px 12px 60px 12px;}
+			.conpon_list .list_div{width:100%;height:134px;border-radius: 5px;margin-top:14px;background: url(img/coupon_overdue_bg.png) no-repeat;background-size: 100% 100%;}
+			.conpon_list .list_div .top_part{width:100%;height:100px;}
+			.conpon_list .list_div .top_part img{width:64px;height:64px;margin-top: 18px;margin-left: 18px;border-radius: 5px 5px 0px 0px;}
+			.conpon_list .list_div .top_part .img_logo{float:left;}
+			.conpon_list .list_div .top_part .desc{float:right;font-size: 17px;font-weight: 400;color: #ffffff;text-align: right;margin-top: 10px;margin-right: 18px;}
+			.conpon_list .list_div .top_part .desc .manjian{margin-top:14px;margin-bottom:12px;}
+			.conpon_list .list_div .bottom_part div{font-size: 12px;font-weight: 400;line-height: 33px;color: #999999;margin-left: 18px;}
+		</style>
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script>
+			var pageIndex=1;
+			window.onload=function(){
+				//window.location.reload();
+				GetConponList(pageIndex);
+			}
+			function GetConponList(index)
+			{
+				$.ajax({
+					type:'get',
+					url:'http://120.26.94.240:8989/users/coupons/expired/page/'+index,
+					async:true,
+					dataType:'json',
+					beforeSend: function(request) {
+                        request.setRequestHeader("token",getQueryStr("token"));
+                        request.setRequestHeader("OriginType","h5");
+                    },
+					success:function(data){
+						if(data.resultCode==200)
+						{
+							var json=data.data.unexpiredCoupons;
+							var structure_str="";
+							$.each(json, function(index,item) {
+								structure_str+="<div class='list_div' sid='"+item.id+"'>";
+								structure_str+="<div class='top_part'>";
+								structure_str+="<div class='img_logo'><img src='"+item.logo+"'></div>";
+								structure_str+="<div class='desc'><p class='manjian'>"+item.powerValue+"</p><p class='name' style='opacity: 0.6;'>"+item.shopName+"</p></div>";
+								structure_str+="</div>";
+								structure_str+="<div class='bottom_part'>";
+								structure_str+="<div>可使用</div>";
+								structure_str+="</div></div>";
+							});
+							$(".conpon_list").append(structure_str);
+						}
+					},
+					error:function()
+					{
+						//alert("1");
+						//异常处理
+					}
+				});
+			}
+		</script>
+	</head>
+	<body>
+		<div class="conpon_list">
+			<!--
+            	作者：xiaozhou_1990@sina.cn
+            	时间：2016-08-21
+            	描述：
+            <div class="list_div">
+				<div class="top_part">
+					<div class="img_logo"><img src="http://image.qess.me/images/2016042815124820986318.jpg"></div>
+					<div class="desc"><p class="manjian">满200减50</p><p style="opacity: 0.6;">外婆家</p></div>
+				</div>
+				<div class="bottom_part">
+					<div>已过期</div>
+				</div>
+			</div>
+			<div class="list_div">
+				<div class="top_part">
+					<div class="img_logo"><img src="http://image.qess.me/images/2016042815124820986318.jpg"></div>
+					<div class="desc"><p class="manjian">满200减50</p><p style="opacity: 0.6;">外婆家</p></div>
+				</div>
+				<div class="bottom_part">
+					<div>已过期</div>
+				</div>
+			</div>
+			<div class="list_div">
+				<div class="top_part">
+					<div class="img_logo"><img src="http://image.qess.me/images/2016042815124820986318.jpg"></div>
+					<div class="desc"><p class="manjian">满200减50</p><p style="opacity: 0.6;">外婆家</p></div>
+				</div>
+				<div class="bottom_part">
+					<div>已过期</div>
+				</div>
+			</div>
+			<div class="list_div">
+				<div class="top_part">
+					<div class="img_logo"><img src="http://image.qess.me/images/2016042815124820986318.jpg"></div>
+					<div class="desc"><p class="manjian">满200减50</p><p style="opacity: 0.6;">外婆家</p></div>
+				</div>
+				<div class="bottom_part">
+					<div>已过期</div>
+				</div>
+			</div>-->
+		</div>
+	</body>
+</html>
