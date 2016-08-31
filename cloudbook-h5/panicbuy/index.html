@@ -71,7 +71,8 @@
 	}
 </style>
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="../source/js/ajax.js"></script>
+<script type="text/javascript" src="../../source/mui/js/mui.js"></script>
+<script type="text/javascript" src="../../source/js/ajax.js"></script>
 <script type="text/javascript" src="../../source/js/ajax_my.js"></script>
 <script type="text/javascript" src="../../source/js/public.js"></script>
 <script>
@@ -115,7 +116,7 @@ var params = getQueryData();
 						//alert("1");
 						if(params&&params.device == "wechat"){
 							$.when(createOrder(info_id,1,"panicBuy")).done(function(data){
-								
+
 							});
 						}
 						else{
