@@ -3,12 +3,6 @@ function getAllMyInfo() {
     var ajax = $.ajax({
         url: baseUrl + "/users/",
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -17,12 +11,6 @@ function getAllMyAddress() {
     var ajax = $.ajax({
         url: baseUrl + "/users/addresses",
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -31,12 +19,6 @@ function getOneAddress(id) {
     var ajax = $.ajax({
         url: baseUrl + "/users/addresses/" + id,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -45,12 +27,6 @@ function deleteOneAddress(id) {
     var ajax = $.ajax({
         url: baseUrl + "/users/addresses/" + id,
         type: "DELETE",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -62,12 +38,6 @@ function getSchoolList(cityId) {
     var ajax = $.ajax({
         url: baseUrl + "/schools/" + cityId,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -76,12 +46,6 @@ function getDormList(id) {
     var ajax = $.ajax({
         url: baseUrl + "/schools/" + id + "/dorms",
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -91,12 +55,6 @@ function addAddress(data) {
         url: baseUrl + "/users/addresses",
         type: "POST",
         data: data,
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true,
     });
     return ajax;
 }
@@ -106,12 +64,6 @@ function editSex(sex) {
         url: baseUrl + "/users/profile",
         data: { "type": 3, "sex": sex },
         type: "PUT",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -121,11 +73,6 @@ function editUsername(name) {
         url: baseUrl + "/users/profile",
         data: { "type": 2, "username": name },
         type: "PUT",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
     });
     return ajax;
 }
@@ -135,12 +82,6 @@ function editPhoneNum(phone, verfityCode) {
         url: baseUrl + "/users/profile",
         data: { "type": 5, "phone": phone, "verfityCode": verfityCode },
         type: "PUT",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -150,12 +91,6 @@ function getHistory(page, pageSize) {
         url: baseUrl + "/histories",
         type: "POST",
         data: { "page": page, "pageSize": pageSize },
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -165,12 +100,6 @@ function getOrderList(page, status) {
         url: baseUrl + "/orders/list",
         type: "POST",
         data: { "page": page, "orderStatus": status },
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -178,12 +107,6 @@ function getOrderList(page, status) {
 function getScore() {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/infos",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -193,12 +116,6 @@ function scoreExchange(score) {
         url: baseUrl + "/users/profiles/scores/exchange",
         type: "POST",
         data: { "score": score },
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -207,12 +124,6 @@ function scoreList(page) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/scores/records/" + page,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -221,12 +132,6 @@ function moneyRecordList(page) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/moneys/records/" + page,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -235,12 +140,6 @@ function moneyRecordDetail(id) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/moneys/records/jump/" + id,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -249,12 +148,6 @@ function bookDetail(id) {
     var ajax = $.ajax({
         url: baseUrl + "/books/" + id,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -264,12 +157,6 @@ function cartList() {
         url: baseUrl + "/shopping_carts",
         type: "POST",
         data: { "page": "1", "pageSize": "1000" },
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -279,12 +166,6 @@ function addToCart(id) {
         url: baseUrl + "/shopping_cart",
         type: "POST",
         data: { "relationId": id, "type": "0", "num": "1", "featureId": "0", "cityId": currentCityId },
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -293,12 +174,6 @@ function deleteFromCart(id) {
     var ajax = $.ajax({
         url: baseUrl + "/shopping_carts/" + id,
         type: "DELETE",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -308,12 +183,6 @@ function createOrder(ids, num, type) {
         url: baseUrl + "/orders",
         type: "POST",
         data: { "ids": ids, "type": type, "num": num, "featureId": "0", "cityId": currentCityId },
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -322,12 +191,6 @@ function orderDetail(tradeNo) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/" + tradeNo,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -336,12 +199,6 @@ function orderConfirm(tradeNo) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/confirm/" + tradeNo + "/" + currentCityId,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -350,12 +207,6 @@ function orderDetail(tradeNo) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/" + tradeNo,
         type: "GET",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -365,12 +216,6 @@ function wechatPay(tradeNo,change) {
         url: baseUrl + "/trade/wxPayParams",
         type: "POST",
         data:{"tradeNo":tradeNo,"payType":"1","change":change},
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -380,12 +225,6 @@ function changeMessage(tradeNo,message) {
         url: baseUrl + "/orders/"+tradeNo+"/message",
         type: "PUT",
         data:{"message":message},
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -394,12 +233,6 @@ function editOrderPlace(tradeNo,aid) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/"+tradeNo+"/address/"+aid,
         type: "PUT",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -408,12 +241,6 @@ function cancelOrder(tradeNo) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/"+tradeNo+"/close",
         type: "PUT",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -423,12 +250,6 @@ function expressDetail(tradeNo,company,isYun,expressNo) {
         url: baseUrl + "/orders/"+tradeNo+"/express",
         type: "POST",
         data:{"company":company,"isYunExpress":isYun,"expressNumber":expressNo},
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }
@@ -437,12 +258,6 @@ function applyRefund(tradeNo) {
     var ajax = $.ajax({
         url: baseUrl + "/orders/"+tradeNo+"/cancel",
         type: "PUT",
-        headers: getAjaxHeader(),
-        beforeSend: ajaxDataHandle,
-        contentType: contentType,
-        success: successHandle,
-        error: errorHandle,
-        crossDomain: true
     });
     return ajax;
 }                           
