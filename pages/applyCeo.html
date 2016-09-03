@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
     <link rel="stylesheet" href="../source/css/login.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/mui.picker.min.js"></script>
@@ -46,7 +47,7 @@
         </form>
         <div class="innerCenter" style="margin-top: 60px;">
             <div>
-                <div id="applyCeoButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;color:#4D99F5">提交申请</div>
+                <div id="applyCeoButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;color:#4D99F5" v-tap="applyCeo">提交申请</div>
             </div>
         </div>
     </div>
@@ -103,7 +104,6 @@ var vm = new Vue({
             cityChoose: function(){
                 var data = [];
                 var self = this;
-                console.log(this.cityList);
                 for (var i = 0; i < this.cityList.length; i++) {
                     data[i] = {
                         value: this.cityList[i].id,
@@ -146,6 +146,9 @@ var vm = new Vue({
                         mui.toast("发送成功");
                     }
                 });
+            },
+            applyCeo: function(){
+                
             }
         },
         created: function() {

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
     <link rel="stylesheet" href="../source/css/mui.picker.min.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/mui.picker.min.js"></script>
@@ -23,10 +24,10 @@
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="rightBorder" :class='{"greyColor":empty}' v-tap="setDefault">
+        <a class="rightBorder" :class='{blueColor:!empty}' v-tap="setDefault">
             设为默认地址
         </a>
-        <a id="addNewAddressButton" :class="{greyColor:empty}" v-tap="save">
+        <a id="addNewAddressButton" :class="{blueColor:!empty}" v-tap="save">
             保存
         </a>
     </nav>

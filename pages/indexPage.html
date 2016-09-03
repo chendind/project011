@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
     <link rel="stylesheet" href="../source/css/index.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/ajax.js"></script>
@@ -72,20 +73,21 @@
         </div>
         <div style="margin-bottom:10px;background-color: #fff;">
             <nav class="mui-bar-tab user-bar-tab">
-                <!-- <a data-href="http://h5.qess.me/panicbuy/index.html"> -->
-                <a data-href="../cloudbook-h5/panicbuy/index.html?%7B%22device%22:%22wechat%22%7D">
+                <a data-href="indexPage_panicBuy.html">
+                <!-- <a data-href="../cloudbook-h5/panicbuy/index.html?%7B%22device%22:%22wechat%22%7D"> -->
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_qianggou_icon.png" alt="">
                     </span>
                     <span class="mui-tab-label">抢购</span>
                 </a>
-                <a data-href="http://h5.qess.me/ceo_apply/join_index.html">
+                <a data-href="indexPage_joinUs.html">
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_jiaru_icon.png" alt="">
                     </span>
                     <span class="mui-tab-label">加入</span>
                 </a>
-                <a data-href="http://h5.qess.me/book_collection/recycleBook.html">
+                <!-- <a data-href="indexPage_recycleBook.html"> -->
+                <a id="recycleBookButton">
                     <span class="mui-icon">
                         <img style="width: 40px;" src="../source/webslice/1.0_home/home_juanshu_icon.png" alt="">
                     </span>
@@ -281,6 +283,9 @@ function createBook(id,path,title,colNumber){
             '</li>';
     return html;
 }
+$("#recycleBookButton").on('tap',function(){
+    mui.toast("功能正在开发中");
+})
 </script>
 </body>
 </html>

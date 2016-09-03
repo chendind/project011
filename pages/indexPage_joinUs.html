@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<meta content="telephone=no" name="format-detection" />
-		<meta name="keywords" content="seokeywords"/>
-		<meta name="description" content="seodescription"/>
-		<title></title>
-		<style>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/index.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
+    <style>
 			body,p{margin:0px;padding:0px;font-family: "HanHei SC","PingHei","PingFang SC","STHeitiSC-Light","Helvetica Neue","Helvetica","Microsoft Yahei","Arial",sans-serif;}
 			.header{position: relative;width: 100%;}
-			.header .img img{width:100%;}
-			.header .title{position: absolute;z-index: 5;top: 100px;width: 100%;text-align: center;color: white;}
+			.header .img img{display: block;width:100%;}
+			.header .title{position: absolute;z-index: 5;width: 100%;text-align: center;color: white;top: 50%;transform:translate(0,-50%);-webkit-transform:translate(0,-50%);}
 			.header .title .big{font-size: 20px;font-weight: 600;line-height: 1.2;color: #ffffff;}
 			.header .title .small{font-size: 15px;font-weight: 400;line-height: 1.6;color: #f3f3f3;}
 			.contant{margin:0px 20px;}
@@ -27,21 +33,19 @@
 			.footer .desc{text-align:center;height: 56px;font-size: 15px;font-weight: 600;line-height: 1.87;text-align: center;color: #666666;}
 			.footer .join_btn{margin:auto;text-align:center;width: 150px;height: 40px;border-radius: 4.5px;background-color: #016df1;font-size: 16px;font-weight: 600;line-height: 40px;text-align: center;color: #ffffff;margin-top:60px;margin-bottom:60px;}
 		</style>
-		<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
 		<script>
 			window.onload=function(){
-				$(".title").css("top",parseInt($("#header_img").css("height"))/2.2+"px");
 				$(".join_box").on({
 					"click":function(){
-						window.location.href="join_info.html";
+						window.location.href="applyCeo.html";
 					}
 				},".join_btn")
 			}
 		</script>
 	</head>
-	<body style="background: url(img/bg.png) no-repeat;">
+	<body style="background: url(../source/webview/img/bg.png) no-repeat;">
 		<div class="header">
-			<div class="img"><img id="header_img" src="img/join_title_image.png"></div>
+			<div class="img"><img id="header_img" src="../source/webview/img/join_title_image.png"></div>
 			<div class="title">
 				<p class="big">「云书校园 CEO」全国招募启动</p>
 				<p class="small">——  酷炫得不像实力派</p>
