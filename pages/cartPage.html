@@ -72,7 +72,7 @@
                                         ¥ 0.00
                                     </div>
                                     <div class="number">
-                                        x1
+                                        ×1
                                     </div>
                                     <div class="mui-numbox" data-numbox-min="1">
                                         <!-- "-"按钮，点击可减小当前数值 -->
@@ -226,7 +226,9 @@
                     if (data.resultCode == 200) {
                         var tradeNo = data.data.tradeNumber;
                         mui.openWindow({
-                            url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo }) 
+                            // url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo })
+                            // 林森，这里我不是很理解两个的区别，先用orderNo了
+                            url: "cartPage_orderConfirm.html?" +encodeObj({"orderNo":tradeNo })
                         })
                     }
                 });

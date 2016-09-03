@@ -186,14 +186,6 @@ function createOrder(ids, num, type) {
     });
     return ajax;
 }
-// 订单详情
-function orderDetail(tradeNo) {
-    var ajax = $.ajax({
-        url: baseUrl + "/orders/" + tradeNo,
-        type: "GET",
-    });
-    return ajax;
-}
 // 确认订单
 function orderConfirm(tradeNo) {
     var ajax = $.ajax({
@@ -215,7 +207,7 @@ function wechatPay(tradeNo,change) {
     var ajax = $.ajax({
         url: baseUrl + "/trade/wxPayParams",
         type: "POST",
-        data:{"tradeNo":tradeNo,"payType":"1","change":change},
+        data:{"tradeNo":tradeNo,"payType":"0","change":change},
     });
     return ajax;
 }

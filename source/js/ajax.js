@@ -9,7 +9,7 @@ function successHandle(data){
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
 								"&redirect_uri="+
 								"http://test.qess.me/wechat/getCookie?redirectUrl="+
-								"http://test.qess.me/index.jsp"+
+								"http://www.chendind.com/project011/pages/indexPage.html"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if((data.resultCode!=200)&&data.message){
@@ -144,6 +144,14 @@ function getRecommends(cityId){
 	});
 	return ajax;
 }
+// 根据id获取推荐专题详情
+function getRecommendThemeInfo(themeId){
+	var ajax = $.ajax({
+		url: baseUrl + "/imgTheme/" + themeId,
+		type: "GET"
+	});
+	return ajax;
+}
 // 根据推荐列表id获取单品书籍列表
 function getRecommendBooksByTypeAndId(type,id){
 	var ajax = $.ajax({
@@ -227,6 +235,33 @@ function getPanicBuy(){
 	});
 	return ajax;
 }
+// webapp用户绑定手机号: 发送验证码
+function sendMessageForBindPhone(phone){
+	var ajax = $.ajax({
+		url: baseUrl + "/users/webapp_bind",
+		type: "POST",
+		data:{
+			"phone":phone
+		}
+	});
+	return ajax;
+}
+// webapp用户绑定手机号: 检验验证码
+function bindPhoneByVerifyCode(phone, verifyCode){
+	var ajax = $.ajax({
+		url: baseUrl + "/users/bind",
+		type: "POST",
+		data:{
+			"phone":phone,
+			"verifyCode":verifyCode
+		}
+	});
+	return ajax;
+}
+
+
+
+
 // 获取微信分享参数
 function getWechatShareConfig(url){
 	var ajax = $.ajax({
@@ -238,12 +273,24 @@ function getWechatShareConfig(url){
 	});
 	return ajax;
 }
+// 刷新微信分享参数
+function refreshWechatShareConfig(url){
+	var ajax = $.ajax({
+		url: baseUrl + "/wxshare/jsapi",
+		data: {
+			"url": url
+		},
+		type: "PUT"
+	});
+	return ajax;
+}
 // 设置微信分享参数
 function setWechatShareConfig(title,desc,link,imgUrl){
 	title||(title = '云书，一个免费送教材的平台');
 	desc||(desc = '打破常规，突破垄断；定义教材，预见未来');
 	link||(link = window.location.href);
 	imgUrl||(imgUrl = "http://www.chendind.com/project011/source/images/ysdownload.png");
+
     var config = {
         title: title,
         desc: desc,
@@ -268,8 +315,36 @@ function setWechatShareConfig(title,desc,link,imgUrl){
         // QQ空间
         wx.onMenuShareQZone(config);
     });
+    // 如果失败那么刷新参数
+    wx.error(function(res){
+    	$.when(refreshWechatShareConfig(window.location.href)).done(function(data){
+	        if(data.resultCode == 200){
+	            wx.config({
+	                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	                appId: appId, // 必填，公众号的唯一标识
+	                timestamp: data.data.timestamp, // 必填，生成签名的时间戳
+	                nonceStr: data.data.nonceStr, // 必填，生成签名的随机串
+	                signature: data.data.signature,// 必填，签名，见附录1
+	                jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	            });
+	            setWechatShareConfig("","","","");
+	        }
+	    });
+    })
 }
-
+// 发起微信支付
+// function getWechatPayParams(tradeNo,payType,change){
+// 	var ajax = $.ajax({
+// 		url: baseUrl + "/trade/wxPayParams",
+// 		data: {
+// 			"tradeNo": tradeNo,
+// 			"payType": payType,
+// 			"change": change
+// 		},
+// 		type: "POST"
+// 	});
+// 	return ajax;
+// }
 
 
 

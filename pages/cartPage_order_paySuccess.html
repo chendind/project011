@@ -13,6 +13,7 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
 </head>
 <body style="background-color: #fff;">
@@ -25,11 +26,11 @@
         </div>
         <div style="padding: 16px;line-height: 1;">
             <div style="border-bottom: 1px solid #e5e5e5;padding-bottom: 16px;">
-                <p>订单号：15746966558360694</p>
-                <p>收件人：京东</p>
-                <p>联系电话：13558938081</p>
-                <p>收件地址：杭州科技大学信息学院学文苑楼A单元603</p>
-                <p>订单备注：包装得好一点，谢谢</p>
+                <p>订单号：<span id="orderNo"></span></p>
+                <p>收件人：<span id="personName"></span></p>
+                <p>联系电话：<span id="phoneNumber"></span></p>
+                <p>收件地址：<span id="address"></span></p>
+                <p>订单备注：<span id="memo"></span></p>
             </div>
             <div class="innerCenter" style="margin-top: 26px;">
                 <div>
@@ -42,13 +43,32 @@
     
 <script>
 mui.init();
-$("#orderDetailButton").on('tap',function(){
-    var params = {
-        "status": "0",// 0表示成功
-        "orderId": "1"// 这里填入orderid
-    };
-    window.location.href = "cartPage_order_status.html?"+encodeObj(params);
-});
+var params = getQueryData();
+if(!params){
+    mui.alert("查询参数错误","",["确定"],function(){
+        mui.back();
+    });
+}
+else{
+    $.when(orderDetail(params.orderNo)).done(function(data){
+        if(data.resultCode == 200){
+            var order = data.data.order;
+            $("#orderNo").text(order.tradeNumber);
+            $("#personName").text(order.name);
+            $("#phoneNumber").text(order.phone);
+            $("#address").text(order.address);
+            $("#memo").text(order.message);
+        }
+    });
+    $("#orderDetailButton").on('tap',function(){
+        var _params = {
+            "orderStatus": "0",// 0表示成功
+            "orderNo": params.orderNo// 这里填入orderid
+        };
+        window.location.href = "cartPage_order_status.html?"+encodeObj(_params);
+    });
+}
+
 </script>
 </body>
 </html>

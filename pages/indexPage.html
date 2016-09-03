@@ -216,9 +216,9 @@ $.when(getRecommends(cityId)).done(function(data){
         var data = data.data;
         var imgs = data.imgs;
         // 第一张图
-        $("#firstRecommendImage").attr("data-href", imgs[0].url).find(">img").attr("src", imgs[0].path);
+        $("#firstRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[0].id})).find(">img").attr("src", imgs[0].path);
         // 第二张图
-        $("#secondRecommendImage").attr("data-href", imgs[1].url).find(">img").attr("src", imgs[1].path);
+        $("#secondRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[1].id})).find(">img").attr("src", imgs[1].path);
 
         var txts = data.txts;
         // 第一个block

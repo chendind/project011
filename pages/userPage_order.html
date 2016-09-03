@@ -15,11 +15,12 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/mui/js/mui.pullToRefresh.js"></script>
     <script src="../source/mui/js/mui.pullToRefresh.material.js"></script>
-    <script src="../source/js/public.js"></script>
+    
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
     <style>
     .mui-control-content {
         min-height: 215px;
@@ -441,7 +442,7 @@
             },
             cancelOrder: function(orderNo) {
                 var self = this;
-                mui.confirm("确定取消订单吗？", " ", ["<i class='textColor'>确定</i>", "<span>不</span>"], function(data) {
+                mui.confirm("确定取消订单吗？", " ", ["<span class='textColor'>确定</span>", "<span>不</span>"], function(data) {
                     if (data.index == 0) {
                         $.when(cancelOrder(orderNo)).done(function(data) {
                             if (data.resultCode == 200) {

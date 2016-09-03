@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/index.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body>
+    <div class="mui-content" style="background-color: #fff;">
+        <img id="headimg" class="index-bg-header" style="height: auto;" src="" alt="">
+        <div id="content_box"></div>
+    </div>
+<script>
+mui.init();
+var params = getQueryData();
+if(!params){
+    mui.alert("参数错误","",["确定"],function(){
+        mui.back();
+    });
+}
+else{
+    $.when(getRecommendThemeInfo(params.themeId)).done(function(data){
+        if(data.resultCode == 200){
+            $("#headimg").attr("src",data.data.detail.homeImg);
+            var content = $(data.data.detail.content);
+            $.each(content.find("a"),function(){
+                var regx = /cloudbook:\/\/app\/book\/(\d+)/;
+                var href = $(this).attr("href");
+                var bookId = regx.exec(href)[1];
+                $(this).attr({
+                    "data-href":"indexPage_textbook.html?"+encodeObj({"bookId":bookId}),
+                    "href":"indexPage_textbook.html?"+encodeObj({"bookId":bookId})
+                });
+            });
+            $("#content_box").html(content);
+        }
+    });
+}
+
+</script>
+</body>
+</html>

@@ -17,7 +17,7 @@
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
-    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/ajax_my.js?20160903"></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
             <li class="mui-table-view-cell" v-if="!detail.address">
                 <a data-href="userPage_userInfo_addNewAddress.html?{{tradeNoObj}}" style="height: 70px;">
                     <div class="veryCenter">
-                        <img class="imageIcon" style="width: 20px;" src="../source/images/rect.jpg" alt=""> 添加收货地址
+                        <img class="imageIcon" style="width: 20px;" src="../source/webslice/4.1.5_address/address_add_icon.png" alt=""> 添加收货地址
                     </div>
                 </a>
             </li>
@@ -129,10 +129,7 @@
             expireTime: function() {
                 var time = this.detail.expireTime.split(" ")[0].split("-");
                 var smallTime = this.detail.expireTime.split(" ")[1].split(":");
-                var date = new Date(parseInt(time[0]), parseInt(time[1]) - 1, parseInt(time[2]), parseInt(smallTime[0]), parseInt(smallTime[1]), parseInt(smallTime[2]))
-                console.log(date);
-                console.log(this.nowTime);
-                console.log(restTime);
+                var date = new Date(parseInt(time[0]), parseInt(time[1]) - 1, parseInt(time[2]), parseInt(smallTime[0]), parseInt(smallTime[1]), parseInt(smallTime[2]));
                 var restTime = (date.getTime() - this.nowTime.getTime()) / 1000;
                 var minutes = parseInt(restTime / 60);
                 if (minutes < 10) {
@@ -150,10 +147,24 @@
                 return encodeObj(data);
             },
             wechatPay: function() {
+                if(!this.change){
+                    this.change = 0;
+                }
                 $.when(wechatPay(this.detail.tradeNumber, this.change)).done(function(data) {
-                    console.log(data);
                     if (data.resultCode == 200) {
-
+                        var params = data.data.params;
+                        var wcpayParams = {
+                            appId: params.appId,
+                            timestamp: params.timeStamp,
+                            nonceStr: params.nonceStr,
+                            package: params.packageValue,
+                            signType: params.signType,
+                            paySign: params.paySign,
+                            success: function (res) {
+                                window.location.href = "cartPage_order_paySuccess.html?"+encodeObj({"orderNo":this.detail.tradeNumber});
+                            }
+                        };
+                        wx.chooseWXPay(wcpayParams);
                     }
                 });
             },
@@ -173,32 +184,46 @@
         },
         created: function() {
             var self = this;
-            var data = getQueryData();
-            self.tradeNoObj = encodeObj(data);
-            if (data.tradeNo) {
-                var tradeNo = data.tradeNo;
-                $.when(orderConfirm(tradeNo)).done(function(data) {
-                    console.log(data);
-                    if (data.resultCode == 200) {
-                        self.detail = data.data.order;
-                    }
+            var params = getQueryData();
+            if(!params){
+                mui.alert("查询参数错误","",["确定"],function(){
+                    mui.back();
                 });
             }
-            if (data.orderNo) {
-                var orderNo = data.orderNo;
-                $.when(orderConfirm(orderNo)).done(function(data) {
-                    console.log(data);
-                    if (data.resultCode == 200) {
-                        self.detail = data.data.order;
-                        self.countState = true;
-                        self.nowTime = new Date(); 
-                        setInterval(function(){
-                            self.nowTime=new Date();
-                        },1000)
-                    }
-                });
+            else{
+                self.tradeNoObj = encodeObj(params);
+                if (params.tradeNo) {
+                    var tradeNo = params.tradeNo;
+                    $.when(orderConfirm(tradeNo)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            self.detail = data.data.order;
+                        }
+                        else{
+                            mui.alert("订单超时","",["确定"],function(){
+                                mui.back();
+                            });
+                        }
+                    });
+                }
+                if (params.orderNo) {
+                    var orderNo = params.orderNo;
+                    $.when(orderConfirm(orderNo)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            self.detail = data.data.order;
+                            self.countState = true;
+                            self.nowTime = new Date(); 
+                            setInterval(function(){
+                                self.nowTime=new Date();
+                            },1000)
+                        }
+                        else{
+                            mui.alert("订单超时","",["确定"],function(){
+                                mui.back();
+                            });
+                        }
+                    });
+                }
             }
-
         },
         ready: function() {
 

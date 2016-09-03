@@ -25,13 +25,17 @@ $(function(){
             });
             setWechatShareConfig("","","","");
         }
-    })
+    });
 });
 function encodeObj(obj){
 	return encodeURI(JSON.stringify(obj));
 }
 function getQueryData(){
-    var URI = decodeURI(window.location.search.split("?")[1]);
+    var searchUrl = window.location.search.split("?")[1];
+    if(searchUrl&&searchUrl.search("=")>0){
+        searchUrl = searchUrl.split("=")[0];
+    }
+    var URI = decodeURI(searchUrl);
     var parseURI = URI;
     if(URI){
         try{

@@ -13,9 +13,10 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    <script src="../source/js/public.js"></script>
+    
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
 </head>
 
 <body>
@@ -43,16 +44,14 @@
     function getcn() {
         $("#getVerifyCodeButton").one("click", function() {
             var phone = $("#phone_number").val();
-            var verifyCode = $("#phone_verifyCode").val();
             var that = $(this);
-            $.when(getVerifyCode(phone)).done(function(data) {
+            $.when(sendMessageForBindPhone(phone)).done(function(data) {
                 if (data.resultCode == 200) {
                     mui.toast("发送成功");
                     var count = $('<span class="regetcn">重新发送' +
                         '&nbsp;(<i style="font-style:normal;">60</i>)' +
                         '</span>');
-                    that.empty();
-                    that.append(count);
+                    that.empty().append(count);
 
                     function reduceCount() {
                         var num = count.find("i").text();
@@ -79,9 +78,9 @@
         } else if (verifyCode.length != 4) {
             mui.toast("请输入正确的验证码");
         } else {
-            $.when(userLogin(phone, verifyCode)).done(function(data) {
+            $.when(bindPhoneByVerifyCode(phone, verifyCode)).done(function(data) {
                 if (data.resultCode == 200) {
-                    mui.toast("修改成功");
+                    mui.toast("绑定成功");
                     mui.back();
                 }
             });
