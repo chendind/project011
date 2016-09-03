@@ -8,7 +8,7 @@ function successHandle(data){
 		window.location.href = "login.html";
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
 								"&redirect_uri="+
-								"http://test.qess.me/wechat/getCookie?redirectUrl="+
+								"http://test.qess.me/wechat/login?redirectUrl="+
 								"http://www.chendind.com/project011/pages/indexPage.html"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
@@ -28,19 +28,10 @@ function ajaxDataHandle(){
 	}
 }
 function getAjaxHeader(){
-	var token = window.localStorage.getItem("token"),
-		version = window.localStorage.getItem("version"),
-	    header = {};
-	if(token){
-		header.token = token;
-		header.version = version;
-		header.OriginType = "mp";
-	}
-	else{
-		header.version = "1.0";
-		header.OriginType = "mp";
-	}
-	header.token = "e53ef4ac5eb017417b17aa31c947d683";
+	var header = {};
+	header.version = "1.0";
+	header.OriginType = "mp";
+	// header.token = "e53ef4ac5eb017417b17aa31c947d683";
 	return header;
 }
 function dataFilter(data,dataType){
@@ -219,6 +210,21 @@ function getCurrentCity(deferred){
     return _deferred;
 }
 // 申请成为ceo
+function applyToBeCeo(name,sex,cityId,schoolId,phone,verifyCode){
+	var ajax = $.ajax({
+		url: baseUrl + "/ceoApply",
+		data:{
+			"name": name,
+			"sex": sex,
+			"cityId": cityId,
+			"schoolId": schoolId,
+			"phone": phone,
+			"verifyCode": verifyCode
+		},
+		type: "POST"
+	});
+	return ajax;
+}
 // 申请成为ceo发送验证码
 function sendMessageForApplyCeo(phone){
 	var ajax = $.ajax({
@@ -227,6 +233,7 @@ function sendMessageForApplyCeo(phone){
 	});
 	return ajax;
 }
+
 // 抢购详情接口
 function getPanicBuy(){
 	var ajax = $.ajax({

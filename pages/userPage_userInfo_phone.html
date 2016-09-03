@@ -48,7 +48,7 @@
             $.when(sendMessageForBindPhone(phone)).done(function(data) {
                 if (data.resultCode == 200) {
                     mui.toast("发送成功");
-                    var count = $('<span class="regetcn">重新发送' +
+                    var count = $('<span class="regetcn greyColor">重新发送' +
                         '&nbsp;(<i style="font-style:normal;">60</i>)' +
                         '</span>');
                     that.empty().append(count);
@@ -65,6 +65,9 @@
                         }
                     }
                     var reduceId = window.setInterval(reduceCount, 1000);
+                }
+                else{
+                    getcn();
                 }
             });
         });

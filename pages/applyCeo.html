@@ -24,9 +24,9 @@
 <body>
     <div class="mui-content" style="background-color: #fff;">
         <h1 style="margin: 61px auto;width: 247px;height: 19px;font-size: 19px;font-weight: 600;text-align: center;color: #333333;">立即申请成为<span class="blueColor">云书</span><span class="yellowColor">/</span>CEO</h1>
-        <form class="mui-input-group ys-input-group" style="margin: 0 40px;">
+        <form class="mui-input-group ys-input-group" style="margin: 0 40px;" v-cloak>
             <div class="mui-input-row">
-                <input type="text" class="mui-input-clear" placeholder="请输入姓名">
+                <input type="text" class="mui-input-clear" placeholder="请输入姓名" v-model="name">
             </div>
             <div class="mui-input-row">
                 <input id="sexInput" type="text" placeholder="请选择性别" v-model="sex">
@@ -41,13 +41,13 @@
                 <input type="text" class="mui-input-clear" placeholder="请输入手机号" v-model="phone">
             </div>
             <div class="mui-input-row">
-                <input type="text" class="mui-input-clear" placeholder="请输入验证码">
-                <div class="mui-tip linkColor" v-tap="getMessage">获取验证码</div>
+                <input type="text" placeholder="请输入验证码" v-model="verifyCode">
+                <div class="mui-tip" :class="{linkColor:restTime==0}" v-tap="getMessage">{{tipText}}</div>
             </div>
         </form>
         <div class="innerCenter" style="margin-top: 60px;">
             <div>
-                <div id="applyCeoButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;color:#4D99F5" v-tap="applyCeo">提交申请</div>
+                <div id="applyCeoButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;color:#4D99F5" v-bind:style="{color: buttonColor}" v-tap="applyCeo">提交申请</div>
             </div>
         </div>
     </div>
@@ -72,24 +72,46 @@
 mui.init();
 var picker = new mui.PopPicker();
 $("#sexInput").on('tap',function(){
-    mui("#applyCeo_userSexSheet").popover('toggle')
+    mui("#applyCeo_userSexSheet").popover('toggle');
+    $("input").blur();
 });
 var vm = new Vue({
         el: "body",
         data: {
+            name: "",
             sex: "",
             city: "",
+            cityId: "",
             school: "",
+            schoolId:"",
             phone: "",
+            buttonColor: "#4D99F5",
+            verifyCode: "",
+            restTime: 0,
             cityList: [],
             schoolList: []
         },
         computed: {
+            tipText: function(){
+                if(this.restTime <= 0){
+                    return "获取验证码"
+                }
+                else{
+                    return "重新获取（"+this.restTime+"）"
+                }
+            },
             empty: function() {
-                if (this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.cityList.length && this.schoolList.length) {
+                if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length) {
                     return false
                 } else {
                     return true
+                }
+            },
+            buttonColor: function(){
+                if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length) {
+                    return "#fff"
+                } else {
+                    return "#4D99F5"
                 }
             }
         },
@@ -112,7 +134,9 @@ var vm = new Vue({
                 }
                 picker.setData(data);
                 picker.show(function(selectItems) {
+                    console.log(selectItems);
                     self.city = selectItems[0].text;
+                    self.cityId = selectItems[0].value;
                     // self.address.dormId = selectItems[0].value;
                     $.when(getSchoolList(selectItems[0].value)).done(function(data){
                         self.$data.schoolList = data.data.schools;
@@ -136,19 +160,44 @@ var vm = new Vue({
                     picker.setData(data);
                     picker.show(function(selectItems) {
                         self.school = selectItems[0].text;
+                        self.schoolId = selectItems[0].value;
                     });
                 }
                     
             },
             getMessage: function(){
-                $.when(sendMessageForApplyCeo(self.phone)).done(function(data){
-                    if(data.resultCode == 200){
-                        mui.toast("发送成功");
-                    }
-                });
+                var self = this;
+                if(self.restTime<=0){
+                    $.when(sendMessageForApplyCeo(self.phone)).done(function(data){
+                        if(data.resultCode == 200){
+                            mui.toast("发送成功");
+                            self.restTime = 60;
+                            var _interval = setInterval(function(){
+                                self.restTime--;
+                                if(self.restTime <=0){
+                                    window.clearInterval(_interval);
+                                }
+                            },1000)
+                        }
+                    });
+                }
             },
             applyCeo: function(){
-                
+                var self = this;
+                var _sex = "0";
+                if(self.sex == '女'){
+                    _sex = "1";
+                }
+                if(!self.empty){
+                    $.when(applyToBeCeo(self.name, _sex, self.cityId, self.schoolId ,self.phone, self.verifyCode)).done(function(data){
+                        if(data.resultCode == 200){
+                            mui.toast("申请成功");
+                        }
+                    })
+                }
+                else{
+                    mui.toast("您还有未输入的内容");
+                }
             }
         },
         created: function() {
