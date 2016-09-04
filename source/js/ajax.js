@@ -9,7 +9,7 @@ function successHandle(data){
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
 								"&redirect_uri="+
 								"http://test.qess.me/wechat/login?redirectUrl="+
-								"http://www.chendind.com/project011/pages/indexPage.html"+
+								"http://test.qess.me/index.jsp"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if((data.resultCode!=200)&&data.message){
@@ -31,7 +31,7 @@ function getAjaxHeader(){
 	var header = {};
 	header.version = "1.0";
 	header.OriginType = "mp";
-	// header.token = "e53ef4ac5eb017417b17aa31c947d683";
+	header.token = "e53ef4ac5eb017417b17aa31c947d683";
 	return header;
 }
 function dataFilter(data,dataType){

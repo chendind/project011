@@ -95,7 +95,7 @@
             <div class="mui-input-row mui-checkbox" style="margin-bottom: 10px;">
                 <label>
                     零钱 <span class="greyColor"> | 余额：¥ {{detail.myTotalChange}}</span>
-                    <span class="mui-tip redColor" style="font-size: 14px;right: 40px;">－ <span>{{changeMoney |currency "¥" }}</span></span>
+                    <span class="mui-tip redColor" style="font-size: 14px;right: 40px;">-<span>{{changeMoney |currency "¥" }}</span></span>
                 </label>
                 <input class="smallCheckbox" type="checkbox" v-model="isChange" :true-value="changeMoney" :false-value="0">
             </div>
