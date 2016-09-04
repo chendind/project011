@@ -6,7 +6,13 @@ var appId = "wx51e4e7ced9ff48f1";
 var currentCityId, currentCityName, token;
 var cookieObj = getCookieObj();
 	currentCityId = cookieObj.cityInfo;
-	currentCityName = cookieObj.cityName;
+	currentCityName = decodeURI(cookieObj.cityName);
+	if(!currentCityId){
+		currentCityId = 1;
+	}
+	if(!currentCityName){
+		currentCityName = "杭州";
+	}
 function getCookieObj(){
 	var cookie = document.cookie;
 	var cookieObj = {};
