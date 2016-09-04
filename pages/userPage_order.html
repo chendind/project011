@@ -140,8 +140,9 @@
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
-                                <li class="mui-table-view-cell second" v-if="order.bookList">
-                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                <!-- v-if="order.bookList" -->
+                                <li class="mui-table-view-cell second" v-for="book in order.bookList">
+                                    <a href="indexPage_textbook.html?{{book.id}}">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -156,8 +157,9 @@
                                         </div>
                                     </a>
                                 </li>
-                                <li class="mui-table-view-cell second" v-if="order.goodsList">
-                                    <a href="javascript:void(0)" v-for="good in order.goodsList">
+                                <!-- v-if="order.goodsList"  -->
+                                <li class="mui-table-view-cell second" v-for="good in order.goodsList">
+                                    <a href="javascript:void(0)">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="good.img" />
