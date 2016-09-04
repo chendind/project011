@@ -195,10 +195,9 @@
                             signType: params.signType,
                             paySign: params.paySign,
                             success: function(res) {
+                                var url = "cartPage_order_paySuccess.html?" + encodeObj({"orderNo": this.detail.tradeNumber});
+                                window.location.href = url;
                                 alert(JSON.stringify(res));
-                                window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
-                                    "orderNo": this.detail.tradeNumber
-                                });
                             }
                         };
                         wx.chooseWXPay(wcpayParams);
@@ -209,7 +208,6 @@
                 var self = this;
                 if (self.detail.message) {
                     $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
-                        console.log(data);
                         if (data.resultCode == 200) {
                             self.wechatPay();
                         }
