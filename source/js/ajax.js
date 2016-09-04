@@ -337,6 +337,7 @@ function refreshWechatShareConfig(url){
 	return ajax;
 }
 // 设置微信分享参数
+var private_hasRefresh = false;// 使refresh仅执行一次
 function setWechatShareConfig(title,desc,link,imgUrl){
 	title||(title = '云书，一个免费送教材的平台');
 	desc||(desc = '打破常规，突破垄断；定义教材，预见未来');
@@ -369,19 +370,22 @@ function setWechatShareConfig(title,desc,link,imgUrl){
     });
     // 如果失败那么刷新参数
     wx.error(function(res){
-    	$.when(refreshWechatShareConfig(window.location.href)).done(function(data){
-	        if(data.resultCode == 200){
-	            wx.config({
-	                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-	                appId: appId, // 必填，公众号的唯一标识
-	                timestamp: data.data.timestamp, // 必填，生成签名的时间戳
-	                nonceStr: data.data.nonceStr, // 必填，生成签名的随机串
-	                signature: data.data.signature,// 必填，签名，见附录1
-	                jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-	            });
-	            setWechatShareConfig("","","","");
-	        }
-	    });
+    	if(!private_hasRefresh){
+    		private_hasRefresh = true;
+    		$.when(refreshWechatShareConfig(window.location.href)).done(function(data){
+		        if(data.resultCode == 200){
+		            wx.config({
+		                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		                appId: appId, // 必填，公众号的唯一标识
+		                timestamp: data.data.timestamp, // 必填，生成签名的时间戳
+		                nonceStr: data.data.nonceStr, // 必填，生成签名的随机串
+		                signature: data.data.signature,// 必填，签名，见附录1
+		                jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+		            });
+		            setWechatShareConfig("","","","");
+		        }
+		    });
+    	}
     })
 }
 // 发起微信支付
