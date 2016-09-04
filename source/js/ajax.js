@@ -1,5 +1,6 @@
 // 配置项
 var baseUrl = "http://120.26.94.240:8989";
+var baseUrl2 = "http://test.qess.me";
 var contentType = 'application/octet-stream';
 var appId = "wx51e4e7ced9ff48f1";
 // 获取cookie
@@ -404,7 +405,7 @@ function setWechatShareConfig(title,desc,link,imgUrl){
 // 微信端改cookie
 function editCookie(cityId){
 	var ajax = $.ajax({
-		url: baseUrl + "/wechat/editCookie/"+cityId,
+		url: baseUrl2 + "/wechat/editCookie/"+cityId,
 		type: "PUT"
 	});
 	return ajax;
