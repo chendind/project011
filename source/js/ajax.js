@@ -406,7 +406,7 @@ function setWechatShareConfig(title,desc,link,imgUrl){
 function editCookie(cityId){
 	var ajax = $.ajax({
 		url: baseUrl2 + "/wechat/editCookie/"+cityId,
-		type: "PUT"
+		type: "GET"
 	});
 	return ajax;
 }
