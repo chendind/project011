@@ -401,6 +401,14 @@ function setWechatShareConfig(title,desc,link,imgUrl){
 // 	});
 // 	return ajax;
 // }
+// 微信端改cookie
+function editCookie(cityId){
+	var ajax = $.ajax({
+		url: baseUrl + "/wechat/editCookie/"+cityId,
+		type: "PUT"
+	});
+	return ajax;
+}
 
 
 

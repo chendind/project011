@@ -53,6 +53,9 @@ $.when(getCurrentCity()).done(function(data){
     var cityName = data.address.city;
     if(cityName){
         $.when(searchCity(cityName)).done(function(cityData){
+            if(typeof cityData == "string"){
+                cityData = JSON.parse(cityData);
+            }
             if(cityData.resultCode == 200){
                 var _cityId, _cityName;
                 if(!cityData.data.cities.length){
@@ -106,9 +109,10 @@ function getCharCityBlock(char, cityList){
 $("#list").on('tap','.user-city-item,.mui-indexed-list-item',function(){
     var cityId = $(this).attr("data-id");
     var cityName = $(this).text();
-    window.localStorage.setItem("cityId",cityId);
-    window.localStorage.setItem("cityName",cityName);
-    window.location.href = "indexPage.html";
+    $.when(editCookie(cityId)).done(function(data){
+        window.location.href = "indexPage.html";
+    });
+    
 });
 </script>
 </body>
