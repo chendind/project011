@@ -21,10 +21,10 @@ function getCookieObj(){
 		}
 	}
 	else{
-		successHandle({"resultCode":402});
+		// successHandle({"resultCode":402});
 	}
-	if(!cookie.isLogin||!cookie.Token){
-		successHandle({"resultCode":402});
+	if(!cookieObj.isLogin||!cookieObj.Token){
+		// successHandle({"resultCode":402});
 	}
 	return cookieObj;
 }
