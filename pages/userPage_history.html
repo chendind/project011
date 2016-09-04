@@ -15,7 +15,6 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/mui/js/mui.pullToRefresh.js"></script>
-    
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
@@ -32,8 +31,8 @@
             <div class="mui-scroll-wrapper">
                 <div class="mui-scroll">
                     <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" style="margin-top: 10px;" v-for="history in histories">
-                        <li class="mui-table-view-cell">
-                            <a href="indexPage_textbook.html?{{encode({'bookId':history.relationId})}}">
+                        <li class="mui-table-view-cell" v-if="history.type==0">
+                            <a data-href="indexPage_textbook.html?{{encode({'bookId':history.relationId})}}">
                                 <div class="mui-table">
                                     <div class="mui-table-cell mui-col-xs-3">
                                         <img style="width: 80%;" :src="history.path" />
@@ -46,7 +45,23 @@
                                     </div>
                                 </div>
                             </a>
-                            <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" v-tap="addToCart(history.relationId)"/>
+                            <img class="smallCartIcon" src="../source/webslice/0_common/common_add_cart.png" v-tap="addToCart(history.relationId)" />
+                        </li>
+                        <li class="mui-table-view-cell" v-if="history.type==1">
+                            <a href="#">
+                                <div class="mui-table">
+                                    <div class="mui-table-cell mui-col-xs-3">
+                                        <img style="width: 80%;" :src="history.path" />
+                                    </div>
+                                    <div class="mui-table-cell mui-col-xs-9">
+                                        <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">{{history.title}}</h4>
+                                        <h6>&nbsp;</h6>
+                                        <h6>颜色：{{history.color}}</h6>
+                                        <span class="mui-h4 linkColor">{{history.price| currency '¥'}}</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -69,7 +84,8 @@
         data: {
             histories: [],
             page: 1,
-            cartList:[]
+            cartList: [],
+            goodsList: []
         },
         computed: {},
         methods: {
@@ -107,6 +123,9 @@
                     });
                 }
             },
+            seeData: function(data) {
+                return JSON.parse(JSON.stringify(data));
+            }
         },
         created: function() {
             var self = this;
@@ -115,6 +134,7 @@
                 console.log(data);
                 self.$data.histories = data.data.histories;
                 vm.page++;
+                console.log(self.seeData(self.histories));
             });
             $.when(cartList()).done(function(data) {
                 if (data.resultCode == 200) {
