@@ -1,11 +1,11 @@
-var currentCityId = window.localStorage.getItem("cityId");
-var currentCityName = window.localStorage.getItem("cityName");
-if(currentCityName&&currentCityId){
-	// 已获取当前城市及id
-}
-else{
-	window.location.href = "index.html";
-}
+// var currentCityId = window.localStorage.getItem("cityId");
+// var currentCityName = window.localStorage.getItem("cityName");
+// if(currentCityName&&currentCityId){
+// 	// 已获取当前城市及id
+// }
+// else{
+// 	window.location.href = "index.html";
+// }
 $(function(){
 	$("body").on('tap','[data-href]',function(e){
 		e.stopPropagation();
