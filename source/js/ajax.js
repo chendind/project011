@@ -27,10 +27,10 @@ function getCookieObj(){
 		}
 	}
 	else{
-		successHandle({"resultCode":402});
+		// successHandle({"resultCode":402});
 	}
 	if(!cookieObj.isLogin||!cookieObj.Token){
-		successHandle({"resultCode":402});
+		// successHandle({"resultCode":402});
 	}
 	return cookieObj;
 }
@@ -40,7 +40,7 @@ function successHandle(data){
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
 								"&redirect_uri="+
 								"http://test.qess.me/wechat/login?redirectUrl="+
-								"http://www.chendind.com/project011/pages/indexPage.html"+
+								"http://test.qess.me/pages/indexPage.html"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if(data.resultCode == 417){

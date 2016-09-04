@@ -74,7 +74,8 @@ function getSingleBookTableCell(id,path,title,author,publisher,marketPrice){
         .find('.author').text(author).end()
         .find('.publisher').text(publisher).end()
         .find('.marketPrice').text(marketPrice).end()
-        .find("a").attr("data-href","indexPage_textbook.html?"+encodeObj({"bookId":id}));
+        .find("a").attr("data-href","indexPage_textbook.html?"+encodeObj({"bookId":id})).end()
+        .attr("data-bookId",id);
     return $("<div>").append(tableCell).html();
 }
 

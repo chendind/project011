@@ -14,6 +14,7 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
     <style>
     .mui-search .mui-placeholder{
@@ -65,18 +66,19 @@
             
     </div>
     <a href="cartPage.html" class="fixedCartButton" style="bottom: 15px;">
+        <span id="booksInCartNumber" class="mui-badge mui-badge-primary mui-badge-cart" style="display: none;"></span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
 <script>
 var params = getQueryData();
-if(!params){
+if(params&&params.keyword){
+    $("#searchCityInput").val(params.keyword);
+    checkInputValueAndShowBlock(params.keyword);
+}
+else{
     mui.alert("查询参数错误","",["确定"],function(){
         mui.back();
     });
-}
-else{
-    $("#searchCityInput").val(params.keyword);
-    checkInputValueAndShowBlock(params.keyword);
 }
 var pageCount = 1;
 $("#searchCityInput").on('keyup',function(e){
@@ -153,6 +155,33 @@ mui.ready(function() {
 function pullupRefresh() {
     searchBooksByKeyWord(params.keyword, currentCityId, pageCount);
 }
+var booksIncart = [];
+$.when(cartList()).done(function(data){
+    if (data.resultCode == 200) {
+        if (data.data.carts) {
+            for (var i = 0; i < data.data.carts.length; i++) {
+                booksIncart.push(data.data.carts[i].relationId)
+            }
+            if(booksIncart.length > 0){
+                $("#booksInCartNumber").text(booksIncart.length).show();
+            }
+        }
+    }
+});
+$("#bookList").on('tap','.smallCartIcon',function(){
+    var bookId = $(this).closest("ul").attr("data-bookId");
+    if(booksIncart.indexOf(bookId)<0){
+        $.when(addToCart(bookId)).done(function(data) {
+            if (data.resultCode == 200) {
+                mui.toast("添加成功");
+                booksIncart.push(bookId);
+            }
+        });
+    }
+    else{
+        mui.toast("请勿重复添加");
+    }
+})
 </script>
 </body>
 </html>

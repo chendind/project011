@@ -57,7 +57,7 @@
         </div>
     </div>
     <a data-href="cartPage.html" class="fixedCartButton">
-    <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
+        <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
     <script>
@@ -88,7 +88,6 @@
                             mui.toast("添加成功");
                         }
                         $.when(cartList()).done(function(data) {
-                            console.log(data);
                             if (data.resultCode == 200) {
                                 if (data.data.carts) {
                                     self.cartList=[];
@@ -104,7 +103,6 @@
             createOrder:function() {
                 var ids=this.detail.id;
                 $.when(createOrder(ids, "1", "bookOnly")).done(function(data) {
-                    console.log(data);
                     if (data.resultCode == 200) {
                         var tradeNo = data.data.tradeNumber;
                         mui.openWindow({
@@ -117,16 +115,11 @@
         created: function() {
             var self = this;
             var params = getQueryData();
-            if(!params){
-                mui.alert("查询参数错误","",["确定"],function(){
-                    mui.back();
-                });
-            }
-            else{
+            if(params&&params.bookId){
                 $.when(bookDetail(params.bookId)).done(function(data) {
                     if (data.resultCode == 200) {
                         self.detail = data.data.book;
-                        self.detail.author = self.detail.author.split("，");
+                        // self.detail.author = self.detail.author.split("，");
                     }
                 });
                 $.when(cartList()).done(function(data) {
@@ -137,6 +130,11 @@
                             }
                         }
                     }
+                });
+            }
+            else{
+                mui.alert("查询参数错误","",["确定"],function(){
+                    mui.back();
                 });
             }
         },
