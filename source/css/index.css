@@ -50,21 +50,28 @@ input[type='search'] {
   height: 120px;
 }
 .user-right-placeholder {
-  float: left;
   width: 45px;
   height: 45px;
   border-radius: 50%;
 }
 .user-right-td {
-  padding-left: 25px;
   border-left: 1px solid #f2f2f2;
+}
+.user-right-td > a {
+  position: relative;
+  padding-left: 70px;
+}
+.user-right-td > a .user-right-placeholder {
+  position: absolute;
+  left: 25px;
+}
+.user-right-td > a .user-right-line {
+  width: 100%;
 }
 .user-right-placeholder.yellow {
   background: #ffd693;
 }
 .user-right-line {
-  float: left;
-  width: 62.5%;
   vertical-align: baseline;
   padding-left: 20px;
 }
@@ -122,4 +129,3 @@ input[type='search'] {
   width: 100%;
   display: block;
 }
-/*# sourceMappingURL=index.css.map */
