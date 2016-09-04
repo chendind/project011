@@ -15,7 +15,6 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/mui/js/mui.pullToRefresh.js"></script>
     <script src="../source/mui/js/mui.pullToRefresh.material.js"></script>
-    
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
@@ -136,12 +135,12 @@
                 <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
                     <div id="scroll1" class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in orders" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in orders">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
-                                <li class="mui-table-view-cell second">
+                                <li class="mui-table-view-cell second" v-if="order.bookList">
                                     <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
@@ -157,9 +156,41 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="mui-table-view-cell second" v-if="order.goodsList">
+                                    <a href="javascript:void(0)" v-for="good in order.goodsList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="good.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell second" v-if="order.promotion">
+                                    <a href="javascript:void(0)">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="order.promotion.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{order.promotion.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{order.promotion.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{order.promotion.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                                 <li class="mui-table-view-cell third">
-                                    <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <span class="textColor">共{{order.numbers}}件商品，合计：</span>
+                                    <span class="blueColor">¥{{order.totalPrice}}</span>
                                     <div class="mui-pull-right">
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" v-tap="cancelOrder(order.tradeNumber)">
                                             取消订单
@@ -182,13 +213,13 @@
                 <div id="item2mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in subOrders0" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders0">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
-                                <li class="mui-table-view-cell second">
-                                    <a data-href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                <li class="mui-table-view-cell second" v-if="order.bookList">
+                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -203,9 +234,41 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="mui-table-view-cell second" v-if="order.goodsList">
+                                    <a href="javascript:void(0)" v-for="good in order.goodsList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="good.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell second" v-if="order.promotion">
+                                    <a href="javascript:void(0)">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="order.promotion.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{order.promotion.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{order.promotion.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{order.promotion.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                                 <li class="mui-table-view-cell third">
-                                    <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <span class="textColor">共{{order.numbers}}件商品，合计：</span>
+                                    <span class="blueColor">¥{{order.totalPrice}}</span>
                                     <div class="mui-pull-right">
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" v-tap="cancelOrder(order.tradeNumber)">
                                             取消订单
@@ -225,12 +288,12 @@
                 <div id="item3mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in subOrders1" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders1">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
-                                <li class="mui-table-view-cell second">
+                                <li class="mui-table-view-cell second" v-if="order.bookList">
                                     <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
@@ -246,9 +309,41 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="mui-table-view-cell second" v-if="order.goodsList">
+                                    <a href="javascript:void(0)" v-for="good in order.goodsList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="good.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell second" v-if="order.promotion">
+                                    <a href="javascript:void(0)">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="order.promotion.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{order.promotion.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{order.promotion.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{order.promotion.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                                 <li class="mui-table-view-cell third">
-                                    <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <span class="textColor">共{{order.numbers}}件商品，合计：</span>
+                                    <span class="blueColor">¥{{order.totalPrice}}</span>
                                     <div class="mui-pull-right">
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0" v-tap="cancelOrder(order.tradeNumber)">
                                             取消订单
@@ -271,12 +366,12 @@
                 <div id="item4mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in subOrders2" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders2">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
-                                <li class="mui-table-view-cell second">
+                                <li class="mui-table-view-cell second" v-if="order.bookList">
                                     <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
@@ -292,9 +387,41 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="mui-table-view-cell second" v-if="order.goodsList">
+                                    <a href="javascript:void(0)" v-for="good in order.goodsList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="good.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell second" v-if="order.promotion">
+                                    <a href="javascript:void(0)">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="order.promotion.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{order.promotion.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{order.promotion.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{order.promotion.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                                 <li class="mui-table-view-cell third">
-                                    <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <span class="textColor">共{{order.numbers}}件商品，合计：</span>
+                                    <span class="blueColor">¥{{order.totalPrice}}</span>
                                     <div class="mui-pull-right">
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
                                             取消订单
@@ -314,12 +441,12 @@
                 <div id="item5mobile" class="mui-slider-item mui-control-content">
                     <div class="mui-scroll-wrapper">
                         <div class="mui-scroll">
-                            <ul class="mui-table-view order-table-view" v-for="order in subOrders3" v-show="order.bookList">
+                            <ul class="mui-table-view order-table-view" v-for="order in subOrders3">
                                 <li class="mui-table-view-cell first">
                                     <span class="textColor" v-cloak>订单号：{{order.tradeNumber}}</span>
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
-                                <li class="mui-table-view-cell second">
+                                <li class="mui-table-view-cell second" v-if="order.bookList">
                                     <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
@@ -335,9 +462,41 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="mui-table-view-cell second" v-if="order.goodsList">
+                                    <a href="javascript:void(0)" v-for="good in order.goodsList">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="good.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="mui-table-view-cell second" v-if="order.promotion">
+                                    <a href="javascript:void(0)">
+                                        <div class="mui-table">
+                                            <div class="mui-table-cell mui-col-xs-3">
+                                                <img style="width: 80%;" :src="order.promotion.path" />
+                                            </div>
+                                            <div class="mui-table-cell mui-col-xs-9">
+                                                <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{order.promotion.name}}</h4>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <h6 v-cloak>&nbsp;</h6>
+                                                <span class="mui-h4 linkColor">¥{{order.promotion.sellPrice}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{order.promotion.number}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                                 <li class="mui-table-view-cell third">
-                                    <span class="textColor">共一件商品，合计：</span>
-                                    <span class="blueColor">{{order.bookList&&order.bookList.length>3?12:6|currency'¥'}}</span>
+                                    <span class="textColor">共{{order.numbers}}件商品，合计：</span>
+                                    <span class="blueColor">¥{{order.totalPrice}}</span>
                                     <div class="mui-pull-right">
                                         <button data-cancelOrderButton type="button" class="mui-btn mui-btn-outlined mui-btn-short greyColor" v-if="order.orderStatus==0">
                                             取消订单

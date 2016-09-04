@@ -56,7 +56,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
+        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;" v-if="detail.books">
             <li class="mui-table-view-cell">
                 <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png" style="width:20px;height:20px;"> {{detail.books.name}}
             </li>
@@ -83,6 +83,35 @@
             <li class="mui-table-view-cell">
                 共{{detail.books.number}}件合计（含运费）：
                 <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>{{detail.books.totalFee}}</span></span>
+            </li>
+        </ul>
+        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;" v-if="detail.goods">
+            <li class="mui-table-view-cell">
+                <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png" style="width:20px;height:20px;"> {{detail.goods.name}}
+            </li>
+            <li class="mui-table-view-cell">
+                <a v-for="book in detail.goods.datas" data-href="indexPage_panicBuy.html">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-3">
+                            <img style="width: 80%;" :src="book.img" />
+                        </div>
+                        <div class="mui-table-cell mui-col-xs-9">
+                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">{{book.name}}</h4>
+                            <h6>&nbsp; </h6>
+                            <h6>&nbsp; </h6>
+                            <span class="mui-h4 linkColor" style="">¥{{book.price}}</span>
+                            <span class="mui-h4 mui-pull-right">×1</span>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                运费
+                <span class="mui-tip" style="font-size: 14px;color: #666;">¥ <span>{{detail.goods.expressPrice}}</span></span>
+            </li>
+            <li class="mui-table-view-cell">
+                共{{detail.goods.number}}件合计（含运费）：
+                <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>{{detail.goods.totalFee}}</span></span>
             </li>
         </ul>
         <form class="mui-input-group" style="margin-bottom: 10px;">
@@ -112,15 +141,15 @@
             isChange: 0,
             tradeNoObj: '',
             countState: false,
-            nowTime:""
+            nowTime: ""
         },
         computed: {
             changeMoney: function() {
                 var self = this;
                 if (self.detail.myTotalChange > self.detail.totalFee) {
-                    return self.detail.myTotalChange
-                } else {
                     return self.detail.totalFee
+                } else {
+                    return self.detail.myTotalChange
                 }
             },
             payMoney: function() {
@@ -136,7 +165,15 @@
                     minutes = "0" + minutes;
                 }
                 var seconds = parseInt(restTime % 60);
-                return minutes + "分" + seconds + "秒";
+                if (restTime > 0) {
+                    return minutes + "分" + seconds + "秒";
+                } else {
+                    mui.alert("订单超时", "", ["确定"], function() {
+                        mui.back();
+                    });
+                    return "0";
+                }
+
             }
         },
         watch: {
@@ -147,7 +184,7 @@
                 return encodeObj(data);
             },
             wechatPay: function() {
-                if(!this.change){
+                if (!this.change) {
                     this.change = 0;
                 }
                 $.when(wechatPay(this.detail.tradeNumber, this.change)).done(function(data) {
@@ -160,8 +197,10 @@
                             package: params.packageValue,
                             signType: params.signType,
                             paySign: params.paySign,
-                            success: function (res) {
-                                window.location.href = "cartPage_order_paySuccess.html?"+encodeObj({"orderNo":this.detail.tradeNumber});
+                            success: function(res) {
+                                window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
+                                    "orderNo": this.detail.tradeNumber
+                                });
                             }
                         };
                         wx.chooseWXPay(wcpayParams);
@@ -185,44 +224,27 @@
         created: function() {
             var self = this;
             var params = getQueryData();
-            if(!params){
-                mui.alert("查询参数错误","",["确定"],function(){
+            if (!params) {
+                mui.alert("查询参数错误", "", ["确定"], function() {
                     mui.back();
                 });
-            }
-            else{
+            } else {
                 self.tradeNoObj = encodeObj(params);
-                if (params.tradeNo) {
-                    var tradeNo = params.tradeNo;
-                    $.when(orderConfirm(tradeNo)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            self.detail = data.data.order;
-                        }
-                        else{
-                            mui.alert("订单超时","",["确定"],function(){
-                                mui.back();
-                            });
-                        }
-                    });
-                }
-                if (params.orderNo) {
-                    var orderNo = params.orderNo;
-                    $.when(orderConfirm(orderNo)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            self.detail = data.data.order;
-                            self.countState = true;
-                            self.nowTime = new Date(); 
-                            setInterval(function(){
-                                self.nowTime=new Date();
-                            },1000)
-                        }
-                        else{
-                            mui.alert("订单超时","",["确定"],function(){
-                                mui.back();
-                            });
-                        }
-                    });
-                }
+                var tradeNo = params.tradeNo ? params.tradeNo : params.orderNo;
+                $.when(orderConfirm(tradeNo)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.detail = data.data.order;
+                        self.countState = true;
+                        self.nowTime = new Date();
+                        setInterval(function() {
+                            self.nowTime = new Date();
+                        }, 1000)
+                    } else {
+                        mui.alert("订单超时", "", ["确定"], function() {
+                            mui.back();
+                        });
+                    }
+                });
             }
         },
         ready: function() {

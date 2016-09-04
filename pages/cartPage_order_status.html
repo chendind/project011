@@ -84,7 +84,7 @@
                 <span class="mui-tip"></span>
             </li>
         </ul>
-        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
+        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;" v-if="books">
             <li class="mui-table-view-cell">
                 <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png"> {{books.name}}
             </li>
@@ -111,6 +111,35 @@
             <li class="mui-table-view-cell">
                 共{{books.datas?books.datas.length:0}}件合计（含运费）：
                 <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>{{books.totalFee}}</span></span>
+            </li>
+        </ul>
+        <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;" v-if="goods">
+            <li class="mui-table-view-cell">
+                <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png"> {{goods.name}}
+            </li>
+            <li class="mui-table-view-cell">
+                <a href="#" v-for="good in goods.datas">
+                    <div class="mui-table">
+                        <div class="mui-table-cell mui-col-xs-3">
+                            <img style="width: 80%;" :src="good.img" />
+                        </div>
+                        <div class="mui-table-cell mui-col-xs-9">
+                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">{{good.name}}</h4>
+                            <h6>&nbsp; </h6>
+                            <h6>&nbsp; </h6>
+                            <span class="mui-h4 linkColor">¥{{good.price}}</span>
+                            <span class="mui-h4 mui-pull-right">×1</span>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="mui-table-view-cell">
+                运费
+                <span class="mui-tip" style="font-size: 14px;color: #666;">¥ <span>{{goods.expressPrice}}</span></span>
+            </li>
+            <li class="mui-table-view-cell">
+                共{{goods.number}}件合计（含运费）：
+                <span class="mui-tip linkColor" style="font-size: 14px;">¥ <span>{{goods.totalFee}}</span></span>
             </li>
         </ul>
         <ul class="mui-table-view icon-mui-table-view" style="margin-bottom: 10px;">
@@ -160,7 +189,8 @@
             showState: false,
             data: [],
             location: "",
-            orderNo: ""
+            orderNo: "",
+            goods:[]
         },
         computed: {},
         methods: {
@@ -190,6 +220,7 @@
                 console.log(data);
                 self.$data.data = data.data.order;
                 self.books = data.data.order.books;
+                self.goods=data.data.order.goods;
                 self.showState = true;
             });
         },
