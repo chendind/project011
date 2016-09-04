@@ -88,7 +88,7 @@
             savePhone: function(){
                 var self = this;
                 if(!this.empty){
-                    $.when(editPhoneNum(self.phone, self.verfityCode)).done(function(data){
+                    $.when(editPhoneNum(self.phone, self.verifyCode)).done(function(data){
                         if(data.resultCode == 200){
                             mui.alert("修改手机号成功","",["确定"],function(){
                                 mui.back();

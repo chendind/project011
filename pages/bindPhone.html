@@ -91,7 +91,7 @@ mui.init();
             savePhone: function(){
                 var self = this;
                 if(!self.empty){
-                    $.when(bindPhoneByVerifyCode(self.phone, self.verfityCode)).done(function(data){
+                    $.when(bindPhoneByVerifyCode(self.phone, self.verifyCode)).done(function(data){
                         if(data.resultCode == 200){
                             mui.back();
                         }
