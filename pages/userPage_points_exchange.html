@@ -69,9 +69,8 @@
                     $.when(scoreExchange(vm.score)).done(function(data) {
                         if (data.resultCode == 200) {
                             mui.toast("兑换成功");
-                            $.when(getScore()).done(function(data) {
-                                vm.scoreMax = data.data.user.score;
-                            });
+                            vm.scoreMax -= vm.score;
+                            self.score=vm.scoreMax;
                         }
                     });
                 }
@@ -93,7 +92,6 @@
             var id = localStorage.getItem("id");
             $.when(getScore()).done(function(data) {
                 self.scoreMax = data.data.user.score;
-                self.scoreMax = 100;
                 self.score=vm.scoreMax;
             });
         },
