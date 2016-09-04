@@ -84,12 +84,14 @@ $.ajaxSetup({
 	error: errorHandle
 });
 // 获得验证码
-function getVerifyCode(phone){
+function getVerifyCode(phone,type){
+	// type: 1为登录,2 为注册,3为修改账户信息
 	var ajax = $.ajax({
 		url: baseUrl + "/users/verify_code",
 		type: "POST",
 		data: {
-			"phone": phone
+			"phone": phone,
+			"type": type
 		}
 	});
 	return ajax;

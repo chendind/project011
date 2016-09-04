@@ -195,6 +195,7 @@
                             signType: params.signType,
                             paySign: params.paySign,
                             success: function(res) {
+                                alert(JSON.stringify(res));
                                 window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
                                     "orderNo": this.detail.tradeNumber
                                 });

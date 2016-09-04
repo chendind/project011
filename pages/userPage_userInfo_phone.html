@@ -71,7 +71,7 @@
             getMessage: function(){
                 var self = this;
                 if(self.restTime<=0){
-                    $.when(getVerifyCode(self.phone)).done(function(data){
+                    $.when(getVerifyCode(self.phone,"3")).done(function(data){
                         if(data.resultCode == 200){
                             mui.toast("发送成功");
                             self.restTime = 60;
