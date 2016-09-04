@@ -52,27 +52,32 @@ input[type='search'] {
 .user-right-placeholder {
   width: 45px;
   height: 45px;
-  border-radius: 50%;
 }
 .user-right-td {
   border-left: 1px solid #f2f2f2;
+  text-align: center;
 }
 .user-right-td > a {
-  position: relative;
-  padding-left: 70px;
+  display: inline-block;
 }
 .user-right-td > a .user-right-placeholder {
-  position: absolute;
-  left: 25px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .user-right-td > a .user-right-line {
-  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
 }
 .user-right-placeholder.yellow {
   background: #ffd693;
 }
+@media (max-width: 350px) {
+  .user-right-line {
+    padding-left: 10px;
+  }
+}
 .user-right-line {
-  vertical-align: baseline;
   padding-left: 20px;
 }
 .user-right-line p {

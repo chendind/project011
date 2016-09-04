@@ -56,30 +56,34 @@ input[type='search'] {
     width:128px;height:120px;
 }
 .user-right-placeholder {
-    width:45px;height:45px;border-radius:50%;
+    width:45px;height:45px;
 }
 .user-right-td {
     border-left:1px solid #f2f2f2;
+    text-align: center;
     &>a{
-        position: relative;
-        padding-left: 70px;
+        display: inline-block;
         .user-right-placeholder{
-            position: absolute;
-            left: 25px;
-
+            display: inline-block;
+            vertical-align: middle;
         }
         .user-right-line{
-            width: 100%;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: left;
         }
     }
 }
 .user-right-placeholder.yellow {
     background:#ffd693;
 }
+@media (max-width : 350px){
+    .user-right-line {
+        padding-left: 10px;
+    }
+}
 .user-right-line {
-    vertical-align: baseline;
     padding-left: 20px;
-    // padding-right: 20px;
 }
 .user-right-line p {
     margin: 0;
