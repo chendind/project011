@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <link rel="stylesheet" href="../source/css/index.css">
+    <link rel="stylesheet" href="../source/webview/css/common.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
+    <style>
+    .imglist img{width:100%;}
+    .footer .footer_btn{float: left;background-color: #026df1;width:100%;height: 49px;line-height:49px;}
+</style>
+
+<body>
+    <div class="contant">
+        <div class="desc">
+            <div class="middle">
+                <div class="text_desc">
+                    <p class="bookname"></p>
+                    <p class="miaoshu"></p>
+                </div>
+            </div>
+        </div>
+        <div class="jiage">
+            <div class="new_prize"></div>
+            <div class="old_prize">
+                <div class="img_tip" style="height: 15px;"><img src="img/panicbuy_tuijian.png" style="width: 24px;height: 12px;"></div>
+                <div class="old_prize_desc">
+                    <span id="sale_price"></span>
+                    <span id="market_price" style="text-decoration: line-through;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="middle_list">
+        <div class="txt"><a></a>七天质保</div>
+        <div class="txt"><a></a>正品新书</div>
+        <div class="txt"><a></a>闪电发货</div>
+        <div class="txt"><a></a>免邮费</div>
+    </div>
+    <div class="imglist" style="margin-bottom:49px;"></div>
+    <div class="footer">
+        <div class="footer_btn">立即抢购</div>
+    </div>
+<script>
+    var params = getQueryData();
+    if(params&&params.recommendItemId){
+        GetData();
+    }
+    else{
+        mui.alert("查询参数错误","",["确定"],function(){
+            mui.back();
+        });
+    }
+
+    $(".contant").click(function(){
+        return false;
+    });
+
+    $('.black_bg').on('touchmove', function (event) {
+        event.preventDefault();
+    });
+    $('.net_error_bg').on('touchmove', function (event) {
+        event.preventDefault();
+    });
+    $('.info_error_bg').on('touchmove', function (event) {
+        event.preventDefault();
+    });
+    $("body").on({
+        "click": function () {
+            $(".black_bg").fadeOut(500,function(){
+                $(".info_error_bg").fadeOut(500);
+                $(".net_error_bg").fadeOut(500);
+            });
+        }
+    }, ".black_bg");
+    
+
+
+
+
+    function GetData(){
+        $.when(getRecommendItemInfo(params.recommendItemId)).done(function(data){
+            if(data.resultCode == 200){
+                $(".contant").css("background","url("+data.data.detail.path+") no-repeat");
+                $(".contant").css("background-size","100% 100%");
+                $(".bookname").html(data.data.detail.name);
+                $(".miaoshu").html(data.data.detail.introduce);
+                $(".new_prize").html("&yen;"+data.data.detail.sellPrice);
+                $("#sale_price").html("立省&yen;"+data.data.detail.savePrice);
+                $("#market_price").html("市场价：&yen;"+data.data.detail.marketPrice);
+                var imglist=data.data.detail.detail_imgs.split(',');
+                for(var i=0;i<imglist.length;i++)
+                {
+                    $(".imglist").append("<img src='"+imglist[i]+"'>");
+                }
+                $(".footer").on({
+                    "click": function () {
+                        //alert("1");
+                        window.location.href="cloudbook://app/buynewitem/"+data.data.detail.id;
+                    }
+                }, ".footer_btn");
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -166,6 +166,14 @@ function getRecommends(cityId){
 	});
 	return ajax;
 }
+// 根据id获取新品书籍信息
+function getRecommendItemInfo(recommendItemId){
+	var ajax = $.ajax({
+		url: baseUrl + "/newItem/" + recommendItemId,
+		type: "GET"
+	});
+	return ajax;
+}
 // 根据id获取推荐专题详情
 function getRecommendThemeInfo(themeId){
 	var ajax = $.ajax({

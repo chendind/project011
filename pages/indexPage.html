@@ -203,7 +203,7 @@ $.when(getBannersByCityId(cityId)).done(function(data){
 
         // 三个小图
         var recommendItem = data.recommendItem;
-        $("#recommendItemBox").attr("data-href", recommendItem.url)
+        $("#recommendItemBox").attr("data-href", "indexPage_newBook.html?"+encodeObj({"recommendItemId":recommendItem.id}))
             .find(">img").attr("src", recommendItem.path);
         var hotItemBox = data.recommendLists[0];
         $("#hotItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"hotId":hotItemBox.id,"type":0}));
