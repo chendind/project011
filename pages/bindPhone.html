@@ -74,7 +74,7 @@ mui.init();
             getMessage: function(){
                 var self = this;
                 if(self.restTime<=0){
-                    $.when(sendMessageForBindPhone(phone)).done(function(data){
+                    $.when(sendMessageForBindPhone(self.phone)).done(function(data){
                         if(data.resultCode == 200){
                             mui.toast("发送成功");
                             self.restTime = 60;
