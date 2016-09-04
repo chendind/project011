@@ -68,9 +68,6 @@
                                         <label></label>
                                         <input class="smallCheckbox" name="checkbox1" :true-value="record.id" :false-value="false" type="checkbox" v-model="recordState[$index]">
                                     </div>
-                                    <div class="cost">
-                                        ¥ 0.00
-                                    </div>
                                     <div class="number">
                                         ×1
                                     </div>
@@ -90,6 +87,7 @@
                                             <p class='mui-ellipsis name'>{{record.title}}</p>
                                             <p class='mui-ellipsis detail'>作者：{{record.author}}</p>
                                             <p class='mui-ellipsis detail'>出版社：{{record.publisher}}</p>
+                                            <p class="linkColor">¥ 0.00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -104,9 +102,6 @@
                                     <div class="mui-input-row mui-checkbox mui-left">
                                         <label></label>
                                         <input name="checkbox1" type="checkbox" disabled>
-                                    </div>
-                                    <div class="cost">
-                                        ¥ {{record.price}}
                                     </div>
                                     <div class="number">
                                         ×{{record.number}}
@@ -127,6 +122,7 @@
                                             <p class='mui-ellipsis name'>{{record.title}}</p>
                                             <p class='mui-ellipsis detail'> &nbsp;</p>
                                             <p class='mui-ellipsis detail'>颜色：{{record.color}}</p>
+                                            <p class="linkColor">¥ {{record.price}}</p>
                                         </div>
                                     </div>
                                 </div>
