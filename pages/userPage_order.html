@@ -160,14 +160,14 @@
                                     <a href="javascript:void(0)" v-for="good in order.goodsList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" :src="good.path" />
+                                                <img style="width: 80%;" :src="good.img" />
                                             </div>
                                             <div class="mui-table-cell mui-col-xs-9">
                                                 <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
                                                 <h6 v-cloak>&nbsp;</h6>
-                                                <h6 v-cloak>&nbsp;</h6>
-                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
-                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                                <h6 v-cloak>{{good.feature}}</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.price}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.num}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -238,14 +238,14 @@
                                     <a href="javascript:void(0)" v-for="good in order.goodsList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" :src="good.path" />
+                                                <img style="width: 80%;" :src="good.img" />
                                             </div>
                                             <div class="mui-table-cell mui-col-xs-9">
                                                 <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
                                                 <h6 v-cloak>&nbsp;</h6>
-                                                <h6 v-cloak>&nbsp;</h6>
-                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
-                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                                <h6 v-cloak>{{good.feature}}</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.price}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.num}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -313,14 +313,14 @@
                                     <a href="javascript:void(0)" v-for="good in order.goodsList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" :src="good.path" />
+                                                <img style="width: 80%;" :src="good.img" />
                                             </div>
                                             <div class="mui-table-cell mui-col-xs-9">
                                                 <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
                                                 <h6 v-cloak>&nbsp;</h6>
-                                                <h6 v-cloak>&nbsp;</h6>
-                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
-                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                                <h6 v-cloak>{{good.feature}}</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.price}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.num}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -391,14 +391,14 @@
                                     <a href="javascript:void(0)" v-for="good in order.goodsList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" :src="good.path" />
+                                                <img style="width: 80%;" :src="good.img" />
                                             </div>
                                             <div class="mui-table-cell mui-col-xs-9">
                                                 <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
                                                 <h6 v-cloak>&nbsp;</h6>
-                                                <h6 v-cloak>&nbsp;</h6>
-                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
-                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                                <h6 v-cloak>{{good.feature}}</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.price}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.num}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -466,14 +466,14 @@
                                     <a href="javascript:void(0)" v-for="good in order.goodsList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
-                                                <img style="width: 80%;" :src="good.path" />
+                                                <img style="width: 80%;" :src="good.img" />
                                             </div>
                                             <div class="mui-table-cell mui-col-xs-9">
                                                 <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis" v-cloak>{{good.name}}</h4>
                                                 <h6 v-cloak>&nbsp;</h6>
-                                                <h6 v-cloak>&nbsp;</h6>
-                                                <span class="mui-h4 linkColor">¥{{good.sellPrice}}</span>
-                                                <span class="mui-h4 mui-pull-right">×{{good.number}}</span>
+                                                <h6 v-cloak>{{good.feature}}</h6>
+                                                <span class="mui-h4 linkColor">¥{{good.price}}</span>
+                                                <span class="mui-h4 mui-pull-right">×{{good.num}}</span>
                                             </div>
                                         </div>
                                     </a>
@@ -626,12 +626,16 @@
                     url: "cartPage_order_status.html?" + URI
                 })
             },
+            seeData: function(data) {
+                return JSON.parse(JSON.stringify(data));
+            }
         },
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");
             $.when(getOrderList(self.page[0], self.orderStatus)).done(function(data) {
                 self.$data.orders = data.data.orders;
+                console.log(self.seeData(self.orders));
                 self.page[0]++
             });
             for (var i = 0; i < 4; i++) {
