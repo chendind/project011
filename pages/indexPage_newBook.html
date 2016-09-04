@@ -35,7 +35,7 @@
         <div class="jiage">
             <div class="new_prize"></div>
             <div class="old_prize">
-                <div class="img_tip" style="height: 15px;"><img src="img/panicbuy_tuijian.png" style="width: 24px;height: 12px;"></div>
+                <div class="img_tip" style="height: 15px;"><img src="../source/webview/img/panicbuy_tuijian.png" style="width: 24px;height: 12px;"></div>
                 <div class="old_prize_desc">
                     <span id="sale_price"></span>
                     <span id="market_price" style="text-decoration: line-through;"></span>
@@ -93,6 +93,7 @@
     function GetData(){
         $.when(getRecommendItemInfo(params.recommendItemId)).done(function(data){
             if(data.resultCode == 200){
+                var id = data.data.detail.id;
                 $(".contant").css("background","url("+data.data.detail.path+") no-repeat");
                 $(".contant").css("background-size","100% 100%");
                 $(".bookname").html(data.data.detail.name);
@@ -107,8 +108,12 @@
                 }
                 $(".footer").on({
                     "click": function () {
-                        //alert("1");
-                        window.location.href="cloudbook://app/buynewitem/"+data.data.detail.id;
+                        $.when(createOrder(id,1,"newItem")).done(function(data){
+                            if(data.resultCode == 200){
+                                var params = {"orderNo":data.data.tradeNumber};
+                                window.location.href="cartPage_orderConfirm.html?"+encodeObj(params);
+                            }
+                        });
                     }
                 }, ".footer_btn");
             }
@@ -117,3 +122,11 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+

@@ -42,7 +42,7 @@
             </div>
             <div class="mui-input-row">
                 <input type="text" placeholder="请输入验证码" v-model="verifyCode">
-                <div class="mui-tip" :class="{linkColor:restTime==0}" v-tap="getMessage">{{tipText}}</div>
+                <div class="mui-tip" :class="{linkColor:restTime<=0}" v-tap="getMessage">{{tipText}}</div>
             </div>
         </form>
         <div class="innerCenter" style="margin-top: 60px;">

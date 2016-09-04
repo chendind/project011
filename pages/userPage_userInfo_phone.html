@@ -13,7 +13,7 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
+    <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
@@ -21,7 +21,7 @@
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a id="savePhoneButton" class="greyColor">
+        <a class="greyColor" :class="{linkColor: !empty}" v-tap="savePhone">
             保存
         </a>
     </nav>
@@ -29,66 +29,129 @@
         <form class="mui-input-group" style="margin-top: 10px;">
             <div class="mui-input-row">
                 <label style="width: 26%;">手机号</label>
-                <input id="phone_number" style="width: 74%;" type="number" class="mui-input-clear" placeholder="请输入手机号">
+                <input style="width: 74%;" type="number" class="mui-input-clear" placeholder="请输入手机号" v-model="phone">
             </div>
             <div class="mui-input-row">
                 <label style="width: 26%;">验证码</label>
-                <input id="phone_verifyCode" style="width: 74%;" type="number" placeholder="请输入验证码">
-                <span id="getVerifyCodeButton" class="mui-tip linkColor">获取验证码</span>
+                <input style="width: 74%;" type="number" placeholder="请输入验证码" v-model="verifyCode">
+                <span id="getVerifyCodeButton" class="mui-tip" :class="{linkColor:restTime<=0}" v-tap="getMessage">{{tipText}}</span>
             </div>
         </form>
     </div>
     <script>
     mui.init();
 
-    function getcn() {
-        $("#getVerifyCodeButton").one("click", function() {
-            var phone = $("#phone_number").val();
-            var that = $(this);
-            $.when(sendMessageForBindPhone(phone)).done(function(data) {
-                if (data.resultCode == 200) {
-                    mui.toast("发送成功");
-                    var count = $('<span class="regetcn greyColor">重新发送' +
-                        '&nbsp;(<i style="font-style:normal;">60</i>)' +
-                        '</span>');
-                    that.empty().append(count);
-
-                    function reduceCount() {
-                        var num = count.find("i").text();
-                        num = num - 1;
-                        count.find("i").text(num);
-                        that.append(count);
-                        if (num == 0) {
-                            clearInterval(reduceId);
-                            that.text("获取验证码");
-                            getcn();
-                        }
-                    }
-                    var reduceId = window.setInterval(reduceCount, 1000);
+    var vm = new Vue({
+        el: "body",
+        data: {
+            phone: "",
+            verifyCode: "",
+            restTime: 0
+        },
+        computed: {
+            tipText: function(){
+                if(this.restTime <= 0){
+                    return "获取验证码"
                 }
                 else{
-                    getcn();
+                    return "重新获取（"+this.restTime+"）"
                 }
-            });
-        });
-    }
-    getcn();
-    $("#savePhoneButton").on('tap', function() {
-        var phone = $("#phone_number").val();
-        var verifyCode = $("#phone_verifyCode").val();
-        if (phone.length != 11) {
-            mui.toast("请输入正确的手机号");
-        } else if (verifyCode.length != 4) {
-            mui.toast("请输入正确的验证码");
-        } else {
-            $.when(bindPhoneByVerifyCode(phone, verifyCode)).done(function(data) {
-                if (data.resultCode == 200) {
-                    mui.toast("绑定成功");
-                    mui.back();
+            },
+            empty: function(){
+                if(this.phone.length == 11 && this.verifyCode.length >= 4){
+                    return false
                 }
-            });
+                else{
+                    return true
+                }
+            }
+        },
+        methods: {
+            getMessage: function(){
+                var self = this;
+                if(self.restTime<=0){
+                    $.when(getVerifyCode(phone)).done(function(data){
+                        if(data.resultCode == 200){
+                            mui.toast("发送成功");
+                            self.restTime = 60;
+                            var _interval = setInterval(function(){
+                                self.restTime--;
+                                if(self.restTime <=0){
+                                    window.clearInterval(_interval);
+                                }
+                            },1000)
+                        }
+                    })
+                }
+            },
+            savePhone: function(){
+                var self = this;
+                if(!this.empty){
+                    $.when(editPhoneNum(self.phone, self.verfityCode)).done(function(data){
+                        if(data.resultCode == 200){
+                            mui.alert("修改手机号成功","",["确定"],function(){
+                                mui.back();
+                            })
+                        }
+                    });
+                }
+                else{
+                    
+                }
+            }
         }
     })
+
+
+
+    // function getcn() {
+    //     $("#getVerifyCodeButton").one("click", function() {
+    //         var phone = $("#phone_number").val();
+    //         var that = $(this);
+    //         $.when(sendMessageForBindPhone(phone)).done(function(data) {
+    //             if (data.resultCode == 200) {
+    //                 mui.toast("发送成功");
+    //                 var count = $('<span class="regetcn greyColor">重新发送' +
+    //                     '&nbsp;(<i style="font-style:normal;">60</i>)' +
+    //                     '</span>');
+    //                 that.empty().append(count);
+
+    //                 function reduceCount() {
+    //                     var num = count.find("i").text();
+    //                     num = num - 1;
+    //                     count.find("i").text(num);
+    //                     that.append(count);
+    //                     if (num == 0) {
+    //                         clearInterval(reduceId);
+    //                         that.text("获取验证码");
+    //                         getcn();
+    //                     }
+    //                 }
+    //                 var reduceId = window.setInterval(reduceCount, 1000);
+    //             }
+    //             else{
+    //                 getcn();
+    //             }
+    //         });
+    //     });
+    // }
+    // getcn();
+    // $("#savePhoneButton").on('tap', function() {
+    //     var phone = $("#phone_number").val();
+    //     var verifyCode = $("#phone_verifyCode").val();
+    //     if (phone.length != 11) {
+    //         mui.toast("请输入正确的手机号");
+    //     } else if (verifyCode.length != 4) {
+    //         mui.toast("请输入正确的验证码");
+    //     } else {
+    //         $.when(bindPhoneByVerifyCode(phone, verifyCode)).done(function(data) {
+    //             if (data.resultCode == 200) {
+    //                 mui.toast("绑定成功");
+    //                 mui.back();
+    //             }
+    //         });
+    //     }
+    // })
     </script>
 </body>
 

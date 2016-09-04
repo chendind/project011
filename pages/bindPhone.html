@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
+    <style>
+        .disabledColor{
+            color: #4D99F5
+        }
+    </style>
+</head>
+<body>
+    <div class="mui-content mui-fullscreen" style="background-color: #fff;">
+        <div class="innerCenter" v-cloak>
+            <img style="width: 80px;height: 45px;margin-bottom: 28px;margin-top: 83px;" src="../source/webslice/0_login/login_logo.png" alt="">
+            <img style="width: 210px;height: 14px;" src="../source/webslice/0_login/login_slogan.png" alt="">
+        
+            <form class="mui-input-group ys-input-group" style="margin: 65px 40px 0;">
+                <div class="mui-input-row">
+                    <input type="number" class="mui-input-clear" placeholder="请输入手机号" v-model="phone">
+                </div>
+                <div class="mui-input-row">
+                    <input type="number" placeholder="请输入验证码" v-model="verifyCode">
+                    <div class="mui-tip linkColor" v-tap="getMessage">{{tipText}}</div>
+                </div>
+            </form>
+            <div style="margin-top: 60px;">
+                <div class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;" :class="disabledColor: !empty">绑定手机号</div>
+            </div>
+        </div>
+    </div>
+<script>
+mui.init();
+ var vm = new Vue({
+        el: "body",
+        data: {
+            phone: "",
+            verifyCode: "",
+            restTime: 0
+        },
+        computed: {
+            tipText: function(){
+                if(this.restTime <= 0){
+                    return "获取验证码"
+                }
+                else{
+                    return "重新获取（"+this.restTime+"）"
+                }
+            },
+            empty: function(){
+                if(this.phone.length == 11 && this.verifyCode.length >= 4){
+                    return false
+                }
+                else{
+                    return true
+                }
+            }
+        },
+        methods: {
+            getMessage: function(){
+                var self = this;
+                if(self.restTime<=0){
+                    $.when(sendMessageForBindPhone(phone)).done(function(data){
+                        if(data.resultCode == 200){
+                            mui.toast("发送成功");
+                            self.restTime = 60;
+                            var _interval = setInterval(function(){
+                                self.restTime--;
+                                if(self.restTime <=0){
+                                    window.clearInterval(_interval);
+                                }
+                            },1000)
+                        }
+                    })
+                }
+            },
+            savePhone: function(){
+                var self = this;
+                if(!this.empty){
+                    $.when(bindPhoneByVerifyCode(self.phone, self.verfityCode)).done(function(data){
+                        if(data.resultCode == 200){
+                            mui.back();
+                        }
+                    });
+                }
+                else{
+                    
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

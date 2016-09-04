@@ -197,7 +197,7 @@ function showtime() {
                 "click": function () {
                     $.when(createOrder(info_id,1,"panicBuy")).done(function(data){
                         if(data.resultCode == 200){
-                            var params = {"tradeNo":data.data.tradeNumber};
+                            var params = {"orderNo":data.data.tradeNumber};
                             window.location.href="cartPage_orderConfirm.html?"+encodeObj(params);
                         }
                     });

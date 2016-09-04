@@ -27,10 +27,10 @@ function getCookieObj(){
 		}
 	}
 	else{
-		// successHandle({"resultCode":402});
+		successHandle({"resultCode":402});
 	}
 	if(!cookieObj.isLogin||!cookieObj.Token){
-		// successHandle({"resultCode":402});
+		successHandle({"resultCode":402});
 	}
 	return cookieObj;
 }
@@ -42,6 +42,10 @@ function successHandle(data){
 								"http://test.qess.me/wechat/login?redirectUrl="+
 								"http://www.chendind.com/project011/pages/indexPage.html"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
+	}
+	else if(data.resultCode == 417){
+		// 未绑定手机号 作统一处理
+		window.location.href = "bindPhone.html";
 	}
 	else if((data.resultCode!=200)&&data.message){
 		mui.toast(data.message);
