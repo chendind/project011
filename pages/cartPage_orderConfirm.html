@@ -184,7 +184,8 @@
                 return encodeObj(data);
             },
             wechatPay: function() {
-                $.when(wechatPay(this.detail.tradeNumber, this.isChange)).done(function(data) {
+                var self = this;
+                $.when(wechatPay(self.detail.tradeNumber, self.isChange)).done(function(data) {
                     if (data.resultCode == 200) {
                         var params = data.data.params;
                         var wcpayParams = {
@@ -195,9 +196,7 @@
                             signType: params.signType,
                             paySign: params.paySign,
                             success: function(res) {
-                                var url = "cartPage_order_paySuccess.html?" + encodeObj({"orderNo": this.detail.tradeNumber});
-                                window.location.href = url;
-                                alert(JSON.stringify(res));
+                                window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({"orderNo": self.detail.tradeNumber});
                             }
                         };
                         wx.chooseWXPay(wcpayParams);
