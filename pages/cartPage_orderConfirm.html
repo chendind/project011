@@ -141,7 +141,8 @@
             isChange: 0,
             tradeNoObj: '',
             countState: false,
-            nowTime: ""
+            nowTime: "",
+            alertTime: 0
         },
         computed: {
             changeMoney: function() {
@@ -168,9 +169,12 @@
                 if (restTime > 0) {
                     return minutes + "分" + seconds + "秒";
                 } else {
-                    mui.alert("订单超时", "", ["确定"], function() {
-                        mui.back();
-                    });
+                    if (this.alertTime == 0) {
+                        mui.alert("订单超时", "", ["确定"], function() {
+                            mui.back();
+                        });
+                        this.alertTime++;
+                    }
                     return "0";
                 }
 
