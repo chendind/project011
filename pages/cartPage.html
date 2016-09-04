@@ -58,8 +58,8 @@
             <div class="mui-slider-group" v-if="cartList.length!==0">
                 <div class="mui-scroll-wrapper">
                     <div class="mui-scroll">
-                        <ul class="mui-table-view">
-                            <li class="mui-table-view-cell mui-media" v-for="record in cartList">
+                        <ul class="mui-table-view" v-for="record in cartList">
+                            <li class="mui-table-view-cell mui-media" >
                                 <div class="mui-slider-right mui-discabled">
                                     <a class="mui-btn mui-btn-red" style="transform: translate(0px, 0px);" v-tap="deleteItem(record.id,record,$index)">删除</a>
                                 </div>
@@ -232,6 +232,9 @@
                         })
                     }
                 });
+            },
+            seeData:function(data){
+                return JSON.parse(JSON.stringify(data));
             }
         },
         created: function() {
@@ -240,6 +243,7 @@
                 console.log(data);
                 if (data.resultCode == 200) {
                     if (data.data.carts) {
+                        console.log(self.seeData(data.data.carts));
                         self.cartList = data.data.carts;
                         for (var i = 0; i < self.cartList.length; i++) {
                             vm.recordState.$set(i, self.cartList[i].id);

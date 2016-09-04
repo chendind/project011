@@ -3,6 +3,7 @@ function getAllMyInfo() {
     var ajax = $.ajax({
         url: baseUrl + "/users/",
         type: "GET",
+        cache:false
     });
     return ajax;
 }
@@ -107,6 +108,7 @@ function getOrderList(page, status) {
 function getScore() {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/infos",
+        cache:false
     });
     return ajax;
 }
