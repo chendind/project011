@@ -184,10 +184,7 @@
                 return encodeObj(data);
             },
             wechatPay: function() {
-                if (!this.change) {
-                    this.change = 0;
-                }
-                $.when(wechatPay(this.detail.tradeNumber, this.change)).done(function(data) {
+                $.when(wechatPay(this.detail.tradeNumber, this.isChange)).done(function(data) {
                     if (data.resultCode == 200) {
                         var params = data.data.params;
                         var wcpayParams = {
