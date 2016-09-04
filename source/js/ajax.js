@@ -2,14 +2,39 @@
 var baseUrl = "http://120.26.94.240:8989";
 var contentType = 'application/octet-stream';
 var appId = "wx51e4e7ced9ff48f1";
+// 获取cookie
+var currentCityId, currentCityName, token;
+var cookieObj = getCookieObj();
+	currentCityId = cookieObj.cityInfo;
+	currentCityName = cookieObj.cityName;
+function getCookieObj(){
+	var cookie = document.cookie;
+	var cookieObj = {};
+	if(cookie){
+		var arr = cookie.split("; ");
+		if(!arr.length){
+			arr = cookie.split(";");
+		}
+		for(var i = 0, length = arr.length; i<length; i++){
+			var _arr = arr[i].split("=");
+			cookieObj[_arr[0]] = _arr[1];
+		}
+	}
+	else{
+		successHandle({"resultCode":402});
+	}
+	if(!cookie.isLogin||!cookie.Token){
+		successHandle({"resultCode":402});
+	}
+	return cookieObj;
+}
 function successHandle(data){
 	if(data.resultCode == 402){
 		// 登录超时
-		window.location.href = "login.html";
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
 								"&redirect_uri="+
 								"http://test.qess.me/wechat/login?redirectUrl="+
-								"http://test.qess.me/index.jsp"+
+								"http://www.chendind.com/project011/pages/indexPage.html"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if((data.resultCode!=200)&&data.message){
@@ -31,7 +56,7 @@ function getAjaxHeader(){
 	var header = {};
 	header.version = "1.0";
 	header.OriginType = "mp";
-	header.token = "e53ef4ac5eb017417b17aa31c947d683";
+	header.token = cookieObj.Token;
 	return header;
 }
 function dataFilter(data,dataType){
@@ -296,7 +321,7 @@ function setWechatShareConfig(title,desc,link,imgUrl){
 	title||(title = '云书，一个免费送教材的平台');
 	desc||(desc = '打破常规，突破垄断；定义教材，预见未来');
 	link||(link = window.location.href);
-	imgUrl||(imgUrl = "http://www.chendind.com/project011/source/images/ysdownload.png");
+	imgUrl||(imgUrl = "http://image.qess.me/logo/yunshu.png");
 
     var config = {
         title: title,

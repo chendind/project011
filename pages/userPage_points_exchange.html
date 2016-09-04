@@ -26,14 +26,14 @@
 </head>
 
 <body style="background-color: #fff;">
-    <div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter" v-show="showState">
+    <div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter" v-cloak>
         <table style="width: 100%;">
             <tbody>
                 <tr>
                     <td class="innerCenter">
                         <div>
                             <p style="font-size:18px;" class="linkColor">可用积分</p>
-                            <p id="pointsValue" style="font-size:30px;" class="linkColor">{{scoreMax-score}}</p>
+                            <p id="pointsValue" style="font-size:30px;" class="linkColor">{{score}}</p>
                         </div>
                     </td>
                     <td class="innerCenter">
@@ -49,30 +49,19 @@
             </tbody>
         </table>
         <div class="mui-input-row mui-input-range" style="padding: 0 50px;margin-top: 40px;">
-            <input id="pointsExchangeSlideBar" type="range" value="{{scoreMax}}" min="0" max="{{scoreMax}}">
+            <input id="pointsExchangeSlideBar" type="range" v-model="score" min="0" max="{{scoreMax}}">
         </div>
         <div>
             <p>拖动杆杠以调节兑换积分／零钱数额</p>
         </div>
         <div>
-            <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" style="border-radius: 5px;margin-top: 20px;">
+            <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" :class="{'mui-btn-disabled':score==0}" style="border-radius: 5px;margin-top: 20px;">
                 兑换
             </button>
         </div>
     </div>
     <script>
     mui.init();
-    $("#pointsExchangeSlideBar").on('input', function() {
-        var v = $(this).val() - 0;
-        $("#pointsValue").text(vm.scoreMax-v);
-        $("#changeValue").text(v / 100);
-        vm.score = v;
-        if (v) {
-            $("#exchangeButton").removeClass("mui-btn-disabled").addClass("mui-btn-primary");
-        } else {
-            $("#exchangeButton").addClass("mui-btn-disabled").removeClass("mui-btn-primary");
-        }
-    });
     $("#exchangeButton").on('tap', function() {
         if ($(this).hasClass("mui-btn-primary")) {
             mui.confirm("确定要兑换吗", " ", ["确定", "取消"], function(data) {
@@ -93,18 +82,19 @@
         el: "body",
         data: {
             score: 0,
-            scoreMax: 0,
-            showState:false
+            scoreMax: 0
         },
-        computed: {},
+        computed: {
+
+        },
         methods: {},
         created: function() {
             var self = this;
             var id = localStorage.getItem("id");
             $.when(getScore()).done(function(data) {
                 self.scoreMax = data.data.user.score;
+                self.scoreMax = 100;
                 self.score=vm.scoreMax;
-                self.showState=true;
             });
         },
         ready: function() {
