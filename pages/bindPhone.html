@@ -35,11 +35,11 @@
                 </div>
                 <div class="mui-input-row">
                     <input type="number" placeholder="请输入验证码" v-model="verifyCode">
-                    <div class="mui-tip linkColor" v-tap="getMessage">{{tipText}}</div>
+                    <div class="mui-tip" :class="{'linkColor':restTime<=0}" v-tap="getMessage">{{tipText}}</div>
                 </div>
             </form>
             <div style="margin-top: 60px;">
-                <div class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;" :class="{'disabledColor': !empty}">绑定手机号</div>
+                <div class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;" :class="{'disabledColor': empty}" v-tap="savePhone">绑定手机号</div>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@ mui.init();
                 }
             },
             empty: function(){
-                if(this.phone.length == 11 && this.verifyCode.length >= 4){
+                if(this.phone.length && this.verifyCode.length){
                     return false
                 }
                 else{
@@ -90,7 +90,7 @@ mui.init();
             },
             savePhone: function(){
                 var self = this;
-                if(!this.empty){
+                if(!self.empty){
                     $.when(bindPhoneByVerifyCode(self.phone, self.verfityCode)).done(function(data){
                         if(data.resultCode == 200){
                             mui.back();
