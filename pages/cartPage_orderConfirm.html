@@ -189,23 +189,37 @@
             },
             wechatPay: function() {
                 var self = this;
-                $.when(wechatPay(self.detail.tradeNumber, self.isChange)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        var params = data.data.params;
-                        var wcpayParams = {
-                            appId: params.appId,
-                            timestamp: params.timeStamp,
-                            nonceStr: params.nonceStr,
-                            package: params.packageValue,
-                            signType: params.signType,
-                            paySign: params.paySign,
-                            success: function(res) {
-                                window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({"orderNo": self.detail.tradeNumber});
-                            }
-                        };
-                        wx.chooseWXPay(wcpayParams);
-                    }
-                });
+                if (self.payMoney > 0) {
+                    $.when(wechatPay(self.detail.tradeNumber, self.isChange)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            var params = data.data.params;
+                            var wcpayParams = {
+                                appId: params.appId,
+                                timestamp: params.timeStamp,
+                                nonceStr: params.nonceStr,
+                                package: params.packageValue,
+                                signType: params.signType,
+                                paySign: params.paySign,
+                                success: function(res) {
+                                    window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
+                                        "orderNo": self.detail.tradeNumber
+                                    });
+                                }
+                            };
+                            wx.chooseWXPay(wcpayParams);
+                        }
+                    });
+                } else {
+                    console.log(self.payMoney);
+                    $.when(changePay(self.detail.tradeNumber, self.isChange)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            console.log('changePay');
+                            window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
+                                "orderNo": self.detail.tradeNumber
+                            });
+                        }
+                    });
+                }
             },
             changeMessage: function() {
                 var self = this;

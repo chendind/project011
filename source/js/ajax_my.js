@@ -253,3 +253,12 @@ function applyRefund(tradeNo) {
     });
     return ajax;
 }                           
+// 零钱支付
+function changePay(tradeNo,change) {
+    var ajax = $.ajax({
+        url: baseUrl +"/changePay/success",
+        type: "POSt",
+        data:{"change":change*100,"tradeNo":tradeNo}
+    });
+    return ajax;
+}    
