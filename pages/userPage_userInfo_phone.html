@@ -22,7 +22,7 @@
 
 <body>
     <nav class="mui-bar mui-bar-tab">
-        <a class="greyColor" :class="{linkColor: !empty}" v-tap="savePhone">
+        <a class="greyColor" :class="{'linkColor': !empty}" v-tap="savePhone">
             保存
         </a>
     </nav>
@@ -35,7 +35,7 @@
             <div class="mui-input-row">
                 <label style="width: 26%;">验证码</label>
                 <input style="width: 74%;" type="number" placeholder="请输入验证码" v-model="verifyCode">
-                <span id="getVerifyCodeButton" class="mui-tip" :class="{linkColor:restTime<=0}" v-tap="getMessage">{{tipText}}</span>
+                <span id="getVerifyCodeButton" class="mui-tip" :class="{'linkColor':restTime<=0}" v-tap="getMessage">{{tipText}}</span>
             </div>
         </form>
     </div>
@@ -71,7 +71,7 @@
             getMessage: function(){
                 var self = this;
                 if(self.restTime<=0){
-                    $.when(getVerifyCode(phone)).done(function(data){
+                    $.when(getVerifyCode(self.phone)).done(function(data){
                         if(data.resultCode == 200){
                             mui.toast("发送成功");
                             self.restTime = 60;
