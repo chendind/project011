@@ -66,7 +66,7 @@
                                 <div class="mui-slider-handle" style="height:80px;transform: translate(0px, 0px);">
                                     <div class="mui-input-row mui-checkbox mui-left">
                                         <label></label>
-                                        <input name="checkbox1" :true-value="record.id" :false-value="false" type="checkbox" v-model="recordState[$index]">
+                                        <input class="smallCheckbox" name="checkbox1" :true-value="record.id" :false-value="false" type="checkbox" v-model="recordState[$index]">
                                     </div>
                                     <div class="cost">
                                         ¥ 0.00
@@ -103,7 +103,7 @@
                     <label style="padding-left:35px;padding-right:0px;">
                         <p>全部</p>
                     </label>
-                    <input name="checkbox1" value="Item 1" type="checkbox" style="left:3px;top:11px;" v-model="allState" :true-value="true" :false-value="false" v-tap="allSelect">
+                    <input class="smallCheckbox" name="checkbox1" value="Item 1" type="checkbox" style="left:3px;top:11px;" v-model="allState" :true-value="true" :false-value="false" v-tap="allSelect">
                 </div>
                 <div class="mui-pull-right" style="margin-right: 15px;">
                     <p>共{{choseList.length>6?6:choseList.length}}件合计：<span class="blueColor" style="font-size: 18px;">{{totalMoney}}</span></p>
