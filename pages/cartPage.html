@@ -55,7 +55,7 @@
     </nav>
     <div class="mui-content mui-fullscreen" v-cloak>
         <div style="position:relative;height: 100%;">
-            <div class="mui-slider-group" v-if="cartList.length!==0||goodsList!==0">
+            <div class="mui-slider-group" v-if="cartList.length!==0||goodsList.length!==0">
                 <div class="mui-scroll-wrapper">
                     <div class="mui-scroll">
                         <ul class="mui-table-view" v-for="record in cartList">
@@ -131,7 +131,7 @@
                     </div>
                 </div>
             </div>
-            <div class="pay" v-if="cartList.length!==0||goodsList!==0">
+            <div class="pay" v-if="cartList.length!==0||goodsList.length!==0">
                 <div class="mui-input-row mui-checkbox mui-left mui-pull-left">
                     <label style="padding-left:35px;padding-right:0px;">
                         <p>全部</p>
@@ -145,7 +145,7 @@
                     立即结算
                 </a>
             </div>
-            <div class="shop_logbox" v-if="cartList.length==0&&goodsList==0">
+            <div class="shop_logbox" v-if="cartList.length==0&&goodsList.length==0">
                 <img src="../source/images/cbd.jpg">
                 <div class="word">
                     购物车空空如也～

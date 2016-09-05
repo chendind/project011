@@ -147,6 +147,9 @@
         computed: {
             changeMoney: function() {
                 var self = this;
+                console.log(self.detail.myTotalChange > self.detail.totalFee);
+                console.log(self.detail.myTotalChange);
+                console.log(self.detail.totalFee);
                 if (self.detail.myTotalChange > self.detail.totalFee) {
                     return self.detail.totalFee
                 } else {
