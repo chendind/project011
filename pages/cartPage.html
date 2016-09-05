@@ -54,9 +54,9 @@
         </a>
     </nav>
     <div class="mui-content mui-fullscreen" v-cloak>
-        <div style="position:relative;height: 100%;">
+        <div style="position:relative;height: 100%;overflow:hidden;">
             <div class="mui-slider-group" v-show="cartList.length!==0||goodsList.length!==0">
-                <div class="mui-scroll-wrapper">
+                <div class="mui-scroll-wrapper" style="padding-bottom: 50px;">
                     <div class="mui-scroll">
                         <ul class="mui-table-view" v-for="record in cartList">
                             <li class="mui-table-view-cell mui-media">
