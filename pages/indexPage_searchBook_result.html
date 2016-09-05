@@ -175,6 +175,7 @@ $("#bookList").on('tap','.smallCartIcon',function(){
             if (data.resultCode == 200) {
                 mui.toast("添加成功");
                 booksIncart.push(bookId);
+                $("#booksInCartNumber").text(booksIncart.length);
             }
         });
     }
