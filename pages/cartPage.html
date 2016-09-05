@@ -133,13 +133,13 @@
             </div>
             <div class="pay" v-if="cartList.length!==0||goodsList.length!==0">
                 <div class="mui-input-row mui-checkbox mui-left mui-pull-left">
-                    <label style="paddding: 16px 0 16px 35px;">
+                    <label style="padding: 16px 0 16px 35px;">
                         <p>全部</p>
                     </label>
                     <input class="smallCheckbox" name="checkbox1" value="Item 1" type="checkbox" style="left:5px;top:11px;" v-model="allState" :true-value="true" :false-value="false" v-tap="allSelect">
                 </div>
                 <div class="mui-pull-right" style="margin-right: 15px;padding: 14px 0;font-size: 15px;">
-                    共{{choseList.length>6?6:choseList.length}}件合计：<span class="blueColor" style="font-size: 18px;">{{totalMoney}}</span>
+                    共{{choseList.length>6?6:choseList.length}}件合计：<span class="blueColor" style="font-size: 18px;">{{totalMoney|currency "¥"}}</span>
                 </div>
                 <a class="sure" v-tap.prevent="createOrder" data-href="#">
                     立即结算
@@ -203,11 +203,11 @@
             },
             totalMoney: function() {
                 if (this.choseList.length == 0) {
-                    return "¥0.00"
+                    return "0.00"
                 } else if (this.choseList.length > 3) {
-                    return "¥12.00"
+                    return "12.00"
                 } else {
-                    return "¥6.00"
+                    return "6.00"
                 }
             },
             turnUrl: function() {
