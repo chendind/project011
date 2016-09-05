@@ -30,7 +30,7 @@
                         <li class="mui-table-view-cell mui-media" v-for="record in records">
                             <a class="mui-navigate-right" id="userPage_userInfo_link" data-href="userPage_change_detail.html?{{record.id}}">
                                 <div class="mui-media-body">
-                                    积分兑换
+                                    {{typeName(record)}}
                                     <p class='mui-ellipsis'>{{record.createTime}}</p>
                                 </div>
                                 <span class="mui-tip {{record.type==1?'greenColor':'redColor'}}" style="font-size: 20px;">
@@ -72,6 +72,7 @@
                 $.when(moneyRecordList(self.page, 10)).done(function(data) {
                     console.log(data);
                     self.$data.records = data.data.moneyRecords;
+                    console.log(JSON.parse(JSON.stringify(self.records)));
                     vm.page++;
                 });
             },
