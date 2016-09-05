@@ -88,8 +88,8 @@
             <li class="mui-table-view-cell">
                 <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png"> {{books.name}}
             </li>
-            <li class="mui-table-view-cell">
-                <a data-href="indexPage_textbook.html?{{encode({'bookId':book.id})}}" v-for="book in books.datas">
+            <li class="mui-table-view-cell" v-for="book in books.datas">
+                <a data-href="indexPage_textbook.html?{{encode({'bookId':book.id})}}">
                     <div class="mui-table">
                         <div class="mui-table-cell mui-col-xs-3">
                             <img style="width: 80%;" :src="book.path" />
