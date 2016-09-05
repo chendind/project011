@@ -150,7 +150,7 @@
                 console.log(self.detail.myTotalChange > self.detail.totalFee);
                 console.log(self.detail.myTotalChange);
                 console.log(self.detail.totalFee);
-                if (self.detail.myTotalChange > self.detail.totalFee) {
+                if (parseFloat(self.detail.myTotalChange) > parseFloat(self.detail.totalFee)) {
                     return self.detail.totalFee
                 } else {
                     return self.detail.myTotalChange
