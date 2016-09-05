@@ -239,7 +239,6 @@
             deleteItem: function(id, record, index) {
                 var self = this;
                 mui.confirm("确定删除吗？", " ", ["<span class='redColor'>删除</span>", "取消"], function(data) {
-                    console.log('test');
                     if (data.index == 0) {
                         $.when(deleteFromCart(id)).done(function(data) {
                             if (data.resultCode == 200) {
@@ -252,7 +251,7 @@
             },
             createOrder: function() {
                 var self = this;
-                var data = self.choseList.length > 6? self.turnUrl : self.choseList;
+                var data = self.choseList.slice(0, 6);
                 var num = data.length;
                 var ids = data.join(",");
                 if (self.totalMoney > 0) {
