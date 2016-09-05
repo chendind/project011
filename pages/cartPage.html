@@ -255,19 +255,23 @@
                 var data = self.choseList;
                 var num = data.length;
                 var ids = data.join(",");
-                $.when(createOrder(ids, num, "shoppingCart")).done(function(data) {
-                    console.log(data);
-                    if (data.resultCode == 200) {
-                        var tradeNo = data.data.tradeNumber;
-                        mui.openWindow({
-                            // url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo })
-                            // 林森，这里我不是很理解两个的区别，先用orderNo了
-                            url: "cartPage_orderConfirm.html?" + encodeObj({
-                                "orderNo": tradeNo
+                if (self.totalMoney > 0) {
+                    $.when(createOrder(ids, num, "shoppingCart")).done(function(data) {
+                        console.log(data);
+                        if (data.resultCode == 200) {
+                            var tradeNo = data.data.tradeNumber;
+                            mui.openWindow({
+                                // url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo })
+                                // 林森，这里我不是很理解两个的区别，先用orderNo了
+                                url: "cartPage_orderConfirm.html?" + encodeObj({
+                                    "orderNo": tradeNo
+                                })
                             })
-                        })
-                    }
-                });
+                        }
+                    });
+                }else{
+                    mui.toast("请选择要结算的商品");
+                }
             },
             seeData: function(data) {
                 return JSON.parse(JSON.stringify(data));
