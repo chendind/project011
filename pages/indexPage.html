@@ -265,12 +265,18 @@ $(window).on('touchmove scroll',function(e){
 });
 $("#searchBookInput").on('keydown',function(e){
     if(e.keyCode == 13){
-        var value = $(this).val();
-        var params = {};
-        params.keyword = value;
-        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+        toSearchPage($(this).val());
     }
 });
+$("#mui-icon-search").on('tap',function(){
+    var keyword = $("searchBookInput").val();
+    toSearchPage(keyword);
+});
+function toSearchPage(keyword){
+    var params = {};
+    params.keyword = keyword;
+    window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+}
 function createBook(id,path,title,colNumber){
     var _colNumber = colNumber?colNumber:"3";
     var params = {};
