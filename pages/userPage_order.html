@@ -531,31 +531,30 @@
     });
     mui.ready(function() {
         //循环初始化所有下拉刷新，上拉加载。
+        // down: {
+                //     callback: function() {
+                //         var self = this;
+                //         setTimeout(function() {
+                //             var status = index == 0 ? 100 : index;
+                //             $.when(getOrderList(1, status)).done(function(data) {
+                //                 if (data.data.orders) {
+                //                     vm.$data.orders = data.data.orders;
+                //                     self.endPullDownToRefresh();
+                //                     vm.page[index] = 2;
+                //                 } else {
+                //                     self.endPullDownToRefresh(true);
+                //                     vm.page[index] = 1;
+                //                 }
+                //             });
+                //         }, 1000);
+                //     }
+                // },
         mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
             mui(pullRefreshEl).pullToRefresh({
-                down: {
-                    callback: function() {
-                        var self = this;
-                        setTimeout(function() {
-                            var status = index == 0 ? 100 : index;
-                            $.when(getOrderList(1, status)).done(function(data) {
-                                if (data.data.orders) {
-                                    vm.$data.orders = data.data.orders;
-                                    self.endPullDownToRefresh();
-                                    vm.page[index] = 2;
-                                } else {
-                                    self.endPullDownToRefresh(true);
-                                    vm.page[index] = 1;
-                                }
-                            });
-                        }, 1000);
-                    }
-                },
                 up: {
                     callback: function() {
                         var self = this;
-                        setTimeout(function() {
-                            console.log(index);
+                        // setTimeout(function() {
                             if (vm.page[index] == 1) {
                                 self.endPullUpToRefresh(true);
                             } else {
@@ -565,13 +564,13 @@
                                         vm.$data.orders = vm.$data.orders.concat(data.data.orders);
                                         self.endPullUpToRefresh();
                                         vm.page[index]++;
-                                    } else {
+                                    }
+                                    else {
                                         self.endPullUpToRefresh(true);
                                     }
                                 });
-
                             }
-                        }, 1000);
+                        // }, 1000);
                     }
                 }
             });

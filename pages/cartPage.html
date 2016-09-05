@@ -252,7 +252,7 @@
             },
             createOrder: function() {
                 var self = this;
-                var data = self.choseList;
+                var data = self.choseList.length > 6? self.turnUrl : self.choseList;
                 var num = data.length;
                 var ids = data.join(",");
                 if (self.totalMoney > 0) {
