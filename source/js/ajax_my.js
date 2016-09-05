@@ -59,6 +59,15 @@ function addAddress(data) {
     });
     return ajax;
 }
+// 修改地址
+function editAddress(id,data) {
+    var ajax = $.ajax({
+        url: baseUrl + "/users/addresses/"+id,
+        type: "PUT",
+        data: data,
+    });
+    return ajax;
+}
 // 修改性别
 function editSex(sex) {
     var ajax = $.ajax({

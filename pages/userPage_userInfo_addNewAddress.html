@@ -122,35 +122,47 @@
                 } else if (!msg.address) {
                     mui.toast("请输入寝室门牌");
                 } else {
-                    $.when(addAddress(this.address)).done(function(data) {
-                        console.log(data);
-                        if (data.resultCode == 200) {
-                            mui.toast("保存成功");
-                            if (window.location.search) {
-                                var id;
-                                $.when(getAllMyAddress()).done(function(data) {
-                                    id = (data.data.list[0].id);
-                                    var queryData = getQueryData();
-                                    var tradeNo;
-                                    if (queryData.tradeNo) {
-                                        tradeNo = queryData.tradeNo;
-                                    } else {
-                                        tradeNo = queryData.orderNo;
-                                    }
-                                    if (tradeNo) {
+                    if (window.location.search) {
+                        var queryData = getQueryData();
+                        if (queryData.id) {
+                            $.when(editAddress(queryData.id, this.address)).done(function(data) {
+                                console.log(data);
+                                if (data.resultCode == 200) {
+                                    mui.toast("修改成功");
+                                    mui.back();
+                                }
+                            });
+                        } else {
+                            $.when(addAddress(this.address)).done(function(data) {
+                                console.log(data);
+                                if (data.resultCode == 200) {
+                                    mui.toast("保存成功");
+                                    var id;
+                                    $.when(getAllMyAddress()).done(function(data) {
+                                        id = (data.data.list[0].id);
+                                        var tradeNo;
+                                        if (queryData.tradeNo) {
+                                            tradeNo = queryData.tradeNo;
+                                        } else {
+                                            tradeNo = queryData.orderNo;
+                                        }
                                         $.when(editOrderPlace(tradeNo, id)).done(function(data) {
                                             console.log(data);
                                             mui.back();
                                         });
-                                    }else{
-                                        mui.back();
-                                    }
-                                });
-                            } else {
+                                    });
+                                }
+                            });
+                        }
+                    } else {
+                        $.when(addAddress(this.address)).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                mui.toast("保存成功");
                                 mui.back();
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             },
             schoolChoose: function() {
