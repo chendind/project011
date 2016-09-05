@@ -142,7 +142,7 @@
                                 </li>
                                 <!-- v-if="order.bookList" -->
                                 <li class="mui-table-view-cell second" v-for="book in order.bookList">
-                                    <a href="indexPage_textbook.html?{{book.id}}">
+                                    <a href="indexPage_textbook.html?{{encode({'bookId':book.id})}}">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -221,7 +221,7 @@
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
                                 <li class="mui-table-view-cell second" v-if="order.bookList">
-                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                    <a href="indexPage_textbook.html?{{encode({'bookId':book.id})}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -296,7 +296,7 @@
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
                                 <li class="mui-table-view-cell second" v-if="order.bookList">
-                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                    <a href="indexPage_textbook.html?{{encode({'bookId':book.id})}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -374,7 +374,7 @@
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
                                 <li class="mui-table-view-cell second" v-if="order.bookList">
-                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                    <a href="indexPage_textbook.html?{{encode({'bookId':book.id})}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
@@ -449,7 +449,7 @@
                                     <span class="mui-pull-right blueColor" v-cloak>{{order.orderDescribe}}</span>
                                 </li>
                                 <li class="mui-table-view-cell second" v-if="order.bookList">
-                                    <a href="indexPage_textbook.html?{{book.id}}" v-for="book in order.bookList">
+                                    <a data-href="indexPage_textbook.html?{{encode({'bookId':book.id})}}" v-for="book in order.bookList">
                                         <div class="mui-table">
                                             <div class="mui-table-cell mui-col-xs-3">
                                                 <img style="width: 80%;" :src="book.path" />
