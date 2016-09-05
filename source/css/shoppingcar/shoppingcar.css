@@ -12,22 +12,19 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 .verticalCenter {
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
 }
 .horizontalCenter {
   position: absolute;
   left: 50%;
-  -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
 }
 .ellipsis {
@@ -76,9 +73,7 @@
   height: 30px;
   left: -50px;
   top: 50%;
-  -webkit-transform: translate(0, -50%);
-      -ms-transform: translate(0, -50%);
-          transform: translate(0, -50%);
+  transform: translate(0, -50%);
 }
 .mui-table-view .mui-table-view-cell .cost {
   color: #016df1;
@@ -128,7 +123,7 @@
   border-top: 1px solid #ebebeb;
   background-color: #fff;
   padding-right: 120px;
-  line-height: 50px;
+  line-height: 1;
   z-index: 2;
 }
 .pay .sure {
@@ -140,5 +135,5 @@
   position: absolute;
   right: 0px;
   bottom: 0px;
+  padding: 16px 0;
 }
-/*# sourceMappingURL=shoppingcar.css.map */
