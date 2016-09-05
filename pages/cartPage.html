@@ -145,7 +145,7 @@
                     立即结算
                 </a>
             </div>
-            <div class="shop_logbox" v-if="cartList.length==0&&goodsList.length==0">
+            <div class="shop_logbox" v-show="changeState>0&&cartList.length==0&&goodsList.length==0">
                 <img src="../source/images/cbd.jpg">
                 <div class="word">
                     购物车空空如也～
@@ -192,8 +192,8 @@
             cartList: [],
             recordState: [],
             allState: true,
-            goodsList: []
-
+            goodsList: [],
+            changeState:0,
         },
         computed: {
             choseList: function() {
@@ -282,6 +282,7 @@
             $.when(cartList()).done(function(data) {
                 console.log(data);
                 if (data.resultCode == 200) {
+                    self.changeState++;
                     if (data.data.carts) {
 
                         for (var j = 0, len = data.data.carts.length; j < len; j++) {
