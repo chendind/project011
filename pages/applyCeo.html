@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,6 +22,7 @@
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
 </head>
+
 <body>
     <div class="mui-content" style="background-color: #fff;">
         <h1 style="margin: 61px auto;width: 247px;height: 19px;font-size: 19px;font-weight: 600;text-align: center;color: #333333;">立即申请成为<span class="blueColor">云书</span><span class="yellowColor">/</span>CEO</h1>
@@ -68,14 +70,14 @@
             </li>
         </ul>
     </div>
-<script>
-mui.init();
-var picker = new mui.PopPicker();
-$("#sexInput").on('tap',function(){
-    mui("#applyCeo_userSexSheet").popover('toggle');
-    $("input").blur();
-});
-var vm = new Vue({
+    <script>
+    mui.init();
+    var picker = new mui.PopPicker();
+    $("#sexInput").on('tap', function() {
+        mui("#applyCeo_userSexSheet").popover('toggle');
+        $("input").blur();
+    });
+    var vm = new Vue({
         el: "body",
         data: {
             name: "",
@@ -83,7 +85,7 @@ var vm = new Vue({
             city: "",
             cityId: "",
             school: "",
-            schoolId:"",
+            schoolId: "",
             phone: "",
             buttonColor: "#4D99F5",
             verifyCode: "",
@@ -92,12 +94,11 @@ var vm = new Vue({
             schoolList: []
         },
         computed: {
-            tipText: function(){
-                if(this.restTime <= 0){
+            tipText: function() {
+                if (this.restTime <= 0) {
                     return "获取验证码"
-                }
-                else{
-                    return "重新获取（"+this.restTime+"）"
+                } else {
+                    return "重新获取（" + this.restTime + "）"
                 }
             },
             empty: function() {
@@ -107,7 +108,7 @@ var vm = new Vue({
                     return true
                 }
             },
-            buttonColor: function(){
+            buttonColor: function() {
                 if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length) {
                     return "#fff"
                 } else {
@@ -123,7 +124,7 @@ var vm = new Vue({
             cancelEdit: function() {
                 mui("#applyCeo_userSexSheet").popover('hide')
             },
-            cityChoose: function(){
+            cityChoose: function() {
                 var data = [];
                 var self = this;
                 for (var i = 0; i < this.cityList.length; i++) {
@@ -138,19 +139,20 @@ var vm = new Vue({
                     self.city = selectItems[0].text;
                     self.cityId = selectItems[0].value;
                     // self.address.dormId = selectItems[0].value;
-                    $.when(getSchoolList(selectItems[0].value)).done(function(data){
+                    $.when(getSchoolList(selectItems[0].value)).done(function(data) {
                         self.$data.schoolList = data.data.schools;
+                        self.school = "";
+                        self.schoolId = "";
                     })
                 });
             },
-            schoolChoose: function(e){
+            schoolChoose: function(e) {
                 var data = [];
                 var self = this;
-                if(!self.$data.schoolList.length){
+                if (!self.$data.schoolList.length) {
                     mui.toast("请先选择城市");
                     e.target.blur();
-                }
-                else{
+                } else {
                     for (var i = 0; i < self.schoolList.length; i++) {
                         data[i] = {
                             value: self.schoolList[i].id,
@@ -163,40 +165,45 @@ var vm = new Vue({
                         self.schoolId = selectItems[0].value;
                     });
                 }
-                    
+
             },
-            getMessage: function(){
+            getMessage: function() {
                 var self = this;
-                if(self.restTime<=0){
-                    $.when(sendMessageForApplyCeo(self.phone)).done(function(data){
-                        if(data.resultCode == 200){
+                if (self.restTime <= 0) {
+                    $.when(sendMessageForApplyCeo(self.phone)).done(function(data) {
+                        if (data.resultCode == 200) {
                             mui.toast("发送成功");
                             self.restTime = 60;
-                            var _interval = setInterval(function(){
+                            var _interval = setInterval(function() {
                                 self.restTime--;
-                                if(self.restTime <=0){
+                                if (self.restTime <= 0) {
                                     window.clearInterval(_interval);
                                 }
-                            },1000)
+                            }, 1000)
                         }
                     });
                 }
             },
-            applyCeo: function(){
+            applyCeo: function() {
                 var self = this;
                 var _sex = "0";
-                if(self.sex == '女'){
+                var nameReg = /^[\u4e00-\u9fa5]{0,}$/;
+                var phoneReg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+                if (self.sex == '女') {
                     _sex = "1";
                 }
-                if(!self.empty){
-                    $.when(applyToBeCeo(self.name, _sex, self.cityId, self.schoolId ,self.phone, self.verifyCode)).done(function(data){
-                        if(data.resultCode == 200){
+                if (self.empty) {
+                    mui.toast("您还有未输入的内容");
+                } else if (!phoneReg.test(self.phone)) {
+                    mui.toast("请输入合法的手机号码");
+                } else if (!nameReg.test(self.name)) {
+                    mui.toast("请输入合法的姓名");
+                } else {
+                    $.when(applyToBeCeo(self.name, _sex, self.cityId, self.schoolId, self.phone, self.verifyCode)).done(function(data) {
+                        if (data.resultCode == 200) {
                             mui.toast("申请成功");
                         }
                     })
-                }
-                else{
-                    mui.toast("您还有未输入的内容");
                 }
             }
         },
@@ -211,17 +218,7 @@ var vm = new Vue({
 
         }
     })
-</script>
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
