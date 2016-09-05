@@ -63,11 +63,8 @@
         <div class="index-bg-header">
             <div id="slider" class="mui-slider" >
                 <div class="mui-slider-group mui-slider-loop">
-                    
                 </div>
-                <div class="mui-slider-indicator">
-                    <div class="mui-indicator mui-active"></div>
-                    <div class="mui-indicator"></div>
+                <div id="mui-slider-indicator" class="mui-slider-indicator">
                 </div>
             </div>
         </div>
@@ -187,12 +184,19 @@ $.when(getBannersByCityId(cityId)).done(function(data){
             var _banner = banners[i];
 
             bannersHTML += '<div class="mui-slider-item"><a><img src="'+_banner.path+'"></a></div>';
+            // 第一个元素 
             if(i == 0){
                 firstImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a><img src="'+_banner.path+'"></a></div>';
+                $("#mui-slider-indicator").append('<div class="mui-indicator mui-active"></div>');
             }
+            else{
+                $("#mui-slider-indicator").append('<div class="mui-indicator"></div>');
+            }
+            // 最后一个元素
             if(i == length - 1){
                 lastImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a><img src="'+_banner.path+'"></a></div>';
             }
+
         }
         $("#slider>.mui-slider-group").append(lastImage+bannersHTML+firstImage);
         mui.init();
