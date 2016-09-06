@@ -3354,11 +3354,11 @@ function successHandle(data){
   debugger;
 	if(data.resultCode == 402){
 		// 登录超时
-		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
-								"&redirect_uri="+
-								baseUrl2 + "/wechat/login?redirectUrl="+
-								baseUrl2 + "/pages/indexPage.html"+
-								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
+		// window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
+		// 						"&redirect_uri="+
+		// 						baseUrl2 + "/wechat/login?redirectUrl="+
+		// 						baseUrl2 + "/pages/indexPage.html"+
+		// 						"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if(data.resultCode == 417){
 		// 未绑定手机号 作统一处理
