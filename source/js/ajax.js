@@ -3351,6 +3351,7 @@ function getCookieObj(){
 	return cookieObj;
 }
 function successHandle(data){
+  debugger;
 	if(data.resultCode == 402){
 		// 登录超时
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
