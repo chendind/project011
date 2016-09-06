@@ -3300,10 +3300,16 @@ if (typeof module !== "undefined" && module.exports) {
 
 
 // 配置项
-var baseUrl = "http://120.26.94.240:8990";
-var baseUrl2 = "http://test.qess.me";
+var baseUrl = "http://inter.qess.me";
+var baseUrl2 = "http://test.qess.me";// 用于editCookie
 var contentType = 'application/octet-stream';
 var appId = "wx51e4e7ced9ff48f1";
+// 如果是正式地址，改变配置项
+if(window.location.host == "mp.qess.me"){
+  baseUrl = "http://api.qess.me";
+  baseUrl2 = "http://mp.qess.me";// 用于editCookie
+  appId = "wxb7de6da92a016f4b";
+}
 // 获取cookie
 var currentCityId, currentCityName, token;
 var cookieObj = getCookieObj();
@@ -3318,6 +3324,12 @@ var cookieObj = getCookieObj();
 function getCookieObj(){
 	var cookie = document.cookie;
 	var cookieObj = {};
+  if(!cookie){
+    // 测试用
+    document.cookie = "Token=0000000000";
+    document.cookie = "cityInfo=1"; 
+    document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
+  }
 	if(cookie){
 		var arr = cookie.split("; ");
 		if(!arr.length){
