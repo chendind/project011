@@ -268,8 +268,37 @@ function applyRefund(tradeNo) {
 function changePay(tradeNo,change) {
     var ajax = $.ajax({
         url: baseUrl +"/changePay/success",
-        type: "POSt",
+        type: "POST",
         data:{"change":change*100,"tradeNo":tradeNo}
     });
     return ajax;
-}    
+}
+// 获取优惠券
+function getCouponsList(page){
+    var ajax = $.ajax({
+        url: baseUrl +"/users/coupons/page/"+page,
+        type: "GET"
+    });
+    return ajax;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
