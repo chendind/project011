@@ -3300,14 +3300,14 @@ if (typeof module !== "undefined" && module.exports) {
 
 
 // 配置项
-var baseUrl = "http://inter.qess.me";
-var baseUrl2 = "http://test.qess.me";// 用于editCookie
+var baseUrl = "http://inter.qess.me";// api地址
+var baseUrl2 = "http://test.qess.me";// 项目地址，也用于editCookie
 var contentType = 'application/octet-stream';
 var appId = "wx51e4e7ced9ff48f1";
 // 如果是正式地址，改变配置项
 if(window.location.host == "mp.qess.me"){
-  baseUrl = "http://api.qess.me";
-  baseUrl2 = "http://mp.qess.me";// 用于editCookie
+  baseUrl = "http://api.qess.me";// api地址
+  baseUrl2 = "http://mp.qess.me";// 项目地址，也用于editCookie
   appId = "wxb7de6da92a016f4b";
 }
 // 获取cookie
@@ -3353,8 +3353,8 @@ function successHandle(data){
 		// 登录超时
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
 								"&redirect_uri="+
-								"http://test.qess.me/wechat/login?redirectUrl="+
-								"http://test.qess.me/pages/indexPage.html"+
+								baseUrl2 + "/wechat/login?redirectUrl="+
+								baseUrl2 + "/pages/indexPage.html"+
 								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if(data.resultCode == 417){
