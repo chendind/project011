@@ -129,30 +129,32 @@ body {
   width: 85%;
   background-color: #fff;
   border-radius: 15px;
-  padding: 0 20px;
   -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
   transform: translate3d(-50%, -50%, 0) scale(1);
 }
-.userRulesPopover > h1 {
+.userRulesPopover .inner {
+  padding: 0 20px;
+}
+.userRulesPopover .inner > h1 {
   font-size: 18px;
   height: 50px;
   line-height: 50px;
   text-align: center;
 }
-.userRulesPopover > div {
+.userRulesPopover .inner > div {
   border-top: 1px solid #e5e5e5;
   text-align: left;
   padding: 16px 0;
 }
-.userRulesPopover > div > h4 {
+.userRulesPopover .inner > div > h4 {
   font-size: 15px;
   color: #666;
   text-align: left;
 }
-.userRulesPopover > div > p {
+.userRulesPopover .inner > div > p {
   margin-bottom: 20px;
 }
-.userRulesPopover > div > p:last-child {
+.userRulesPopover .inner > div > p:last-child {
   margin-bottom: 0;
 }
 .fixedCartButton {

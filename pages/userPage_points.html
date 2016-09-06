@@ -40,31 +40,36 @@
     <div style="top: 80%;" class="veryCenter innerCenter">
         <p id="openUseRulesPopoverButton">使用规则</p>
     </div>
-    <div id="useRulesPopover" class="mui-popover mui-popup userRulesPopover" style="max-height: 90%;overflow: auto;">
-        <h1 class="linkColor">积分使用规则</h1>
+    <div id="useRulesPopover" class="mui-popover mui-popup userRulesPopover" style="height:80%;overflow: auto;">
         <div class="mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <h4>什么是积分？</h4>
-                <p>任何一位注册登录云书APP的用户，都可以通过领取免费教材、商城购买、注册、捐书等方式获取积分。同时，云书积分可以按比例兑换成零钱，支持提现、支付等功能。</p>
-                <h4>如何快速赚积分？</h4>
-                <p>一次性获取。用户完成首次注册并完善资料可获得30积分。
-                    <br />任务获取。用户每向云书捐献一本大学教材可获得30积分。
-                    <br />支付奖励。用户每在云书平台领取免费教材一次可获得30积分。用户每在云书商城购买商品一次可获得30积分。</p>
-                <h4>其他说明</h4>
-                <p>1.现金可充值积分。
-                    <br />2.积分不设置有效期限，永远有效。
-                    <br />3.本规则最终解释权归云书所有。
-                </p>
+            <div class="mui-scroll inner">
+                <h1 class="linkColor">积分使用规则</h1>
+                <div>
+                    <h4>什么是积分？</h4>
+                    <p>任何一位注册登录云书APP的用户，都可以通过领取免费教材、商城购买、注册、捐书等方式获取积分。同时，云书积分可以按比例兑换成零钱，支持提现、支付等功能。</p>
+                    <h4>如何快速赚积分？</h4>
+                    <p>一次性获取。用户完成首次注册并完善资料可获得30积分。
+                        <br />任务获取。用户每向云书捐献一本大学教材可获得30积分。
+                        <br />支付奖励。用户每在云书平台领取免费教材一次可获得30积分。用户每在云书商城购买商品一次可获得30积分。</p>
+                    <h4>其他说明</h4>
+                    <p>1.现金可充值积分。
+                        <br />2.积分不设置有效期限，永远有效。
+                        <br />3.本规则最终解释权归云书所有。
+                    </p>
+                </div>
             </div>
         </div>
     </div>
     <script>
     mui.init();
+    mui('.mui-scroll-wrapper').scroll();
     $("#openUseRulesPopoverButton").on('tap', function() {
         mui("#useRulesPopover").popover("toggle");
     })
     $.when(getScore()).done(function(data) {
-       $("#score").text(data.data.user.score)
+        if(data.resultCode == 200){
+            $("#score").text(data.data.user.score)
+        }
     });
     </script>
 </body>

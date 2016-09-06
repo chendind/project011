@@ -40,21 +40,26 @@
     <div style="top: 80%;" class="veryCenter innerCenter">
         <p id="openUseRulesPopoverButton">使用规则</p>
     </div>
-    <div id="useRulesPopover" class="mui-popover mui-popup userRulesPopover" style="max-height: 90%;overflow: auto;">
-        <h1 class="linkColor">零钱使用规则</h1>
-        <div>
-            <h4>什么是零钱？</h4>
-            <p>零钱是用户在云书APP上的资金，支持支付、提现等功能。</p>
-            <h4>如何赚取零钱？</h4>
-            <p>用户可以通过积分兑换的方式获得零钱。
-                <br />用户可通过签到、领取免费教材、商城购买、注册、捐书等行为获得的积分，再通过积分兑换将积分兑换成零钱。
-                <br />积分兑换零钱的公式为：100积分＝1元零钱。</p>
-            <h4>零钱提现</h4>
-            <p>若零钱积累达到一定数量，用户可以申请提现。具体累计金额请参见提现页面说明。</p>
+    <div id="useRulesPopover" class="mui-popover mui-popup userRulesPopover" style="height: 65%;overflow: auto;">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll inner">
+                <h1 class="linkColor">零钱使用规则</h1>
+                <div>
+                    <h4>什么是零钱？</h4>
+                    <p>零钱是用户在云书APP上的资金，支持支付、提现等功能。</p>
+                    <h4>如何赚取零钱？</h4>
+                    <p>用户可以通过积分兑换的方式获得零钱。
+                        <br />用户可通过签到、领取免费教材、商城购买、注册、捐书等行为获得的积分，再通过积分兑换将积分兑换成零钱。
+                        <br />积分兑换零钱的公式为：100积分＝1元零钱。</p>
+                    <h4>零钱提现</h4>
+                    <p>若零钱积累达到一定数量，用户可以申请提现。具体累计金额请参见提现页面说明。</p>
+                </div>
+            </div>
         </div>
     </div>
     <script>
     mui.init();
+    mui('.mui-scroll-wrapper').scroll();
     $("#openUseRulesPopoverButton").on('tap', function() {
         mui("#useRulesPopover").popover("toggle");
     })

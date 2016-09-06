@@ -3326,7 +3326,7 @@ function getCookieObj(){
 	var cookieObj = {};
   // if(!cookie){
     // 测试用
-    document.cookie = "Token=ab77ed23d92902e199066c839b6d0c43";
+    document.cookie = "Token=b88a7979a2192ebba5e18b59f5bfa7a2";
     document.cookie = "cityInfo=1"; 
     document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
     document.cookie = "utrace=1bba7fcb571bc0cc8e82fefde3eea763";
@@ -3351,7 +3351,6 @@ function getCookieObj(){
 	return cookieObj;
 }
 function successHandle(data){
-  debugger;
 	if(data.resultCode == 402){
 		// 登录超时
 		// window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
