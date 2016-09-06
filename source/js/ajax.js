@@ -3326,9 +3326,10 @@ function getCookieObj(){
 	var cookieObj = {};
   if(!cookie){
     // 测试用
-    document.cookie = "Token=0000000000";
+    document.cookie = "Token=ab77ed23d92902e199066c839b6d0c43";
     document.cookie = "cityInfo=1"; 
     document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
+    document.cookie = "utrace=1bba7fcb571bc0cc8e82fefde3eea763";
   }
 	if(cookie){
 		var arr = cookie.split("; ");
