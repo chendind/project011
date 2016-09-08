@@ -17,14 +17,19 @@ header.mui-bar {
 .mui-bar.top input[type='search'] {
     background-color: rgba(255,255,255,0.22);
     color: #fff;
+    &::-webkit-input-placeholder{color:#fff;}
+    &::-moz-placeholder{color:#fff;}
+    &:-ms-input-placeholder{color:#fff;}
 }
 .mui-search-right {
     position: relative;
+    font-size: 0;
+    height: 44px;
 }
 .mui-search-right .mui-icon-search {
     position: absolute;
     right: 5px;
-    top: 10px;
+    top: 9px;
     font-size: 24px;
 }
 input[type='search'] {
@@ -32,11 +37,10 @@ input[type='search'] {
     background: #f5f5f5;
     border-radius: 12px;
     padding-right: 30px;
-    text-align:left;
+    text-align: left;
+    font-weight: lighter;
 }
-#searchBookInput::-webkit-input-placeholder{color:#fff;}
-#searchBookInput::-moz-placeholder{color:#fff;}
-#searchBookInput:-ms-input-placeholder{color:#fff;}
+
 .index-bg-header {
     width: 100%;
     height:135px;

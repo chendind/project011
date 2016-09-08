@@ -18,13 +18,24 @@ header.mui-bar {
   background-color: rgba(255, 255, 255, 0.22);
   color: #fff;
 }
+.mui-bar.top input[type='search']::-webkit-input-placeholder {
+  color: #fff;
+}
+.mui-bar.top input[type='search']::-moz-placeholder {
+  color: #fff;
+}
+.mui-bar.top input[type='search']:-ms-input-placeholder {
+  color: #fff;
+}
 .mui-search-right {
   position: relative;
+  font-size: 0;
+  height: 44px;
 }
 .mui-search-right .mui-icon-search {
   position: absolute;
   right: 5px;
-  top: 10px;
+  top: 9px;
   font-size: 24px;
 }
 input[type='search'] {
@@ -33,15 +44,7 @@ input[type='search'] {
   border-radius: 12px;
   padding-right: 30px;
   text-align: left;
-}
-#searchBookInput::-webkit-input-placeholder {
-  color: #fff;
-}
-#searchBookInput::-moz-placeholder {
-  color: #fff;
-}
-#searchBookInput:-ms-input-placeholder {
-  color: #fff;
+  font-weight: lighter;
 }
 .index-bg-header {
   width: 100%;

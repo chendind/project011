@@ -18,13 +18,13 @@
 </head>
 <body>
     <header id="header" class="mui-bar top mui-bar-transparent">
-        <a data-href="./indexPage_searchcitylist.html" class="mui-btn mui-btn-link">
+        <a id="currentCityNameBox" data-href="./indexPage_searchcitylist.html" class="mui-btn mui-btn-link">
             <span id="currentCityName">获取中</span>
             <span style="font-size: 14px;top: -2px;" class="mui-icon mui-icon-arrowdown"></span>
         </a>
         <h1 class="mui-title">
             <div class="mui-search-right">
-                <input id="searchBookInput" type="search" placeholder="搜索您需要的教材">
+                <input id="searchBookInput" type="search" placeholder="搜索您需要的教材" style="margin: 7px 0;">
                 <span class="mui-icon mui-icon-search"></span>
             </div>
         </h1>
@@ -172,7 +172,10 @@
         </div>
     </div>
 <script>
+
 $("#currentCityName").text(currentCityName);
+var currentCityNameBoxWidth = $("#currentCityNameBox").width();
+$("#header>.mui-title").css({"left":currentCityNameBoxWidth+12+"px"});
 var cityId = currentCityId;
 $.when(getBannersByCityId(cityId)).done(function(data){
     if(data.resultCode == 200){
