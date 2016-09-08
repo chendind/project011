@@ -98,7 +98,6 @@
         mui.confirm("确定注销吗？", " ", ["<span class='redColor'>注销</span>", "取消"], function(data) {
             if (data.index == 0) {
                 $.when(userLogout()).done(function(data) {
-                    console.log(data);
                     data = JSON.parse(data);
                     if (data.resultCode == 200) {
                         mui.toast("注销成功");
@@ -130,7 +129,6 @@
             editSex: function(sex) {
                 var self = this;
                 $.when(editSex(sex)).done(function(data) {
-                    console.log(data);
                     if (data.resultCode == 200) {
                         mui.toast("修改成功")
                         self.sex = sex;
@@ -144,9 +142,7 @@
         },
         created: function() {
             var self = this;
-            var id = localStorage.getItem("id");
             $.when(getAllMyInfo()).done(function(data) {
-                console.log(data);
                 self.$data = data.data.user
             });
         },

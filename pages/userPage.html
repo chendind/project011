@@ -179,9 +179,7 @@
         methods: {},
         created: function() {
             var self = this;
-            var id = localStorage.getItem("id");
             $.when(getAllMyInfo()).done(function(data) {
-                console.log(data);
                 self.$data = data.data.user
             });
         },

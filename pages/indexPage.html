@@ -103,7 +103,7 @@
                 <tbody>
                     <tr>
                         <td rowspan="2" style="width:45%;padding:7px;">
-                            <a id="recommendItemBox" class="full" data-href="indexPage_textbookList.html">
+                            <a id="recommendItemBox" class="full" style="text-align: center;" data-href="indexPage_textbookList.html">
                                 <img class="user-left-placeholder" src="" alt="">
                             </a>
                         </td>
@@ -186,7 +186,7 @@ $.when(getBannersByCityId(cityId)).done(function(data){
             bannersHTML += '<div class="mui-slider-item"><a><img src="'+_banner.path+'"></a></div>';
             // 第一个元素 
             if(i == 0){
-                firstImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a><img src="'+_banner.path+'"></a></div>';
+                firstImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a data-href="'+_banner.url+'"><img src="'+_banner.path+'"></a></div>';
                 $("#mui-slider-indicator").append('<div class="mui-indicator mui-active"></div>');
             }
             else{
@@ -273,9 +273,15 @@ $("#mui-icon-search").on('tap',function(){
     toSearchPage(keyword);
 });
 function toSearchPage(keyword){
-    var params = {};
-    params.keyword = keyword;
-    window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+    keyword = $.trim(keyword);
+    if(keyword){
+        var params = {};
+        params.keyword = keyword;
+        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+    }
+    else{
+        mui.toast("请输入搜索词");
+    } 
 }
 function createBook(id,path,title,colNumber){
     var _colNumber = colNumber?colNumber:"3";

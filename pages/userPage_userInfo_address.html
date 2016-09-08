@@ -64,10 +64,8 @@
         mui.confirm("确定删除吗？", " ", ["确定", "取消"], function(data) {
             if (data.index == 0) {
                 var id = $this.attr('data-id');
-                console.log(id);
                 // 删除
                 $.when(deleteOneAddress(id)).done(function(data) {
-                    console.log(data);
                     $this.closest(".mui-table-view").remove();
                 });
             } else {
@@ -105,7 +103,6 @@
                     }
                     
                     $.when(editOrderPlace(tradeNo,id)).done(function(data) {
-                        console.log(data);
                         mui.back();
                     });
                 }
@@ -113,9 +110,7 @@
         },
         created: function() {
             var self = this;
-            var id = localStorage.getItem("id");
             $.when(getAllMyAddress()).done(function(data) {
-                console.log(data);
                 self.list = data.data.list
             });
         },

@@ -3657,7 +3657,7 @@ var private_hasRefresh = false;// 使refresh仅执行一次
 function setWechatShareConfig(title,desc,link,imgUrl){
 	title||(title = '云书，一个免费送教材的平台');
 	desc||(desc = '打破常规，突破垄断；定义教材，预见未来');
-	link||(link = window.location.href);
+	link||(link = window.location.origin+"/pages/indexPage.html");
 	imgUrl||(imgUrl = "http://image.qess.me/logo/yunshu.png");
 
     var config = {

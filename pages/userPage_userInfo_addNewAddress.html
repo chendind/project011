@@ -39,15 +39,15 @@
             </div>
             <div class="mui-input-row">
                 <label>联系电话</label>
-                <input id="address_phone" type="text" class="mui-input-clear" placeholder="请填写收件人手机号" value="" v-model="address.phone">
+                <input id="address_phone" type="number" class="mui-input-clear" placeholder="请填写收件人手机号" value="" v-model="address.phone">
             </div>
             <div class="mui-input-row">
                 <label>学号</label>
-                <input id="address_id" type="text" class="mui-input-clear" placeholder="请填写收件人学号" value="" v-model="address.studentNo">
+                <input id="address_id" type="number" class="mui-input-clear" placeholder="请填写收件人学号" value="" v-model="address.studentNo">
             </div>
             <div class="mui-input-row">
                 <label>学校</label>
-                <input id="address_school" type="text" class="mui-input-clear" placeholder="请填写收件校园" value="" v-model="school" v-tap="schoolChoose">
+                <input id="address_school" type="text" placeholder="请填写收件校园" value="" v-model="school" v-tap="schoolChoose">
             </div>
             <div class="mui-input-row">
                 <label>宿舍园区</label>
@@ -126,7 +126,6 @@
                         var queryData = getQueryData();
                         if (queryData.id) {
                             $.when(editAddress(queryData.id, this.address)).done(function(data) {
-                                console.log(data);
                                 if (data.resultCode == 200) {
                                     mui.toast("修改成功");
                                     mui.back();
@@ -134,7 +133,6 @@
                             });
                         } else {
                             $.when(addAddress(this.address)).done(function(data) {
-                                console.log(data);
                                 if (data.resultCode == 200) {
                                     mui.toast("保存成功");
                                     var id;
@@ -147,7 +145,6 @@
                                             tradeNo = queryData.orderNo;
                                         }
                                         $.when(editOrderPlace(tradeNo, id)).done(function(data) {
-                                            console.log(data);
                                             mui.back();
                                         });
                                     });
@@ -156,7 +153,6 @@
                         }
                     } else {
                         $.when(addAddress(this.address)).done(function(data) {
-                            console.log(data);
                             if (data.resultCode == 200) {
                                 mui.toast("保存成功");
                                 mui.back();
@@ -166,6 +162,7 @@
                 }
             },
             schoolChoose: function() {
+                $("input").blur();
                 var data = [];
                 var self = this;
                 for (var i = 0; i < this.schoolList.length; i++) {
@@ -179,7 +176,6 @@
                     self.school = selectItems[0].text;
                     self.address.schoolId = selectItems[0].value;
                     $.when(getDormList(selectItems[0].value)).done(function(data) {
-                        console.log(data);
                         if (data.resultCode == 200) {
                             self.$data.dormList = data.data.dorms;
                             self.dorm = "";
@@ -189,6 +185,7 @@
                 })
             },
             dormChoose: function() {
+                $("input").blur();
                 var data = [];
                 var self = this;
                 for (var i = 0; i < this.dormList.length; i++) {
@@ -209,12 +206,10 @@
             var id;
             if (window.location.search) {
                 var data = getQueryData();
-                if (data.id) {
+                if (data&&data.id) {
                     $.when(getOneAddress(data.id)).done(function(data) {
-                        console.log(data);
                         self.$data.address = data.data.address
-                        $.when(getDormList(self.address.dormId)).done(function(data) {
-                            console.log(data);
+                        $.when(getDormList(self.address.schoolId)).done(function(data) {
                             if (data.resultCode == 200) {
                                 self.$data.dormList = data.data.dorms;
                                 self.school = self.address.school;
@@ -225,7 +220,6 @@
                 }
             }
             $.when(getSchoolList()).done(function(data) {
-                console.log(data);
                 if (data.resultCode == 200) {
                     self.$data.schoolList = data.data.schools
                 }

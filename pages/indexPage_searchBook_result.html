@@ -28,12 +28,15 @@
 <body>
     <div class="mui-content mui-fullscreen" style="padding-top: 54px;">
         <div style="padding: 10px 15px;background-color: #fff;position: absolute;top:0;left:0;width: 100%;">
-            <div class="mui-indexed-list-search mui-input-row mui-search mui-search-withButton" style="border-bottom: none;">
+            <div class="mui-indexed-list-search mui-input-row mui-search ys-mui-search mui-search-withButton" style="border-bottom: none;">
                 <input id="searchCityInput" type="search" placeholder="请输入您需要搜索的教材" value="">
+                <span class="rightSearchIcon">
+                    <span class="mui-icon mui-icon-search"></span>
+                </span>
                 <div class="mui-search-button mui-action-back linkColor">取消</div>
             </div>
         </div>
-        <div id="hotSearchBlock">
+        <div id="hotSearchBlock" style="display: none;">
             <h5 style="margin-top: 15px;">热门搜索</h5>
             <div class="user-city-list">
                 <div id="user_city_row" class="user-city-row">
@@ -85,23 +88,31 @@ $("#searchCityInput").on('keyup',function(e){
     var v = $(this).val();
     checkInputValueAndShowBlock(v);
     if(e.keyCode == 13){
-        if(v){
-            var _params = {
-                "keyword": v
-            };
-            window.location.search = encodeObj(_params);
-        }
-        else{
-            mui.toast("请输入关键词");
-        }
+        toSearchPage(v);
     }
 });
-function checkInputValueAndShowBlock(v){
-    if(v){
-        $("#hotSearchBlock").hide();
-        $("#searchResultBlock").show();
+$(".rightSearchIcon").on('tap',function(){
+    toSearchPage($("#searchCityInput").val());
+});
+function toSearchPage(keyword){
+    keyword = $.trim(keyword);
+    if(keyword){
+        var params = {};
+        params.keyword = keyword;
+        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
     }
     else{
+        mui.toast("请输入搜索词");
+    } 
+}
+function checkInputValueAndShowBlock(v){
+    if(v){
+        // 有值
+        // $("#hotSearchBlock").hide();
+        // $("#searchResultBlock").show();
+    }
+    else{
+        // 没有值
         $("#hotSearchBlock").show();
         $("#searchResultBlock").hide();
     }
@@ -144,7 +155,9 @@ mui.init({
     pullRefresh: {
         container: '#pullrefresh',
         up: {
-            contentrefresh: '正在加载...',
+            contentinit: '',
+            contentdown: '',
+            contentrefresh: '',
             callback: pullupRefresh
         }
     }

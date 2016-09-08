@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+
+<body style="background-color: #fff;">
+    <div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter">
+        <img style="width: 100px;height: 100px;" src="../source/webslice/4.2_4.4_integral&coin/integral_icon.png" alt="">
+        <div style="margin: 10px 0 20px;">
+            <p class="linkColor" style="font-size: 18px;">添加优惠券</p>
+        </div>
+        <div style="margin-top: 30px;">
+            <form class="mui-input-group ys-input-group" style="margin: 0 40px;">
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" placeholder="请输入兑换码" v-model="couponCode">
+                </div>
+            </form>
+        </div>
+        <div style="margin-top: 50px;">
+            <a id="addCouponButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+                添加
+            </a>
+        </div>
+    </div>
+    <script>
+    mui.init();
+    mui('.mui-scroll-wrapper').scroll();
+    $("#addCouponButton").on('tap', function() {
+        mui.toast("添加成功");
+    });
+    </script>
+</body>
+
+</html>

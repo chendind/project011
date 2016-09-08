@@ -44,8 +44,11 @@
 
 <body>
     <div style="padding: 10px 15px 0;position: fixed;top: 0;left:0;z-index:1;width: 100%;">
-        <div class="mui-input-row mui-search">
+        <div class="mui-input-row mui-search ys-mui-search">
             <input id="searchBookInput" type="search" class="mui-input-clear" placeholder="在此搜索您需要的教材">
+            <span class="rightSearchIcon">
+                <span class="mui-icon mui-icon-search"></span>
+            </span>
         </div>
     </div>
     <div class="mui-content mui-row mui-fullscreen" style="background-color: #fff;padding-top: 60px;">
@@ -59,12 +62,23 @@
     <script>
     $("#searchBookInput").on('keydown', function(e) {
         if (e.keyCode == 13) {
-            var value = $(this).val();
-            var params = {};
-            params.keyword = value;
-            window.location.href = "indexPage_searchBook_result.html?" + encodeObj(params);
+            toSearchPage($(this).val());
         }
     });
+    $(".rightSearchIcon").on('tap',function(e){
+        toSearchPage($("#searchBookInput").val());
+    });
+    function toSearchPage(keyword){
+        keyword = $.trim(keyword);
+        if(keyword){
+            var params = {};
+            params.keyword = keyword;
+            window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+        }
+        else{
+            mui.toast("请输入搜索词");
+        } 
+    }
     mui.init();
     (function($) {
         $(document).imageLazyload();
