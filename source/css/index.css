@@ -146,22 +146,3 @@ input[type='search'] {
   width: 100%;
   display: block;
 }
-.ys-mui-search .rightSearchIcon {
-  display: none;
-}
-.ys-mui-search.mui-active:before {
-  display: none;
-}
-.ys-mui-search.mui-active .rightSearchIcon {
-  display: block;
-  position: absolute;
-  top: 7px;
-  right: auto;
-  left: 5px;
-  margin-right: 0px;
-  font-size: 0;
-  line-height: 1;
-}
-.ys-mui-search.mui-active .rightSearchIcon .mui-icon {
-  font-size: 20px;
-}

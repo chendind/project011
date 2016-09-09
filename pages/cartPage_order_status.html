@@ -95,7 +95,7 @@
                             <img style="width: 80%;" :src="book.path" />
                         </div>
                         <div class="mui-table-cell mui-col-xs-9">
-                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">{{books.title}}</h4>
+                            <h4 style="margin-bottom: 10px;font-size: 15px;" class="mui-ellipsis">{{book.title}}</h4>
                             <h6>作者：{{book.author}}</h6>
                             <h6>出版社：{{book.publisher}}</h6>
                             <span class="mui-h4 linkColor">¥0.00</span>
@@ -165,12 +165,11 @@
     <script>
     mui.init();
     var params = getQueryData();
-    if (!params) {
-        mui.alert("查询参数错误", "", ["确定"], function() {
-            // mui.back();
-        });
+    if (params&&params.orderNo) {
     } else {
-        console.log(params.status, params.orderId);
+        mui.alert("查询参数错误", "", ["确定"], function() {
+            mui.back();
+        });
     }
     $("#applyRefundButton").on('tap', function() {
         mui.confirm("确定申请退款吗？", " ", ["<span class='textColor'>确定</span>", "取消"], function(data) {

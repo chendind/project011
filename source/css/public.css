@@ -12,22 +12,19 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 .verticalCenter {
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
 }
 .horizontalCenter {
   position: absolute;
   left: 50%;
-  -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
 }
 .ellipsis {
@@ -44,6 +41,7 @@ body {
   color: #555;
   font-size: 15px;
   font-family: -apple-system, BlinkMacSystemFont;
+  font-weight: lighter;
 }
 [v-cloak] {
   display: none;
@@ -258,8 +256,7 @@ body {
   background-color: #eee;
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
   left: -5px;
   z-index: 1;
@@ -273,8 +270,7 @@ body {
   background-color: #eee;
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
   right: -5px;
   z-index: 1;
@@ -296,4 +292,22 @@ body {
   background-color: #fff;
   padding: 6px 23px;
 }
-/*# sourceMappingURL=public.css.map */
+.ys-mui-search .rightSearchIcon {
+  display: none;
+}
+.ys-mui-search.mui-active:before {
+  display: none;
+}
+.ys-mui-search.mui-active .rightSearchIcon {
+  display: block;
+  position: absolute;
+  top: 6px;
+  right: auto;
+  left: 5px;
+  margin-right: 0px;
+  font-size: 0;
+  line-height: 1;
+}
+.ys-mui-search.mui-active .rightSearchIcon .mui-icon {
+  font-size: 20px;
+}

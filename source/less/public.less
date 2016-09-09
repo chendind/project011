@@ -4,6 +4,7 @@ body{
 	// background-color: #fff;
 	font-size: 15px;
 	font-family: -apple-system, BlinkMacSystemFont;
+	font-weight: lighter;
 }
 [v-cloak]{
 	display: none;
@@ -250,7 +251,30 @@ body{
 		padding: 6px 23px;
 	}
 }
-
+.ys-mui-search{
+    .rightSearchIcon{
+        display: none;
+    }
+    &.mui-active{
+        &:before{
+            display: none;
+        }
+        .rightSearchIcon{
+            display: block;
+            position: absolute;
+            top: 6px;
+            right: auto;
+            left: 5px;
+            margin-right: 0px;
+            font-size: 0;
+            line-height: 1;
+            .mui-icon{
+                font-size: 20px;
+            }
+        }
+    }
+    
+}
 
 
 
