@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
-    <title>我的</title>
+    <title>云书</title>
     <link rel="stylesheet" href="../source/mui/css/mui.css">
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
@@ -136,7 +136,18 @@
             </div>
             <div class="mui-slider-group" v-cloak>
                 <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-                    <div id="scroll1" class="mui-scroll-wrapper">
+                    <div class="veryCenter innerCenter" v-show="hasAjaxEnd_all&&orders.length == 0" style="height: 240px;">
+                        <img style="width: 81px;height: 81px;" src="../source/webslice/4.5_order/order_blank.png" alt="">
+                        <div style="margin: 32px 0 0;">
+                            <span style="font-size: 18px;">暂无订单</span>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <a data-href="indexPage.html" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+                                随便逛逛
+                            </a>
+                        </div>
+                    </div>
+                    <div id="scroll1" class="mui-scroll-wrapper" v-show="orders.length > 0">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in orders">
                                 <li class="mui-table-view-cell first">
@@ -216,7 +227,18 @@
                     </div>
                 </div>
                 <div id="item2mobile" class="mui-slider-item mui-control-content">
-                    <div class="mui-scroll-wrapper">
+                    <div class="veryCenter innerCenter" v-show="hasAjaxEnd_0&&subOrders0.length == 0" style="height: 240px;">
+                        <img style="width: 81px;height: 81px;" src="../source/webslice/4.5_order/order_blank.png" alt="">
+                        <div style="margin: 32px 0 0;">
+                            <span style="font-size: 18px;">暂无订单</span>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <a data-href="indexPage.html" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+                                随便逛逛
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mui-scroll-wrapper" v-show="subOrders0.length > 0">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in subOrders0">
                                 <li class="mui-table-view-cell first">
@@ -291,7 +313,18 @@
                     </div>
                 </div>
                 <div id="item3mobile" class="mui-slider-item mui-control-content">
-                    <div class="mui-scroll-wrapper">
+                    <div class="veryCenter innerCenter" v-show="hasAjaxEnd_1&&subOrders1.length == 0" style="height: 240px;">
+                        <img style="width: 81px;height: 81px;" src="../source/webslice/4.5_order/order_blank.png" alt="">
+                        <div style="margin: 32px 0 0;">
+                            <span style="font-size: 18px;">暂无订单</span>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <a data-href="indexPage.html" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+                                随便逛逛
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mui-scroll-wrapper" v-show="subOrders1.length > 0">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in subOrders1">
                                 <li class="mui-table-view-cell first">
@@ -369,7 +402,18 @@
                     </div>
                 </div>
                 <div id="item4mobile" class="mui-slider-item mui-control-content">
-                    <div class="mui-scroll-wrapper">
+                    <div class="veryCenter innerCenter" v-show="hasAjaxEnd_2&&subOrders2.length == 0" style="height: 240px;">
+                        <img style="width: 81px;height: 81px;" src="../source/webslice/4.5_order/order_blank.png" alt="">
+                        <div style="margin: 32px 0 0;">
+                            <span style="font-size: 18px;">暂无订单</span>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <a data-href="indexPage.html" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+                                随便逛逛
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mui-scroll-wrapper" v-show="subOrders2.length > 0">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in subOrders2">
                                 <li class="mui-table-view-cell first">
@@ -444,7 +488,18 @@
                     </div>
                 </div>
                 <div id="item5mobile" class="mui-slider-item mui-control-content">
-                    <div class="mui-scroll-wrapper">
+                    <div class="veryCenter innerCenter" v-show="hasAjaxEnd_3&&subOrders3.length == 0" style="height: 240px;">
+                        <img style="width: 81px;height: 81px;" src="../source/webslice/4.5_order/order_blank.png" alt="">
+                        <div style="margin: 32px 0 0;">
+                            <span style="font-size: 18px;">暂无订单</span>
+                        </div>
+                        <div style="margin-top: 25px;">
+                            <a data-href="indexPage.html" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+                                随便逛逛
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mui-scroll-wrapper" v-show="subOrders3.length > 0">
                         <div class="mui-scroll">
                             <ul class="mui-table-view order-table-view" v-for="order in subOrders3">
                                 <li class="mui-table-view-cell first">
@@ -555,6 +610,9 @@
         mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
             mui(pullRefreshEl).pullToRefresh({
                 up: {
+                    contentinit: '',
+                    contentdown: '',
+                    contentrefresh: '',
                     callback: function() {
                         var self = this;
                         // setTimeout(function() {
@@ -597,6 +655,11 @@
             subOrders1: [],
             subOrders2: [],
             subOrders3: [],
+            hasAjaxEnd_all:false,
+            hasAjaxEnd_0:false,
+            hasAjaxEnd_1:false,
+            hasAjaxEnd_2:false,
+            hasAjaxEnd_3:false,
         },
         computed: {},
         methods: {
@@ -638,18 +701,59 @@
             var self = this;
             var id = localStorage.getItem("id");
             $.when(getOrderList(self.page[0], self.orderStatus)).done(function(data) {
-                self.$data.orders = data.data.orders;
-                console.log(self.seeData(self.orders));
-                self.page[0]++
+                if(data.resultCode == 200){
+                    self.$data.orders = data.data.orders;
+                    console.log(self.seeData(self.orders));
+                    self.page[0]++;
+                }
+                self.hasAjaxEnd_all = true;
             });
-            for (var i = 0; i < 4; i++) {
-                $.when(getOrderList(self.page[i + 1], i)).done(function(data) {
-                    if (data.data.orders) {
+            $.when(getOrderList(self.page[1], 0)).done(function(data) {
+                if(data.resultCode == 200){
+                    if (data.data&&data.data.orders) {
                         self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-                        self.page[data.data.orders[0].orderStatus + 1]++
+                        self.page[data.data.orders[0].orderStatus + 1]++;
                     }
-                });
-            }
+                }
+                self["hasAjaxEnd_0"] = true;
+            });
+            $.when(getOrderList(self.page[2], 1)).done(function(data) {
+                if(data.resultCode == 200){
+                    if (data.data&&data.data.orders) {
+                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                        self.page[data.data.orders[0].orderStatus + 1]++;
+                    }
+                }
+                self["hasAjaxEnd_1"] = true;
+            });
+            $.when(getOrderList(self.page[3], 2)).done(function(data) {
+                if(data.resultCode == 200){
+                    if (data.data&&data.data.orders) {
+                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                        self.page[data.data.orders[0].orderStatus + 1]++;
+                    }
+                }
+                self["hasAjaxEnd_2"] = true;
+            });
+            $.when(getOrderList(self.page[4], 3)).done(function(data) {
+                if(data.resultCode == 200){
+                    if (data.data&&data.data.orders) {
+                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                        self.page[data.data.orders[0].orderStatus + 1]++;
+                    }
+                }
+                self["hasAjaxEnd_3"] = true;
+            });
+            // for (var i = 0; i < 4; i++) {
+            //     $.when(getOrderList(self.page[i + 1], i)).done(function(data) {
+            //         if(data.resultCode == 200){
+            //             if (data.data&&data.data.orders) {
+            //                 self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+            //                 self.page[data.data.orders[0].orderStatus + 1]++;
+            //             }
+            //         }
+            //     });
+            // }
         },
         ready: function() {
 
