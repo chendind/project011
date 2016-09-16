@@ -117,8 +117,8 @@
             <li class="mui-table-view-cell">
                 <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png"> {{goods.name}}
             </li>
-            <li class="mui-table-view-cell">
-                <a href="#" v-for="good in goods.datas">
+            <li class="mui-table-view-cell" v-for="good in goods.datas">
+                <a href="#">
                     <div class="mui-table">
                         <div class="mui-table-cell mui-col-xs-3">
                             <img style="width: 80%;" :src="good.img" />

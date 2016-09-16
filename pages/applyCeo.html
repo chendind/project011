@@ -91,7 +91,8 @@
             verifyCode: "",
             restTime: 0,
             cityList: [],
-            schoolList: []
+            schoolList: [],
+            hasBeenApply: false,
         },
         computed: {
             tipText: function() {
@@ -109,7 +110,7 @@
                 }
             },
             buttonColor: function() {
-                if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length) {
+                if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length && !hasBeenApply) {
                     return "#fff"
                 } else {
                     return "#4D99F5"
@@ -186,24 +187,30 @@
             },
             applyCeo: function() {
                 var self = this;
-                var _sex = "0";
-                var nameReg = /^[\u4e00-\u9fa5]{0,}$/;
-                var phoneReg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
-                if (self.sex == '女') {
-                    _sex = "1";
+                if(hasBeenApply){
+                    mui.toast("请勿重复提交");
                 }
-                if (self.empty) {
-                    mui.toast("您还有未输入的内容");
-                } else if (!phoneReg.test(self.phone)) {
-                    mui.toast("请输入合法的手机号码");
-                } else if (!nameReg.test(self.name)) {
-                    mui.toast("请输入合法的姓名");
-                } else {
-                    $.when(applyToBeCeo(self.name, _sex, self.cityId, self.schoolId, self.phone, self.verifyCode)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            mui.toast("申请成功");
-                        }
-                    })
+                else{
+                    var _sex = "0";
+                    var nameReg = /^[\u4e00-\u9fa5]{0,}$/;
+                    var phoneReg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+                    if (self.sex == '女') {
+                        _sex = "1";
+                    }
+                    if (self.empty) {
+                        mui.toast("您还有未输入的内容");
+                    } else if (!phoneReg.test(self.phone)) {
+                        mui.toast("请输入合法的手机号码");
+                    } else if (!nameReg.test(self.name)) {
+                        mui.toast("请输入合法的姓名");
+                    } else {
+                        $.when(applyToBeCeo(self.name, _sex, self.cityId, self.schoolId, self.phone, self.verifyCode)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("申请成功");
+                                self.hasBeenApply = true;
+                            }
+                        })
+                    }
                 }
             }
         },
