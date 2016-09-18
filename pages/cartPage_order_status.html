@@ -216,11 +216,17 @@
             var orderNo = getQueryData().orderNo;
             self.orderNo = orderNo;
             $.when(orderDetail(orderNo)).done(function(data) {
-                console.log(data);
-                self.$data.data = data.data.order;
-                self.books = data.data.order.books;
-                self.goods=data.data.order.goods;
-                self.showState = true;
+                if(data.resultCode == 200){
+                    self.$data.data = data.data.order;
+                    self.books = data.data.order.books;
+                    self.goods=data.data.order.goods;
+                    self.showState = true;
+                }
+                else{
+                    mui.alert("订单超时", "", ["确定"], function() {
+                        mui.back();
+                    });
+                }
             });
         },
         ready: function() {

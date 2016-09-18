@@ -170,19 +170,25 @@
             },
             getMessage: function() {
                 var self = this;
+
                 if (self.restTime <= 0) {
-                    $.when(sendMessageForApplyCeo(self.phone)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            mui.toast("发送成功");
-                            self.restTime = 60;
-                            var _interval = setInterval(function() {
-                                self.restTime--;
-                                if (self.restTime <= 0) {
-                                    window.clearInterval(_interval);
-                                }
-                            }, 1000)
-                        }
-                    });
+                    if (!self.phone.length) {
+                        mui.toast("请输入合法的手机号码");
+                    }
+                    else{
+                        $.when(sendMessageForApplyCeo(self.phone)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("发送成功");
+                                self.restTime = 60;
+                                var _interval = setInterval(function() {
+                                    self.restTime--;
+                                    if (self.restTime <= 0) {
+                                        window.clearInterval(_interval);
+                                    }
+                                }, 1000)
+                            }
+                        });
+                    }
                 }
             },
             applyCeo: function() {
@@ -199,7 +205,7 @@
                     }
                     if (self.empty) {
                         mui.toast("您还有未输入的内容");
-                    } else if (!phoneReg.test(self.phone)) {
+                    } else if (!self.phone.length) {
                         mui.toast("请输入合法的手机号码");
                     } else if (!nameReg.test(self.name)) {
                         mui.toast("请输入合法的姓名");
