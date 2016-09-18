@@ -130,6 +130,9 @@
             </div>
         </form>
     </div>
+    <div id="loadPopover" class="mui-popover mui-popup loadPopover" style="width: 100px;padding: 10px;">
+        <span class="mui-spinner imageIcon" style="margin-right: 10px;"></span><span class="mui-h5">载入中</span>
+    </div>
     <script>
     mui.init();
     var vm = new Vue({
@@ -211,6 +214,7 @@
                             };
                             wx.chooseWXPay(wcpayParams);
                         }
+                        mui("#loadPopover").popover("toggle");
                     });
                 } else {
                     mui.confirm("确定使用零钱支付吗？", " ", ["确定", "取消"], function(data) {
@@ -230,6 +234,7 @@
             },
             changeMessage: function() {
                 var self = this;
+                mui("#loadPopover").popover("toggle");
                 if (self.detail.message) {
                     $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
                         if (data.resultCode == 200) {
@@ -260,9 +265,9 @@
                             self.nowTime = new Date();
                         }, 1000)
                     } else {
-                        mui.alert("订单超时", "", ["确定"], function() {
-                            mui.back();
-                        });
+                        // mui.alert("订单超时", "", ["确定"], function() {
+                        //     mui.back();
+                        // });
                     }
                 });
             }
