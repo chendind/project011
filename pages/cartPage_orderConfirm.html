@@ -26,9 +26,9 @@
             <div class="amount" style="line-height:50px;padding-left: 15px;">
                 <span class="greyColor">需支付：</span><span class="blueColor">{{payMoney|currency "¥"}}</span>
             </div>
-            <div class="sure greenBg" v-tap="changeMessage">
+            <button type="button" class="mui-btn mui-btn-success mui-btn-block sure greenBg" v-tap="changeMessage">
                 {{payMoney>0?'微信支付':'零钱支付'}}
-            </div>
+            </button>
         </div>
     </nav>
     <div class="mui-content" v-cloak>
@@ -213,7 +213,6 @@
                         }
                     });
                 } else {
-                    console.log(self.payMoney);
                     mui.confirm("确定使用零钱支付吗？", " ", ["确定", "取消"], function(data) {
                         console.log('test');
                         if (data.index == 0) {
