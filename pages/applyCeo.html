@@ -110,7 +110,7 @@
                 }
             },
             buttonColor: function() {
-                if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length && !hasBeenApply) {
+                if (this.name !== "" && this.sex !== "" && this.city !== "" && this.school !== "" && this.phone !== "" && this.verifyCode !== "" && this.cityList.length && this.schoolList.length && !this.hasBeenApply) {
                     return "#fff"
                 } else {
                     return "#4D99F5"
@@ -187,7 +187,7 @@
             },
             applyCeo: function() {
                 var self = this;
-                if(hasBeenApply){
+                if(self.hasBeenApply){
                     mui.toast("请勿重复提交");
                 }
                 else{
