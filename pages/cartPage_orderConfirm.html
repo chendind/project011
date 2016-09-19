@@ -218,7 +218,7 @@
                     });
                 } else {
                     mui("#loadPopover").popover("toggle");
-                    mui.confirm("确定使用零钱支付吗？", " ", ["确定", "取消"], function(data) {
+                    mui.confirm("确定使用零钱支付吗？", " ", ["确定", "<span style='font-weight: normal;'>取消</span>"], function(data) {
                         if (data.index == 0) {
                             $.when(changePay(self.detail.tradeNumber, self.isChange)).done(function(data) {
                                 if (data.resultCode == 200) {
