@@ -87,10 +87,10 @@ function editUsername(name) {
     return ajax;
 }
 // 修改手机号
-function editPhoneNum(phone, verfityCode) {
+function editPhoneNum(phone, verifyCode) {
     var ajax = $.ajax({
         url: baseUrl + "/users/profile",
-        data: { "type": 5, "phone": phone, "verfityCode": verfityCode },
+        data: { "type": 5, "phone": phone, "verifyCode": verifyCode },
         type: "PUT",
     });
     return ajax;

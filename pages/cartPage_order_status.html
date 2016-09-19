@@ -31,9 +31,9 @@
             <div class="amount" style="line-height:50px;padding-left: 15px;">
                 <span class="greyColor">需支付：</span><span class="blueColor">¥20.00</span>
             </div>
-            <div class="sure greenBg">
+            <button type="button" class="mui-btn mui-btn-success mui-btn-block sure greenBg">
                 微信支付
-            </div>
+            </button>
         </div>
     </nav>
     <div class="mui-content" v-if="showState" v-cloak>
@@ -117,8 +117,8 @@
             <li class="mui-table-view-cell">
                 <img class="mui-media-object mui-pull-left icon-img" src="../source/images/booklogo.png"> {{goods.name}}
             </li>
-            <li class="mui-table-view-cell">
-                <a href="#" v-for="good in goods.datas">
+            <li class="mui-table-view-cell" v-for="good in goods.datas">
+                <a href="#">
                     <div class="mui-table">
                         <div class="mui-table-cell mui-col-xs-3">
                             <img style="width: 80%;" :src="good.img" />
@@ -216,11 +216,17 @@
             var orderNo = getQueryData().orderNo;
             self.orderNo = orderNo;
             $.when(orderDetail(orderNo)).done(function(data) {
-                console.log(data);
-                self.$data.data = data.data.order;
-                self.books = data.data.order.books;
-                self.goods=data.data.order.goods;
-                self.showState = true;
+                if(data.resultCode == 200){
+                    self.$data.data = data.data.order;
+                    self.books = data.data.order.books;
+                    self.goods=data.data.order.goods;
+                    self.showState = true;
+                }
+                else{
+                    mui.alert("订单超时", "", ["确定"], function() {
+                        mui.back();
+                    });
+                }
             });
         },
         ready: function() {

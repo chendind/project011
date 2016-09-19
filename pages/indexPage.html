@@ -15,6 +15,142 @@
     <script src="../source/mui/js/mui.min.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/public.js"></script>
+    <script>
+    $(function(){
+        $("#currentCityName").text(currentCityName);
+        var currentCityNameBoxWidth = $("#currentCityNameBox").width();
+        $("#header>.mui-title").css({"left":currentCityNameBoxWidth+12+"px"});
+        var cityId = currentCityId;
+        $.when(getBannersByCityId(cityId)).done(function(data){
+            if(data.resultCode == 200){
+                var data = data.data;
+                // 轮播图
+                var banners = data.banners;
+                var bannersHTML = firstImage = lastImage = "";
+                for(var i = 0, length = banners.length; i < length; i++){
+                    var _banner = banners[i];
+
+                    bannersHTML += '<div class="mui-slider-item"><a><img src="'+_banner.path+'"></a></div>';
+                    // 第一个元素 
+                    if(i == 0){
+                        firstImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a data-href="'+_banner.url+'"><img src="'+_banner.path+'"></a></div>';
+                        $("#mui-slider-indicator").append('<div class="mui-indicator mui-active"></div>');
+                    }
+                    else{
+                        $("#mui-slider-indicator").append('<div class="mui-indicator"></div>');
+                    }
+                    // 最后一个元素
+                    if(i == length - 1){
+                        lastImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a><img src="'+_banner.path+'"></a></div>';
+                    }
+
+                }
+                $("#slider>.mui-slider-group").append(lastImage+bannersHTML+firstImage);
+                mui.init();
+                mui("#slider").slider({
+                    interval: 5000
+                });
+
+
+                // 三个小图
+                var recommendItem = data.recommendItem;
+                $("#recommendItemBox").attr("data-href", "indexPage_newBook.html?"+encodeObj({"recommendItemId":recommendItem.id}))
+                    .find(">img").attr("src", recommendItem.path);
+                var hotItemBox = data.recommendLists[0];
+                $("#hotItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"hotId":hotItemBox.id,"type":0}));
+                var newItemBox = data.recommendLists[1];
+                $("#newItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"newId":hotItemBox.id,"type":0}));
+            }
+        });
+        $.when(getRecommends(cityId)).done(function(data){
+            if(data.resultCode == 200){
+                var data = data.data;
+                var imgs = data.imgs;
+                // 第一张图
+                $("#firstRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[0].id})).find(">img").attr("src", imgs[0].path);
+                // 第二张图
+                $("#secondRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[1].id})).find(">img").attr("src", imgs[1].path);
+
+                var txts = data.txts;
+                // 第一个block
+                $("#firstRecommendBlock").find(".name").text(txts[0].name).end()
+                    .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[0].id,"type":1}));
+                var firstRecommendBlockHtml = "";
+                for(var i = 0, length = txts[0].books.length; i<length; i++){
+                    var book = txts[0].books[i];
+                    firstRecommendBlockHtml += createBook(book.id , book.path , book.title);
+                }
+                $("#firstRecommendBlock").next("ul").append(firstRecommendBlockHtml);
+                // 第二个block
+                $("#secondRecommendBlock").find(".name").text(txts[1].name).end()
+                    .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[1].id,"type":1}));
+                var secondRecommendBlockHtml = "";
+                for(var i = 0, length = txts[1].books.length; i<length; i++){
+                    var book = txts[1].books[i];
+                    secondRecommendBlockHtml += createBook(book.id , book.path , book.title);
+                }
+                $("#secondRecommendBlock").next("ul").append(secondRecommendBlockHtml);
+                // 第三个block
+                $("#thirdRecommendBlock").find(".name").text(txts[2].name).end()
+                    .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[2].id,"type":1}));
+                var thirdRecommendBlockHtml = "";
+                for(var i = 0, length = txts[2].books.length; i<length; i++){
+                    var book = txts[2].books[i];
+                    thirdRecommendBlockHtml += createBook(book.id , book.path , book.title);
+                }
+                $("#thirdRecommendBlock").next("ul").append(thirdRecommendBlockHtml);
+            }
+        });
+
+        $(window).on('touchmove scroll',function(e){
+            var pos = $(this).scrollTop()
+            if (pos > 100) {
+                $('#header').removeClass('top')
+            } else {
+                $('#header').addClass('top')
+            }
+        });
+        $("#searchBookInput").on('keydown',function(e){
+            if(e.keyCode == 13){
+                toSearchPage($(this).val());
+            }
+        });
+        $("#mui-icon-search").on('tap',function(){
+            var keyword = $("#searchBookInput").val();
+            toSearchPage(keyword);
+        });
+        function toSearchPage(keyword){
+            keyword = $.trim(keyword);
+            if(keyword){
+                var params = {};
+                params.keyword = keyword;
+                window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
+            }
+            else{
+                mui.toast("请输入搜索词");
+            } 
+        }
+        function createBook(id,path,title,colNumber){
+            var _colNumber = colNumber?colNumber:"3";
+            var params = {};
+            params.bookId = id;
+            var html = '<li class="mui-table-view-cell mui-media mui-col-sm-'+_colNumber+' mui-col-xs-'+_colNumber+'">'+
+                        '<a data-href="indexPage_textbook.html?'+encodeObj(params)+'">'+
+                            '<div class="textbook_cover">'+
+                                '<img class="" src="'+path+'" alt="">'+
+                            '</div>'+
+                            '<div class="mui-tab-label user-book-label">'+
+                                title+
+                            '</div>'+
+                        '</a>'+
+                    '</li>';
+            return html;
+        }
+        $("#recycleBookButton").on('tap',function(){
+            mui.toast("功能正在开发中");
+        })
+    });
+    </script>
 </head>
 <body>
     <header id="header" class="mui-bar top mui-bar-transparent">
@@ -25,7 +161,7 @@
         <h1 class="mui-title">
             <div class="mui-search-right">
                 <input id="searchBookInput" type="search" placeholder="搜索您需要的教材" style="margin: 7px 0;">
-                <span class="mui-icon mui-icon-search"></span>
+                <span id="mui-icon-search" class="mui-icon mui-icon-search"></span>
             </div>
         </h1>
     </header>
@@ -171,141 +307,6 @@
             <img style="width: 150px;margin: 0 auto;display: block;" src="../source/webslice/1.0_home/home_bottom_yunshu.png" alt="">
         </div>
     </div>
-<script>
-
-$("#currentCityName").text(currentCityName);
-var currentCityNameBoxWidth = $("#currentCityNameBox").width();
-$("#header>.mui-title").css({"left":currentCityNameBoxWidth+12+"px"});
-var cityId = currentCityId;
-$.when(getBannersByCityId(cityId)).done(function(data){
-    if(data.resultCode == 200){
-        var data = data.data;
-        // 轮播图
-        var banners = data.banners;
-        var bannersHTML = firstImage = lastImage = "";
-        for(var i = 0, length = banners.length; i < length; i++){
-            var _banner = banners[i];
-
-            bannersHTML += '<div class="mui-slider-item"><a><img src="'+_banner.path+'"></a></div>';
-            // 第一个元素 
-            if(i == 0){
-                firstImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a data-href="'+_banner.url+'"><img src="'+_banner.path+'"></a></div>';
-                $("#mui-slider-indicator").append('<div class="mui-indicator mui-active"></div>');
-            }
-            else{
-                $("#mui-slider-indicator").append('<div class="mui-indicator"></div>');
-            }
-            // 最后一个元素
-            if(i == length - 1){
-                lastImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a><img src="'+_banner.path+'"></a></div>';
-            }
-
-        }
-        $("#slider>.mui-slider-group").append(lastImage+bannersHTML+firstImage);
-        mui.init();
-        mui("#slider").slider({
-            interval: 5000
-        });
-
-
-        // 三个小图
-        var recommendItem = data.recommendItem;
-        $("#recommendItemBox").attr("data-href", "indexPage_newBook.html?"+encodeObj({"recommendItemId":recommendItem.id}))
-            .find(">img").attr("src", recommendItem.path);
-        var hotItemBox = data.recommendLists[0];
-        $("#hotItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"hotId":hotItemBox.id,"type":0}));
-        var newItemBox = data.recommendLists[1];
-        $("#newItemBox").attr("data-href", "indexPage_textbookList.html?"+encodeObj({"newId":hotItemBox.id,"type":0}));
-    }
-});
-$.when(getRecommends(cityId)).done(function(data){
-    if(data.resultCode == 200){
-        var data = data.data;
-        var imgs = data.imgs;
-        // 第一张图
-        $("#firstRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[0].id})).find(">img").attr("src", imgs[0].path);
-        // 第二张图
-        $("#secondRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[1].id})).find(">img").attr("src", imgs[1].path);
-
-        var txts = data.txts;
-        // 第一个block
-        $("#firstRecommendBlock").find(".name").text(txts[0].name).end()
-            .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[0].id,"type":1}));
-        var firstRecommendBlockHtml = "";
-        for(var i = 0, length = txts[0].books.length; i<length; i++){
-            var book = txts[0].books[i];
-            firstRecommendBlockHtml += createBook(book.id , book.path , book.title);
-        }
-        $("#firstRecommendBlock").next("ul").append(firstRecommendBlockHtml);
-        // 第二个block
-        $("#secondRecommendBlock").find(".name").text(txts[1].name).end()
-            .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[1].id,"type":1}));
-        var secondRecommendBlockHtml = "";
-        for(var i = 0, length = txts[1].books.length; i<length; i++){
-            var book = txts[1].books[i];
-            secondRecommendBlockHtml += createBook(book.id , book.path , book.title);
-        }
-        $("#secondRecommendBlock").next("ul").append(secondRecommendBlockHtml);
-        // 第三个block
-        $("#thirdRecommendBlock").find(".name").text(txts[2].name).end()
-            .find("a").attr("data-href","indexPage_textbookList.html?"+encodeObj({"recommendId":txts[2].id,"type":1}));
-        var thirdRecommendBlockHtml = "";
-        for(var i = 0, length = txts[2].books.length; i<length; i++){
-            var book = txts[2].books[i];
-            thirdRecommendBlockHtml += createBook(book.id , book.path , book.title);
-        }
-        $("#thirdRecommendBlock").next("ul").append(thirdRecommendBlockHtml);
-    }
-});
-
-$(window).on('touchmove scroll',function(e){
-    var pos = $(this).scrollTop()
-    if (pos > 100) {
-        $('#header').removeClass('top')
-    } else {
-        $('#header').addClass('top')
-    }
-});
-$("#searchBookInput").on('keydown',function(e){
-    if(e.keyCode == 13){
-        toSearchPage($(this).val());
-    }
-});
-$("#mui-icon-search").on('tap',function(){
-    var keyword = $("searchBookInput").val();
-    toSearchPage(keyword);
-});
-function toSearchPage(keyword){
-    keyword = $.trim(keyword);
-    if(keyword){
-        var params = {};
-        params.keyword = keyword;
-        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
-    }
-    else{
-        mui.toast("请输入搜索词");
-    } 
-}
-function createBook(id,path,title,colNumber){
-    var _colNumber = colNumber?colNumber:"3";
-    var params = {};
-    params.bookId = id;
-    var html = '<li class="mui-table-view-cell mui-media mui-col-sm-'+_colNumber+' mui-col-xs-'+_colNumber+'">'+
-                '<a data-href="indexPage_textbook.html?'+encodeObj(params)+'">'+
-                    '<div class="textbook_cover">'+
-                        '<img class="" src="'+path+'" alt="">'+
-                    '</div>'+
-                    '<div class="mui-tab-label user-book-label">'+
-                        title+
-                    '</div>'+
-                '</a>'+
-            '</li>';
-    return html;
-}
-$("#recycleBookButton").on('tap',function(){
-    mui.toast("功能正在开发中");
-})
-</script>
 </body>
 </html>
 

@@ -45,7 +45,7 @@ body {
   background-color: #eee;
   font-size: 15px;
   font-family: -apple-system, BlinkMacSystemFont;
-  font-weight: lighter;
+  font-weight: 300;
 }
 [v-cloak] {
   display: none;
@@ -80,8 +80,9 @@ body {
   color: #ffce00 !important;
 }
 .greenBg {
-  background-color: #1cc100 !important;
   color: #fff;
+  border: 1px solid #1cc100;
+  background-color: #1cc100;
 }
 .full {
   display: block;
@@ -194,12 +195,12 @@ body {
 .pay .sure {
   width: 120px;
   min-height: 100%;
-  background-color: #016df1;
   text-align: center;
-  color: #fff;
   position: absolute;
   right: 0px;
   bottom: 0px;
+  top: -1px;
+  border-radius: 0;
   font-size: 16px;
 }
 .mui-table-view-cell > .mui-slider-handle.mui-navigate-right:after,

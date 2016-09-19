@@ -26,9 +26,9 @@
             <div class="amount" style="line-height:50px;padding-left: 15px;">
                 <span class="greyColor">需支付：</span><span class="blueColor">{{payMoney|currency "¥"}}</span>
             </div>
-            <div class="sure greenBg" v-tap="changeMessage">
+            <button type="button" class="mui-btn mui-btn-success mui-btn-block sure greenBg" v-tap="changeMessage">
                 {{payMoney>0?'微信支付':'零钱支付'}}
-            </div>
+            </button>
         </div>
     </nav>
     <div class="mui-content" v-cloak>
@@ -130,6 +130,9 @@
             </div>
         </form>
     </div>
+    <div id="loadPopover" class="mui-popover mui-popup loadPopover" style="width: 100px;padding: 10px;">
+        <span class="mui-spinner imageIcon" style="margin-right: 10px;"></span><span class="mui-h5">载入中</span>
+    </div>
     <script>
     mui.init();
     var vm = new Vue({
@@ -211,11 +214,11 @@
                             };
                             wx.chooseWXPay(wcpayParams);
                         }
+                        mui("#loadPopover").popover("toggle");
                     });
                 } else {
-                    console.log(self.payMoney);
-                    mui.confirm("确定使用零钱支付吗？", " ", ["确定", "取消"], function(data) {
-                        console.log('test');
+                    mui("#loadPopover").popover("toggle");
+                    mui.confirm("确定使用零钱支付吗？", " ", ["确定", "<span style='font-weight: normal;'>取消</span>"], function(data) {
                         if (data.index == 0) {
                             $.when(changePay(self.detail.tradeNumber, self.isChange)).done(function(data) {
                                 if (data.resultCode == 200) {
@@ -231,6 +234,7 @@
             },
             changeMessage: function() {
                 var self = this;
+                mui("#loadPopover").popover("toggle");
                 if (self.detail.message) {
                     $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
                         if (data.resultCode == 200) {

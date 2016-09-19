@@ -4,7 +4,7 @@ body{
 	background-color: #eee;
 	font-size: 15px;
 	font-family: -apple-system, BlinkMacSystemFont;
-	font-weight: lighter;
+	font-weight: 300;
 }
 [v-cloak]{
 	display: none;
@@ -39,8 +39,11 @@ body{
 	color: @yellow !important;
 }
 .greenBg{
-	background-color: @green !important;
-	color: #fff;
+	// background-color: @green !important;
+	// color: #fff;
+	    color: #fff;
+    border: 1px solid @green;
+    background-color: @green;
 }
 .full{
 	.full;
@@ -153,12 +156,14 @@ body{
 	.sure{
 		width: 120px;
 		min-height: 100%;
-		background-color: @blue;
+		// background-color: @blue;
 		text-align: center;
-		color: #fff;
+		// color: #fff;
 		position: absolute;
 		right: 0px;
 		bottom: 0px;
+		top: -1px;
+		border-radius: 0;
 		font-size: 16px;
 	}
 }

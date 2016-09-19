@@ -6,6 +6,14 @@
 // else{
 // 	window.location.href = "index.html";
 // }
+// 百度统计
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?1958976bdfd7dc01acfaabd54ae2d104";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
 $(function(){
 	$("body").on('tap','[data-href]',function(e){
 		e.stopPropagation();
