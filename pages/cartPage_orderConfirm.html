@@ -259,11 +259,13 @@
                 $.when(orderConfirm(tradeNo)).done(function(data) {
                     if (data.resultCode == 200) {
                         self.detail = data.data.order;
-                        self.countState = true;
-                        self.nowTime = new Date();
-                        setInterval(function() {
+                        if (params.orderNo) {
+                            self.countState = true;
                             self.nowTime = new Date();
-                        }, 1000)
+                            setInterval(function() {
+                                self.nowTime = new Date();
+                            }, 1000)
+                        }
                     } else {
                         mui.alert("订单超时", "", ["确定"], function() {
                             mui.back();
