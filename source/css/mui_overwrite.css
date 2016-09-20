@@ -175,6 +175,9 @@ input {
 .address-mui-table-view > .mui-table-view-cell > a > .mui-media-body > .mui-ellipsis {
   padding: 5px 0;
 }
+.mui-toast-container {
+  bottom: 50% !important;
+}
 .mui-toast-message {
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
