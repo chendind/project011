@@ -34,7 +34,7 @@
                                     <p class='mui-ellipsis'>{{record.createTime}}</p>
                                 </div>
                                 <span class="mui-tip {{record.type==1?'greenColor':'redColor'}}" style="font-size: 20px;">
-                        {{record.type==1?'+':'-'}}{{record.money}}
+                        {{record.type==1?'+':'-'}}{{record.money.toFixed(2)}}
                     </span>
                             </a>
                         </li>
