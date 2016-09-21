@@ -110,15 +110,18 @@
                 $('#header').addClass('top')
             }
         });
-        $("#searchBookInput").on('keydown',function(e){
-            if(e.keyCode == 13){
-                toSearchPage($(this).val());
-            }
-        });
-        $("#mui-icon-search").on('tap',function(){
-            var keyword = $("#searchBookInput").val();
-            toSearchPage(keyword);
-        });
+        $("#searchBookInput").on('tap',function(){
+            window.location.href="indexPage_searchBook_result.html";
+        })
+        // $("#searchBookInput").on('keydown',function(e){
+        //     if(e.keyCode == 13){
+        //         toSearchPage($(this).val());
+        //     }
+        // });
+        // $("#mui-icon-search").on('tap',function(){
+        //     var keyword = $("#searchBookInput").val();
+        //     toSearchPage(keyword);
+        // });
         function toSearchPage(keyword){
             keyword = $.trim(keyword);
             if(keyword){
