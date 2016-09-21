@@ -6,40 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>云书</title>
-    <link rel="stylesheet" href="../source/mui/css/mui.css">
-    <link rel="stylesheet" href="../source/css/public.css">
-    <script src="http://api.map.baidu.com/api?v=2.0&ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG"></script>
+    <!-- // <script src="http://api.map.baidu.com/api?v=2.0&ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG"></script> -->
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
-    <script src="../source/mui/js/mui.js"></script>
-    <script src="../source/js/ajax.js"></script>
 </head>
 <body>
 <script>
-$.when(getCurrentCity()).done(function(data){
-    var cityName = data.address.city;
-    if(cityName){
-        $.when(searchCity(cityName)).done(function(cityData){
-            if(typeof cityData == "string"){
-                cityData = JSON.parse(cityData);
-            }
-            if(cityData.resultCode == 200){
-                if(!cityData.data.cities.length){
-                    // 一个未知的城市
-                    window.localStorage.setItem("cityName","杭州市");
-                    window.localStorage.setItem("cityId","1");
+wx.ready(function(data) {
+    wx.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            alert(latitude);
+            $.ajax({
+                url: 'http://api.map.baidu.com/geocoder/v2/?ak=Ogc3s9tT2jSfg8GvYBScols0iyeSoUGG&callback=renderReverse&location=' + latitude + ',' + longitude + '&output=json&pois=1&coordtype=wgs84ll',
+                type: "GET",
+                dataType: "jsonp",
+                jsonp: "callback",
+                success: function(data){
+                    console.log(data);
                 }
-                else{
-                    window.localStorage.setItem("cityName",cityData.data.cities[0].name);
-                    window.localStorage.setItem("cityId",cityData.data.cities[0].id);
-                }
-                window.location.href="indexPage.html";
-            }
-        });
-    }
-    else{
-        mui.toast("获取城市出错");
-    }
+            });
+        },
+        cancel: function () {
+            
+        }
+    });
 });
+// $.when(getCurrentCity()).done(function(data){
+//     var cityName = data.address.city;
+//     if(cityName){
+//         $.when(searchCity(cityName)).done(function(cityData){
+//             if(typeof cityData == "string"){
+//                 cityData = JSON.parse(cityData);
+//             }
+//             if(cityData.resultCode == 200){
+//                 if(!cityData.data.cities.length){
+//                     // 一个未知的城市
+//                     window.localStorage.setItem("cityName","杭州市");
+//                     window.localStorage.setItem("cityId","1");
+//                 }
+//                 else{
+//                     window.localStorage.setItem("cityName",cityData.data.cities[0].name);
+//                     window.localStorage.setItem("cityId",cityData.data.cities[0].id);
+//                 }
+//                 window.location.href="indexPage.html";
+//             }
+//         });
+//     }
+//     else{
+//         mui.toast("获取城市出错");
+//     }
+// });
 
 
 </script>

@@ -3316,10 +3316,11 @@ var cookieObj = getCookieObj();
 	currentCityId = cookieObj.cityInfo;
 	currentCityName = decodeURI(cookieObj.cityName);
 	if(!currentCityId){
-		currentCityId = 1;
+		// currentCityId = 1;
+    window.location.href = "index.html";
 	}
 	if(!currentCityName){
-		currentCityName = "杭州";
+		// currentCityName = "杭州";
 	}
 function getCookieObj(){
 	var cookie = document.cookie;
