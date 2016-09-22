@@ -3317,7 +3317,9 @@ var cookieObj = getCookieObj();
 	currentCityName = decodeURI(cookieObj.cityName);
 	if(!currentCityId){
 		// currentCityId = 1;
-    window.location.href = "index.html";
+    if(window.location.pathname.search("index.html")<0){
+      window.location.href = "index.html";
+    }
 	}
 	if(!currentCityName){
 		// currentCityName = "杭州";
