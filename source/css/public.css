@@ -12,22 +12,19 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
 }
 .verticalCenter {
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
 }
 .horizontalCenter {
   position: absolute;
   left: 50%;
-  -ms-transform: translate(-50%, 0);
-      transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
   -webkit-transform: translate(-50%, 0);
 }
 .ellipsis {
@@ -261,8 +258,7 @@ body {
   background-color: #eee;
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
   left: -5px;
   z-index: 1;
@@ -276,8 +272,7 @@ body {
   background-color: #eee;
   position: absolute;
   top: 50%;
-  -ms-transform: translate(0, -50%);
-      transform: translate(0, -50%);
+  transform: translate(0, -50%);
   -webkit-transform: translate(0, -50%);
   right: -5px;
   z-index: 1;
@@ -299,6 +294,51 @@ body {
   background-color: #fff;
   padding: 6px 23px;
 }
+.couponDetail:before,
+.couponDetail:after {
+  display: none;
+}
+.couponDetail .topPart {
+  position: relative;
+  border-bottom: 1px dashed #c8c7cc;
+  padding: 25px 0 0px;
+}
+.couponDetail .topPart .beforeFakeClass {
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  bottom: -5px;
+  left: -5px;
+  z-index: 1;
+}
+.couponDetail .topPart .afterFakeClass {
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  bottom: -5px;
+  right: -5px;
+  z-index: 1;
+}
+.couponDetail .topPart table {
+  margin: 20px 15px;
+  font-size: 12px;
+}
+.couponDetail .topPart table th {
+  width: 65px;
+  text-align: right;
+  vertical-align: top;
+  font-weight: normal;
+}
+.couponDetail .topPart table td {
+  color: #c8c7cc;
+}
+.couponDetail .bottomPart {
+  padding: 20px 0 0;
+}
 .ys-mui-search .rightSearchIcon {
   display: none;
 }
@@ -318,4 +358,3 @@ body {
 .ys-mui-search.mui-active .rightSearchIcon .mui-icon {
   font-size: 20px;
 }
-/*# sourceMappingURL=public.css.map */

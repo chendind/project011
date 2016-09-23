@@ -3730,9 +3730,41 @@ function editCookie(cityId){
 }
 
 
-
-
-
+// 获取优惠券
+function getCouponsList(page){
+    var ajax = $.ajax({
+        url: baseUrl +"/users/coupons/page/"+page,
+        type: "GET"
+    });
+    return ajax;
+}
+// 添加优惠券
+function exchangeCoupon(code){
+    var ajax = $.ajax({
+        url: baseUrl +"/users/coupons/exchange",
+        data:{
+          "code": code
+        },
+        type: "POST"
+    });
+    return ajax;
+}
+// 优惠券详情
+function getCouponById(id){
+    var ajax = $.ajax({
+        url: baseUrl +"/users/coupons/id/"+id,
+        type: "GET"
+    });
+    return ajax;
+}
+// 获得过期的优惠券
+function getExpiredCouponsList(page){
+  var ajax = $.ajax({
+        url: baseUrl +"/users/coupons/expired/page/"+page,
+        type: "GET"
+    });
+    return ajax;
+}
 
 
 

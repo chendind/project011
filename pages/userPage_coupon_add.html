@@ -21,7 +21,7 @@
 
 <body style="background-color: #fff;">
     <div style="width: 100%;height: 350px;top: 40%;" class="veryCenter innerCenter">
-        <img style="width: 100px;height: 100px;" src="../source/webslice/4.2_4.4_integral&coin/integral_icon.png" alt="">
+        <img style="width: 100px;height: 100px;" src="../source/webslice/4.9_coupon/combined-shape-copy-2@2x.png" alt="">
         <div style="margin: 10px 0 20px;">
             <p class="linkColor" style="font-size: 18px;">添加优惠券</p>
         </div>
@@ -33,18 +33,38 @@
             </form>
         </div>
         <div style="margin-top: 50px;">
-            <a id="addCouponButton" class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;">
+            <a class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;" v-tap="exchangeCouponButton">
                 添加
             </a>
         </div>
     </div>
-    <script>
-    mui.init();
-    mui('.mui-scroll-wrapper').scroll();
-    $("#addCouponButton").on('tap', function() {
-        mui.toast("添加成功");
-    });
-    </script>
+<script>
+mui.init();
+var vm = new Vue({
+    el: 'body',
+    data: {
+        couponCode: ""
+    },
+    method: {
+        exchangeCouponButton: function(){
+            if(this.couponCode != ""){
+                $.when(exchangeCoupon(this.couponCode)).done(function(data){
+                    if(data.resultCode == 200){
+                        mui.toast("添加成功");
+                        self.couponCode == "";
+                    }
+                })
+            }
+            else{
+                mui.toast("请输入兑换码");
+            }
+        }
+    },
+    created: function(){
+        
+    }
+});
+</script>
 </body>
 
 </html>

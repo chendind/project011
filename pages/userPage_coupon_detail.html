@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>云书</title>
+    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <link rel="stylesheet" href="../source/css/public.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/jquery-1.11.1.min.js"></script>
+    <script src="../source/mui/js/mui.js"></script>
+    
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/public.js"></script>
+</head>
+<body style="background-color: #3aa337;">
+    <div class="mui-content" style="padding: 12px;background-color: transparent;">
+        <div class="coupon couponDetail" style="background-color: #fff;">
+            <div class="topPart">
+                <div class="beforeFakeClass" style="background-color: #3aa337;"></div>
+                <div class="innerCenter">
+                    <img class="imageIcon" style="height: 75px;margin-bottom: 10px;" src="../source/webslice/4.9_coupon/bitmap-copy@2x.png" alt="">
+                    <div>
+                        <span class="mui-h5">外婆家</span>
+                    </div>
+                    <div>
+                        <sapn class="mui-h4">满200减50</span>
+                    </div>
+                    <div>
+                        <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" style="min-width: 150px;border-radius: 5px;margin-top: 20px;background-color: #3aa337;padding: 8px 12px;border: none;">
+                            立即使用
+                        </button>
+                    </div>
+                </div>
+                <table>
+                    <tr>
+                        <th>使用说明：</th>
+                        <td>最低消费为200元人民币，适用于杭州所有连锁店的任意商品消费；不适用于适用范围外的其它产品。</td>
+                    </tr>
+                    <tr>
+                        <th>可用时间：</th>
+                        <td>最低消费为200元人民币，适用于杭州所有连锁店的任意商品消费；不适用于适用范围外的其它产品。</td>
+                    </tr>
+                    <tr>
+                        <th>联系电话：</th>
+                        <td><a href="tel:0571-88888888">0571-88888888</a></td>
+                    </tr>
+                </table>
+                <div class="afterFakeClass" style="background-color: #3aa337;"></div>
+            </div>
+            <div class="bottomPart">
+                <div style="margin: 0px 15px;">
+                    <img style="width: 100%;" src="../source/images/mealsPublic.png" alt="">
+                </div>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a href="" class="mui-navigate-right">公众号</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a href="" class="mui-navigate-right">下载APP</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a href="" class="mui-navigate-right">超值晚餐</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            
+    </div>
+<script>
+mui.init();
+var params = getQueryData();
+if(params&&params.couponId){
+    
+}
+else{
+    // mui.alert("查询参数错误","",["确定"],function(){
+    //     mui.back();
+    // });
+}
+var vm = new Vue({
+    el: 'body',
+    data: {
+        
+    },
+    created: function(){
+        var self = this;
+        // $.when(getCouponById(params.couponId)).done(function(data){
+        //     if(data.resultCode == 200){
+        //         console.log(data);
+        //     }
+        // });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+<html>

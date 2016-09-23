@@ -64,7 +64,7 @@ var vm = new Vue({
     },
     created: function(){
         var self = this;
-        $.when(getCouponsList(1)).done(function(data){
+        $.when(getExpiredCouponsList(1)).done(function(data){
             if(data.resultCode == 200){
                 self.couponList = data.data.unexpiredCoupons;
             }

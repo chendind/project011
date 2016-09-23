@@ -256,6 +256,52 @@ body{
 		padding: 6px 23px;
 	}
 }
+.couponDetail{
+	&:before,&:after{
+		display: none;
+	}
+	.topPart{
+		position: relative;
+		border-bottom: 1px dashed @lineColor;
+		padding: 25px 0 0px;
+		.beforeFakeClass{
+			position: absolute;
+			display: block;
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			bottom: -5px;
+			left: -5px;
+			z-index: 1;
+		}
+		.afterFakeClass{
+			position: absolute;
+			display: block;
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			bottom: -5px;
+			right: -5px;
+			z-index: 1;
+		}
+		table{
+			margin: 20px 15px;
+			font-size: 12px;
+			th{
+				width: 65px;
+				text-align: right;
+				vertical-align: top;
+				font-weight: normal;
+			}
+			td{
+				color: @lineColor;
+			}
+		}
+	}
+	.bottomPart{
+		padding: 20px 0 0;
+	}
+}
 .ys-mui-search{
     .rightSearchIcon{
         display: none;

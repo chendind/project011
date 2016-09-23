@@ -273,14 +273,7 @@ function changePay(tradeNo,change) {
     });
     return ajax;
 }
-// 获取优惠券
-function getCouponsList(page){
-    var ajax = $.ajax({
-        url: baseUrl +"/users/coupons/page/"+page,
-        type: "GET"
-    });
-    return ajax;
-}
+
 
 
 
