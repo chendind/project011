@@ -16,6 +16,7 @@
     
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
@@ -75,7 +76,7 @@
                     </span>
                     <span class="mui-tab-label">我的零钱</span>
                 </a>
-                <a id="myCoupon" class="rightBorder">
+                <a data-href="userPage_coupon.html" class="rightBorder">
                     <span class="mui-icon mui-text blueColor" v-cloak>
                         {{coupon}}
                         <span style="font-size: 11px;">张</span>
@@ -159,9 +160,6 @@
     </div>
     <script>
     mui.init();
-    $("#myCoupon").on('tap',function(){
-        mui.toast("功能正在开发中");
-    });
     var vm = new Vue({
         el: "body",
         data: {

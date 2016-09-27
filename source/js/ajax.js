@@ -3329,11 +3329,11 @@ function getCookieObj(){
 	var cookieObj = {};
   // if(!cookie){
     // 测试用
-    document.cookie = "Token=b88a7979a2192ebba5e18b59f5bfa7a2";
-    document.cookie = "cityInfo=1"; 
-    document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
-    document.cookie = "utrace=1bba7fcb571bc0cc8e82fefde3eea763";
-    document.cookie = "isLogin=true";
+    // document.cookie = "Token=b88a7979a2192ebba5e18b59f5bfa7a2";
+    // document.cookie = "cityInfo=1"; 
+    // document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
+    // document.cookie = "utrace=1bba7fcb571bc0cc8e82fefde3eea763";
+    // document.cookie = "isLogin=true";
   // }
 	if(cookie){
 		var arr = cookie.split("; ");
@@ -3356,11 +3356,11 @@ function getCookieObj(){
 function successHandle(data){
 	if(data.resultCode == 402){
 		// 登录超时
-		// window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
-		// 						"&redirect_uri="+
-		// 						baseUrl2 + "/wechat/login?redirectUrl="+
-		// 						baseUrl2 + "/pages/indexPage.html"+
-		// 						"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
+		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+
+								"&redirect_uri="+
+								baseUrl2 + "/wechat/login?redirectUrl="+
+								baseUrl2 + "/pages/indexPage.html"+
+								"&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect";
 	}
 	else if(data.resultCode == 417){
 		// 未绑定手机号 作统一处理
