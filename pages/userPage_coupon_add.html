@@ -13,7 +13,8 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
+    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
@@ -33,7 +34,7 @@
             </form>
         </div>
         <div style="margin-top: 50px;">
-            <a class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;" v-tap="exchangeCouponButton">
+            <a class="mui-btn mui-btn-primary mui-btn-long" style="border-radius: 5px;" v-tap="exchangeCouponButton()">
                 添加
             </a>
         </div>
@@ -45,7 +46,7 @@ var vm = new Vue({
     data: {
         couponCode: ""
     },
-    method: {
+    methods: {
         exchangeCouponButton: function(){
             if(this.couponCode != ""){
                 $.when(exchangeCoupon(this.couponCode)).done(function(data){
