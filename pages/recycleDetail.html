@@ -1,0 +1,265 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta content="telephone=no" name="format-detection" />
+<meta name="keywords" content="seokeywords"/>
+<meta name="description" content="seodescription"/>
+<link rel="stylesheet" href="css/weui.min.css"/>
+<title>捐书详情</title>
+<style>
+	@font-face {
+	font-family: 'icomoon';
+	src:url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+	}
+	body{font-family: 'icomoon';background-color: #eeeeee;}
+	*{margin:0;padding:0;}
+	a{text-decoration: none;}
+	.container{width:100%;margin-bottom:50px;}
+	.weui_cell{height: 78px;}
+	.header{background: #56be4b;margin-top: 0px!important;}
+	.header1{background: #BDBDBD;margin-top: 0px!important;}
+	.weui_cells{margin-top: 10px;}
+	.detailType{font-size: 17px;color: #fff;}
+	.detailTip{font-size: 13px;color: #fff;}
+
+	.orderDetail .weui_cell{height: 28px;}
+	.orderDetail .weui_cell .weui_cell_bd p{font-size: 15px;color: #333;}
+	.orderDetail .weui_cell .weui_cell_hd p{font-size: 15px;color: #333;margin-right: 27px;}
+	.orderDetail .weui_cell .weui_cell_ft span{font-size: 15px;color: #666;}
+	.orderDetail .weui_cell .weui_cell_bd span{font-size: 15px;color: #666;}
+
+	.confirm{width:100%;height: 49px;background: #fff;position: fixed;bottom: 0;border-top: 1px solid #e5e5e5;}
+	.confirm .cancel{width: 49%;float: left;text-align: center;line-height: 49px;color: #016df1;}
+	.confirm .ensure{width: 49%;float:left;text-align: center;line-height: 49px;color: #016df1;}
+	.confirm .line{width: 1%;float: left;font-size: 26px;color: #e5e5e5;margin-top: 0.5%;}
+
+	.weui_dialog{width: 270px;height: 104px;border-radius: 6px;}
+	.weui_dialog_ft{margin-top: 7px;}
+	.weui_btn_dialog.primary,.weui_btn_dialog.default{color: #0076ff;}
+	.weui_mask{display: none;}
+	.weui_dialog{display: none;}
+</style>
+<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
+<script type="text/javascript" src="js/vue.js" ></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script>
+</script>
+</head>
+<body id="app">
+	<div class="container">
+		<div v-if="detail.status != 2" class="weui_cells weui_cells_access header">
+		    <a class="weui_cell" href="#">
+		        <div class="weui_cell_hd">
+		            <img v-if="detail.status !=2 " src="img/bingo.png" alt="" style="width:25px;height:25px;margin-right:12px;display:block;margin-top:-26px;">
+		            <img v-else src="img/xx.png" alt="" style="width:25px;height:25px;margin-right:12px;display:block;margin-top:-26px;">
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <p class="detailType" v-if="detail.status == 0">预约成功</p>
+		            <p class="detailType" v-if="detail.status == 1">已完成</p>
+		            <p class="detailType" v-if="detail.status == 2">预约取消</p>
+		            <p class="detailTip">感谢您预约了我们的捐书上门服务，您的善意将会让我们的地球变得更加美丽。</p>
+		        </div>
+		    </a>
+		</div>
+		<div v-else class="weui_cells weui_cells_access header1">
+		    <a class="weui_cell" href="#">
+		        <div class="weui_cell_hd">
+		            <img v-if="detail.status !=2 " src="img/bingo.png" alt="" style="width:25px;height:25px;margin-right:12px;display:block;margin-top:-26px;">
+		            <img v-else src="img/xx.png" alt="" style="width:25px;height:25px;margin-right:12px;display:block;margin-top:-26px;">
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <p class="detailType" v-if="detail.status == 0">预约成功</p>
+		            <p class="detailType" v-if="detail.status == 1">已完成</p>
+		            <p class="detailType" v-if="detail.status == 2">预约取消</p>
+		            <p class="detailTip">感谢您预约了我们的捐书上门服务，您的善意将会让我们的地球变得更加美丽。</p>
+		        </div>
+		    </a>
+		</div>		
+		<div class="weui_cells orderDetail">
+		    <div class="weui_cell">
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <p style="font-weight: bold;">订单详情</p>
+		        </div>
+		        <div class="weui_cell_ft">
+		            <span style="font-size:12px;">单号：{{detail.no}}</span>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>预约时间</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.appointTime}}</span>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>联系人&nbsp;&nbsp;&nbsp;&nbsp;</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.userName}}</span>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>联系电话</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.userPhone}}</span>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>预约地址</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.address}}</span>
+		        </div>
+		    </div>
+		    <!-- <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>学文苑楼A单元603</span>
+		        </div>
+		    </div> -->
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>预约备注</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.remark}}</span>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>预计数量</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.count}}本</span>
+		        </div>
+		    </div>
+		</div>	
+		<div class="weui_cells orderDetail">
+		    <div class="weui_cell">
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <p style="font-weight: bold;">上门收书人信息</p>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>收书人&nbsp;&nbsp;&nbsp;&nbsp;</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span>{{detail.ceoName}}</span>
+		        </div>
+		    </div>
+		    <div class="weui_cell">
+		    	<div class="weui_cell_hd">
+		            <p>联系电话</p>
+		        </div>
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <span style="color:#016df1;"><a href="cloudbook://app/tel/{{detail.ceoPhone}}">{{detail.ceoPhone}}</a></span>
+		        </div>
+		    </div>
+		</div>		
+	</div>
+	<div class="confirm">
+		<div class="cancel" v-if="detail.status==0" v-on:click="cancelOrder">取消预约</div>
+		<div class="cancel" v-else><a href="cloudbook://app/backMain">随便逛逛</a></div>
+		<div class="line">|</div>
+		<div class="ensure">再次预约</div>
+	</div>
+	<div class="weui_dialog_confirm">
+	    <div class="weui_mask"></div>
+	    <div class="weui_dialog">
+	        <div class="weui_dialog_hd"><strong class="weui_dialog_title">确定取消吗</strong></div>
+	        <div class="weui_dialog_ft">
+	        	<a href="##" class="weui_btn_dialog default">取消</a>
+	            <a href="##" class="weui_btn_dialog primary" v-on:click="ensure">确定</a>
+	        </div>
+	    </div>
+	</div>
+	<script>
+		$(function(){
+			var data = {
+				detail:{}
+			}
+			var detailId = getQueryStr('id');
+
+			$.ajax({
+				type:'get',
+				url:'http://120.26.94.240:8989/books/collections/records/'+ detailId,
+				async:false,
+				dataType:'json',
+				beforeSend: function(request) {
+                    request.setRequestHeader("token",getQueryStr("token"));
+                    request.setRequestHeader("OriginType","h5");
+                },
+				success:function(ret){
+					console.log(ret);
+					if(ret.resultCode==200)
+					{
+					     data.detail = ret.data.record;
+					     console.log(data.detail)
+					}
+				},
+				error:function()
+				{
+					//异常处理
+				}
+			});
+			var cancelOrder = function(){
+				$('.weui_dialog,.weui_mask').show();
+			}
+
+			var ensure = function(){
+				$.ajax({
+					type:'post',
+					url:'http://120.26.94.240:8989/books/collections/' + detailId + '/cancel',
+					async:false,
+					dataType:'json',
+					beforeSend: function(request) {
+                    	request.setRequestHeader("token",getQueryStr("token"));
+                        request.setRequestHeader("OriginType","h5");
+                	},
+					success:function(ret){
+						console.log(ret);
+						if(ret.resultCode==200)
+						{
+						     $('.weui_dialog,.weui_mask').hide();
+						     window.location.href = window.location.href;
+						}
+					},
+					error:function()
+					{
+						//异常处理
+					}
+				});
+			}
+
+			$('.ensure').click(function(){
+				window.location.href="Confirmation.html";
+			})
+
+			new Vue({
+			  el: '#app',
+			  data: data,
+			  methods:{
+			  	cancelOrder: cancelOrder,
+			  	ensure: ensure
+			  }
+			})
+		})
+		
+	</script>
+</body>
+</html>
