@@ -3,10 +3,11 @@ function getAllMyInfo() {
     var ajax = $.ajax({
         url: baseUrl + "/users/",
         type: "GET",
-        cache:false
+        cache: false
     });
     return ajax;
 }
+
 // 获取所有
 function getAllMyAddress() {
     var ajax = $.ajax({
@@ -60,9 +61,9 @@ function addAddress(data) {
     return ajax;
 }
 // 修改地址
-function editAddress(id,data) {
+function editAddress(id, data) {
     var ajax = $.ajax({
-        url: baseUrl + "/users/addresses/"+id,
+        url: baseUrl + "/users/addresses/" + id,
         type: "PUT",
         data: data,
     });
@@ -117,7 +118,7 @@ function getOrderList(page, status) {
 function getScore() {
     var ajax = $.ajax({
         url: baseUrl + "/users/profiles/infos",
-        cache:false
+        cache: false
     });
     return ajax;
 }
@@ -214,27 +215,27 @@ function orderDetail(tradeNo) {
     return ajax;
 }
 // 微信支付
-function wechatPay(tradeNo,change) {
+function wechatPay(tradeNo, change) {
     var ajax = $.ajax({
         url: baseUrl + "/trade/wxPayParams",
         type: "POST",
-        data:{"tradeNo":tradeNo,"payType":"0","change":change},
+        data: { "tradeNo": tradeNo, "payType": "0", "change": change },
     });
     return ajax;
 }
 // 修改留言
-function changeMessage(tradeNo,message) {
+function changeMessage(tradeNo, message) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/"+tradeNo+"/message",
+        url: baseUrl + "/orders/" + tradeNo + "/message",
         type: "PUT",
-        data:{"message":message},
+        data: { "message": message },
     });
     return ajax;
 }
 // 修改订单地址
-function editOrderPlace(tradeNo,aid) {
+function editOrderPlace(tradeNo, aid) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/"+tradeNo+"/address/"+aid,
+        url: baseUrl + "/orders/" + tradeNo + "/address/" + aid,
         type: "PUT",
     });
     return ajax;
@@ -242,56 +243,67 @@ function editOrderPlace(tradeNo,aid) {
 // 取消订单
 function cancelOrder(tradeNo) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/"+tradeNo+"/close",
+        url: baseUrl + "/orders/" + tradeNo + "/close",
         type: "PUT",
     });
     return ajax;
 }
 //查询物流信息
-function expressDetail(tradeNo,company,isYun,expressNo) {
+function expressDetail(tradeNo, company, isYun, expressNo) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/"+tradeNo+"/express",
+        url: baseUrl + "/orders/" + tradeNo + "/express",
         type: "POST",
-        data:{"company":company,"isYunExpress":isYun,"expressNumber":expressNo},
+        data: { "company": company, "isYunExpress": isYun, "expressNumber": expressNo },
     });
     return ajax;
 }
 // 申请退款
 function applyRefund(tradeNo) {
     var ajax = $.ajax({
-        url: baseUrl + "/orders/"+tradeNo+"/cancel",
+        url: baseUrl + "/orders/" + tradeNo + "/cancel",
         type: "PUT",
     });
     return ajax;
-}                           
+}
 // 零钱支付
-function changePay(tradeNo,change) {
+function changePay(tradeNo, change) {
     var ajax = $.ajax({
-        url: baseUrl +"/changePay/success",
+        url: baseUrl + "/changePay/success",
         type: "POST",
-        data:{"change":change*100,"tradeNo":tradeNo}
+        data: { "change": change * 100, "tradeNo": tradeNo }
     });
     return ajax;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 捐书列表
+function donateList(page) {
+    var ajax = $.ajax({
+        url: baseUrl + "/books/collections/records/page/" + page,
+        type: "GET",
+    });
+    return ajax;
+}
+//提交捐书
+function donateBook(data) {
+    var ajax = $.ajax({
+        url: baseUrl + "/books/collections/apply",
+        type: "POST",
+        data:data
+    });
+    return ajax;
+}
+// 捐书详情
+function donateBookDetail(id) {
+    var ajax = $.ajax({
+        url: baseUrl + "/books/collections/records/"+id,
+        type: "GET",
+    });
+    return ajax;
+}
+// 取消预约
+function cancelDonate(id) {
+    var ajax = $.ajax({
+        url: "/books/collections/"+id+"/cancel",
+        type: "POST",
+    });
+    return ajax;
+}

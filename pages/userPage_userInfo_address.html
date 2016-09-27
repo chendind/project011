@@ -13,7 +13,6 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
@@ -90,21 +89,31 @@
         methods: {
             editAddress: function(id) {
                 mui.openWindow({
-                    url: "userPage_userInfo_addNewAddress.html?" + encodeObj({"id":id})
+                    url: "userPage_userInfo_addNewAddress.html?" + encodeObj({
+                        "id": id
+                    })
                 })
             },
             choosePlace: function(id) {
+                console.log(getQueryData());
                 if (window.location.search) {
                     var tradeNo;
                     if (getQueryData().tradeNo) {
                         tradeNo = getQueryData().tradeNo;
-                    }else{
+                        $.when(editOrderPlace(tradeNo, id)).done(function(data) {
+                            mui.back();
+                        })
+                    } else if (getQueryData().orderNo) {
                         tradeNo = getQueryData().orderNo;
+                        $.when(editOrderPlace(tradeNo, id)).done(function(data) {
+                            mui.back();
+                        })
+                    } else if (getQueryData().donateBook) {
+                        console.log('test2');
+                        window.location.href = 'Confirmation.html?' + encodeObj({
+                            addressId: id
+                        })
                     }
-                    
-                    $.when(editOrderPlace(tradeNo,id)).done(function(data) {
-                        mui.back();
-                    });
                 }
             }
         },

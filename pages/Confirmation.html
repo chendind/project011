@@ -1,194 +1,386 @@
 <!DOCTYPE>
 <html>
+
 <head>
-<meta charset="utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-<meta content="telephone=no" name="format-detection" />
-<meta name="keywords" content="seokeywords"/>
-<meta name="description" content="seodescription"/>
-<link rel="stylesheet" href="css/weui.min.css"/>
-<title>确认预约</title>
-<style>
-	@font-face {
-	font-family: 'icomoon';
-	src:url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
-	font-weight: normal;
-	font-style: normal;
-	}
-	body{font-family: 'icomoon';background-color: #eeeeee;}
-	*{margin:0;padding:0;}
-	a{text-decoration: none;}
-	.container{width:100%;}
-	.weui_cell{height: 78px;}
-	.weui_cells{margin-top: 10px;}
-	.userName{font-size: 15px;color: #333;}
-	.userAddress{font-size: 14px;color: #666;}
-	.weui_label{color: #333;font-size: 14px;}
-	.time{height: 48px;}
-	.time .weui_cell{height: 28px;}
-	.remark{height: 48px;}
-	.remark .weui_cell{height: 28px;}
-	.num{height: 48px;}
-	.num .weui_cell{height: 28px;}
-	.remarkInput,.numInput{height: 46px;border:none;font-size: 14px;text-align: right;}
-	.preScore{font-size: 12px;color: #999;margin:8px 0 0 15px;}
-	.confirm{position: fixed;height: 85px;bottom: 0;width: 100%;}
-	.confirm p{font-size: 14px;color: #666;text-align: center;}
-	.confirm .ensure{height: 49px;text-align: center;line-height: 49px;color: #fff;font-size: 17px;background: #016df1;margin-top: 14px;}
-	.checkboxDiv{display:inline-block;width: 16px;height: 16px;border-radius: 10px;margin-right: 5px;background: url('img/choice_off.png') no-repeat;background-size: 16px 16px;vertical-align: -3px;}
-	.A{background: url('img/choice_on.png') no-repeat; background-size: 16px 16px; }
-	.weui_dialog{width: 270px;height: 104px;border-radius: 6px;}
-	.weui_dialog_ft{margin-top: 7px;}
-	.weui_btn_dialog.primary,.weui_btn_dialog.default{color: #0076ff;}
-	.weui_mask{display: none;}
-	.weui_dialog{display: none;}
-</style>
-<script type="text/javascript" src="js/jquery-2.1.4.min.js" ></script>
-<script type="text/javascript" src="js/vue.js"></script>
-<script type="text/javascript" src="js/encoding-indexes.js" ></script>
-<script type="text/javascript" src="js/encoding.js"></script>
-<script type="text/javascript" src="js/common.js"></script>
-<script>
-</script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="keywords" content="seokeywords" />
+    <meta name="description" content="seodescription" />
+    <link rel="stylesheet" href="../source/css/weui.min.css" />
+    <!-- <link rel="stylesheet" href="../source/mui/css/mui.css"> -->
+    <!-- <link rel="stylesheet" href="../source/css/mui_overwrite.css"> -->
+    <title>确认预约</title>
+    <style>
+    @font-face {
+        font-family: 'icomoon';
+        src: url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
+        font-weight: normal;
+        font-style: normal;
+    }
+    
+    body {
+        font-family: 'icomoon';
+        background-color: #eeeeee;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    .container {
+        width: 100%;
+    }
+    
+    .weui_cell {
+        height: 78px;
+    }
+    
+    .weui_cells {
+        margin-top: 10px;
+    }
+    
+    .userName {
+        font-size: 15px;
+        color: #333;
+    }
+    
+    .userAddress {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    .weui_label {
+        color: #333;
+        font-size: 14px;
+    }
+    
+    .time {
+        height: 48px;
+    }
+    
+    .time .weui_cell {
+        height: 28px;
+    }
+    
+    .remark {
+        height: 48px;
+    }
+    
+    .remark .weui_cell {
+        height: 28px;
+    }
+    
+    .num {
+        height: 48px;
+    }
+    
+    .num .weui_cell {
+        height: 28px;
+    }
+    
+    .remarkInput,
+    .numInput {
+        height: 46px;
+        border: none;
+        font-size: 14px;
+        text-align: right;
+    }
+    
+    .preScore {
+        font-size: 12px;
+        color: #999;
+        margin: 8px 0 0 15px;
+    }
+    
+    .confirm {
+        position: fixed;
+        height: 85px;
+        bottom: 0;
+        width: 100%;
+    }
+    
+    .confirm p {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        background-color: #eee;
+    }
+    
+    .confirm .ensure {
+        height: 49px;
+        text-align: center;
+        line-height: 49px;
+        color: #fff;
+        font-size: 17px;
+        background: #016df1;
+        margin-top: 14px;
+    }
+    
+    .checkboxDiv {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 10px;
+        margin-right: 5px;
+        background: url('../source/images/choice_off.png') no-repeat;
+        background-size: 16px 16px;
+        vertical-align: -3px;
+    }
+    
+    .A {
+        background: url('../source/images/choice_on.png') no-repeat;
+        background-size: 16px 16px;
+    }
+    
+    .weui_dialog {
+        width: 270px;
+        height: 104px;
+        border-radius: 6px;
+    }
+    
+    .weui_dialog_ft {
+        margin-top: 7px;
+    }
+    
+    .weui_btn_dialog.primary,
+    .weui_btn_dialog.default {
+        color: #0076ff;
+    }
+    
+    .weui_mask {
+        display: none;
+    }
+    
+    .weui_dialog {
+        display: none;
+    }
+    
+    .disabled {
+        background-color: #ccc!important;
+    }
+    </style>
+    <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../source/js/vue.js"></script>
+    <script type="text/javascript" src="../source/js/encoding-indexes.js"></script>
+    <script type="text/javascript" src="../source/js/encoding.js"></script>
+    <script src="../source/js/public.js"></script>
+    <script src="../source/mui/js/mui.min.js"></script>
+    <script type="text/javascript" src="../source/js/common.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/js/public.js"></script>
+    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax_my.js"></script>
+    <script>
+    </script>
 </head>
+
 <body id="app">
-	<div class="container">
-		<div class="weui_cells weui_cells_access">
-		    <a class="weui_cell" href="cloudbook://app/selectAddress">
-		        <div class="weui_cell_hd">
-		            <img src="img/address.png" alt="" style="width:21px;height:23px;margin-right:5px;display:block">
-		        </div>
-		        <div class="weui_cell_bd weui_cell_primary">
-		            <p class="userName"></p><span class="userPhone"></span>
-		            <p class="userAddress"></p>
-		        </div>
-		        <div class="weui_cell_ft"></div>
-		        <input hidden type="text" class="inputSchool" v-model="schoolAddressId">
-		    </a>
-		</div>
-		<div class="weui_cells weui_cells_access time">
-		    <div class="weui_cell">
-			    <div class="weui_cell_hd"><label for="" class="weui_label">预约上门时间</label></div>
-			    <div class="weui_cell_bd weui_cell_primary">
-			      <input  class="weui_input yuyueTime" type="datetime-local" value="" placeholder="" v-model="appoinTime">
-			    </div>
-		    </div>
-		</div>
-		<div class="weui_cells remark">
-		  <div class="weui_cell">
-		    <div class="weui_cell_bd weui_cell_primary">
-		      <p style="font-size:14px;color:#333;">备注</p>
-		    </div>
-		    <div class="weui_cell_ft">
-		      <input class="remarkInput"  type="text" placeholder="请在这里输入您的备注" v-model="remark">
-		    </div>
-		  </div>
-		</div>
-		<div class="weui_cells num">
-		  <div class="weui_cell">
-		    <div class="weui_cell_bd weui_cell_primary">
-		      <p style="font-size:14px;color:#333;">预计数量</p>
-		    </div>
-		    <div class="weui_cell_ft">
-		      <input class="numInput" type="tel" placeholder="请输入您大概要捐的数量" v-model="count">
-		    </div>
-		  </div>
-		</div>
-		<div>
-			<p class="preScore">预计可获得积分：<span>{{count * 50}}</span>，积分可换算零钱用于消费抵现。</p>
-		</div>				
-	</div>
-	<div class="confirm">
-		<p><input type="checkbox" name="checkbox" class="checkbox" value=""  hidden
-		><span class="checkboxDiv"></span>我已阅读并同意<a href="##" style="color:#016df1;">云书捐书服务条款</a></p>
-		<div class="ensure">立即预约</div>
-	</div>
-	<div class="weui_dialog_confirm">
-	    <div class="weui_mask"></div>
-	    <div class="weui_dialog">
-	        <div class="weui_dialog_hd"><strong class="weui_dialog_title">预定成功</strong></div>
-	        <div class="weui_dialog_ft">
-	            <a href="Confirmation.html" class="weui_btn_dialog primary">确定</a>
-	        </div>
-	    </div>
-	</div>
-	<script>
-		$(function(){
-			var data = {
-				schoolAddressId: '',
-				appoinTime:'',
-				remark:'',
-				count:''
-			}
-			//弹窗后，防止屏幕滚动，禁止掉touchmove手势
-			$('.weui_mask').on('touchmove', function (event) {
-		    		event.preventDefault();
-				});
-			//注册checkbox表单美化
-			$('.checkboxDiv').click(function(){
-				$(this).toggleClass('A');
-				var isA = $(this).hasClass('A');
-				$('.checkbox').click();
-			})
+    <div class="container">
+        <div class="weui_cells weui_cells_access">
+            <a class="weui_cell" href="userPage_userInfo_address.html?{{token}}" v-show="schoolAddressId">
+                <div class="weui_cell_hd">
+                    <img src="../source/images/address.png" alt="" style="width:21px;height:23px;margin-right:5px;display:block">
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="userName">{{address.name}}</p><span class="userPhone">{{address.phone}}</span>
+                    <p class="userAddress">{{address.school+address.dorm+address.address}}</p>
+                </div>
+                <div class="weui_cell_ft"></div>
+                <input hidden type="text" class="inputSchool" v-model="schoolAddressId">
+            </a>
+            <a class="weui_cell" href="userPage_userInfo_addNewAddress.html?{{token}}" v-show="!schoolAddressId">
+                <div class="weui_cell_hd">
+                    <img src="../source/images/address.png" alt="" style="width:21px;height:23px;margin-right:5px;display:block">
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="userName"></p><span class="userPhone"></span>
+                    <p class="userAddress">添加收货地址</p>
+                </div>
+                <div class="weui_cell_ft"></div>
+                <input hidden type="text" class="inputSchool" v-model="schoolAddressId">
+            </a>
+        </div>
+        <div class="weui_cells weui_cells_access time">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label for="" class="weui_label">预约上门时间</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input yuyueTime" type="datetime-local" v-model="appoinTime">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells remark">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p style="font-size:14px;color:#333;">备注</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input class="remarkInput" type="text" placeholder="请在这里输入您的备注" v-model="remark">
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells num">
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p style="font-size:14px;color:#333;">预计数量</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <input class="numInput" type="tel" placeholder="请输入您大概要捐的数量" v-model="count">
+                </div>
+            </div>
+        </div>
+        <div>
+            <p class="preScore">预计可获得积分：<span>{{count * 50}}</span>，积分可换算零钱用于消费抵现。</p>
+        </div>
+    </div>
+    <div class="confirm">
+        <p>
+            <input type="checkbox" name="checkbox" class="checkbox" hidden v-model="confirm"><span class="checkboxDiv A"></span>我已阅读并同意<a href="##" style="color:#016df1;">云书捐书服务条款</a></p>
+        <div class="ensure" @click="ensure" :class="{'disabled':!canSubmit}">立即预约</div>
+    </div>
+    <div class="weui_dialog_confirm">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">预定成功</strong></div>
+            <div class="weui_dialog_ft">
+                <a href="Confirmation.html" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+    <script>
+    $(function() {
+        // mui.init();
+        var data = {
+                schoolAddressId: '',
+                appoinTime: '',
+                remark: '',
+                count: ''
+            }
+            //弹窗后，防止屏幕滚动，禁止掉touchmove手势
+        $('.weui_mask').on('touchmove', function(event) {
+            event.preventDefault();
+        });
+        //注册checkbox表单美化
+        $('.checkboxDiv').click(function() {
+            $(this).toggleClass('A');
+            var isA = $(this).hasClass('A');
+            $('.checkbox').click();
+        })
 
-			
-			//点击确认预约信息
-			$('.ensure').click(function(){
-				var data1='{"userAddressId":"'+ $('.inputSchool').val() +'","appointTime":"'+ data.appoinTime +'","remark":"'+ data.remark +'","count":"'+ data.count +'"}';
-				var uint8array = new TextEncoder().encode(data1);
-				$.ajax({
-					type:'POST',
-					contentType:'application/octet-stream',
-					url:'http://120.26.94.240:8989/books/collections/apply',
-					data:uint8array,
-					processData:false,
-					async:true,
-					beforeSend: function(request) {
-                        request.setRequestHeader("token",getQueryStr("token"));
-                        request.setRequestHeader("OriginType","h5");
-                    },
-					success:function(ret){
-						if(ret.resultCode==200)
-						{
-							window.location.href = 'recycleDetail.html?token=' + getQueryStr("token") + '&id=' + ret.data.id;
-						}else{
 
-							$('.weui_dialog_title').text(ret.message);
-							$('.weui_dialog,.weui_mask').show();
-						}
-					},
-					error:function(err)
-					{
-						//异常处理
-						alert(err.resultCode)
-					}
-				});
-			})
-			//点击隐藏弹窗
-			$('.default,.primary').click(function(){
-				$('.weui_mask,.weui_dialog').hide();
-			})
-			
-			//创建vue实例
-			new Vue({
-			  el: '#app',
-			  data: data,
-			  methods:{
-			  }
-			})
-		})
-		window.onload = function(){
-			function getAddress(id,addressId,userName,userPhone,userAddress){			
-					$('.userName').text(userName);
-					$('.userPhone').text(userPhone);
-					$('.userAddress').text(userAddress);
-					$('.inputSchool').val(addressId);
-				}
-				window.getAddress = getAddress;
-		}
-	</script>
+
+        //点击隐藏弹窗
+        $('.default,.primary').click(function() {
+            $('.weui_mask,.weui_dialog').hide();
+        })
+
+        //创建vue实例
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                schoolAddressId: '',
+                appoinTime: '',
+                remark: '',
+                count: '',
+                confirm: true,
+                address: {},
+                token: encodeObj({
+                    'donateBook': '1'
+                })
+            },
+            computed: {
+                canSubmit: function() {
+                    if (this.count && this.appoinTime && this.schoolAddressId && confirm) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            },
+            methods: {
+
+                ensure: function() {
+                    //点击确认预约信息
+                    if (this.canSubmit) {
+                        var params = {
+                            "userAddressId": this.schoolAddressId,
+                            "appointTime": this.appoinTime,
+                            "remark": this.remark,
+                            "count": this.count
+                        }
+                        $.when(donateBook(params)).done(function(data) {
+                        	console.log(data);
+                            if (data.resultCode == 200) {
+                                console.log(data.data);
+                                window.location.href = 'recycleDetail.html?' + encodeObj({id:data.data.id});
+                                self.address = data.data.address;
+                                self.schoolAddressId = data.data.address.id
+                            } else {
+                                    $('.weui_dialog_title').text(data.message);
+                                    $('.weui_dialog,.weui_mask').show();
+                            }
+                        });
+                    } else {
+                        // mui.toast("请确认同意条款")
+                    }
+
+                }
+            },
+            created: function() {
+                var self = this;
+                var params = getQueryData();
+                if (params.addressId) {
+                    $.when(getOneAddress(params.addressId)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            console.log(data.data);
+                            self.address = data.data.address;
+                            self.schoolAddressId = data.data.address.id
+                        } else {
+
+                        }
+                    });
+                } else {
+                    $.when(getAllMyAddress()).done(function(data) {
+                        if (data.resultCode == 200) {
+                            console.log(data.data.list);
+                            var list = data.data.list;
+                            if (list && list.length > 0) {
+                                for (var i = 0; i < list.length; i++) {
+                                    if (list[i].isDefault == 1) {
+                                        self.address = list[i];
+                                        self.schoolAddressId = list[i].id
+                                    }
+                                }
+                            }
+
+                        } else {
+
+                        }
+                    });
+                }
+            }
+        })
+    })
+    window.onload = function() {
+        function getAddress(id, addressId, userName, userPhone, userAddress) {
+            $('.userName').text(userName);
+            $('.userPhone').text(userPhone);
+            $('.userAddress').text(userAddress);
+            $('.inputSchool').val(addressId);
+        }
+        window.getAddress = getAddress;
+    }
+    </script>
 </body>
+
 </html>

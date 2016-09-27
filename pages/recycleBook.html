@@ -51,7 +51,7 @@
 		<section class="recycleBook">
 			<p class="recycleBookTitle">云书累计已回收书籍</p>
 			<div class="recycleBookNum">
-				<div v-for="num in bookNumArr ">{{num}}</div>				
+				<div v-for="num in bookNumArr" track-by="$index">{{num}}</div>				
 				<span>本</span>
 			</div>
 			<p class="recycleTreeNum">共减少树木砍伐 <span>{{treeNum}}</span> 棵</p>

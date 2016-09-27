@@ -131,6 +131,13 @@
                                     mui.back();
                                 }
                             });
+                        } else if (queryData.donateBook) {
+                            $.when(addAddress(this.address)).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    mui.toast("保存成功");
+                                    mui.back();
+                                }
+                            });
                         } else {
                             $.when(addAddress(this.address)).done(function(data) {
                                 if (data.resultCode == 200) {
@@ -206,7 +213,7 @@
             var id;
             if (window.location.search) {
                 var data = getQueryData();
-                if (data&&data.id) {
+                if (data && data.id) {
                     $.when(getOneAddress(data.id)).done(function(data) {
                         self.$data.address = data.data.address
                         $.when(getDormList(self.address.schoolId)).done(function(data) {
