@@ -3765,10 +3765,10 @@ function getExpiredCouponsList(page){
     });
     return ajax;
 }
-// 添加优惠券
+// 获取优惠券二维码
 function getQRCodeByCouponId(couponId){
     var ajax = $.ajax({
-        url: baseUrl +"/users/coupons/qrcode/"+couponId+"/"+cookieObj.Token,
+        url: baseUrl +"/qrcode/coupon/"+couponId+"/"+cookieObj.Token,
         type: "GET"
     });
     return ajax;
