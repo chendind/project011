@@ -19,6 +19,30 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+    <script>
+    $(function(){
+        mui.init();
+        var vm = new Vue({
+            el: 'body',
+            data: {
+                couponList: []
+            },
+            methods: {
+                getQueryParams: function(couponId){
+                    return encodeURI(JSON.stringify({'couponId': couponId}));
+                }
+            },
+            created: function(){
+                var self = this;
+                $.when(getCouponsList(1)).done(function(data){
+                    if(data.resultCode == 200){
+                        self.couponList = data.data.unexpiredCoupons;
+                    }
+                });
+            }
+        });
+    });
+    </script>
 </head>
 <body>
     <div class="mui-content">
@@ -31,7 +55,7 @@
                 </div>
             </div>
             <div id="couponsList">
-                <div class="coupon" v-for="coupon in couponList" data-href="userPage_coupon_detail.html?{{encodeURI(JSON.stringify({'couponId':coupon.id}))}}">
+                <div class="coupon" v-for="coupon in couponList" data-href="userPage_coupon_detail.html?{{getQueryParams(coupon.id)}}">
                     <div class="couponBody" :style="{backgroundColor: '#'+coupon.backgroundColor}">
                         <img class="mui-pull-left" :src="coupon.logo" alt="">
                         <div class="mui-pull-right" style="text-align: right;">
@@ -55,36 +79,5 @@
             </div>
         </div>
     </div>
-<script>
-mui.init();
-var vm = new Vue({
-    el: 'body',
-    data: {
-        couponList: []
-    },
-    created: function(){
-        var self = this;
-        $.when(getCouponsList(1)).done(function(data){
-            if(data.resultCode == 200){
-                self.couponList = data.data.unexpiredCoupons;
-            }
-        });
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
 </body>
 <html>

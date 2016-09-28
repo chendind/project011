@@ -15,6 +15,7 @@
     <script src="../source/mui/js/mui.js"></script>
     
     <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
@@ -25,15 +26,15 @@
             <div class="topPart">
                 <div class="beforeFakeClass" style="background-color: #3aa337;"></div>
                 <div class="innerCenter">
-                    <img class="imageIcon" style="height: 75px;margin-bottom: 10px;" src="../source/webslice/4.9_coupon/bitmap-copy@2x.png" alt="">
+                    <img class="imageIcon" style="height: 75px;margin-bottom: 10px;" :src="coupon.logo" alt="">
                     <div>
-                        <span class="mui-h5">外婆家</span>
+                        <span class="mui-h5">{{coupon.shopName}}</span>
                     </div>
                     <div>
-                        <sapn class="mui-h4">满200减50</span>
+                        <span class="mui-h4">{{coupon.powerValue}}</span>
                     </div>
                     <div>
-                        <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" style="min-width: 150px;border-radius: 5px;margin-top: 20px;background-color: #3aa337;padding: 8px 12px;border: none;">
+                        <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" style="min-width: 150px;border-radius: 5px;margin-top: 20px;background-color: #3aa337;padding: 8px 12px;border: none;" v-tap="showQRCode(coupon.id)">
                             立即使用
                         </button>
                     </div>
@@ -41,32 +42,26 @@
                 <table>
                     <tr>
                         <th>使用说明：</th>
-                        <td>最低消费为200元人民币，适用于杭州所有连锁店的任意商品消费；不适用于适用范围外的其它产品。</td>
+                        <td>{{coupon.useDesc}}</td>
                     </tr>
                     <tr>
                         <th>可用时间：</th>
-                        <td>最低消费为200元人民币，适用于杭州所有连锁店的任意商品消费；不适用于适用范围外的其它产品。</td>
+                        <td>{{coupon.useTime}}</td>
                     </tr>
                     <tr>
                         <th>联系电话：</th>
-                        <td><a href="tel:0571-88888888">0571-88888888</a></td>
+                        <td><a href="tel:{{coupon.shopPhone}}">{{coupon.shopPhone}}</a></td>
                     </tr>
                 </table>
                 <div class="afterFakeClass" style="background-color: #3aa337;"></div>
             </div>
             <div class="bottomPart">
                 <div style="margin: 0px 15px;">
-                    <img style="width: 100%;" src="../source/images/mealsPublic.png" alt="">
+                    <img style="width: 100%;" :src="coupon.shopImg" alt="">
                 </div>
                 <ul class="mui-table-view">
-                    <li class="mui-table-view-cell">
-                        <a href="" class="mui-navigate-right">公众号</a>
-                    </li>
-                    <li class="mui-table-view-cell">
-                        <a href="" class="mui-navigate-right">下载APP</a>
-                    </li>
-                    <li class="mui-table-view-cell">
-                        <a href="" class="mui-navigate-right">超值晚餐</a>
+                    <li class="mui-table-view-cell" v-for="menu in coupon.menus">
+                        <a data-href="{{menu}}" class="mui-navigate-right">{{$key}}</a>
                     </li>
                 </ul>
             </div>
@@ -87,15 +82,24 @@ else{
 var vm = new Vue({
     el: 'body',
     data: {
-        
+        coupon: ""
+    },
+    methods: {
+        showQRCode: function(couponId){
+            $.when(getQRCodeByCouponId(couponId)).done(function(data){
+                if(data.resultCode == 200){
+
+                }
+            })
+        }
     },
     created: function(){
         var self = this;
-        // $.when(getCouponById(params.couponId)).done(function(data){
-        //     if(data.resultCode == 200){
-        //         console.log(data);
-        //     }
-        // });
+        $.when(getCouponById(params.couponId)).done(function(data){
+            if(data.resultCode == 200){
+                self.coupon = data.data.coupon;
+            }
+        });
     }
 });
 

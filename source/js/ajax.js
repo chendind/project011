@@ -3765,7 +3765,14 @@ function getExpiredCouponsList(page){
     });
     return ajax;
 }
-
+// 添加优惠券
+function getQRCodeByCouponId(couponId){
+    var ajax = $.ajax({
+        url: baseUrl +"/users/coupons/qrcode/"+couponId+"/"+cookieObj.Token,
+        type: "GET"
+    });
+    return ajax;
+}
 
 
 
