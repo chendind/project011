@@ -302,8 +302,16 @@ function donateBookDetail(id) {
 // 取消预约
 function cancelDonate(id) {
     var ajax = $.ajax({
-        url: "/books/collections/"+id+"/cancel",
+        url:baseUrl +  "/books/collections/"+id+"/cancel",
         type: "POST",
+    });
+    return ajax;
+}
+// 捐书总数
+function DonateTotalNum() {
+    var ajax = $.ajax({
+        url: baseUrl + "/books/collections/contribution",
+        type: "GET",
     });
     return ajax;
 }

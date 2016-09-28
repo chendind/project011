@@ -79,7 +79,7 @@
 </head>
 
 <body id="app">
-    <div class="container">
+    <div class="container" v-if="recordList.length>0">
         <div class="weui_cells weui_cells_access">
             <a class="weui_cell" v-for="item in recordList" v-on:click="GoToList(item)">
                 <div class="weui_cell_bd weui_cell_primary">
@@ -93,15 +93,19 @@
                 </div>
             </a>
         </div>
-        <p class="theme-loading">
+        <p class="theme-loading" v-if="waiting">
             <img src="../source/images/loading.gif" alt=""> 正在努力加载
+        </p>
+                <p class="theme-loading" v-if="recordList.length==0">
+             暂无记录
         </p>
     </div>
     <script>
     $(function() {
         var data = {
             page: 1,
-            recordList: []
+            recordList: [],
+            waiting:true
         }
         var page = 1;
         var isEnd = false;
@@ -120,7 +124,8 @@
                     isEnd = ret.data.pager.pages == page;
                     page++;
                     if (isEnd) {
-                        $('.theme-loading').remove();
+                        console.log(isEnd);
+                        vm.waiting=false;
                     }
                 }
             });
@@ -141,7 +146,7 @@
         var GoToList = function(item) {
             window.location.href = 'recycleDetail.html?' + encodeObj({id:item.id});
         }
-        new Vue({
+        var vm=new Vue({
             el: '#app',
             data: data,
             methods: {
