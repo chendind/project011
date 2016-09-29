@@ -301,7 +301,7 @@ body {
 .couponDetail .topPart {
   position: relative;
   border-bottom: 1px dashed #c8c7cc;
-  padding: 25px 0 0px;
+  padding: 25px 0;
 }
 .couponDetail .topPart .beforeFakeClass {
   position: absolute;
@@ -324,7 +324,7 @@ body {
   z-index: 1;
 }
 .couponDetail .topPart table {
-  margin: 20px 15px;
+  margin: 20px 15px 0;
   font-size: 12px;
 }
 .couponDetail .topPart table th {
