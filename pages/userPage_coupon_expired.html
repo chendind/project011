@@ -13,13 +13,32 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: 'body',
+            data: {
+                couponList: []
+            },
+            created: function() {
+                var self = this;
+                $.when(getExpiredCouponsList(1)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.couponList = data.data.unexpiredCoupons;
+                    }
+                });
+            }
+        });
+    });
+    </script>
 </head>
+
 <body>
     <div class="mui-content">
         <div style="padding: 0 12px;">
@@ -47,44 +66,12 @@
             <div class="innerCenter" style="padding: 29px 0;">
                 <div>
                     <p>
-                        <a style="color: inherit;" data-href="http://h5.qess.me/help/couponProblem.html">优惠券说明</a>
-                        ｜
+                        <a style="color: inherit;" data-href="http://h5.qess.me/help/couponProblem.html">优惠券说明</a> ｜
                         <a style="color: inherit;">过期优惠券</a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-<script>
-mui.init();
-var vm = new Vue({
-    el: 'body',
-    data: {
-        couponList: []
-    },
-    created: function(){
-        var self = this;
-        $.when(getExpiredCouponsList(1)).done(function(data){
-            if(data.resultCode == 200){
-                self.couponList = data.data.unexpiredCoupons;
-            }
-        });
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
 </body>
 <html>

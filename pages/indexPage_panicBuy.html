@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,55 +19,60 @@
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
     <style>
-    .imglist img{width:100%;}
-    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2){
-        .contant{
+    .imglist img {
+        width: 100%;
+    }
+    
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+        .contant {
             height: 240px;
         }
         .rule_black_bg .rule_content {
-            height:396px;
+            height: 396px;
         }
-        .rule_black_bg .rule_content .rule_contant_box{
-            height:330px;
+        .rule_black_bg .rule_content .rule_contant_box {
+            height: 330px;
         }
-        .rule_black_bg .rule_content .rule_contant{
-            height:330px;
+        .rule_black_bg .rule_content .rule_contant {
+            height: 330px;
             font-size: 12px;
         }
         .rule_black_bg .rule_close {
             margin-top: 20px;
         }
     }
-    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2){
-        .contant{
+    
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+        .contant {
             height: 270px;
         }
         .rule_black_bg .rule_content {
-            height:456px;
+            height: 456px;
         }
-        .rule_black_bg .rule_content .rule_contant_box{
-            height:380px;
+        .rule_black_bg .rule_content .rule_contant_box {
+            height: 380px;
         }
-        .rule_black_bg .rule_content .rule_contant{
-            height:380px;
+        .rule_black_bg .rule_content .rule_contant {
+            height: 380px;
             font-size: 13px;
         }
         .rule_black_bg .rule_close {
             margin-top: 30px;
         }
     }
-    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3){
-        .contant{
+    
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+        .contant {
             height: 290px;
         }
         .rule_black_bg .rule_content {
-            height:512px;
+            height: 512px;
         }
-        .rule_black_bg .rule_content .rule_contant_box{
-            height:420px;
+        .rule_black_bg .rule_content .rule_contant_box {
+            height: 420px;
         }
-        .rule_black_bg .rule_content .rule_contant{
-            height:420px;
+        .rule_black_bg .rule_content .rule_contant {
+            height: 420px;
         }
         .rule_black_bg .rule_close {
             margin-top: 50px;
@@ -75,226 +81,229 @@
             margin-top: 20px;
         }
     }
-</style>
+    </style>
+        <script>
+    $(function() {
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        var s_time = ""; //开始时间
+        var e_time = ""; //结束时间
+        var info_id = ""; //产品id
+        var foot_btn_open_setting_val = 0;
+
+        function showtime() {
+            s_time = s_time.replace(/-/g, "/");
+            e_time = e_time.replace(/-/g, "/");
+            var nowtime = new Date(),
+                starttime = new Date(s_time),
+                endtime = new Date(e_time);
+            if (Date.parse(starttime) > Date.parse(nowtime)) {
+                lefttime = parseInt((starttime.getTime() - nowtime.getTime()) / 1000),
+                    h = Math.floor(lefttime / (60 * 60) % 24),
+                    m = Math.floor(lefttime / 60 % 60),
+                    s = Math.floor(lefttime % 60);
+                $("#time").html("距离开始  " + checkTime(h) + ":" + checkTime(m) + ":" + checkTime(s));
+                setTimeout(showtime, 1000);
+            } else if (Date.parse(endtime) > Date.parse(nowtime)) {
+                if (foot_btn_open_setting_val == 0) {
+                    $(".footer").on({
+                        "click": function() {
+                            $.when(createOrder(info_id, 1, "panicBuy")).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    var params = {
+                                        "orderNo": data.data.tradeNumber
+                                    };
+                                    window.location.href = "cartPage_orderConfirm.html?" + encodeObj(params);
+                                }
+                            });
+                        }
+                    }, ".footer_btn");
+                    foot_btn_open_setting_val++;
+                }
+                lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000),
+                    h = Math.floor(lefttime / (60 * 60) % 24),
+                    m = Math.floor(lefttime / 60 % 60),
+                    s = Math.floor(lefttime % 60);
+                $("#time").html("距离结束  " + checkTime(h) + ":" + checkTime(m) + ":" + checkTime(s));
+                $(".footer_btn").css("background-color", "#ff3a52");
+                setTimeout(showtime, 1000);
+                $("body").on({
+                    "click": function() {
+                        $(".black_bg").hide();
+                        $(".info_error_bg").hide();
+                    }
+                }, ".info_error_bg");
+            } else {
+                $("#time").html("距离结束  00:00:00");
+                $(".footer_btn").css("background-color", "#999999");
+                $(".footer").on({
+                    "click": function() {
+                        return;
+                    }
+                }, ".footer_btn");
+            }
+        }
+        $(function() {
+            GetData();
+            $("body").on({
+                "click": function() {
+                    return;
+                }
+            }, ".contant");
+            $('.black_bg').on('touchmove', function(event) {
+                event.preventDefault();
+            });
+            $('.rule_black_bg').on('touchmove', function(event) {
+                event.preventDefault();
+            });
+            $('.net_error_bg').on('touchmove', function(event) {
+                event.preventDefault();
+            });
+            $('.info_error_bg').on('touchmove', function(event) {
+                event.preventDefault();
+            });
+            $(".contant").on({
+                "click": function() {
+                    $(".black_bg").css("top", "0px");
+                    //$(".rule_content").css("height",parseInt(window.screen.height-100)+"px");
+                    $(".black_bg").show();
+                    $(".rule_black_bg").show();
+
+                }
+            }, ".rule_tip_btn");
+            $(".rule_black_bg").on({
+                "click": function() {
+                    $(".rule_black_bg").hide();
+                    $(".black_bg").hide();
+                }
+            }, ".rule_close");
+            $("body").on({
+                "click": function() {
+                    $(".black_bg").hide();
+                    $(".info_error_bg").hide();
+                    $(".net_error_bg").hide();
+                    $(".rule_black_bg").hide();
+                }
+            }, ".black_bg");
+        });
+        //请求数据
+        function GetData() {
+            $.when(getPanicBuy()).done(function(data) {
+                if (data.resultCode == 200) {
+                    $(".contant").css("background", "url(" + data.data.detail.path + ") no-repeat");
+                    $(".contant").css("background-size", "100% 100%");
+                    $(".bookname").html(data.data.detail.name);
+                    $(".miaoshu").html(data.data.detail.introduce);
+                    $(".new_prize").html("&yen;" + data.data.detail.sellPrice);
+                    $("#sale_price").html("立省&yen;" + data.data.detail.savePrice);
+                    $("#market_price").html("市场价：&yen;" + data.data.detail.marketPrice);
+                    var imglist = data.data.detail.detail_imgs.split(',');
+                    for (var i = 0; i < imglist.length; i++) {
+                        $(".imglist").append("<img src='" + imglist[i] + "'>");
+                    }
+                    s_time = data.data.detail.startTime;
+                    e_time = data.data.detail.endTime;
+                    info_id = data.data.detail.id;
+                    showtime();
+                }
+            });
+        }
+
+    });
+    </script>
 </head>
+
 <body style="background-color:#fff;">
-<div class="contant">
-    <div class="rule_tip_btn">
-        <div class="rule_tip"></div>
-    </div>
-    <div class="desc">
-        <div class="middle">
-            <div class="text_desc">
-                <p class="bookname"></p>
-                <!--
+    <div class="contant">
+        <div class="rule_tip_btn">
+            <div class="rule_tip"></div>
+        </div>
+        <div class="desc">
+            <div class="middle">
+                <div class="text_desc">
+                    <p class="bookname"></p>
+                    <!--
                     <p class="actor">(日)清少纳言/著  周作人/译</p>
                     <p class="chubanshe">上海人民出版社</p>
                 -->
-                <p class="miaoshu"></p>
+                    <p class="miaoshu"></p>
+                </div>
+            </div>
+        </div>
+        <div class="jiage">
+            <div class="new_prize"></div>
+            <div class="old_prize">
+                <div class="img_tip"><img style="width: 33px;height: 12px;" src="../source/webview/img/panicbuy_xianshiqiang.png"></div>
+                <div class="old_prize_desc">
+                    <span id="sale_price"></span>
+                    <span id="market_price" style="text-decoration: line-through;"></span>
+                </div>
             </div>
         </div>
     </div>
-    <div class="jiage">
-        <div class="new_prize"></div>
-        <div class="old_prize">
-            <div class="img_tip"><img style="width: 33px;height: 12px;" src="../source/webview/img/panicbuy_xianshiqiang.png"></div>
-            <div class="old_prize_desc">
-                <span id="sale_price"></span>
-                <span id="market_price" style="text-decoration: line-through;"></span>
-            </div>
-        </div>
+    <div class="middle_list">
+        <div class="txt">
+            <a></a>七天质保</div>
+        <div class="txt">
+            <a></a>正品新书</div>
+        <div class="txt">
+            <a></a>闪电发货</div>
+        <div class="txt">
+            <a></a>免邮费</div>
     </div>
-</div>
-<div class="middle_list">
-    <div class="txt"><a></a>七天质保</div>
-    <div class="txt"><a></a>正品新书</div>
-    <div class="txt"><a></a>闪电发货</div>
-    <div class="txt"><a></a>免邮费</div>
-</div>
-<div class="imglist" style="margin-bottom:49px;"></div>
-<div class="footer">
-    <div class="footer_time"><span id="time"></span></div>
-    <div class="footer_btn">立即抢购</div>
-</div>
-<!--
+    <div class="imglist" style="margin-bottom:49px;"></div>
+    <div class="footer">
+        <div class="footer_time"><span id="time"></span></div>
+        <div class="footer_btn">立即抢购</div>
+    </div>
+    <!--
     作者：周小亮
     时间：2016-07-28
     描述：蒙版背景
 -->
-<div class="black_bg"></div>
-<!--
+    <div class="black_bg"></div>
+    <!--
     作者：周小亮
     时间：2016-07-28
     描述：抢购规则提示
 -->
-<div class="rule_black_bg">
-    <div class="rule_content">
-        <div class="rule_title">抢购规则</div>
-        <div class="rule_contant_box">
-            <div class="rule_contant">
-                <p>抢购活动于每天不固定时间限量开抢，先到先得，抢完为止。</p>
-                <p>本活动仅限活动页面带有“限量购”标签的书籍，用户将享受活动特殊优惠价格。</p>
-                <p>抢购成功后，用户在书籍出库之前均可申请退款，云书将在2个工作日内进行审核。收到书籍如无质量问题不可退货。若出现非人为的书籍损坏，自收到书籍7日内可联系客服申请换货。</p>
-                <p>活动过程中，不允许出现恶意购买、虚拟交易等违规操作。如出现以上行为，云书将自动取消该用户的活动资格并有权撤销违规交易及取消用户后续参加云书任何活动的权利。</p>
-                <p>本活动最终解释说明归杭州云书网络科技有限公司所有。如有任何疑问，可咨询云书客服人员，客服电话：0571-89979839。</p>
-                
+    <div class="rule_black_bg">
+        <div class="rule_content">
+            <div class="rule_title">抢购规则</div>
+            <div class="rule_contant_box">
+                <div class="rule_contant">
+                    <p>抢购活动于每天不固定时间限量开抢，先到先得，抢完为止。</p>
+                    <p>本活动仅限活动页面带有“限量购”标签的书籍，用户将享受活动特殊优惠价格。</p>
+                    <p>抢购成功后，用户在书籍出库之前均可申请退款，云书将在2个工作日内进行审核。收到书籍如无质量问题不可退货。若出现非人为的书籍损坏，自收到书籍7日内可联系客服申请换货。</p>
+                    <p>活动过程中，不允许出现恶意购买、虚拟交易等违规操作。如出现以上行为，云书将自动取消该用户的活动资格并有权撤销违规交易及取消用户后续参加云书任何活动的权利。</p>
+                    <p>本活动最终解释说明归杭州云书网络科技有限公司所有。如有任何疑问，可咨询云书客服人员，客服电话：0571-89979839。</p>
+                </div>
             </div>
         </div>
+        <div class="rule_close"></div>
     </div>
-    <div class="rule_close"></div>
-</div>
-<!--
+    <!--
     作者：周小亮
     时间：2016-07-28
     描述：网络异常提示
 -->
-<div class="net_error_bg">
-    <div class="network_error"></div>
-    <div class="network_error_txt">网络忙，请稍后再试</div>
-</div>
-<!--
+    <div class="net_error_bg">
+        <div class="network_error"></div>
+        <div class="network_error_txt">网络忙，请稍后再试</div>
+    </div>
+    <!--
     作者：周小亮
     时间：2016-07-28
     描述：错误提示
 -->
-<div class="info_error_bg">
-    <div class="info_error"></div>
-    <div class="info_error_txt">本次活动商品已抢完，下次早点来哦</div>
-</div>
-
-
-<script>
-function checkTime(i) {
-    if (i<10) {
-        i="0"+i;
-    }
-    return i;
-}
-var s_time="";//开始时间
-var e_time="";//结束时间
-var info_id="";//产品id
-var foot_btn_open_setting_val=0;
-function showtime() {
-    s_time=s_time.replace(/-/g,"/");
-    e_time=e_time.replace(/-/g,"/");
-    var nowtime=new Date(),
-    starttime=new Date(s_time),
-    endtime=new Date(e_time);
-    if(Date.parse(starttime)>Date.parse(nowtime))
-    {
-        lefttime=parseInt((starttime.getTime()-nowtime.getTime())/1000),
-        h=Math.floor(lefttime/(60*60)%24),
-        m=Math.floor(lefttime/60%60),
-        s=Math.floor(lefttime%60);
-        $("#time").html("距离开始  "+checkTime(h)+":"+checkTime(m)+":"+checkTime(s));
-        setTimeout(showtime, 1000);  
-    }
-    else if(Date.parse(endtime)>Date.parse(nowtime))
-    {
-        if(foot_btn_open_setting_val==0)
-        {
-            $(".footer").on({
-                "click": function () {
-                    $.when(createOrder(info_id,1,"panicBuy")).done(function(data){
-                        if(data.resultCode == 200){
-                            var params = {"orderNo":data.data.tradeNumber};
-                            window.location.href="cartPage_orderConfirm.html?"+encodeObj(params);
-                        }
-                    });
-                }
-            }, ".footer_btn");
-            foot_btn_open_setting_val++;
-        }
-        lefttime=parseInt((endtime.getTime()-nowtime.getTime())/1000),
-        h=Math.floor(lefttime/(60*60)%24),
-        m=Math.floor(lefttime/60%60),
-        s=Math.floor(lefttime%60);
-        $("#time").html("距离结束  "+checkTime(h)+":"+checkTime(m)+":"+checkTime(s));
-        $(".footer_btn").css("background-color","#ff3a52");
-        setTimeout(showtime, 1000);  
-        $("body").on({
-            "click": function () {
-                $(".black_bg").hide();
-                $(".info_error_bg").hide();
-            }
-        }, ".info_error_bg");
-    }else{
-        $("#time").html("距离结束  00:00:00");
-        $(".footer_btn").css("background-color","#999999");
-        $(".footer").on({
-            "click": function () {
-                return;
-            }
-        }, ".footer_btn");
-    }
-}
-$(function () {
-    GetData();
-    $("body").on({
-        "click": function () {
-            return;
-        }
-    }, ".contant");
-    $('.black_bg').on('touchmove', function (event) {
-        event.preventDefault();
-    });
-    $('.rule_black_bg').on('touchmove', function (event) {
-        event.preventDefault();
-    });
-    $('.net_error_bg').on('touchmove', function (event) {
-        event.preventDefault();
-    });
-    $('.info_error_bg').on('touchmove', function (event) {
-        event.preventDefault();
-    });
-    $(".contant").on({
-        "click": function () {
-            $(".black_bg").css("top","0px");
-            //$(".rule_content").css("height",parseInt(window.screen.height-100)+"px");
-            $(".black_bg").show();
-            $(".rule_black_bg").show();
-            
-        }
-    }, ".rule_tip_btn");
-    $(".rule_black_bg").on({
-        "click": function () {
-            $(".rule_black_bg").hide();
-            $(".black_bg").hide();
-        }
-    }, ".rule_close");
-    $("body").on({
-        "click": function () {
-            $(".black_bg").hide();
-            $(".info_error_bg").hide();
-            $(".net_error_bg").hide();
-            $(".rule_black_bg").hide();
-        }
-    }, ".black_bg");
-});
-//请求数据
-function GetData()
-{
-    $.when(getPanicBuy()).done(function(data){
-        if(data.resultCode==200){
-            $(".contant").css("background","url("+data.data.detail.path+") no-repeat");
-            $(".contant").css("background-size","100% 100%");
-            $(".bookname").html(data.data.detail.name);
-            $(".miaoshu").html(data.data.detail.introduce);
-            $(".new_prize").html("&yen;"+data.data.detail.sellPrice);
-            $("#sale_price").html("立省&yen;"+data.data.detail.savePrice);
-            $("#market_price").html("市场价：&yen;"+data.data.detail.marketPrice);
-            var imglist=data.data.detail.detail_imgs.split(',');
-            for(var i=0;i<imglist.length;i++){
-                $(".imglist").append("<img src='"+imglist[i]+"'>");
-            }
-            s_time=data.data.detail.startTime;
-            e_time=data.data.detail.endTime;
-            info_id=data.data.detail.id;
-            showtime();
-        }
-    });
-}
-
-</script>
+    <div class="info_error_bg">
+        <div class="info_error"></div>
+        <div class="info_error_txt">本次活动商品已抢完，下次早点来哦</div>
+    </div>
 </body>
+
 </html>

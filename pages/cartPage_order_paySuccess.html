@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,9 +16,39 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var params = getQueryData();
+        if (!params) {
+            mui.alert("查询参数错误", "", ["确定"], function() {
+                mui.back();
+            });
+        } else {
+            $.when(orderDetail(params.orderNo)).done(function(data) {
+                if (data.resultCode == 200) {
+                    var order = data.data.order;
+                    $("#orderNo").text(order.tradeNumber);
+                    $("#personName").text(order.name);
+                    $("#phoneNumber").text(order.phone);
+                    $("#address").text(order.address);
+                    $("#memo").text(order.message);
+                }
+            });
+            $("#orderDetailButton").on('tap', function() {
+                var _params = {
+                    "orderStatus": "0", // 0表示成功
+                    "orderNo": params.orderNo // 这里填入orderid
+                };
+                window.location.href = "cartPage_order_status.html?" + encodeObj(_params);
+            });
+        }
+    });
+    </script>
 </head>
+
 <body style="background-color: #fff;">
-	<div class="mui-content" style="background-color: #fff;">
+    <div class="mui-content" style="background-color: #fff;">
         <div class="statusBar">
             <div class="innerCenter" style="background-color:#56be4b;padding-top: 15px;padding-bottom: 12px;">
                 <img class="imageIcon" style="width:25px;height: 25px;margin-bottom: 6px;" src="../source/webslice/3.2_3.5placeorder&pay/zhifu_finish.png" alt="">
@@ -39,50 +70,7 @@
                 </div>
             </div>
         </div>
-	</div>
-    
-<script>
-mui.init();
-var params = getQueryData();
-if(!params){
-    mui.alert("查询参数错误","",["确定"],function(){
-        mui.back();
-    });
-}
-else{
-    $.when(orderDetail(params.orderNo)).done(function(data){
-        if(data.resultCode == 200){
-            var order = data.data.order;
-            $("#orderNo").text(order.tradeNumber);
-            $("#personName").text(order.name);
-            $("#phoneNumber").text(order.phone);
-            $("#address").text(order.address);
-            $("#memo").text(order.message);
-        }
-    });
-    $("#orderDetailButton").on('tap',function(){
-        var _params = {
-            "orderStatus": "0",// 0表示成功
-            "orderNo": params.orderNo// 这里填入orderid
-        };
-        window.location.href = "cartPage_order_status.html?"+encodeObj(_params);
-    });
-}
-
-</script>
+    </div>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

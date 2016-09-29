@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>云书</title>
-    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/mui/css/mui.min.css">
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
     <link rel="stylesheet" href="../source/css/index.css?20160904">
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.min.js"></script>
-    <script src="../source/js/ajax.js"></script>
+    <script src="../source/js/ajax.min.js"></script>
     <script src="../source/js/public.js"></script>
+    <script src="../source/js/lazyload.min.js"></script>
     <script>
     $(function(){
         $("#currentCityName").text(currentCityName);
@@ -67,9 +68,9 @@
                 var data = data.data;
                 var imgs = data.imgs;
                 // 第一张图
-                $("#firstRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[0].id})).find(">img").attr("src", imgs[0].path);
+                $("#firstRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[0].id})).find(">img").attr("data-original", imgs[0].path);
                 // 第二张图
-                $("#secondRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[1].id})).find(">img").attr("src", imgs[1].path);
+                $("#secondRecommendImage").attr("data-href", "indexPage_themeInfo.html?"+encodeObj({"themeId":imgs[1].id})).find(">img").attr("data-original", imgs[1].path);
 
                 var txts = data.txts;
                 // 第一个block
@@ -99,6 +100,7 @@
                     thirdRecommendBlockHtml += createBook(book.id , book.path , book.title);
                 }
                 $("#thirdRecommendBlock").next("ul").append(thirdRecommendBlockHtml);
+                $(".lazy").lazyload();
             }
         });
 
@@ -140,7 +142,7 @@
             var html = '<li class="mui-table-view-cell mui-media mui-col-sm-'+_colNumber+' mui-col-xs-'+_colNumber+'">'+
                         '<a data-href="indexPage_textbook.html?'+encodeObj(params)+'">'+
                             '<div class="textbook_cover">'+
-                                '<img class="" src="'+path+'" alt="">'+
+                                '<img class="lazy" data-original="'+path+'" alt="">'+
                             '</div>'+
                             '<div class="mui-tab-label user-book-label">'+
                                 title+
@@ -281,7 +283,7 @@
             
         </ul>
         <a class="recommendImage" id="firstRecommendImage">
-            <img src="" alt="">
+            <img src="" alt="" class="lazy">
         </a>
         <ul id="secondRecommendBlock" class="mui-table-view">
             <li class="mui-table-view-cell">
@@ -294,7 +296,7 @@
             
         </ul>
         <a class="recommendImage" id="secondRecommendImage">
-            <img src="" alt="">
+            <img src="" alt="" class="lazy">
         </a>
         <ul id="thirdRecommendBlock" class="mui-table-view">
             <li class="mui-table-view-cell">

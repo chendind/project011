@@ -18,6 +18,154 @@
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js?20160903"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                detail: {
+                    books: []
+                },
+                isChange: 0,
+                tradeNoObj: '',
+                countState: false,
+                nowTime: "",
+                alertTime: 0
+            },
+            computed: {
+                changeMoney: function() {
+                    var self = this;
+                    console.log(self.detail.myTotalChange > self.detail.totalFee);
+                    console.log(self.detail.myTotalChange);
+                    console.log(self.detail.totalFee);
+                    if (parseFloat(self.detail.myTotalChange) > parseFloat(self.detail.totalFee)) {
+                        return self.detail.totalFee
+                    } else {
+                        return self.detail.myTotalChange
+                    }
+                },
+                payMoney: function() {
+                    return this.detail.realFee - this.isChange
+                },
+                expireTime: function() {
+                    var time = this.detail.expireTime.split(" ")[0].split("-");
+                    var smallTime = this.detail.expireTime.split(" ")[1].split(":");
+                    var date = new Date(parseInt(time[0]), parseInt(time[1]) - 1, parseInt(time[2]), parseInt(smallTime[0]), parseInt(smallTime[1]), parseInt(smallTime[2]));
+                    var restTime = (date.getTime() - this.nowTime.getTime()) / 1000;
+                    var minutes = parseInt(restTime / 60);
+                    if (minutes < 10) {
+                        minutes = "0" + minutes;
+                    }
+                    var seconds = parseInt(restTime % 60);
+                    if (restTime > 0) {
+                        return minutes + "分" + seconds + "秒";
+                    } else {
+                        if (this.alertTime == 0) {
+                            mui.alert("订单超时", "", ["确定"], function() {
+                                mui.back();
+                            });
+                            this.alertTime++;
+                        }
+                        return "0";
+                    }
+
+                }
+            },
+            watch: {
+
+            },
+            methods: {
+                encode: function(data) {
+                    return encodeObj(data);
+                },
+                wechatPay: function() {
+                    var self = this;
+                    if (self.payMoney > 0) {
+                        $.when(wechatPay(self.detail.tradeNumber, self.isChange)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                var params = data.data.params;
+                                var wcpayParams = {
+                                    appId: params.appId,
+                                    timestamp: params.timeStamp,
+                                    nonceStr: params.nonceStr,
+                                    package: params.packageValue,
+                                    signType: params.signType,
+                                    paySign: params.paySign,
+                                    success: function(res) {
+                                        window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
+                                            "orderNo": self.detail.tradeNumber
+                                        });
+                                    }
+                                };
+                                wx.chooseWXPay(wcpayParams);
+                            }
+                            mui("#loadPopover").popover("toggle");
+                        });
+                    } else {
+                        mui("#loadPopover").popover("toggle");
+                        mui.confirm("确定使用零钱支付吗？", " ", ["确定", "<span style='font-weight: normal;'>取消</span>"], function(data) {
+                            if (data.index == 0) {
+                                $.when(changePay(self.detail.tradeNumber, self.isChange)).done(function(data) {
+                                    if (data.resultCode == 200) {
+                                        console.log('changePay');
+                                        window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
+                                            "orderNo": self.detail.tradeNumber
+                                        });
+                                    }
+                                });
+                            }
+                        })
+                    }
+                },
+                changeMessage: function() {
+                    var self = this;
+                    mui("#loadPopover").popover("toggle");
+                    if (self.detail.message) {
+                        $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                self.wechatPay();
+                            }
+                        });
+                    } else {
+                        self.wechatPay();
+                    }
+                }
+            },
+            created: function() {
+                var self = this;
+                var params = getQueryData();
+                if (!params) {
+                    mui.alert("查询参数错误", "", ["确定"], function() {
+                        mui.back();
+                    });
+                } else {
+                    self.tradeNoObj = encodeObj(params);
+                    var tradeNo = params.tradeNo ? params.tradeNo : params.orderNo;
+                    $.when(orderConfirm(tradeNo)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            self.detail = data.data.order;
+                            if (params.orderNo) {
+                                self.countState = true;
+                                self.nowTime = new Date();
+                                setInterval(function() {
+                                    self.nowTime = new Date();
+                                }, 1000)
+                            }
+                        } else {
+                            mui.alert("订单超时", "", ["确定"], function() {
+                                mui.back();
+                            });
+                        }
+                    });
+                }
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -133,152 +281,6 @@
     <div id="loadPopover" class="mui-popover mui-popup loadPopover" style="width: 100px;padding: 10px;">
         <span class="mui-spinner imageIcon" style="margin-right: 10px;"></span><span class="mui-h5">载入中</span>
     </div>
-    <script>
-    mui.init();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            detail: {
-                books: []
-            },
-            isChange: 0,
-            tradeNoObj: '',
-            countState: false,
-            nowTime: "",
-            alertTime: 0
-        },
-        computed: {
-            changeMoney: function() {
-                var self = this;
-                console.log(self.detail.myTotalChange > self.detail.totalFee);
-                console.log(self.detail.myTotalChange);
-                console.log(self.detail.totalFee);
-                if (parseFloat(self.detail.myTotalChange) > parseFloat(self.detail.totalFee)) {
-                    return self.detail.totalFee
-                } else {
-                    return self.detail.myTotalChange
-                }
-            },
-            payMoney: function() {
-                return this.detail.realFee - this.isChange
-            },
-            expireTime: function() {
-                var time = this.detail.expireTime.split(" ")[0].split("-");
-                var smallTime = this.detail.expireTime.split(" ")[1].split(":");
-                var date = new Date(parseInt(time[0]), parseInt(time[1]) - 1, parseInt(time[2]), parseInt(smallTime[0]), parseInt(smallTime[1]), parseInt(smallTime[2]));
-                var restTime = (date.getTime() - this.nowTime.getTime()) / 1000;
-                var minutes = parseInt(restTime / 60);
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                var seconds = parseInt(restTime % 60);
-                if (restTime > 0) {
-                    return minutes + "分" + seconds + "秒";
-                } else {
-                    if (this.alertTime == 0) {
-                        mui.alert("订单超时", "", ["确定"], function() {
-                            mui.back();
-                        });
-                        this.alertTime++;
-                    }
-                    return "0";
-                }
-
-            }
-        },
-        watch: {
-
-        },
-        methods: {
-            encode: function(data) {
-                return encodeObj(data);
-            },
-            wechatPay: function() {
-                var self = this;
-                if (self.payMoney > 0) {
-                    $.when(wechatPay(self.detail.tradeNumber, self.isChange)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            var params = data.data.params;
-                            var wcpayParams = {
-                                appId: params.appId,
-                                timestamp: params.timeStamp,
-                                nonceStr: params.nonceStr,
-                                package: params.packageValue,
-                                signType: params.signType,
-                                paySign: params.paySign,
-                                success: function(res) {
-                                    window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
-                                        "orderNo": self.detail.tradeNumber
-                                    });
-                                }
-                            };
-                            wx.chooseWXPay(wcpayParams);
-                        }
-                        mui("#loadPopover").popover("toggle");
-                    });
-                } else {
-                    mui("#loadPopover").popover("toggle");
-                    mui.confirm("确定使用零钱支付吗？", " ", ["确定", "<span style='font-weight: normal;'>取消</span>"], function(data) {
-                        if (data.index == 0) {
-                            $.when(changePay(self.detail.tradeNumber, self.isChange)).done(function(data) {
-                                if (data.resultCode == 200) {
-                                    console.log('changePay');
-                                    window.location.href = "cartPage_order_paySuccess.html?" + encodeObj({
-                                        "orderNo": self.detail.tradeNumber
-                                    });
-                                }
-                            });
-                        }
-                    })
-                }
-            },
-            changeMessage: function() {
-                var self = this;
-                mui("#loadPopover").popover("toggle");
-                if (self.detail.message) {
-                    $.when(changeMessage(self.detail.tradeNumber, self.detail.message)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            self.wechatPay();
-                        }
-                    });
-                } else {
-                    self.wechatPay();
-                }
-            }
-        },
-        created: function() {
-            var self = this;
-            var params = getQueryData();
-            if (!params) {
-                mui.alert("查询参数错误", "", ["确定"], function() {
-                    mui.back();
-                });
-            } else {
-                self.tradeNoObj = encodeObj(params);
-                var tradeNo = params.tradeNo ? params.tradeNo : params.orderNo;
-                $.when(orderConfirm(tradeNo)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        self.detail = data.data.order;
-                        if (params.orderNo) {
-                            self.countState = true;
-                            self.nowTime = new Date();
-                            setInterval(function() {
-                                self.nowTime = new Date();
-                            }, 1000)
-                        }
-                    } else {
-                        mui.alert("订单超时", "", ["确定"], function() {
-                            mui.back();
-                        });
-                    }
-                });
-            }
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

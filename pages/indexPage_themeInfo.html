@@ -15,14 +15,9 @@
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/public.js"></script>
-</head>
-<body>
-    <div class="mui-content" style="background-color: #fff;">
-        <img id="headimg" class="index-bg-header" style="height: auto;" src="" alt="">
-        <div id="content_box"></div>
-    </div>
-<script>
-mui.init();
+    <script>
+$(function() {
+    mui.init();
 var params = getQueryData();
 if(!params){
     mui.alert("参数错误","",["确定"],function(){
@@ -48,6 +43,15 @@ else{
     });
 }
 
+});
+
 </script>
+</head>
+<body>
+    <div class="mui-content" style="background-color: #fff;">
+        <img id="headimg" class="index-bg-header" style="height: auto;" src="" alt="">
+        <div id="content_box"></div>
+    </div>
+
 </body>
 </html>

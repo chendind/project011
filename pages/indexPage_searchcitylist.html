@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -15,6 +16,7 @@
     <link href="../source/css/mui.indexedlist.css" rel="stylesheet" />
     <link href="../source/css/searchcity.css" rel="stylesheet" />
 </head>
+
 <body>
     <div class="mui-content">
         <div id='list' class="mui-indexed-list" style="background-color: #fff;">
@@ -24,7 +26,6 @@
                 </div>
             </div>
             <div id="indexed_list_bar" class="mui-indexed-list-bar">
-                
             </div>
             <div class="mui-indexed-list-alert"></div>
             <div class="mui-indexed-list-inner">
@@ -37,91 +38,82 @@
                 <h5>热门城市</h5>
                 <div class="user-city-list">
                     <div id="user_city_row" class="user-city-row">
-                        
                     </div>
                 </div>
                 <div class="mui-indexed-list-empty-alert">没有数据</div>
                 <ul id="normalCityList" class="mui-table-view">
-                                        
                 </ul>
             </div>
         </div>
     </div>
-
-<script>
-$.when(getCurrentCity()).done(function(data){
-    var cityName = data.address.city;
-    if(cityName){
-        $.when(searchCity(cityName)).done(function(cityData){
-            if(typeof cityData == "string"){
-                cityData = JSON.parse(cityData);
-            }
-            if(cityData.resultCode == 200){
-                var _cityId, _cityName;
-                if(!cityData.data.cities.length){
-                    // 一个未知的城市
-                    cityName = "杭州市";
-                    cityId = "1";
-                }
-                else{
-                    cityName = cityData.data.cities[0].name;
-                    cityId = cityData.data.cities[0].id;
-                }
-                $("#currentCity").text(cityName).attr("data-id",cityId);
+    <script>
+    $(function() {
+        $.when(getCurrentCity()).done(function(data) {
+            var cityName = data.address.city;
+            if (cityName) {
+                $.when(searchCity(cityName)).done(function(cityData) {
+                    if (typeof cityData == "string") {
+                        cityData = JSON.parse(cityData);
+                    }
+                    if (cityData.resultCode == 200) {
+                        var _cityId, _cityName;
+                        if (!cityData.data.cities.length) {
+                            // 一个未知的城市
+                            cityName = "杭州市";
+                            cityId = "1";
+                        } else {
+                            cityName = cityData.data.cities[0].name;
+                            cityId = cityData.data.cities[0].id;
+                        }
+                        $("#currentCity").text(cityName).attr("data-id", cityId);
+                    }
+                });
+            } else {
+                mui.toast("获取城市出错");
             }
         });
-    }
-    else{
-        mui.toast("获取城市出错");
-    }
-});
-    $.when(getAllCity()).done(function(data){
-        if(data.resultCode == 200){
-            // 字母列表
-            var normalCity = data.data.normalCity;
-            var hotCity = data.data.hotCities;
-            for(var i = 0, length = normalCity.length; i< length; i++){
-                var _nc = normalCity[i];
-                $('#indexed_list_bar').append('<a>'+_nc.initial+'</a>');
-                $("#normalCityList").append(getCharCityBlock(_nc.initial, _nc.cities));
+        $.when(getAllCity()).done(function(data) {
+            if (data.resultCode == 200) {
+                // 字母列表
+                var normalCity = data.data.normalCity;
+                var hotCity = data.data.hotCities;
+                for (var i = 0, length = normalCity.length; i < length; i++) {
+                    var _nc = normalCity[i];
+                    $('#indexed_list_bar').append('<a>' + _nc.initial + '</a>');
+                    $("#normalCityList").append(getCharCityBlock(_nc.initial, _nc.cities));
+                }
+                for (var j = 0, length = hotCity.length; j < length; j++) {
+                    var _hc = hotCity[j];
+                    $("#user_city_row").append('<div class="user-city-item" data-id="' + _hc.id + '">' + _hc.name + '</div>')
+                }
+                mui.init();
+                mui.ready(function() {
+                    var list = document.getElementById('list');
+                    list.style.height = document.body.offsetHeight + 'px';
+                    window.indexedList = new mui.IndexedList(list);
+                });
             }
-            for(var j = 0, length = hotCity.length; j < length; j++){
-                var _hc = hotCity[j];
-                $("#user_city_row").append('<div class="user-city-item" data-id="'+_hc.id+'">'+_hc.name+'</div>')
+        });
+
+        function getCharCityBlock(char, cityList) {
+            var li1 = '<li data-group="' + char + '" class="mui-table-view-divider mui-indexed-list-group">' + char + '</li>';
+            var li2 = "";
+            for (var c = 0, cl = cityList.length; c < cl; c++) {
+                var _city = cityList[c];
+                li2 += '<li data-id="' + _city.id + '" class="mui-table-view-cell mui-indexed-list-item">' + _city.name + '</li>'
             }
-            mui.init();
-            mui.ready(function() {
-                var list = document.getElementById('list');
-                list.style.height = document.body.offsetHeight + 'px';
-                window.indexedList = new mui.IndexedList(list);
-            });
+            return li1 + li2;
         }
+        $("#list").on('tap', '.user-city-item,.mui-indexed-list-item', function() {
+            var cityId = $(this).attr("data-id");
+            var cityName = $(this).text();
+            $.when(editCookie(cityId)).done(function(data) {
+                window.location.href = "indexPage.html";
+            });
+
+        });
     });
-function getCharCityBlock(char, cityList){
-    var li1 = '<li data-group="'+char+'" class="mui-table-view-divider mui-indexed-list-group">'+char+'</li>';
-    var li2 = "";
-    for(var c = 0, cl = cityList.length; c < cl; c++){
-        var _city = cityList[c];
-        li2 += '<li data-id="'+_city.id+'" class="mui-table-view-cell mui-indexed-list-item">'+_city.name+'</li>'
-    }
-    return li1+li2;
-}
-$("#list").on('tap','.user-city-item,.mui-indexed-list-item',function(){
-    var cityId = $(this).attr("data-id");
-    var cityName = $(this).text();
-    $.when(editCookie(cityId)).done(function(data){
-        window.location.href = "indexPage.html";
-    });
-    
-});
-</script>
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-

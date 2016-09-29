@@ -29,27 +29,7 @@
 		.theme-loading{font-size: 16px;color: #333;text-align: center;}
 		.theme-loading img{width: 20px;height: 20px;margin-top: 15px; vertical-align: -4px;}
 	</style>
-<body id="app">
-	<div class="container">
-		<div class="weui_cells weui_cells_access">
-		    <a class="weui_cell" v-for="item in recordList" v-on:click="GoToList(item)">
-		        <div class="weui_cell_bd weui_cell_primary">
-		            <p class="headContent" v-if="item.status == 0">捐书：预约成功</p>
-		            <p class="headContent" v-if="item.status == 1">捐书：已完成</p>
-		            <p class="headContent" v-if="item.status == 2">捐书：预约取消</p>
-		            <p class="time" style="">{{item.appointTime}}</p>
-		        </div>
-		        <div class="weui_cell_ft">
-		            <span class="Score" v-if="item.status == 1">积分+{{item.score}}</span>
-		        </div>
-		    </a>		    
-		</div>
-		<p class="theme-loading">
-			<img src="../source/webview/img/loading.gif" alt="">
-			正在努力加载
-		</p>
-	</div>
-	<script>
+		<script>
 		$(function(){
 			var data = {
 				page:1,
@@ -117,5 +97,26 @@
 			})
 		})
 	</script>
+	</head>
+<body id="app">
+	<div class="container">
+		<div class="weui_cells weui_cells_access">
+		    <a class="weui_cell" v-for="item in recordList" v-on:click="GoToList(item)">
+		        <div class="weui_cell_bd weui_cell_primary">
+		            <p class="headContent" v-if="item.status == 0">捐书：预约成功</p>
+		            <p class="headContent" v-if="item.status == 1">捐书：已完成</p>
+		            <p class="headContent" v-if="item.status == 2">捐书：预约取消</p>
+		            <p class="time" style="">{{item.appointTime}}</p>
+		        </div>
+		        <div class="weui_cell_ft">
+		            <span class="Score" v-if="item.status == 1">积分+{{item.score}}</span>
+		        </div>
+		    </a>		    
+		</div>
+		<p class="theme-loading">
+			<img src="../source/webview/img/loading.gif" alt="">
+			正在努力加载
+		</p>
+	</div>
 </body>
 </html>

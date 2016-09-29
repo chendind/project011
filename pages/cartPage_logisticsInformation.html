@@ -18,6 +18,55 @@
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var params = getQueryData();
+        if (!params) {
+            mui.alert("查询参数错误", "", ["确定"], function() {
+                mui.back();
+            });
+        } else {
+            console.log(params.status, params.orderId);
+        }
+        var vm = new Vue({
+            el: "body",
+            data: {
+                showState: false,
+                data: [],
+                detail: "",
+                express: []
+            },
+            computed: {},
+            methods: {
+                encode: function(data) {
+                    return encodeObj(data);
+                },
+            },
+            created: function() {
+                var self = this;
+                self.location = window.location.search;
+                var orderNo = getQueryData().orderNo;
+                console.log(getQueryData());
+                $.when(orderDetail(orderNo)).done(function(data) {
+                    console.log(data);
+                    self.$data.data = data.data.order;
+                    var msg = data.data.order;
+                    $.when(expressDetail(orderNo, msg.company, msg.isYunExpress, msg.expressNumber)).done(function(data) {
+                        console.log(data);
+                        if (data.resultCode == 200) {
+                            self.$data.detail = data.data.express;
+                            self.express = self.detail.expresses
+                        }
+                    });
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -34,7 +83,7 @@
                 <div class="mui-card-header">物流跟踪</div>
                 <div class="timelineBox">
                     <div class="innerBox">
-                        <div v-for="record in express" class="line {{$index==0?'been':''}}" >
+                        <div v-for="record in express" class="line {{$index==0?'been':''}}">
                             {{record.data}}
                             <p class="mui-ellipsis" style="margin-top: 10px;">{{record.time}}</p>
                         </div>
@@ -43,53 +92,6 @@
             </div>
         </div>
     </div>
-    <script>
-    mui.init();
-    var params = getQueryData();
-    if (!params) {
-        mui.alert("查询参数错误","",["确定"],function(){
-            mui.back();
-        });
-    } else {
-        console.log(params.status, params.orderId);
-    }
-    var vm = new Vue({
-        el: "body",
-        data: {
-            showState: false,
-            data: [],
-            detail:"",
-            express:[]
-        },
-        computed: {},
-        methods: {
-            encode: function(data) {
-                return encodeObj(data);
-            },
-        },
-        created: function() {
-            var self = this;
-            self.location = window.location.search;
-            var orderNo = getQueryData().orderNo;
-            console.log(getQueryData());
-            $.when(orderDetail(orderNo)).done(function(data) {
-                console.log(data);
-                self.$data.data = data.data.order;
-                var msg = data.data.order;
-                $.when(expressDetail(orderNo,msg.company,msg.isYunExpress,msg.expressNumber)).done(function(data) {
-                    console.log(data);
-                    if (data.resultCode==200) {
-                         self.$data.detail = data.data.express;
-                         self.express=self.detail.expresses
-                    }
-                });
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

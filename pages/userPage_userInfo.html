@@ -13,13 +13,81 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        // $('#changePortraitButton').on('tap', function() {
+        //     var input = document.createElement("input");
+        //     input.type = "file";
+        //     input.click();
+        // });
+        $("#userPage_userInfo_userSexButton").on('tap', function() {
+            mui("#userPage_userInfo_userSexSheet").popover('toggle')
+        });
+        $("#logoutButton").on('tap', function() {
+            mui.confirm("确定注销吗？", " ", ["<span class='redColor'>注销</span>", "取消"], function(data) {
+                if (data.index == 0) {
+                    $.when(userLogout()).done(function(data) {
+                        data = JSON.parse(data);
+                        if (data.resultCode == 200) {
+                            mui.toast("注销成功");
+                            mui.openWindow({
+                                url: "login.html"
+                            })
+                        }
+                    });
+                }
+            })
+        })
+        var vm = new Vue({
+            el: "body",
+            data: {
+                sex: "0",
+                name: "",
+                phone: ""
+            },
+            computed: {
+                url: function() {
+                    if (this.avatar) {
+                        return this.avatar
+                    } else {
+                        return "../source/webslice/4.0_me/me_defaulthead.png"
+                    }
+                },
+            },
+            methods: {
+                editSex: function(sex) {
+                    var self = this;
+                    $.when(editSex(sex)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("修改成功")
+                            self.sex = sex;
+                            mui("#userPage_userInfo_userSexSheet").popover('hide')
+                        }
+                    });
+                },
+                cancelEdit: function() {
+                    mui("#userPage_userInfo_userSexSheet").popover('hide')
+                }
+            },
+            created: function() {
+                var self = this;
+                $.when(getAllMyInfo()).done(function(data) {
+                    self.$data = data.data.user
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -84,73 +152,6 @@
             </li>
         </ul>
     </div>
-    <script>
-    mui.init();
-    // $('#changePortraitButton').on('tap', function() {
-    //     var input = document.createElement("input");
-    //     input.type = "file";
-    //     input.click();
-    // });
-    $("#userPage_userInfo_userSexButton").on('tap', function() {
-        mui("#userPage_userInfo_userSexSheet").popover('toggle')
-    });
-    $("#logoutButton").on('tap', function() {
-        mui.confirm("确定注销吗？", " ", ["<span class='redColor'>注销</span>", "取消"], function(data) {
-            if (data.index == 0) {
-                $.when(userLogout()).done(function(data) {
-                    data = JSON.parse(data);
-                    if (data.resultCode == 200) {
-                        mui.toast("注销成功");
-                        mui.openWindow({
-                            url: "login.html"
-                        })
-                    }
-                });
-            }
-        })
-    })
-    var vm = new Vue({
-        el: "body",
-        data: {
-            sex: "0",
-            name:"",
-            phone:""
-        },
-        computed: {
-            url: function() {
-                if (this.avatar) {
-                    return this.avatar
-                } else {
-                    return "../source/webslice/4.0_me/me_defaulthead.png"
-                }
-            },
-        },
-        methods: {
-            editSex: function(sex) {
-                var self = this;
-                $.when(editSex(sex)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        mui.toast("修改成功")
-                        self.sex = sex;
-                        mui("#userPage_userInfo_userSexSheet").popover('hide')
-                    }
-                });
-            },
-            cancelEdit: function() {
-                mui("#userPage_userInfo_userSexSheet").popover('hide')
-            }
-        },
-        created: function() {
-            var self = this;
-            $.when(getAllMyInfo()).done(function(data) {
-                self.$data = data.data.user
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

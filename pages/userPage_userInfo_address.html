@@ -19,6 +19,80 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js?2016"></script>
+        <script>
+    $(function() {
+        mui.init();
+        $(".mui-content").on('tap', '.removeAddressButton', function() {
+            var $this = $(this);
+            mui.confirm("确定删除吗？", " ", ["确定", "取消"], function(data) {
+                if (data.index == 0) {
+                    var id = $this.attr('data-id');
+                    // 删除
+                    $.when(deleteOneAddress(id)).done(function(data) {
+                        $this.closest(".mui-table-view").remove();
+                    });
+                } else {
+
+                }
+            });
+        });
+        var vm = new Vue({
+            el: "body",
+            data: {
+                list: {}
+            },
+            computed: {
+                url: function() {
+                    if (this.avatar) {
+                        return this.avatar
+                    } else {
+                        return "../source/webslice/4.0_me/me_defaulthead.png"
+                    }
+                }
+            },
+            methods: {
+                editAddress: function(id) {
+                    mui.openWindow({
+                        url: "userPage_userInfo_addNewAddress.html?" + encodeObj({
+                            "id": id
+                        })
+                    })
+                },
+                choosePlace: function(id) {
+                    console.log(getQueryData());
+                    if (window.location.search) {
+                        var tradeNo;
+                        if (getQueryData().tradeNo) {
+                            tradeNo = getQueryData().tradeNo;
+                            $.when(editOrderPlace(tradeNo, id)).done(function(data) {
+                                mui.back();
+                            })
+                        } else if (getQueryData().orderNo) {
+                            tradeNo = getQueryData().orderNo;
+                            $.when(editOrderPlace(tradeNo, id)).done(function(data) {
+                                mui.back();
+                            })
+                        } else if (getQueryData().donateBook) {
+                            console.log('test2');
+                            window.location.href = 'Confirmation.html?' + encodeObj({
+                                addressId: id
+                            })
+                        }
+                    }
+                }
+            },
+            created: function() {
+                var self = this;
+                $.when(getAllMyAddress()).done(function(data) {
+                    self.list = data.data.list
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -56,78 +130,6 @@
             </li>
         </ul>
     </div>
-    <script>
-    mui.init();
-    $(".mui-content").on('tap', '.removeAddressButton', function() {
-        var $this = $(this);
-        mui.confirm("确定删除吗？", " ", ["确定", "取消"], function(data) {
-            if (data.index == 0) {
-                var id = $this.attr('data-id');
-                // 删除
-                $.when(deleteOneAddress(id)).done(function(data) {
-                    $this.closest(".mui-table-view").remove();
-                });
-            } else {
-
-            }
-        });
-    });
-    var vm = new Vue({
-        el: "body",
-        data: {
-            list: {}
-        },
-        computed: {
-            url: function() {
-                if (this.avatar) {
-                    return this.avatar
-                } else {
-                    return "../source/webslice/4.0_me/me_defaulthead.png"
-                }
-            }
-        },
-        methods: {
-            editAddress: function(id) {
-                mui.openWindow({
-                    url: "userPage_userInfo_addNewAddress.html?" + encodeObj({
-                        "id": id
-                    })
-                })
-            },
-            choosePlace: function(id) {
-                console.log(getQueryData());
-                if (window.location.search) {
-                    var tradeNo;
-                    if (getQueryData().tradeNo) {
-                        tradeNo = getQueryData().tradeNo;
-                        $.when(editOrderPlace(tradeNo, id)).done(function(data) {
-                            mui.back();
-                        })
-                    } else if (getQueryData().orderNo) {
-                        tradeNo = getQueryData().orderNo;
-                        $.when(editOrderPlace(tradeNo, id)).done(function(data) {
-                            mui.back();
-                        })
-                    } else if (getQueryData().donateBook) {
-                        console.log('test2');
-                        window.location.href = 'Confirmation.html?' + encodeObj({
-                            addressId: id
-                        })
-                    }
-                }
-            }
-        },
-        created: function() {
-            var self = this;
-            $.when(getAllMyAddress()).done(function(data) {
-                self.list = data.data.list
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

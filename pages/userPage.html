@@ -7,19 +7,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>云书</title>
-    <link rel="stylesheet" href="../source/mui/css/mui.css">
+    <link rel="stylesheet" href="../source/mui/css/mui.min.css">
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <link rel="stylesheet" href="../source/css/public.css">
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
-    <script src="../source/mui/js/mui.js"></script>
-    
+    <script src="../source/mui/js/mui.min.js"></script>
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
-    <script src="../source/js/vue.js"></script>
+    <script src="../source/js/vue.min.js"></script>
     <script src="../source/js/vue-tap.js"></script>
-    <script src="../source/js/ajax.js"></script>
-    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/ajax.min.js"></script>
+    <script src="../source/js/ajax_my.min.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                name: ""
+            },
+            computed: {
+                url: function() {
+                    if (this.avatar) {
+                        return this.avatar
+                    } else {
+                        return "../source/webslice/4.0_me/me_defaulthead.png"
+                    }
+                }
+            },
+            methods: {},
+            created: function() {
+                var self = this;
+                $.when(getAllMyInfo()).done(function(data) {
+                    self.$data = data.data.user
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -31,7 +60,7 @@
             </span>
             <span class="mui-tab-label">首页</span>
         </a>
-<!--         <a data-href="discoveryPage.html" class="mui-tab-item">
+        <!--         <a data-href="discoveryPage.html" class="mui-tab-item">
             <span class="mui-icon">
                 <img class="normal" src="../source/webslice/0_tabbar/detection_tabbar_normal.png" alt="">
                 <img class="selection" src="../source/webslice/0_tabbar/detection_tabbar_selection.png" alt="">
@@ -158,34 +187,7 @@
             </li>
         </ul>
     </div>
-    <script>
-    mui.init();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            name:""
-        },
-        computed: {
-            url: function() {
-                if (this.avatar) {
-                    return this.avatar
-                } else {
-                    return "../source/webslice/4.0_me/me_defaulthead.png"
-                }
-            }
-        },
-        methods: {},
-        created: function() {
-            var self = this;
-            $.when(getAllMyInfo()).done(function(data) {
-                self.$data = data.data.user
-            });
-        },
-        ready: function() {
 
-        }
-    })
-    </script>
 </body>
 
 </html>

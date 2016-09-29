@@ -16,6 +16,19 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        mui('.mui-scroll-wrapper').scroll();
+        $("#openUseRulesPopoverButton").on('tap', function() {
+            mui("#useRulesPopover").popover("toggle");
+        })
+        $.when(getScore()).done(function(data) {
+            console.log(data);
+            $("#money").text(data.data.user.money)
+        });
+    });
+    </script>
 </head>
 
 <body style="background-color: #fff;">
@@ -57,17 +70,6 @@
             </div>
         </div>
     </div>
-    <script>
-    mui.init();
-    mui('.mui-scroll-wrapper').scroll();
-    $("#openUseRulesPopoverButton").on('tap', function() {
-        mui("#useRulesPopover").popover("toggle");
-    })
-    $.when(getScore()).done(function(data) {
-        console.log(data);
-        $("#money").text(data.data.user.money)
-    });
-    </script>
 </body>
 
 </html>

@@ -108,10 +108,197 @@
     .mui-slider-indicator.mui-segmented-control {
         background-color: #fff;
     }
-    .mui-h5{
+    
+    .mui-h5 {
         color: #666;
     }
     </style>
+        <script>
+    $(function() {
+        mui.init();
+        var params = getQueryData();
+
+        //阻尼系数
+        var deceleration = mui.os.ios ? 0.0006 : 0.0009;
+        mui('.mui-scroll-wrapper').scroll({
+            bounce: false,
+            indicators: true, //是否显示滚动条
+            deceleration: deceleration
+        });
+        mui.ready(function() {
+            //循环初始化所有下拉刷新，上拉加载。
+            // down: {
+            //     callback: function() {
+            //         var self = this;
+            //         setTimeout(function() {
+            //             var status = index == 0 ? 100 : index;
+            //             $.when(getOrderList(1, status)).done(function(data) {
+            //                 if (data.data.orders) {
+            //                     vm.$data.orders = data.data.orders;
+            //                     self.endPullDownToRefresh();
+            //                     vm.page[index] = 2;
+            //                 } else {
+            //                     self.endPullDownToRefresh(true);
+            //                     vm.page[index] = 1;
+            //                 }
+            //             });
+            //         }, 1000);
+            //     }
+            // },
+            mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+                mui(pullRefreshEl).pullToRefresh({
+                    up: {
+                        contentinit: '',
+                        contentdown: '',
+                        contentrefresh: '',
+                        contentnomore: '',
+                        callback: function() {
+                            var self = this;
+                            // setTimeout(function() {
+                            if (vm.page[index] == 1) {
+                                self.endPullUpToRefresh(true);
+                            } else {
+                                var status = index == 0 ? 100 : index;
+                                $.when(getOrderList(vm.page[index], status)).done(function(data) {
+                                    if (data.data.orders) {
+                                        vm.$data.orders = vm.$data.orders.concat(data.data.orders);
+                                        self.endPullUpToRefresh();
+                                        vm.page[index]++;
+                                    } else {
+                                        self.endPullUpToRefresh(true);
+                                    }
+                                });
+                            }
+                            // }, 1000);
+                        }
+                    }
+                });
+            });
+            // 根据参数进行位置初始化
+            if (params) {
+                if (params.orderStatus) {
+                    mui('.mui-slider').slider().gotoItem(params.orderStatus - 1, 0);
+                }
+            } else {
+                mui('.mui-slider').slider().gotoItem(0, 0);
+            }
+        });
+        var vm = new Vue({
+            el: "body",
+            data: {
+                orders: [],
+                page: [1, 1, 1, 1, 1],
+                orderStatus: 100,
+                subOrders0: [],
+                subOrders1: [],
+                subOrders2: [],
+                subOrders3: [],
+                hasAjaxEnd_all: false,
+                hasAjaxEnd_0: false,
+                hasAjaxEnd_1: false,
+                hasAjaxEnd_2: false,
+                hasAjaxEnd_3: false,
+            },
+            computed: {},
+            methods: {
+                encode: function(data) {
+                    return encodeObj(data);
+                },
+                cancelOrder: function(orderNo) {
+                    var self = this;
+                    mui.confirm("确定取消订单吗？", " ", ["<span class='textColor'>确定</span>", "<span>不</span>"], function(data) {
+                        if (data.index == 0) {
+                            $.when(cancelOrder(orderNo)).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
+                                        self.$data.orders = data.data.orders
+                                    });
+                                    $.when(getOrderList(self.page, 0)).done(function(data) {
+                                        self.$data.subOrders0 = data.data.orders
+                                    });
+                                }
+                            });
+                        } else {
+
+                        }
+                    });
+                },
+                turnUrl: function(orderNo) {
+                    var URI = encodeObj({
+                        "orderNo": orderNo
+                    });
+                    mui.openWindow({
+                        url: "cartPage_order_status.html?" + URI
+                    })
+                },
+                seeData: function(data) {
+                    return JSON.parse(JSON.stringify(data));
+                }
+            },
+            created: function() {
+                var self = this;
+                var id = localStorage.getItem("id");
+                $.when(getOrderList(self.page[0], self.orderStatus)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.$data.orders = data.data.orders;
+                        console.log(self.seeData(self.orders));
+                        self.page[0]++;
+                    }
+                    self.hasAjaxEnd_all = true;
+                });
+                $.when(getOrderList(self.page[1], 0)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data && data.data.orders) {
+                            self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                            self.page[data.data.orders[0].orderStatus + 1]++;
+                        }
+                    }
+                    self["hasAjaxEnd_0"] = true;
+                });
+                $.when(getOrderList(self.page[2], 1)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data && data.data.orders) {
+                            self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                            self.page[data.data.orders[0].orderStatus + 1]++;
+                        }
+                    }
+                    self["hasAjaxEnd_1"] = true;
+                });
+                $.when(getOrderList(self.page[3], 2)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data && data.data.orders) {
+                            self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                            self.page[data.data.orders[0].orderStatus + 1]++;
+                        }
+                    }
+                    self["hasAjaxEnd_2"] = true;
+                });
+                $.when(getOrderList(self.page[4], 3)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data && data.data.orders) {
+                            self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                            self.page[data.data.orders[0].orderStatus + 1]++;
+                        }
+                    }
+                    self["hasAjaxEnd_3"] = true;
+                });
+                // for (var i = 0; i < 4; i++) {
+                //     $.when(getOrderList(self.page[i + 1], i)).done(function(data) {
+                //         if(data.resultCode == 200){
+                //             if (data.data&&data.data.orders) {
+                //                 self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
+                //                 self.page[data.data.orders[0].orderStatus + 1]++;
+                //             }
+                //         }
+                //     });
+                // }
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -576,191 +763,6 @@
             </div>
         </div>
     </div>
-    <script>
-    mui.init();
-    var params = getQueryData();
-
-    //阻尼系数
-    var deceleration = mui.os.ios ? 0.0006 : 0.0009;
-    mui('.mui-scroll-wrapper').scroll({
-        bounce: false,
-        indicators: true, //是否显示滚动条
-        deceleration: deceleration
-    });
-    mui.ready(function() {
-        //循环初始化所有下拉刷新，上拉加载。
-        // down: {
-                //     callback: function() {
-                //         var self = this;
-                //         setTimeout(function() {
-                //             var status = index == 0 ? 100 : index;
-                //             $.when(getOrderList(1, status)).done(function(data) {
-                //                 if (data.data.orders) {
-                //                     vm.$data.orders = data.data.orders;
-                //                     self.endPullDownToRefresh();
-                //                     vm.page[index] = 2;
-                //                 } else {
-                //                     self.endPullDownToRefresh(true);
-                //                     vm.page[index] = 1;
-                //                 }
-                //             });
-                //         }, 1000);
-                //     }
-                // },
-        mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
-            mui(pullRefreshEl).pullToRefresh({
-                up: {
-                    contentinit: '',
-                    contentdown: '',
-                    contentrefresh: '',
-                    contentnomore: '',
-                    callback: function() {
-                        var self = this;
-                        // setTimeout(function() {
-                            if (vm.page[index] == 1) {
-                                self.endPullUpToRefresh(true);
-                            } else {
-                                var status = index == 0 ? 100 : index;
-                                $.when(getOrderList(vm.page[index], status)).done(function(data) {
-                                    if (data.data.orders) {
-                                        vm.$data.orders = vm.$data.orders.concat(data.data.orders);
-                                        self.endPullUpToRefresh();
-                                        vm.page[index]++;
-                                    }
-                                    else {
-                                        self.endPullUpToRefresh(true);
-                                    }
-                                });
-                            }
-                        // }, 1000);
-                    }
-                }
-            });
-        });
-        // 根据参数进行位置初始化
-        if (params) {
-            if (params.orderStatus) {
-                mui('.mui-slider').slider().gotoItem(params.orderStatus - 1, 0);
-            }
-        } else {
-            mui('.mui-slider').slider().gotoItem(0, 0);
-        }
-    });
-    var vm = new Vue({
-        el: "body",
-        data: {
-            orders: [],
-            page: [1, 1, 1, 1, 1],
-            orderStatus: 100,
-            subOrders0: [],
-            subOrders1: [],
-            subOrders2: [],
-            subOrders3: [],
-            hasAjaxEnd_all:false,
-            hasAjaxEnd_0:false,
-            hasAjaxEnd_1:false,
-            hasAjaxEnd_2:false,
-            hasAjaxEnd_3:false,
-        },
-        computed: {},
-        methods: {
-            encode: function(data) {
-                return encodeObj(data);
-            },
-            cancelOrder: function(orderNo) {
-                var self = this;
-                mui.confirm("确定取消订单吗？", " ", ["<span class='textColor'>确定</span>", "<span>不</span>"], function(data) {
-                    if (data.index == 0) {
-                        $.when(cancelOrder(orderNo)).done(function(data) {
-                            if (data.resultCode == 200) {
-                                $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
-                                    self.$data.orders = data.data.orders
-                                });
-                                $.when(getOrderList(self.page, 0)).done(function(data) {
-                                    self.$data.subOrders0 = data.data.orders
-                                });
-                            }
-                        });
-                    } else {
-
-                    }
-                });
-            },
-            turnUrl: function(orderNo) {
-                var URI = encodeObj({
-                    "orderNo": orderNo
-                });
-                mui.openWindow({
-                    url: "cartPage_order_status.html?" + URI
-                })
-            },
-            seeData: function(data) {
-                return JSON.parse(JSON.stringify(data));
-            }
-        },
-        created: function() {
-            var self = this;
-            var id = localStorage.getItem("id");
-            $.when(getOrderList(self.page[0], self.orderStatus)).done(function(data) {
-                if(data.resultCode == 200){
-                    self.$data.orders = data.data.orders;
-                    console.log(self.seeData(self.orders));
-                    self.page[0]++;
-                }
-                self.hasAjaxEnd_all = true;
-            });
-            $.when(getOrderList(self.page[1], 0)).done(function(data) {
-                if(data.resultCode == 200){
-                    if (data.data&&data.data.orders) {
-                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-                        self.page[data.data.orders[0].orderStatus + 1]++;
-                    }
-                }
-                self["hasAjaxEnd_0"] = true;
-            });
-            $.when(getOrderList(self.page[2], 1)).done(function(data) {
-                if(data.resultCode == 200){
-                    if (data.data&&data.data.orders) {
-                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-                        self.page[data.data.orders[0].orderStatus + 1]++;
-                    }
-                }
-                self["hasAjaxEnd_1"] = true;
-            });
-            $.when(getOrderList(self.page[3], 2)).done(function(data) {
-                if(data.resultCode == 200){
-                    if (data.data&&data.data.orders) {
-                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-                        self.page[data.data.orders[0].orderStatus + 1]++;
-                    }
-                }
-                self["hasAjaxEnd_2"] = true;
-            });
-            $.when(getOrderList(self.page[4], 3)).done(function(data) {
-                if(data.resultCode == 200){
-                    if (data.data&&data.data.orders) {
-                        self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-                        self.page[data.data.orders[0].orderStatus + 1]++;
-                    }
-                }
-                self["hasAjaxEnd_3"] = true;
-            });
-            // for (var i = 0; i < 4; i++) {
-            //     $.when(getOrderList(self.page[i + 1], i)).done(function(data) {
-            //         if(data.resultCode == 200){
-            //             if (data.data&&data.data.orders) {
-            //                 self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-            //                 self.page[data.data.orders[0].orderStatus + 1]++;
-            //             }
-            //         }
-            //     });
-            // }
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

@@ -13,17 +13,17 @@
     <link rel="stylesheet" href="../source/css/weui.min.css" />
     <title>捐书</title>
     <style>
-    @font-face {
+/*     @font-face {
         font-family: 'icomoon';
         src: url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
         font-weight: normal;
         font-style: normal;
-    }
+    } */
     
     body {
-        font-family: 'icomoon';
+        font-family: "-apple-system, BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif";
         background-color: #fff;
-        background: url('img/group25.png') no-repeat bottom;
+        /* background: url('img/group25.png') no-repeat bottom; */
         background-size: 100%;
     }
     
@@ -43,7 +43,7 @@
     .banner {
         width: 100%;
         height: 135px;
-        background: url('img/banner.jpg') no-repeat;
+        background: url('../source/images/banner.jpg') no-repeat;
         background-size: 100% 100%;
     }
     
@@ -52,8 +52,14 @@
         height: 220px;
         float: left;
         clear: both;
+        position: relative
     }
-    
+    .recycleBook .juanshuBg{
+    	width: 100%;
+    	position: absolute;
+    	bottom: 0;
+    	z-index: -1;
+    }
     .recycleBook .recycleBookTitle {
         text-align: center;
         font-size: 17px;
@@ -75,7 +81,7 @@
         line-height: 50px;
         text-align: center;
         font-size: 24px;
-        color: green;
+        color: #5fbfaf;
         background: #FAFDF8;
     }
     
@@ -94,7 +100,7 @@
     }
     
     p.recycleTreeNum span {
-        color: green;
+        color: #5fbfaf;
     }
     
     hr {
@@ -114,7 +120,7 @@
         margin: 0 auto;
         font-size: 16px;
         color: #fff;
-        background: green;
+        background-color: #5fbfaf;
         border: none;
         border-radius: 4.5px;
         margin-top: 40px;
@@ -130,24 +136,28 @@
     .footer a {
         width: 62px;
         font-size: 15px;
-        color: green;
+        color: #5fbfaf;
         display: block;
         margin: 29px auto 0;
     }
+    [v-cloak]{
+    	display: none;
+    }
     </style>
     <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="../source/js/vue.js"></script>
     <script type="text/javascript" src="../source/js/common.js"></script>
-        <script type="text/javascript" src="../source/js/ajax.js"></script>
-    <script type="text/javascript" src="../source/js/ajax_my.js"></script>
+        <script type="text/javascript" src="../source/js/ajax.min.js"></script>
+    <script type="text/javascript" src="../source/js/ajax_my.min.js"></script>
     <script type="text/javascript" src="../source/js/public.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="../source/js/fastclick.min.js"></script>
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <script>
     </script>
 </head>
 
 <body id="app">
-    <div class="container">
+    <div class="container" v-show="show" v-cloak>
         <header id="header" class="banner" v-on:click="banner">
         </header>
         <!-- /header -->
@@ -158,33 +168,38 @@
                 <span>本</span>
             </div>
             <p class="recycleTreeNum">共减少树木砍伐 <span>{{(bookNum/30).toFixed(1)}}</span> 棵</p>
+            <img class='juanshuBg' src="../source/images/juanshu-bg.png" alt="">
         </section>
         <hr>
         <footer class="footer">
-            <button class="Score">立即捐书立即得分</button>
+        <a class="celectionList" title="捐书记录">捐书记录</a>
+            <button class="Score">立即捐书得积分</button>
             <p>每捐100本书可以获得5000积分=50元</p>
-            <a class="celectionList" title="捐书记录">捐书记录</a>
         </footer>
     </div>
+    <script type="text/javascript" src="../source/js/vue.min.js"></script>
+    <script src="../source/mui/js/mui.min.js"></script>
     <script>
     $(function() {
+    	FastClick.attach(document.body);
         $('.Score').click(function() {
-            window.location.href = 'Confirmation.html?token=' + getQueryStr("token");
+            window.location.href = 'Confirmation.html';
         })
         $('.celectionList').click(function() {
-            window.location.href = 'recycleRecord.html?token=' + getQueryStr("token");
+            window.location.href = 'recycleRecord.html';
         })
         
         var banner = function() {
-            alert('banner的跳转');
+            window.location.href="recycleIntro.html"
         }
 
        var vm = new Vue({
             el: '#app',
             data: {
-                bookNum: '2015412',
-                treeNum: '2215412.4',
-                bookNumArr: []
+                bookNum: '',
+                treeNum: '',
+                bookNumArr: [],
+                show:false
             },
             methods: {
                 banner: banner
@@ -196,6 +211,7 @@
                     if (data.resultCode == 200) {
                     	self.bookNum=data.data.contributionValue+"";
                     	self.bookNumArr = self.bookNum.split('');
+                    	self.show=true;
                     }
                 });
             }

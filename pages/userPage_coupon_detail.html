@@ -13,13 +13,49 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var params = getQueryData();
+        if (params && params.couponId) {
+
+        } else {
+            // mui.alert("查询参数错误","",["确定"],function(){
+            //     mui.back();
+            // });
+        }
+        var vm = new Vue({
+            el: 'body',
+            data: {
+                coupon: ""
+            },
+            methods: {
+                showQRCode: function(couponId) {
+                    $.when(getQRCodeByCouponId(couponId)).done(function(data) {
+                        if (data.resultCode == 200) {
+
+                        }
+                    })
+                }
+            },
+            created: function() {
+                var self = this;
+                $.when(getCouponById(params.couponId)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.coupon = data.data.coupon;
+                    }
+                });
+            }
+        });
+    });
+    </script>
 </head>
+
 <body style="background-color: #3aa337;">
     <div class="mui-content" style="padding: 12px;background-color: transparent;">
         <div class="coupon couponDetail" style="background-color: #fff;">
@@ -66,56 +102,6 @@
                 </ul>
             </div>
         </div>
-            
     </div>
-<script>
-mui.init();
-var params = getQueryData();
-if(params&&params.couponId){
-    
-}
-else{
-    // mui.alert("查询参数错误","",["确定"],function(){
-    //     mui.back();
-    // });
-}
-var vm = new Vue({
-    el: 'body',
-    data: {
-        coupon: ""
-    },
-    methods: {
-        showQRCode: function(couponId){
-            $.when(getQRCodeByCouponId(couponId)).done(function(data){
-                if(data.resultCode == 200){
-
-                }
-            })
-        }
-    },
-    created: function(){
-        var self = this;
-        $.when(getCouponById(params.couponId)).done(function(data){
-            if(data.resultCode == 200){
-                self.coupon = data.data.coupon;
-            }
-        });
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
 </body>
 <html>

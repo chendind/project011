@@ -175,13 +175,42 @@ input {
 .address-mui-table-view > .mui-table-view-cell > a > .mui-media-body > .mui-ellipsis {
   padding: 5px 0;
 }
-.mui-toast-container {
-  bottom: 50% !important;
+.mui-toast-container
+{
+    position: fixed;
+    z-index: 9999;
+    bottom: 50px;
+
+    width: 100%;
+
+    -webkit-transition: opacity .8s;
+            transition: opacity .8s;
+
+    opacity: 0;
+    bottom: 50% !important;
 }
-.mui-toast-message {
-  background-color: rgba(0, 0, 0, 0.8);
+.mui-toast-container.mui-active
+{
+    opacity: 1;
+}
+
+.mui-toast-message
+{
+    font-size: 14px;
+
+    width: 270px;
+    margin: 5px auto;
+    padding: 5px;
+
+    text-align: center;
+
+    color: #000;
+    border-radius: 7px;
+    background-color: #d8d8d8;
+      background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
 }
+
 .mui-btn.mui-btn-long {
   min-width: 225px;
   border-radius: 22px;

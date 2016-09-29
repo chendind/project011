@@ -18,6 +18,91 @@
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                detail: [],
+                cartList: [],
+                page: 1
+            },
+            computed: {},
+            methods: {
+                noExisted: function() {
+                    if (this.cartList.indexOf(this.detail.id) !== -1) {
+                        mui.toast("请勿重复添加");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                addToCart: function() {
+                    var self = this;
+                    if (self.noExisted()) {
+                        $.when(addToCart(self.detail.id)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("添加成功");
+                            }
+                            $.when(cartList()).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    if (data.data.carts) {
+                                        self.cartList = [];
+                                        for (var i = 0; i < data.data.carts.length; i++) {
+                                            self.cartList.push(data.data.carts[i].relationId)
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    }
+                },
+                createOrder: function() {
+                    var ids = this.detail.id;
+                    $.when(createOrder(ids, "1", "bookOnly")).done(function(data) {
+                        if (data.resultCode == 200) {
+                            var tradeNo = data.data.tradeNumber;
+                            mui.openWindow({
+                                url: "cartPage_orderConfirm.html?" + encodeObj({
+                                    "tradeNo": tradeNo
+                                })
+                            })
+                        }
+                    });
+                }
+            },
+            created: function() {
+                var self = this;
+                var params = getQueryData();
+                if (params && params.bookId) {
+                    $.when(bookDetail(params.bookId)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            self.detail = data.data.book;
+                            // self.detail.author = self.detail.author.split("，");
+                        }
+                    });
+                    $.when(cartList()).done(function(data) {
+                        if (data.resultCode == 200) {
+                            if (data.data.carts) {
+                                for (var i = 0; i < data.data.carts.length; i++) {
+                                    self.cartList.push(data.data.carts[i].relationId)
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    mui.alert("查询参数错误", "", ["确定"], function() {
+                        mui.back();
+                    });
+                }
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body style="background-color: #fff;">
@@ -60,89 +145,6 @@
         <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
-    <script>
-    mui.init();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            detail: [],
-            cartList: [],
-            page: 1
-        },
-        computed: {
-        },
-        methods: {
-            noExisted: function() {
-                if (this.cartList.indexOf(this.detail.id) !== -1) {
-                    mui.toast("请勿重复添加");
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            addToCart: function() {
-                var self = this;
-                if (self.noExisted()) {
-                    $.when(addToCart(self.detail.id)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            mui.toast("添加成功");
-                        }
-                        $.when(cartList()).done(function(data) {
-                            if (data.resultCode == 200) {
-                                if (data.data.carts) {
-                                    self.cartList=[];
-                                    for (var i = 0; i < data.data.carts.length; i++) {
-                                        self.cartList.push(data.data.carts[i].relationId)
-                                    }
-                                }
-                            }
-                        });
-                    });
-                }
-            },
-            createOrder:function() {
-                var ids=this.detail.id;
-                $.when(createOrder(ids, "1", "bookOnly")).done(function(data) {
-                    if (data.resultCode == 200) {
-                        var tradeNo = data.data.tradeNumber;
-                        mui.openWindow({
-                            url: "cartPage_orderConfirm.html?" + encodeObj({"tradeNo":tradeNo })
-                        })
-                    }
-                });
-            }
-        },
-        created: function() {
-            var self = this;
-            var params = getQueryData();
-            if(params&&params.bookId){
-                $.when(bookDetail(params.bookId)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        self.detail = data.data.book;
-                        // self.detail.author = self.detail.author.split("，");
-                    }
-                });
-                $.when(cartList()).done(function(data) {
-                    if (data.resultCode == 200) {
-                        if (data.data.carts) {
-                            for (var i = 0; i < data.data.carts.length; i++) {
-                                self.cartList.push(data.data.carts[i].relationId)
-                            }
-                        }
-                    }
-                });
-            }
-            else{
-                mui.alert("查询参数错误","",["确定"],function(){
-                    mui.back();
-                });
-            }
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

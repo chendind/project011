@@ -11,19 +11,23 @@
     <meta name="keywords" content="seokeywords" />
     <meta name="description" content="seodescription" />
     <link rel="stylesheet" href="../source/css/weui.min.css" />
-    <script type="text/javascript" src="../source/js/vue.js"></script>
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
+    <script type="text/javascript" src="../source/js/vue.min.js"></script>
+    <script type="text/javascript" src="../source/js/fastclick.min.js"></script>
     <title>捐书记录</title>
     <style>
-    @font-face {
+/*     @font-face {
         font-family: 'icomoon';
         src: url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
         font-weight: normal;
         font-style: normal;
-    }
+    } */
     
     body {
-        font-family: 'icomoon';
-        background-color: #eeeeee;
+        font-family: "-apple-system, BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif";
+        background-color: #eee;
+        /* background: url('img/group25.png') no-repeat bottom; */
+        background-size: 100%;
     }
     
     * {
@@ -67,45 +71,27 @@
         margin-top: 15px;
         vertical-align: -4px;
     }
+            [v-cloak]{
+        display: none;
+    }
     </style>
     <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../source/js/common.js"></script>
-    <script type="text/javascript" src="../source/js/ajax.js"></script>
-    <script type="text/javascript" src="../source/js/ajax_my.js"></script>
+    <script type="text/javascript" src="../source/js/ajax.min.js"></script>
+    <script type="text/javascript" src="../source/js/ajax_my.min.js"></script>
     <script type="text/javascript" src="../source/js/public.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../source/mui/js/mui.min.js"></script>
     <script>
     </script>
-</head>
-
-<body id="app">
-    <div class="container" v-if="recordList.length>0">
-        <div class="weui_cells weui_cells_access">
-            <a class="weui_cell" v-for="item in recordList" v-on:click="GoToList(item)">
-                <div class="weui_cell_bd weui_cell_primary">
-                    <p class="headContent" v-if="item.status == 0">捐书：预约成功</p>
-                    <p class="headContent" v-if="item.status == 1">捐书：已完成</p>
-                    <p class="headContent" v-if="item.status == 2">捐书：预约取消</p>
-                    <p class="time" style="">{{item.appointTime?item.appointTime.split("T").join(" "):""}}</p>
-                </div>
-                <div class="weui_cell_ft">
-                    <span class="Score" v-if="item.status == 1">积分+{{item.score}}</span>
-                </div>
-            </a>
-        </div>
-        <p class="theme-loading" v-if="waiting">
-            <img src="../source/images/loading.gif" alt=""> 正在努力加载
-        </p>
-                <p class="theme-loading" v-if="recordList.length==0">
-             暂无记录
-        </p>
-    </div>
-    <script>
+        <script>
     $(function() {
+        FastClick.attach(document.body);
         var data = {
             page: 1,
             recordList: [],
-            waiting:true
+            waiting:true,
+            show:false
         }
         var page = 1;
         var isEnd = false;
@@ -120,6 +106,7 @@
                 console.log(ret);
                 if (ret.resultCode == 200) {
                     data.recordList = data.recordList.concat(ret.data.records);
+                    vm.show=true;
                     console.log(data.recordList);
                     isEnd = ret.data.pager.pages == page;
                     page++;
@@ -155,6 +142,30 @@
         })
     })
     </script>
+</head>
+
+<body id="app">
+    <div class="container" v-show="show" v-cloak>
+        <div class="weui_cells weui_cells_access">
+            <a class="weui_cell" v-for="item in recordList" v-on:click="GoToList(item)" v-if="recordList.length>0">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <p class="headContent" v-if="item.status == 0">捐书：预约成功</p>
+                    <p class="headContent" v-if="item.status == 1">捐书：已完成</p>
+                    <p class="headContent" v-if="item.status == 2">捐书：预约取消</p>
+                    <p class="time" style="">{{item.appointTime?item.appointTime.split("T").join(" "):""}}</p>
+                </div>
+                <div class="weui_cell_ft">
+                    <span class="Score" v-if="item.status == 1">积分+{{item.score}}</span>
+                </div>
+            </a>
+        </div>
+        <p class="theme-loading" v-if="waiting">
+            <img src="../source/images/loading.gif" alt=""> 正在努力加载
+        </p>
+                <p class="theme-loading" v-if="recordList.length==0">
+             暂无记录
+        </p>
+    </div>
 </body>
 
 </html>

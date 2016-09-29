@@ -45,110 +45,112 @@
             </ul>
         </div>
     </div>
-    <a class="fixedCartButton" style="bottom: 20px;"  data-href="cartPage.html">
+    <a class="fixedCartButton" style="bottom: 20px;" data-href="cartPage.html">
         <span class="mui-badge mui-badge-primary mui-badge-cart" v-if="cartList.length>0">{{cartList.length}}</span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
     <script>
-    mui.init();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            cartList: [],
-            bookList: [],
-            bannerImagePath: ""
-        },
-        computed: {},
-        methods: {
-            noExisted: function(id) {
-                if (this.cartList.indexOf(id) !== -1) {
-                    mui.toast("请勿重复添加");
-                    return false;
-                } else {
-                    return true;
-                }
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                cartList: [],
+                bookList: [],
+                bannerImagePath: ""
             },
-            addToCart: function(id) {
-                var self = this;
-                if (self.noExisted(id)) {
-                    $.when(addToCart(id)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            mui.toast("添加成功");
-                            $.when(cartList()).done(function(data) {
-                                if (data.resultCode == 200) {
-                                    if (data.data.carts) {
-                                        self.cartList = [];
-                                        for (var i = 0; i < data.data.carts.length; i++) {
-                                            self.cartList.push(data.data.carts[i].relationId)
+            computed: {},
+            methods: {
+                noExisted: function(id) {
+                    if (this.cartList.indexOf(id) !== -1) {
+                        mui.toast("请勿重复添加");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                addToCart: function(id) {
+                    var self = this;
+                    if (self.noExisted(id)) {
+                        $.when(addToCart(id)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("添加成功");
+                                $.when(cartList()).done(function(data) {
+                                    if (data.resultCode == 200) {
+                                        if (data.data.carts) {
+                                            self.cartList = [];
+                                            for (var i = 0; i < data.data.carts.length; i++) {
+                                                self.cartList.push(data.data.carts[i].relationId)
+                                            }
                                         }
                                     }
-                                }
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
+                    }
+                },
+                encode: function(data) {
+                    return encodeObj(data);
                 }
             },
-            encode: function(data) {
-                return encodeObj(data);
-            }
-        },
-        created: function() {
-            var self = this;
-            var params = getQueryData();
-            $.when(cartList()).done(function(data) {
-                if (data.resultCode == 200) {
-                    if (data.data.carts) {
-                        for (var i = 0; i < data.data.carts.length; i++) {
-                            self.cartList.push(data.data.carts[i].relationId)
+            created: function() {
+                var self = this;
+                var params = getQueryData();
+                $.when(cartList()).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data.carts) {
+                            for (var i = 0; i < data.data.carts.length; i++) {
+                                self.cartList.push(data.data.carts[i].relationId)
+                            }
                         }
                     }
-                }
-            });
-            if (!params) {
-                mui.alert("查询参数错误", "", ["确定"], function() {
-                    mui.back();
                 });
-            } else {
-                if (params.subCateId) {
-                    // 某个子类
-                    var subCateId = params.subCateId;
-                    $.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            if (data.data && data.data.books.length) {
-                                self.bookList = data.data.books
-                            } else {
-                                mui.alert("无书本信息", "", ["确定"], function() {
-                                    mui.back();
-                                });
-                            }
-                        }
+                if (!params) {
+                    mui.alert("查询参数错误", "", ["确定"], function() {
+                        mui.back();
                     });
-                } else if (params.recommendId || params.hotId || params.newId) {
-                    /* 推荐书籍
-                       热门书籍
-                       最新书籍
-                    */
-                    var id = params.recommendId || params.hotId || params.newId,
-                        type = params.type;
-                    $.when(getRecommendBooksByTypeAndId(type, id)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            if (data.data.list && data.data.list.books.length) {
-                                self.bookList = data.data.list.books
-                                self.bannerImagePath = data.data.list.path;
-                            } else {
-                                mui.alert("无书本信息", "", ["确定"], function() {
-                                    mui.back();
-                                });
+                } else {
+                    if (params.subCateId) {
+                        // 某个子类
+                        var subCateId = params.subCateId;
+                        $.when(getBooksByCategoryId(subCateId, currentCityId, "id", 1)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                if (data.data && data.data.books.length) {
+                                    self.bookList = data.data.books
+                                } else {
+                                    mui.alert("无书本信息", "", ["确定"], function() {
+                                        mui.back();
+                                    });
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else if (params.recommendId || params.hotId || params.newId) {
+                        /* 推荐书籍
+                           热门书籍
+                           最新书籍
+                        */
+                        var id = params.recommendId || params.hotId || params.newId,
+                            type = params.type;
+                        $.when(getRecommendBooksByTypeAndId(type, id)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                if (data.data.list && data.data.list.books.length) {
+                                    self.bookList = data.data.list.books
+                                    self.bannerImagePath = data.data.list.path;
+                                } else {
+                                    mui.alert("无书本信息", "", ["确定"], function() {
+                                        mui.back();
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
-            }
-        },
-        ready: function() {
+            },
+            ready: function() {
 
-        }
-    })
+            }
+        })
+    });
     </script>
 </body>
 

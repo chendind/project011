@@ -19,6 +19,78 @@
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+    <script>
+    $(function() {
+        mui.init();
+        var params = getQueryData();
+        if (params && params.orderNo) {} else {
+            mui.alert("查询参数错误", "", ["确定"], function() {
+                mui.back();
+            });
+        }
+        $("#applyRefundButton").on('tap', function() {
+            mui.confirm("确定申请退款吗？", " ", ["<span class='textColor'>确定</span>", "取消"], function(data) {
+                if (!data.index) {
+                    // 点击了确定 data.index将等于 -1
+                    mui.toast("申请成功，我们将尽快为您处理");
+                }
+            })
+        });
+        var vm = new Vue({
+            el: "body",
+            data: {
+                orders: [],
+                page: 1,
+                books: [],
+                showState: false,
+                data: [],
+                location: "",
+                orderNo: "",
+                goods: []
+            },
+            computed: {},
+            methods: {
+                encode: function(data) {
+                    return encodeObj(data);
+                },
+                applyRefund: function(data) {
+                    var self = this;
+                    mui.confirm("确定申请退款吗？", " ", ["<span class='redColor'>确定</span>", "取消"], function(data) {
+                        if (data.index == 0) {
+                            $.when(applyRefund(self.orderNo)).done(function(data) {
+                                if (data.resultCode) {
+                                    mui.toast("申请成功，我们将尽快为您处理");
+                                    mui.back();
+                                }
+                            });
+                        }
+                    })
+                }
+            },
+            created: function() {
+                var self = this;
+                self.location = window.location.search;
+                var orderNo = getQueryData().orderNo;
+                self.orderNo = orderNo;
+                $.when(orderDetail(orderNo)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.$data.data = data.data.order;
+                        self.books = data.data.order.books;
+                        self.goods = data.data.order.goods;
+                        self.showState = true;
+                    } else {
+                        mui.alert("订单超时", "", ["确定"], function() {
+                            mui.back();
+                        });
+                    }
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -162,78 +234,6 @@
             </div>
         </div>
     </div>
-    <script>
-    mui.init();
-    var params = getQueryData();
-    if (params&&params.orderNo) {
-    } else {
-        mui.alert("查询参数错误", "", ["确定"], function() {
-            mui.back();
-        });
-    }
-    $("#applyRefundButton").on('tap', function() {
-        mui.confirm("确定申请退款吗？", " ", ["<span class='textColor'>确定</span>", "取消"], function(data) {
-            if (!data.index) {
-                // 点击了确定 data.index将等于 -1
-                mui.toast("申请成功，我们将尽快为您处理");
-            }
-        })
-    });
-    var vm = new Vue({
-        el: "body",
-        data: {
-            orders: [],
-            page: 1,
-            books: [],
-            showState: false,
-            data: [],
-            location: "",
-            orderNo: "",
-            goods:[]
-        },
-        computed: {},
-        methods: {
-            encode: function(data) {
-                return encodeObj(data);
-            },
-            applyRefund: function(data) {
-                var self = this;
-                mui.confirm("确定申请退款吗？", " ", ["<span class='redColor'>确定</span>", "取消"], function(data) {
-                    if (data.index == 0) {
-                        $.when(applyRefund(self.orderNo)).done(function(data) {
-                            if (data.resultCode) {
-                                mui.toast("申请成功，我们将尽快为您处理");
-                                mui.back();
-                            }
-                        });
-                    }
-                })
-            }
-        },
-        created: function() {
-            var self = this;
-            self.location = window.location.search;
-            var orderNo = getQueryData().orderNo;
-            self.orderNo = orderNo;
-            $.when(orderDetail(orderNo)).done(function(data) {
-                if(data.resultCode == 200){
-                    self.$data.data = data.data.order;
-                    self.books = data.data.order.books;
-                    self.goods=data.data.order.goods;
-                    self.showState = true;
-                }
-                else{
-                    mui.alert("订单超时", "", ["确定"], function() {
-                        mui.back();
-                    });
-                }
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

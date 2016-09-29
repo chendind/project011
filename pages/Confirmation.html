@@ -12,19 +12,21 @@
     <meta name="description" content="seodescription" />
     <link rel="stylesheet" href="../source/css/weui.min.css" />
     <!-- <link rel="stylesheet" href="../source/mui/css/mui.css"> -->
-    <!-- <link rel="stylesheet" href="../source/css/mui_overwrite.css"> -->
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <title>确认预约</title>
     <style>
-    @font-face {
+    /*     @font-face {
         font-family: 'icomoon';
         src: url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
         font-weight: normal;
         font-style: normal;
-    }
+    } */
     
     body {
-        font-family: 'icomoon';
-        background-color: #eeeeee;
+        font-family: "-apple-system, BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif";
+        background-color: #eee;
+        /* background: url('img/group25.png') no-repeat bottom; */
+        background-size: 100%;
     }
     
     * {
@@ -106,6 +108,7 @@
         height: 85px;
         bottom: 0;
         width: 100%;
+        background-color: #eee;
     }
     
     .confirm p {
@@ -121,7 +124,7 @@
         line-height: 49px;
         color: #fff;
         font-size: 17px;
-        background: #016df1;
+        background: #5fbfaf;
         margin-top: 14px;
     }
     
@@ -164,27 +167,186 @@
         display: none;
     }
     
-    .disabled {
-        background-color: #ccc!important;
+    .disabled span {
+        opacity: 0.3;
+    }
+    
+    [v-cloak] {
+        display: none;
     }
     </style>
     <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="../source/js/vue.js"></script>
+    <script type="text/javascript" src="../source/js/vue.min.js"></script>
     <script type="text/javascript" src="../source/js/encoding-indexes.js"></script>
     <script type="text/javascript" src="../source/js/encoding.js"></script>
     <script src="../source/js/public.js"></script>
     <script src="../source/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="../source/js/common.js"></script>
+    <script type="text/javascript" src="../source/js/fastclick.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/public.js"></script>
-    <script src="../source/js/ajax.js"></script>
-    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/ajax.min.js"></script>
+    <script src="../source/js/ajax_my.min.js"></script>
     <script>
+    </script>
+        <script>
+    $(function() {
+        mui.init();
+        window.onload = function() {
+            function getAddress(id, addressId, userName, userPhone, userAddress) {
+                $('.userName').text(userName);
+                $('.userPhone').text(userPhone);
+                $('.userAddress').text(userAddress);
+                $('.inputSchool').val(addressId);
+            }
+            window.getAddress = getAddress;
+        }
+        FastClick.attach(document.body);
+        var data = {
+                schoolAddressId: '',
+                appoinTime: '',
+                remark: '',
+                count: '',
+            }
+            //弹窗后，防止屏幕滚动，禁止掉touchmove手势
+        $('.weui_mask').on('touchmove', function(event) {
+            event.preventDefault();
+        });
+        //注册checkbox表单美化
+        $('.checkboxDiv').click(function() {
+            $(this).toggleClass('A');
+            var isA = $(this).hasClass('A');
+            $('.checkbox').click();
+        })
+
+
+
+        //点击隐藏弹窗
+        $('.default,.primary').click(function() {
+            $('.weui_mask,.weui_dialog').hide();
+        })
+
+        //创建vue实例
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                schoolAddressId: '',
+                appoinTime: '',
+                remark: '',
+                count: '',
+                confirm: true,
+                address: {},
+                token: encodeObj({
+                    'donateBook': '1'
+                }),
+                show: false,
+                timeLater: true
+            },
+            computed: {
+                canSubmit: function() {
+                    if (this.count && this.appoinTime && this.schoolAddressId && confirm) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+            },
+            watch: {
+                appoinTime: function(val, oldVal) {
+                    console.log(val);
+                    var year = val.split("T")[0].split("-")[0]
+                    var month = val.split("T")[0].split("-")[1]
+                    var day = val.split("T")[0].split("-")[2]
+                    var time = new Date();
+                    time.setFullYear(year);
+                    time.setMonth(month - 1);
+                    time.setDate(day);
+                    var now = new Date()
+                    console.log(now.getTime());
+                    console.log(time.getTime());
+                    if (now.getTime() > time.getTime()) {
+                        this.timeLater = false;
+                    } else {
+                        this.timeLater = true
+                    }
+                }
+            },
+            methods: {
+                ensure: function() {
+                    //点击确认预约信息
+                    if (this.canSubmit) {
+                        if (this.timeLater) {
+                            var params = {
+                                "userAddressId": this.schoolAddressId,
+                                "appointTime": this.appoinTime,
+                                "remark": this.remark,
+                                "count": this.count
+                            }
+                            $.when(donateBook(params)).done(function(data) {
+                                console.log(data);
+                                if (data.resultCode == 200) {
+                                    console.log(data.data);
+                                    window.location.href = 'recycleDetail.html?' + encodeObj({
+                                        id: data.data.id
+                                    });
+                                    self.address = data.data.address;
+                                    self.schoolAddressId = data.data.address.id
+                                } else {
+                                    $('.weui_dialog_title').text(data.message);
+                                    $('.weui_dialog,.weui_mask').show();
+                                }
+                            });
+                        } else {
+                            mui.toast("请选择有效的时间")
+                        }
+                    } else {
+                        mui.toast("请填写完整信息")
+                    }
+
+                }
+            },
+            created: function() {
+                var self = this;
+                var params = getQueryData();
+                if (params.addressId) {
+                    $.when(getOneAddress(params.addressId)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            console.log(data.data);
+                            self.address = data.data.address;
+                            self.schoolAddressId = data.data.address.id;
+                            self.show = true;
+                        } else {
+
+                        }
+                    });
+                } else {
+                    $.when(getAllMyAddress()).done(function(data) {
+                        if (data.resultCode == 200) {
+                            console.log(data.data.list);
+                            var list = data.data.list;
+                            if (list && list.length > 0) {
+                                for (var i = 0; i < list.length; i++) {
+                                    if (list[i].isDefault == 1) {
+                                        self.address = list[i];
+                                        self.schoolAddressId = list[i].id;
+                                        self.show = true;
+                                    }
+                                }
+                            }
+
+                        } else {
+
+                        }
+                    });
+                }
+            }
+        })
+    })
     </script>
 </head>
 
 <body id="app">
-    <div class="container">
+    <div class="container" v-cloak v-show="show">
         <div class="weui_cells weui_cells_access">
             <a class="weui_cell" href="userPage_userInfo_address.html?{{token}}" v-show="schoolAddressId">
                 <div class="weui_cell_hd">
@@ -197,15 +359,13 @@
                 <div class="weui_cell_ft"></div>
                 <input hidden type="text" class="inputSchool" v-model="schoolAddressId">
             </a>
-            <a class="weui_cell" href="userPage_userInfo_addNewAddress.html?{{token}}" v-show="!schoolAddressId">
-                <div class="weui_cell_hd">
-                    <img src="../source/images/address.png" alt="" style="width:21px;height:23px;margin-right:5px;display:block">
-                </div>
-                <div class="weui_cell_bd weui_cell_primary">
-                    <p class="userName"></p><span class="userPhone"></span>
-                    <p class="userAddress">添加收货地址</p>
-                </div>
-                <div class="weui_cell_ft"></div>
+            <a class="weui_cell" href="userPage_userInfo_addNewAddress.html?{{token}}" v-show="!schoolAddressId" style="align-items: center;justify-content:center;">
+                <!-- <div class="weui_cell_hd" > -->
+                <img src="../source/images/addAddress.png" alt="" style="width:21px;height:23px;margin-right:5px;display:inline-block;">
+                <!-- </div> -->
+                <!-- <div class="weui_cell_bd weui_cell_primary" style="width: 88px;display:inline-block;"> -->
+                <span class="userAddress" style="width: 88px;display:inline-block;">添加收货地址</span>
+                <!-- </div> -->
                 <input hidden type="text" class="inputSchool" v-model="schoolAddressId">
             </a>
         </div>
@@ -245,8 +405,9 @@
     </div>
     <div class="confirm">
         <p>
-            <input type="checkbox" name="checkbox" class="checkbox" hidden v-model="confirm"><span class="checkboxDiv A"></span>我已阅读并同意<a href="##" style="color:#016df1;">云书捐书服务条款</a></p>
-        <div class="ensure" @click="ensure" :class="{'disabled':!canSubmit}">立即预约</div>
+            <input type="checkbox" name="checkbox" class="checkbox" hidden v-model="confirm"><span class="checkboxDiv A"></span>我已阅读并同意<a href="recycleAnnounce.html" style="color:#5fbfaf
+;">云书捐书服务条款</a></p>
+        <div class="ensure" @click="ensure" :class="{'disabled':!canSubmit}"><span>立即预约</span></div>
     </div>
     <div class="weui_dialog_confirm">
         <div class="weui_mask"></div>
@@ -257,130 +418,6 @@
             </div>
         </div>
     </div>
-    <script>
-    $(function() {
-        // mui.init();
-        var data = {
-                schoolAddressId: '',
-                appoinTime: '',
-                remark: '',
-                count: ''
-            }
-            //弹窗后，防止屏幕滚动，禁止掉touchmove手势
-        $('.weui_mask').on('touchmove', function(event) {
-            event.preventDefault();
-        });
-        //注册checkbox表单美化
-        $('.checkboxDiv').click(function() {
-            $(this).toggleClass('A');
-            var isA = $(this).hasClass('A');
-            $('.checkbox').click();
-        })
-
-
-
-        //点击隐藏弹窗
-        $('.default,.primary').click(function() {
-            $('.weui_mask,.weui_dialog').hide();
-        })
-
-        //创建vue实例
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                schoolAddressId: '',
-                appoinTime: '',
-                remark: '',
-                count: '',
-                confirm: true,
-                address: {},
-                token: encodeObj({
-                    'donateBook': '1'
-                })
-            },
-            computed: {
-                canSubmit: function() {
-                    if (this.count && this.appoinTime && this.schoolAddressId && confirm) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-            },
-            methods: {
-
-                ensure: function() {
-                    //点击确认预约信息
-                    if (this.canSubmit) {
-                        var params = {
-                            "userAddressId": this.schoolAddressId,
-                            "appointTime": this.appoinTime,
-                            "remark": this.remark,
-                            "count": this.count
-                        }
-                        $.when(donateBook(params)).done(function(data) {
-                        	console.log(data);
-                            if (data.resultCode == 200) {
-                                console.log(data.data);
-                                window.location.href = 'recycleDetail.html?' + encodeObj({id:data.data.id});
-                                self.address = data.data.address;
-                                self.schoolAddressId = data.data.address.id
-                            } else {
-                                    $('.weui_dialog_title').text(data.message);
-                                    $('.weui_dialog,.weui_mask').show();
-                            }
-                        });
-                    } else {
-                        // mui.toast("请确认同意条款")
-                    }
-
-                }
-            },
-            created: function() {
-                var self = this;
-                var params = getQueryData();
-                if (params.addressId) {
-                    $.when(getOneAddress(params.addressId)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            console.log(data.data);
-                            self.address = data.data.address;
-                            self.schoolAddressId = data.data.address.id
-                        } else {
-
-                        }
-                    });
-                } else {
-                    $.when(getAllMyAddress()).done(function(data) {
-                        if (data.resultCode == 200) {
-                            console.log(data.data.list);
-                            var list = data.data.list;
-                            if (list && list.length > 0) {
-                                for (var i = 0; i < list.length; i++) {
-                                    if (list[i].isDefault == 1) {
-                                        self.address = list[i];
-                                        self.schoolAddressId = list[i].id
-                                    }
-                                }
-                            }
-
-                        } else {
-
-                        }
-                    });
-                }
-            }
-        })
-    })
-    window.onload = function() {
-        function getAddress(id, addressId, userName, userPhone, userAddress) {
-            $('.userName').text(userName);
-            $('.userPhone').text(userPhone);
-            $('.userAddress').text(userAddress);
-            $('.inputSchool').val(addressId);
-        }
-        window.getAddress = getAddress;
-    }
-    </script>
 </body>
 
 </html>

@@ -20,6 +20,146 @@
     <script src="../source/js/vue-tap.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
+        <script>
+    $(function() {
+        $(".edit").click(function(event) {
+            $(this).toggle();
+            $(this).next().toggle();
+            $(this).nextAll(".finish").toggle();
+        });
+        $(".finish").click(function(event) {
+            $(this).toggle();
+            $(this).prev().toggle();
+            $(this).prevAll(".edit").toggle();
+        });
+        //阻尼系数
+        var deceleration = mui.os.ios ? 0.0006 : 0.0009;
+        mui('.mui-scroll-wrapper').scroll({
+            bounce: false,
+            indicators: true, //是否显示滚动条
+            deceleration: deceleration
+        });
+        mui.init();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                cartList: [],
+                recordState: [],
+                allState: true,
+                goodsList: [],
+                changeState: 0,
+            },
+            computed: {
+                choseList: function() {
+                    return this.recordState.filter(function(index) {
+                        return index !== false
+                    });
+                },
+                totalMoney: function() {
+                    if (this.choseList.length == 0) {
+                        return "0.00"
+                    } else if (this.choseList.length > 3) {
+                        return "12.00"
+                    } else {
+                        return "6.00"
+                    }
+                },
+                turnUrl: function() {
+                    return encodeObj(this.choseList.slice(0, 6))
+                },
+            },
+            watch: {
+                "cartList.length-choseList.length": function(val, oldVal) {
+                    if (val == 0) {
+                        this.allState = true;
+                    } else {
+                        this.allState = false;
+                    }
+                }
+            },
+            methods: {
+                allSelect: function() {
+                    var self = this;
+                    if (self.allState == true) {
+                        for (var i = 0; i < self.cartList.length; i++) {
+                            vm.recordState.$set(i, self.cartList[i].id);
+                        }
+                    } else {
+                        for (var i = 0; i < self.cartList.length; i++) {
+                            vm.recordState.$set(i, false);
+                        }
+                    }
+                },
+                deleteItem: function(id, record, index) {
+                    var self = this;
+                    mui.confirm("确定删除吗？", " ", ["<span class='redColor'>删除</span>", "取消"], function(data) {
+                        if (data.index == 0) {
+                            $.when(deleteFromCart(id)).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    self.cartList.$remove(record);
+                                    self.recordState.splice(index, 1);
+                                }
+                            });
+                        }
+                    })
+                },
+                createOrder: function() {
+                    var self = this;
+                    var data = self.choseList.slice(0, 6);
+                    var num = data.length;
+                    var ids = data.join(",");
+                    if (self.totalMoney > 0) {
+                        $.when(createOrder(ids, num, "shoppingCart")).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                var tradeNo = data.data.tradeNumber;
+                                mui.openWindow({
+                                    // url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo })
+                                    // 林森，这里我不是很理解两个的区别，先用orderNo了
+                                    url: "cartPage_orderConfirm.html?" + encodeObj({
+                                        "orderNo": tradeNo
+                                    })
+                                })
+                            }
+                        });
+                    } else {
+                        mui.toast("请选择要结算的商品");
+                    }
+                },
+                seeData: function(data) {
+                    return JSON.parse(JSON.stringify(data));
+                }
+            },
+            created: function() {
+                var self = this;
+                $.when(cartList()).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        self.changeState++;
+                        if (data.data.carts) {
+
+                            for (var j = 0, len = data.data.carts.length; j < len; j++) {
+                                if (data.data.carts[j].type == 0) {
+                                    self.cartList.push(data.data.carts[j]);
+                                } else {
+                                    self.goodsList.push(data.data.carts[j])
+                                }
+                            }
+                            console.log(self.seeData(self.cartList));
+                            console.log(self.seeData(self.goodsList));
+                            for (var i = 0; i < self.cartList.length; i++) {
+                                vm.recordState.$set(i, self.cartList[i].id);
+                            }
+                        }
+                    }
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -167,144 +307,6 @@
             </div> -->
         </div>
     </div>
-    <script>
-    $(".edit").click(function(event) {
-        $(this).toggle();
-        $(this).next().toggle();
-        $(this).nextAll(".finish").toggle();
-    });
-    $(".finish").click(function(event) {
-        $(this).toggle();
-        $(this).prev().toggle();
-        $(this).prevAll(".edit").toggle();
-    });
-    //阻尼系数
-    var deceleration = mui.os.ios ? 0.0006 : 0.0009;
-    mui('.mui-scroll-wrapper').scroll({
-        bounce: false,
-        indicators: true, //是否显示滚动条
-        deceleration: deceleration
-    });
-    mui.init();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            cartList: [],
-            recordState: [],
-            allState: true,
-            goodsList: [],
-            changeState:0,
-        },
-        computed: {
-            choseList: function() {
-                return this.recordState.filter(function(index) {
-                    return index !== false
-                });
-            },
-            totalMoney: function() {
-                if (this.choseList.length == 0) {
-                    return "0.00"
-                } else if (this.choseList.length > 3) {
-                    return "12.00"
-                } else {
-                    return "6.00"
-                }
-            },
-            turnUrl: function() {
-                return encodeObj(this.choseList.slice(0, 6))
-            },
-        },
-        watch: {
-            "cartList.length-choseList.length": function(val, oldVal) {
-                if (val == 0) {
-                    this.allState = true;
-                } else {
-                    this.allState = false;
-                }
-            }
-        },
-        methods: {
-            allSelect: function() {
-                var self = this;
-                if (self.allState == true) {
-                    for (var i = 0; i < self.cartList.length; i++) {
-                        vm.recordState.$set(i, self.cartList[i].id);
-                    }
-                } else {
-                    for (var i = 0; i < self.cartList.length; i++) {
-                        vm.recordState.$set(i, false);
-                    }
-                }
-            },
-            deleteItem: function(id, record, index) {
-                var self = this;
-                mui.confirm("确定删除吗？", " ", ["<span class='redColor'>删除</span>", "取消"], function(data) {
-                    if (data.index == 0) {
-                        $.when(deleteFromCart(id)).done(function(data) {
-                            if (data.resultCode == 200) {
-                                self.cartList.$remove(record);
-                                self.recordState.splice(index, 1);
-                            }
-                        });
-                    }
-                })
-            },
-            createOrder: function() {
-                var self = this;
-                var data = self.choseList.slice(0, 6);
-                var num = data.length;
-                var ids = data.join(",");
-                if (self.totalMoney > 0) {
-                    $.when(createOrder(ids, num, "shoppingCart")).done(function(data) {
-                        console.log(data);
-                        if (data.resultCode == 200) {
-                            var tradeNo = data.data.tradeNumber;
-                            mui.openWindow({
-                                // url: "cartPage_orderConfirm.html?" +encodeObj({"tradeNo":tradeNo })
-                                // 林森，这里我不是很理解两个的区别，先用orderNo了
-                                url: "cartPage_orderConfirm.html?" + encodeObj({
-                                    "orderNo": tradeNo
-                                })
-                            })
-                        }
-                    });
-                }else{
-                    mui.toast("请选择要结算的商品");
-                }
-            },
-            seeData: function(data) {
-                return JSON.parse(JSON.stringify(data));
-            }
-        },
-        created: function() {
-            var self = this;
-            $.when(cartList()).done(function(data) {
-                console.log(data);
-                if (data.resultCode == 200) {
-                    self.changeState++;
-                    if (data.data.carts) {
-
-                        for (var j = 0, len = data.data.carts.length; j < len; j++) {
-                            if (data.data.carts[j].type == 0) {
-                                self.cartList.push(data.data.carts[j]);
-                            } else {
-                                self.goodsList.push(data.data.carts[j])
-                            }
-                        }
-                        console.log(self.seeData(self.cartList));
-                        console.log(self.seeData(self.goodsList));
-                        for (var i = 0; i < self.cartList.length; i++) {
-                            vm.recordState.$set(i, self.cartList[i].id);
-                        }
-                    }
-                }
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

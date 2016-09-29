@@ -20,6 +20,186 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        // window.addEventListener("beforeunload", function (e) {
+        //   var confirmationMessage = "\o/";
+        //   (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+        //   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
+        // });
+        var picker = new mui.PopPicker();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                address: {
+                    name: "",
+                    phone: "",
+                    studentNo: "",
+                    dormId: null,
+                    address: "",
+                    isDefault: 0,
+                    schoolId: null
+                },
+                schoolList: [],
+                dormList: [],
+                dorm: "",
+                school: ""
+            },
+            computed: {
+                defalut: function() {
+                    if (this.address.isDefault == 0) {
+                        return true
+                    } else {
+                        return false
+                    }
+                },
+                empty: function() {
+                    if (this.address.name !== "" && this.address.phone !== "" && this.address.studentNo !== "" && this.address.school !== "" && this.address.dorm !== "" && this.address.address !== "") {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            },
+            methods: {
+                setDefault: function() {
+                    this.address.isDefault = 1;
+                    this.save();
+                },
+                save: function() {
+                    var msg = this.address;
+                    var nameReg = /^[\u4e00-\u9fa5]{0,}$/;
+                    var phoneReg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
+                    if (!nameReg.test(msg.name)) {
+                        mui.toast("请输入合法的姓名");
+                    } else if (!phoneReg.test(msg.phone)) {
+                        mui.toast("请输入合法的手机号码");
+                    } else if (!msg.studentNo) {
+                        mui.toast("请输入学号");
+                    } else if (!msg.schoolId) {
+                        mui.toast("请选择学校");
+                    } else if (!msg.dormId) {
+                        mui.toast("请输入宿舍园区");
+                    } else if (!msg.address) {
+                        mui.toast("请输入寝室门牌");
+                    } else {
+                        if (window.location.search) {
+                            var queryData = getQueryData();
+                            if (queryData.id) {
+                                $.when(editAddress(queryData.id, this.address)).done(function(data) {
+                                    if (data.resultCode == 200) {
+                                        mui.toast("修改成功");
+                                        mui.back();
+                                    }
+                                });
+                            } else if (queryData.donateBook) {
+                                $.when(addAddress(this.address)).done(function(data) {
+                                    if (data.resultCode == 200) {
+                                        mui.toast("保存成功");
+                                        mui.back();
+                                    }
+                                });
+                            } else {
+                                $.when(addAddress(this.address)).done(function(data) {
+                                    if (data.resultCode == 200) {
+                                        mui.toast("保存成功");
+                                        var id;
+                                        $.when(getAllMyAddress()).done(function(data) {
+                                            id = (data.data.list[0].id);
+                                            var tradeNo;
+                                            if (queryData.tradeNo) {
+                                                tradeNo = queryData.tradeNo;
+                                            } else {
+                                                tradeNo = queryData.orderNo;
+                                            }
+                                            $.when(editOrderPlace(tradeNo, id)).done(function(data) {
+                                                mui.back();
+                                            });
+                                        });
+                                    }
+                                });
+                            }
+                        } else {
+                            $.when(addAddress(this.address)).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    mui.toast("保存成功");
+                                    mui.back();
+                                }
+                            });
+                        }
+                    }
+                },
+                schoolChoose: function() {
+                    $("input").blur();
+                    var data = [];
+                    var self = this;
+                    for (var i = 0; i < this.schoolList.length; i++) {
+                        data[i] = {
+                            value: this.schoolList[i].id,
+                            text: this.schoolList[i].name
+                        }
+                    }
+                    picker.setData(data);
+                    picker.show(function(selectItems) {
+                        self.school = selectItems[0].text;
+                        self.address.schoolId = selectItems[0].value;
+                        $.when(getDormList(selectItems[0].value)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                self.$data.dormList = data.data.dorms;
+                                self.dorm = "";
+                                self.address.dormId = "";
+                            }
+                        });
+                    })
+                },
+                dormChoose: function() {
+                    $("input").blur();
+                    var data = [];
+                    var self = this;
+                    for (var i = 0; i < this.dormList.length; i++) {
+                        data[i] = {
+                            value: this.dormList[i].id,
+                            text: this.dormList[i].campus
+                        }
+                    }
+                    picker.setData(data);
+                    picker.show(function(selectItems) {
+                        self.dorm = selectItems[0].text;
+                        self.address.dormId = selectItems[0].value;
+                    })
+                }
+            },
+            created: function() {
+                var self = this;
+                var id;
+                if (window.location.search) {
+                    var data = getQueryData();
+                    if (data && data.id) {
+                        $.when(getOneAddress(data.id)).done(function(data) {
+                            self.$data.address = data.data.address
+                            $.when(getDormList(self.address.schoolId)).done(function(data) {
+                                if (data.resultCode == 200) {
+                                    self.$data.dormList = data.data.dorms;
+                                    self.school = self.address.school;
+                                    self.dorm = self.address.dorm;
+                                }
+                            });
+                        });
+                    }
+                }
+                $.when(getSchoolList()).done(function(data) {
+                    if (data.resultCode == 200) {
+                        self.$data.schoolList = data.data.schools
+                    }
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -59,184 +239,6 @@
             </div>
         </form>
     </div>
-    <script>
-    mui.init();
-    // window.addEventListener("beforeunload", function (e) {
-    //   var confirmationMessage = "\o/";
-    //   (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
-    //   return confirmationMessage;                                //Webkit, Safari, Chrome etc.
-    // });
-    var picker = new mui.PopPicker();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            address: {
-                name: "",
-                phone: "",
-                studentNo: "",
-                dormId: null,
-                address: "",
-                isDefault: 0,
-                schoolId: null
-            },
-            schoolList: [],
-            dormList: [],
-            dorm: "",
-            school: ""
-        },
-        computed: {
-            defalut: function() {
-                if (this.address.isDefault == 0) {
-                    return true
-                } else {
-                    return false
-                }
-            },
-            empty: function() {
-                if (this.address.name !== "" && this.address.phone !== "" && this.address.studentNo !== "" && this.address.school !== "" && this.address.dorm !== "" && this.address.address !== "") {
-                    return false
-                } else {
-                    return true
-                }
-            }
-        },
-        methods: {
-            setDefault: function() {
-                this.address.isDefault = 1;
-                this.save();
-            },
-            save: function() {
-                var msg = this.address;
-                var nameReg = /^[\u4e00-\u9fa5]{0,}$/;
-                var phoneReg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[0678]|18[0-9]|14[57])[0-9]{8}$/;
-                if (!nameReg.test(msg.name)) {
-                    mui.toast("请输入合法的姓名");
-                } else if (!phoneReg.test(msg.phone)) {
-                    mui.toast("请输入合法的手机号码");
-                } else if (!msg.studentNo) {
-                    mui.toast("请输入学号");
-                } else if (!msg.schoolId) {
-                    mui.toast("请选择学校");
-                } else if (!msg.dormId) {
-                    mui.toast("请输入宿舍园区");
-                } else if (!msg.address) {
-                    mui.toast("请输入寝室门牌");
-                } else {
-                    if (window.location.search) {
-                        var queryData = getQueryData();
-                        if (queryData.id) {
-                            $.when(editAddress(queryData.id, this.address)).done(function(data) {
-                                if (data.resultCode == 200) {
-                                    mui.toast("修改成功");
-                                    mui.back();
-                                }
-                            });
-                        } else if (queryData.donateBook) {
-                            $.when(addAddress(this.address)).done(function(data) {
-                                if (data.resultCode == 200) {
-                                    mui.toast("保存成功");
-                                    mui.back();
-                                }
-                            });
-                        } else {
-                            $.when(addAddress(this.address)).done(function(data) {
-                                if (data.resultCode == 200) {
-                                    mui.toast("保存成功");
-                                    var id;
-                                    $.when(getAllMyAddress()).done(function(data) {
-                                        id = (data.data.list[0].id);
-                                        var tradeNo;
-                                        if (queryData.tradeNo) {
-                                            tradeNo = queryData.tradeNo;
-                                        } else {
-                                            tradeNo = queryData.orderNo;
-                                        }
-                                        $.when(editOrderPlace(tradeNo, id)).done(function(data) {
-                                            mui.back();
-                                        });
-                                    });
-                                }
-                            });
-                        }
-                    } else {
-                        $.when(addAddress(this.address)).done(function(data) {
-                            if (data.resultCode == 200) {
-                                mui.toast("保存成功");
-                                mui.back();
-                            }
-                        });
-                    }
-                }
-            },
-            schoolChoose: function() {
-                $("input").blur();
-                var data = [];
-                var self = this;
-                for (var i = 0; i < this.schoolList.length; i++) {
-                    data[i] = {
-                        value: this.schoolList[i].id,
-                        text: this.schoolList[i].name
-                    }
-                }
-                picker.setData(data);
-                picker.show(function(selectItems) {
-                    self.school = selectItems[0].text;
-                    self.address.schoolId = selectItems[0].value;
-                    $.when(getDormList(selectItems[0].value)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            self.$data.dormList = data.data.dorms;
-                            self.dorm = "";
-                            self.address.dormId = "";
-                        }
-                    });
-                })
-            },
-            dormChoose: function() {
-                $("input").blur();
-                var data = [];
-                var self = this;
-                for (var i = 0; i < this.dormList.length; i++) {
-                    data[i] = {
-                        value: this.dormList[i].id,
-                        text: this.dormList[i].campus
-                    }
-                }
-                picker.setData(data);
-                picker.show(function(selectItems) {
-                    self.dorm = selectItems[0].text;
-                    self.address.dormId = selectItems[0].value;
-                })
-            }
-        },
-        created: function() {
-            var self = this;
-            var id;
-            if (window.location.search) {
-                var data = getQueryData();
-                if (data && data.id) {
-                    $.when(getOneAddress(data.id)).done(function(data) {
-                        self.$data.address = data.data.address
-                        $.when(getDormList(self.address.schoolId)).done(function(data) {
-                            if (data.resultCode == 200) {
-                                self.$data.dormList = data.data.dorms;
-                                self.school = self.address.school;
-                                self.dorm = self.address.dorm;
-                            }
-                        });
-                    });
-                }
-            }
-            $.when(getSchoolList()).done(function(data) {
-                if (data.resultCode == 200) {
-                    self.$data.schoolList = data.data.schools
-                }
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

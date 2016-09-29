@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,14 +18,16 @@
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
     <style>
-    .mui-search .mui-placeholder{
+    .mui-search .mui-placeholder {
         padding-right: 50px;
     }
+    
     .mui-indexed-list {
         background-color: transparent;
     }
     </style>
 </head>
+
 <body>
     <div class="mui-content mui-fullscreen" style="padding-top: 54px;">
         <div style="padding: 10px 15px;background-color: #fff;position: absolute;top:0;left:0;width: 100%;">
@@ -66,148 +69,138 @@
                 </div>
             </div>
         </div>
-            
     </div>
     <a href="cartPage.html" class="fixedCartButton" style="bottom: 15px;">
         <span id="booksInCartNumber" class="mui-badge mui-badge-primary mui-badge-cart" style="display: none;"></span>
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
-<script>
-var params = getQueryData();
-if(params&&params.keyword){
-    $("#searchCityInput").val(params.keyword);
-    checkInputValueAndShowBlock(params.keyword);
-}
-else{
-    mui.alert("查询参数错误","",["确定"],function(){
-        mui.back();
-    });
-}
-var pageCount = 1;
-$("#searchCityInput").on('keyup',function(e){
-    var v = $(this).val();
-    checkInputValueAndShowBlock(v);
-    if(e.keyCode == 13){
-        toSearchPage(v);
-    }
-});
-$(".rightSearchIcon").on('tap',function(){
-    toSearchPage($("#searchCityInput").val());
-});
-function toSearchPage(keyword){
-    keyword = $.trim(keyword);
-    if(keyword){
-        var params = {};
-        params.keyword = keyword;
-        window.location.href = "indexPage_searchBook_result.html?"+encodeObj(params);
-    }
-    else{
-        mui.toast("请输入搜索词");
-    } 
-}
-function checkInputValueAndShowBlock(v){
-    if(v){
-        // 有值
-        // $("#hotSearchBlock").hide();
-        // $("#searchResultBlock").show();
-    }
-    else{
-        // 没有值
-        $("#hotSearchBlock").show();
-        $("#searchResultBlock").hide();
-    }
-}
-function searchBooksByKeyWord(keyword, currentCityId, page){
-    if(page == 1){
-        // 清除原来的搜索结果
-        $("#bookList").empty();
-    }
-    $.when(searchBooks(keyword, currentCityId, page)).done(function(data){
-        if(data.resultCode == 200){
-            var data = data.data;
-            var books = data.books;
-            if(books.length){
-                var html = "";
-                for(var i = 0, length = books.length; i < length ; i++){
-                    var book = books[i];
-                    html += getSingleBookTableCell(book.id, book.path, book.title, book.author, book.publisher, book.marketPrice);
-                }
-                $("#bookList").append(html);
-
-                $("#noResultBlock").hide();
-                $("#pullrefresh").show();
-                pageCount++;
-                // mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
-                mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
-            }
-            else{
-                // 没有数据
-                if(page == 1){
-                    $("#noResultBlock").show();
-                    $("#pullrefresh").hide();
-                }
-                mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
-            }
+    <script>
+    $(function() {
+        var params = getQueryData();
+        if (params && params.keyword) {
+            $("#searchCityInput").val(params.keyword);
+            checkInputValueAndShowBlock(params.keyword);
+        } else {
+            mui.alert("查询参数错误", "", ["确定"], function() {
+                mui.back();
+            });
         }
-    });
-}
-mui.init({
-    pullRefresh: {
-        container: '#pullrefresh',
-        up: {
-            contentinit: '',
-            contentdown: '',
-            contentrefresh: ' ',
-            contentnomore: '',
-            callback: pullupRefresh
-        }
-    }
-});
-mui.ready(function() {
-    mui('#pullrefresh').pullRefresh().pullupLoading();
-});
-function pullupRefresh() {
-    searchBooksByKeyWord(params.keyword, currentCityId, pageCount);
-}
-var booksIncart = [];
-$.when(cartList()).done(function(data){
-    if (data.resultCode == 200) {
-        if (data.data.carts) {
-            for (var i = 0; i < data.data.carts.length; i++) {
-                booksIncart.push(data.data.carts[i].relationId)
-            }
-            if(booksIncart.length > 0){
-                $("#booksInCartNumber").text(booksIncart.length).show();
-            }
-        }
-    }
-});
-$("#bookList").on('tap','.smallCartIcon',function(){
-    var bookId = $(this).closest("ul").attr("data-bookId");
-    if(booksIncart.indexOf(bookId)<0){
-        $.when(addToCart(bookId)).done(function(data) {
-            if (data.resultCode == 200) {
-                mui.toast("添加成功");
-                booksIncart.push(bookId);
-                $("#booksInCartNumber").text(booksIncart.length);
+        var pageCount = 1;
+        $("#searchCityInput").on('keyup', function(e) {
+            var v = $(this).val();
+            checkInputValueAndShowBlock(v);
+            if (e.keyCode == 13) {
+                toSearchPage(v);
             }
         });
-    }
-    else{
-        mui.toast("请勿重复添加");
-    }
-})
-</script>
+        $(".rightSearchIcon").on('tap', function() {
+            toSearchPage($("#searchCityInput").val());
+        });
+
+        function toSearchPage(keyword) {
+            keyword = $.trim(keyword);
+            if (keyword) {
+                var params = {};
+                params.keyword = keyword;
+                window.location.href = "indexPage_searchBook_result.html?" + encodeObj(params);
+            } else {
+                mui.toast("请输入搜索词");
+            }
+        }
+
+        function checkInputValueAndShowBlock(v) {
+            if (v) {
+                // 有值
+                // $("#hotSearchBlock").hide();
+                // $("#searchResultBlock").show();
+            } else {
+                // 没有值
+                $("#hotSearchBlock").show();
+                $("#searchResultBlock").hide();
+            }
+        }
+
+        function searchBooksByKeyWord(keyword, currentCityId, page) {
+            if (page == 1) {
+                // 清除原来的搜索结果
+                $("#bookList").empty();
+            }
+            $.when(searchBooks(keyword, currentCityId, page)).done(function(data) {
+                if (data.resultCode == 200) {
+                    var data = data.data;
+                    var books = data.books;
+                    if (books.length) {
+                        var html = "";
+                        for (var i = 0, length = books.length; i < length; i++) {
+                            var book = books[i];
+                            html += getSingleBookTableCell(book.id, book.path, book.title, book.author, book.publisher, book.marketPrice);
+                        }
+                        $("#bookList").append(html);
+
+                        $("#noResultBlock").hide();
+                        $("#pullrefresh").show();
+                        pageCount++;
+                        // mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                    } else {
+                        // 没有数据
+                        if (page == 1) {
+                            $("#noResultBlock").show();
+                            $("#pullrefresh").hide();
+                        }
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                    }
+                }
+            });
+        }
+        mui.init({
+            pullRefresh: {
+                container: '#pullrefresh',
+                up: {
+                    contentinit: '',
+                    contentdown: '',
+                    contentrefresh: ' ',
+                    contentnomore: '',
+                    callback: pullupRefresh
+                }
+            }
+        });
+        mui.ready(function() {
+            mui('#pullrefresh').pullRefresh().pullupLoading();
+        });
+
+        function pullupRefresh() {
+            searchBooksByKeyWord(params.keyword, currentCityId, pageCount);
+        }
+        var booksIncart = [];
+        $.when(cartList()).done(function(data) {
+            if (data.resultCode == 200) {
+                if (data.data.carts) {
+                    for (var i = 0; i < data.data.carts.length; i++) {
+                        booksIncart.push(data.data.carts[i].relationId)
+                    }
+                    if (booksIncart.length > 0) {
+                        $("#booksInCartNumber").text(booksIncart.length).show();
+                    }
+                }
+            }
+        });
+        $("#bookList").on('tap', '.smallCartIcon', function() {
+            var bookId = $(this).closest("ul").attr("data-bookId");
+            if (booksIncart.indexOf(bookId) < 0) {
+                $.when(addToCart(bookId)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        mui.toast("添加成功");
+                        booksIncart.push(bookId);
+                        $("#booksInCartNumber").text(booksIncart.length);
+                    }
+                });
+            } else {
+                mui.toast("请勿重复添加");
+            }
+        })
+    });
+    </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-

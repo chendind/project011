@@ -17,6 +17,46 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: "body",
+            data: {
+                record: [],
+            },
+            computed: {
+                typeName: function() {
+                    switch (this.type) {
+                        case 0:
+                            return "支付抵现"
+                            break;
+                        case 1:
+                            return "积分兑换"
+                            break;
+                        case 2:
+                            return "零钱提现"
+                    }
+                }
+            },
+            methods: {
+
+            },
+            created: function() {
+                var self = this;
+                var id = window.location.search.slice(1);
+                console.log(id);
+                $.when(moneyRecordDetail(id)).done(function(data) {
+                    console.log(data);
+                    self.$data = data.data.moneyRecord
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
 </head>
 
 <body>
@@ -52,44 +92,7 @@
             </li>
         </ul>
     </div>
-    <script>
-    mui.init();
-    var vm = new Vue({
-        el: "body",
-        data: {
-            record: [],
-        },
-        computed: {
-            typeName: function() {
-                switch (this.type) {
-                    case 0:
-                        return "支付抵现"
-                        break;
-                    case 1:
-                        return "积分兑换"
-                        break;
-                    case 2:
-                        return "零钱提现"
-                }
-            }
-        },
-        methods: {
 
-        },
-        created: function() {
-            var self = this;
-            var id = window.location.search.slice(1);
-            console.log(id);
-            $.when(moneyRecordDetail(id)).done(function(data) {
-                console.log(data);
-                self.$data= data.data.moneyRecord
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

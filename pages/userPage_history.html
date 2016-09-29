@@ -23,6 +23,117 @@
     <style>
 
     </style>
+        <script>
+    $(function() {
+        mui.init();
+        $(".smallCartIcon").on('tap', function(e) {
+                mui.toast("添加成功");
+            })
+            //阻尼系数
+        var deceleration = mui.os.ios ? 0.0006 : 0.0009;
+        mui('.mui-scroll-wrapper').scroll({
+            bounce: false,
+            indicators: true, //是否显示滚动条
+            deceleration: deceleration
+        });
+        var vm = new Vue({
+            el: "body",
+            data: {
+                histories: [],
+                page: 1,
+                cartList: [],
+                goodsList: []
+            },
+            computed: {},
+            methods: {
+                encode: function(data) {
+                    return encodeObj(data);
+                },
+                noExisted: function(id) {
+                    console.log(id);
+                    if (this.cartList.indexOf(id) !== -1) {
+                        mui.toast("请勿重复添加");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                addToCart: function(id) {
+                    var self = this;
+                    console.log(id);
+                    if (self.noExisted(id)) {
+                        $.when(addToCart(id)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("添加成功");
+                                $.when(cartList()).done(function(data) {
+                                    console.log(data);
+                                    if (data.resultCode == 200) {
+                                        if (data.data.carts) {
+                                            self.cartList = [];
+                                            for (var i = 0; i < data.data.carts.length; i++) {
+                                                self.cartList.push(data.data.carts[i].relationId)
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                },
+                seeData: function(data) {
+                    return JSON.parse(JSON.stringify(data));
+                }
+            },
+            created: function() {
+                var self = this;
+                var id = localStorage.getItem("id");
+                $.when(getHistory(self.page, 10)).done(function(data) {
+                    console.log(data);
+                    self.$data.histories = data.data.histories;
+                    vm.page++;
+                    console.log(self.seeData(self.histories));
+                });
+                $.when(cartList()).done(function(data) {
+                    if (data.resultCode == 200) {
+                        if (data.data.carts) {
+                            for (var i = 0; i < data.data.carts.length; i++) {
+                                self.cartList.push(data.data.carts[i].relationId)
+                            }
+                        }
+                    }
+                });
+            },
+            ready: function() {
+
+            }
+        })
+        mui.ready(function() {
+            //循环初始化所有下拉刷新，上拉加载。
+            mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+                mui(pullRefreshEl).pullToRefresh({
+                    up: {
+                        callback: function() {
+                            var self = this;
+                            setTimeout(function() {
+                                $.when(getHistory(vm.page, 10)).done(function(data) {
+                                    console.log(data);
+                                    if (data.data.histories) {
+                                        vm.histories = vm.histories.concat(data.data.histories)
+                                        self.endPullUpToRefresh();
+                                        vm.page++;
+                                    } else {
+                                        self.endPullUpToRefresh(true);
+                                    }
+                                });
+
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </head>
 
 <body>
@@ -67,115 +178,6 @@
             </div>
         </div>
     </div>
-    <script>
-    mui.init();
-    $(".smallCartIcon").on('tap', function(e) {
-            mui.toast("添加成功");
-        })
-        //阻尼系数
-    var deceleration = mui.os.ios ? 0.0006 : 0.0009;
-    mui('.mui-scroll-wrapper').scroll({
-        bounce: false,
-        indicators: true, //是否显示滚动条
-        deceleration: deceleration
-    });
-    var vm = new Vue({
-        el: "body",
-        data: {
-            histories: [],
-            page: 1,
-            cartList: [],
-            goodsList: []
-        },
-        computed: {},
-        methods: {
-            encode: function(data) {
-                return encodeObj(data);
-            },
-            noExisted: function(id) {
-                console.log(id);
-                if (this.cartList.indexOf(id) !== -1) {
-                    mui.toast("请勿重复添加");
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            addToCart: function(id) {
-                var self = this;
-                console.log(id);
-                if (self.noExisted(id)) {
-                    $.when(addToCart(id)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            mui.toast("添加成功");
-                            $.when(cartList()).done(function(data) {
-                                console.log(data);
-                                if (data.resultCode == 200) {
-                                    if (data.data.carts) {
-                                        self.cartList = [];
-                                        for (var i = 0; i < data.data.carts.length; i++) {
-                                            self.cartList.push(data.data.carts[i].relationId)
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
-            },
-            seeData: function(data) {
-                return JSON.parse(JSON.stringify(data));
-            }
-        },
-        created: function() {
-            var self = this;
-            var id = localStorage.getItem("id");
-            $.when(getHistory(self.page, 10)).done(function(data) {
-                console.log(data);
-                self.$data.histories = data.data.histories;
-                vm.page++;
-                console.log(self.seeData(self.histories));
-            });
-            $.when(cartList()).done(function(data) {
-                if (data.resultCode == 200) {
-                    if (data.data.carts) {
-                        for (var i = 0; i < data.data.carts.length; i++) {
-                            self.cartList.push(data.data.carts[i].relationId)
-                        }
-                    }
-                }
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    mui.ready(function() {
-        //循环初始化所有下拉刷新，上拉加载。
-        mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
-            mui(pullRefreshEl).pullToRefresh({
-                up: {
-                    callback: function() {
-                        var self = this;
-                        setTimeout(function() {
-                            $.when(getHistory(vm.page, 10)).done(function(data) {
-                                console.log(data);
-                                if (data.data.histories) {
-                                    vm.histories = vm.histories.concat(data.data.histories)
-                                    self.endPullUpToRefresh();
-                                    vm.page++;
-                                } else {
-                                    self.endPullUpToRefresh(true);
-                                }
-                            });
-
-                        }, 1000);
-                    }
-                }
-            });
-        });
-    });
-    </script>
 </body>
 
 </html>

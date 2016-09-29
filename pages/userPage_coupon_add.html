@@ -18,6 +18,34 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+            el: 'body',
+            data: {
+                couponCode: ""
+            },
+            methods: {
+                exchangeCouponButton: function() {
+                    if (this.couponCode != "") {
+                        $.when(exchangeCoupon(this.couponCode)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("添加成功");
+                                self.couponCode == "";
+                            }
+                        })
+                    } else {
+                        mui.toast("请输入兑换码");
+                    }
+                }
+            },
+            created: function() {
+
+            }
+        });
+    });
+    </script>
 </head>
 
 <body style="background-color: #fff;">
@@ -39,33 +67,6 @@
             </a>
         </div>
     </div>
-<script>
-mui.init();
-var vm = new Vue({
-    el: 'body',
-    data: {
-        couponCode: ""
-    },
-    methods: {
-        exchangeCouponButton: function(){
-            if(this.couponCode != ""){
-                $.when(exchangeCoupon(this.couponCode)).done(function(data){
-                    if(data.resultCode == 200){
-                        mui.toast("添加成功");
-                        self.couponCode == "";
-                    }
-                })
-            }
-            else{
-                mui.toast("请输入兑换码");
-            }
-        }
-    },
-    created: function(){
-        
-    }
-});
-</script>
 </body>
 
 </html>

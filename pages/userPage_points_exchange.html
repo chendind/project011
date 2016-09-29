@@ -13,15 +13,56 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        $("#exchangeButton").on('tap', function() {
+            if ($(this).hasClass("mui-btn-primary")) {
+                mui.confirm("确定要兑换吗", " ", ["确定", "取消"], function(data) {
+                    if (data.index == 0) {
+                        $.when(scoreExchange(vm.score)).done(function(data) {
+                            if (data.resultCode == 200) {
+                                mui.toast("兑换成功");
+                                vm.scoreMax -= vm.score;
+                                vm.score = vm.scoreMax;
+                            }
+                        });
+                    }
+                })
+            }
+        })
+        var vm = new Vue({
+            el: "body",
+            data: {
+                score: 0,
+                scoreMax: 0
+            },
+            computed: {
+
+            },
+            methods: {},
+            created: function() {
+                var self = this;
+                var id = localStorage.getItem("id");
+                $.when(getScore()).done(function(data) {
+                    self.scoreMax = data.data.user.score;
+                    self.score = vm.scoreMax;
+                });
+            },
+            ready: function() {
+
+            }
+        })
+    });
+    </script>
     <style>
-        .mui-tooltip{
-            display: none;
-        }
+    .mui-tooltip {
+        display: none;
+    }
     </style>
 </head>
 
@@ -60,46 +101,6 @@
             </button>
         </div>
     </div>
-    <script>
-    mui.init();
-    $("#exchangeButton").on('tap', function() {
-        if ($(this).hasClass("mui-btn-primary")) {
-            mui.confirm("确定要兑换吗", " ", ["确定", "取消"], function(data) {
-                if (data.index == 0) {
-                    $.when(scoreExchange(vm.score)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            mui.toast("兑换成功");
-                            vm.scoreMax -= vm.score;
-                            vm.score=vm.scoreMax;
-                        }
-                    });
-                }
-            })
-        }
-    })
-    var vm = new Vue({
-        el: "body",
-        data: {
-            score: 0,
-            scoreMax: 0
-        },
-        computed: {
-
-        },
-        methods: {},
-        created: function() {
-            var self = this;
-            var id = localStorage.getItem("id");
-            $.when(getScore()).done(function(data) {
-                self.scoreMax = data.data.user.score;
-                self.score=vm.scoreMax;
-            });
-        },
-        ready: function() {
-
-        }
-    })
-    </script>
 </body>
 
 </html>

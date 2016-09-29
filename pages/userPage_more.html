@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +15,22 @@
     <script src="../source/js/ajax.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        $("#loginButton").on('tap', function(event) {
+            event.preventDefault();
+            if (mui.os.ios) {
+                window.location.href = "https://appsto.re/cn/kKwVeb.i"
+            } else if (mui.os.android) {
+                window.location.href = "http://fusion.qq.com/cgi-bin/qzapps/unified_jump?appid=42347434&from=wx&isTimeline=false&actionFlag=0&params=pname%3Dme.qess.yunshu%26versioncode%3D1%26channelid%3D%26actionflag%3D0"
+            }
+        });
+        console.log(mui.os);
+    });
+    </script>
 </head>
+
 <body>
     <div class="mui-content" style="background-image: url('../source/webslice/4.8_more/me_more_bg.png');background-size: 100%;min-height: 100vh;">
         <div class="innerCenter" style="padding-top: 45px;">
@@ -29,8 +45,7 @@
             <img style="width: 80%;margin-top: 65px;" src="../source/webslice/4.8_more/about_phones.png" alt="">
             <div style="margin-top: 50px;">
                 <p>
-                    <a style="color: inherit;" data-href="http://h5.qess.me/more/serviceTip.html">服务条款</a>
-                    |
+                    <a style="color: inherit;" data-href="http://h5.qess.me/more/serviceTip.html">服务条款</a> |
                     <a style="color: inherit;" data-href="http://h5.qess.me/more/privacyTip.html">隐私条款</a>
                 </p>
                 <p style="color: #ddd;font-size: 12px;">
@@ -39,17 +54,6 @@
             </div>
         </div>
     </div>
-<script>
-mui.init();
-$("#loginButton").on('tap',function(event) {
-    event.preventDefault();
-    if(mui.os.ios){
-        window.location.href="https://appsto.re/cn/kKwVeb.i"
-    }else if(mui.os.android){
-        window.location.href="http://fusion.qq.com/cgi-bin/qzapps/unified_jump?appid=42347434&from=wx&isTimeline=false&actionFlag=0&params=pname%3Dme.qess.yunshu%26versioncode%3D1%26channelid%3D%26actionflag%3D0"
-    }
-});
-console.log(mui.os);
-</script>
 </body>
+
 </html>

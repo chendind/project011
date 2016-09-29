@@ -11,18 +11,21 @@
     <meta name="keywords" content="seokeywords" />
     <meta name="description" content="seodescription" />
     <link rel="stylesheet" href="../source/css/weui.min.css" />
+    <link rel="stylesheet" href="../source/css/mui_overwrite.css">
     <title>捐书详情</title>
     <style>
-    @font-face {
+/*     @font-face {
         font-family: 'icomoon';
         src: url('http://cloudbook-h5.oss-cn-shanghai.aliyuncs.com/recomm/front/Regular.ttf');
         font-weight: normal;
         font-style: normal;
-    }
+    } */
     
     body {
-        font-family: 'icomoon';
-        background-color: #eeeeee;
+        font-family: "-apple-system, BlinkMacSystemFont,'Helvetica Neue',Helvetica,sans-serif";
+        background-color: #eee;
+        /* background: url('img/group25.png') no-repeat bottom; */
+        background-size: 100%;
     }
     
     * {
@@ -44,7 +47,7 @@
     }
     
     .header {
-        background: #56be4b;
+        background: #5fbfaf;
         margin-top: 0px!important;
     }
     
@@ -106,7 +109,11 @@
         float: left;
         text-align: center;
         line-height: 49px;
-        color: #016df1;
+        color: #5fbfaf;
+    }
+    
+    .confirm .cancel a {
+        color: #5fbfaf;
     }
     
     .confirm .ensure {
@@ -114,9 +121,11 @@
         float: left;
         text-align: center;
         line-height: 49px;
-        color: #016df1;
+        color: #5fbfaf;
     }
-    
+        .confirm .ensure a {
+        color: #5fbfaf;
+    }
     .confirm .line {
         width: 1%;
         float: left;
@@ -147,20 +156,83 @@
     .weui_dialog {
         display: none;
     }
+                [v-cloak]{
+        display: none;
+    }
     </style>
     <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="../source/js/vue.js"></script>
+    <script type="text/javascript" src="../source/js/vue.min.js"></script>
     <script type="text/javascript" src="../source/js/common.js"></script>
     <script type="text/javascript" src="../source/js/public.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="../source/js/ajax.js"></script>
-    <script src="../source/js/ajax_my.js"></script>
+    <script src="../source/js/ajax.min.js"></script>
+    <script src="../source/js/ajax_my.min.js"></script>
+    <script type="text/javascript" src="../source/js/fastclick.min.js"></script>
+    <script src="../source/mui/js/mui.min.js"></script>
     <script>
+    </script>
+        <script>
+    $(function() {
+        FastClick.attach(document.body);
+
+        var cancelOrder = function() {
+            $('.weui_dialog,.weui_mask').show();
+        }
+
+        var ensure = function() {
+            var params = getQueryData();
+            if (params.id) {
+                console.log('test');
+                $.when(cancelDonate(params.id)).done(function(data) {
+                    console.log(data);
+                    if (data.resultCode == 200) {
+                        console.log(data);
+                        $('.weui_dialog,.weui_mask').hide();
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        $('.ensure').click(function() {
+            window.location.href = "Confirmation.html";
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                detail: {},
+                show: false
+            },
+            methods: {
+                cancelOrder: cancelOrder,
+                ensure: ensure,
+                cancel: function() {
+                    $('.weui_dialog,.weui_mask').hide();
+                }
+            },
+            created: function() {
+                var self = this;
+                var params = getQueryData();
+                if (params.id) {
+                    $.when(donateBookDetail(params.id)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            self.detail = data.data.record;
+                            self.$nextTick(function() {
+                                self.show = true
+                            })
+
+                        }
+                    });
+                }
+            }
+        })
+    })
     </script>
 </head>
 
 <body id="app">
-    <div class="container" >
+    <div class="container" v-if="show" v-cloak>
         <div v-if="detail.status != 2" class="weui_cells weui_cells_access header">
             <a class="weui_cell" href="#">
                 <div class="weui_cell_hd">
@@ -171,7 +243,8 @@
                     <p class="detailType" v-if="detail.status == 0">预约成功</p>
                     <p class="detailType" v-if="detail.status == 1">已完成</p>
                     <p class="detailType" v-if="detail.status == 2">预约取消</p>
-                    <p class="detailTip">感谢您预约了我们的捐书上门服务，您的善意将会让我们的地球变得更加美丽。</p>
+                    <p class="detailTip" v-if="detail.status !=2 ">感谢您预约了我们的捐书上门服务，您的善意将会让我们的地球变得更加美丽。</p>
+                    <p class="detailTip" v-if="detail.status ==2 ">您已取消我们的预约，期待您下次为保护我们的地球事业共同做出努力。</p>
                 </div>
             </a>
         </div>
@@ -231,13 +304,13 @@
                 </div>
             </div>
             <!-- <div class="weui_cell">
-		    	<div class="weui_cell_hd">
-		            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-		        </div>
-		        <div class="weui_cell_bd weui_cell_primary">
-		            <span>学文苑楼A单元603</span>
-		        </div>
-		    </div> -->
+                <div class="weui_cell_hd">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <span>学文苑楼A单元603</span>
+                </div>
+            </div> -->
             <div class="weui_cell">
                 <div class="weui_cell_hd">
                     <p>预约备注</p>
@@ -255,7 +328,7 @@
                 </div>
             </div>
         </div>
-        <div class="weui_cells orderDetail">
+        <div class="weui_cells orderDetail" v-if="detail.status !=2 ">
             <div class="weui_cell">
                 <div class="weui_cell_bd weui_cell_primary">
                     <p style="font-weight: bold;">上门收书人信息</p>
@@ -274,18 +347,18 @@
                     <p>联系电话</p>
                 </div>
                 <div class="weui_cell_bd weui_cell_primary">
-                    <span style="color:#016df1;"><a href="cloudbook://app/tel/{{detail.ceoPhone}}">{{detail.ceoPhone}}</a></span>
+                    <span style="color:#016df1;"><a href="tel:{{detail.ceoPhone}}">{{detail.ceoPhone}}</a></span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="confirm" >
+    <div class="confirm" v-if="show">
         <div class="cancel" v-if="detail.status==0" v-on:click="cancelOrder">取消预约</div>
         <div class="cancel" v-else><a href="indexPage.html">随便逛逛</a></div>
         <div class="line">|</div>
-        <div class="ensure">再次预约</div>
+        <div class="ensure"><a href="Confirmation.html">再次预约</a></div>
     </div>
-    <div class="weui_dialog_confirm" >
+    <div class="weui_dialog_confirm" v-if="show">
         <div class="weui_mask"></div>
         <div class="weui_dialog">
             <div class="weui_dialog_hd"><strong class="weui_dialog_title">确定取消吗</strong></div>
@@ -295,59 +368,7 @@
             </div>
         </div>
     </div>
-    <script>
-    $(function() {
-        var cancelOrder = function() {
-            $('.weui_dialog,.weui_mask').show();
-        }
 
-        var ensure = function() {
-            var params = getQueryData();
-            if (params.id) {
-            	console.log('test');
-                $.when(cancelDonate(params.id)).done(function(data) {
-                    console.log(data);
-                    if (data.resultCode == 200) {
-                        console.log(data);
-                        $('.weui_dialog,.weui_mask').hide();
-                        window.location.reload();
-                    }
-                });
-            }
-        }
-
-        $('.ensure').click(function() {
-            window.location.href = "Confirmation.html";
-        })
-
-        new Vue({
-            el: '#app',
-            data: {
-                detail: {},
-                show:false
-            },
-            methods: {
-                cancelOrder: cancelOrder,
-                ensure: ensure,
-                cancel:function(){
-                	$('.weui_dialog,.weui_mask').hide();
-                }
-            },
-            created: function() {
-                var self = this;
-                var params = getQueryData();
-                if (params.id) {
-                    $.when(donateBookDetail(params.id)).done(function(data) {
-                        if (data.resultCode == 200) {
-                            self.detail = data.data.record;
-                            self.show=true
-                        }
-                    });
-                }
-            }
-        })
-    })
-    </script>
 </body>
 
 </html>

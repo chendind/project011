@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,10 +14,71 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/mui/js/mui.js"></script>
-    
+        <script>
+    $(function() {
+        mui.init();
+
+        function getcn() {
+            $(".getcn").one("tap", function() {
+                var phone = $("#phone").val();
+                var that = $(this);
+                if (phone.length != 11) {
+                    mui.toast("请输入正确的手机号");
+                    getcn();
+                } else {
+                    $.when(getVerifyCode(phone)).done(function(data) {
+                        if (data.resultCode == 200) {
+                            mui.toast("发送成功");
+                            var count = $('<span class="regetcn">重新发送' +
+                                '&nbsp;(<i style="font-style:normal;">60</i>)' +
+                                '</span>');
+
+                            that.empty();
+                            that.append(count);
+
+                            function reduceCount() {
+                                var num = count.find("i").text() - 1;
+                                count.find("i").text(num);
+                                that.append(count);
+                                if (num == 0) {
+                                    clearInterval(reduceId);
+                                    that.text("获取验证码");
+                                    getcn();
+                                }
+                            }
+                            var reduceId = window.setInterval(reduceCount, 1000);
+                        } else {
+                            getcn();
+                        }
+                    });
+                }
+            });
+        }
+        getcn();
+
+        $("#loginButton").on('tap', function() {
+            var phone = $("#phone").val();
+            var verifyCode = $("#verifyCode").val();
+            if (phone.length != 11) {
+                mui.toast("请输入正确的手机号");
+            } else if (verifyCode.length != 4) {
+                mui.toast("请输入正确的验证码");
+            } else {
+                $.when(userRegister(phone, verifyCode)).done(function(data) {
+                    if (data.resultCode == 200) {
+                        window.localStorage.setItem("token", data.data.token);
+                        window.localStorage.setItem("version", data.data.version);
+                        window.location.href = "indexPage.html";
+                    }
+                });
+            }
+        })
+    });
+    </script>
 </head>
+
 <body>
-	<!-- <div class="mui-content"> -->
+    <!-- <div class="mui-content"> -->
     <div class="loginContainer">
         <div class="loginContent">
             <span class="mui-icon mui-icon-closeempty closeicon"></span>
@@ -37,81 +99,8 @@
             </div>
         </div>
     </div>
-	<!-- </div> -->
-<script>
-mui.init();
-function getcn(){
-    $(".getcn").one("tap",function() {
-        var phone = $("#phone").val();
-        var that=$(this);
-        if(phone.length != 11){
-            mui.toast("请输入正确的手机号");
-            getcn();
-        }
-        else{
-            $.when(getVerifyCode(phone)).done(function(data){
-                if(data.resultCode == 200){
-                    mui.toast("发送成功");
-                    var count=$('<span class="regetcn">重新发送'+
-                        '&nbsp;(<i style="font-style:normal;">60</i>)'+
-                        '</span>');
-                    
-                    that.empty();
-                    that.append(count);
-                    function reduceCount(){
-                        var num=count.find("i").text() - 1;
-                        count.find("i").text(num);
-                        that.append(count);
-                        if(num==0){
-                            clearInterval(reduceId);
-                            that.text("获取验证码");
-                            getcn();
-                        }
-                    }
-                    var reduceId = window.setInterval(reduceCount,1000);
-                }
-                else{
-                    getcn();
-                }
-            });
-        }
-    });
-}
-getcn();
+    <!-- </div> -->
 
-$("#loginButton").on('tap',function(){
-    var phone = $("#phone").val();
-    var verifyCode = $("#verifyCode").val();
-    if(phone.length != 11){
-        mui.toast("请输入正确的手机号");
-    }
-    else if(verifyCode.length != 4){
-        mui.toast("请输入正确的验证码");
-    }
-    else {
-        $.when(userRegister(phone,verifyCode)).done(function(data){
-            if(data.resultCode == 200){
-                window.localStorage.setItem("token",data.data.token);
-                window.localStorage.setItem("version",data.data.version);
-                window.location.href="indexPage.html";
-            }
-        });
-    }
-})
-</script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

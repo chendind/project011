@@ -14,11 +14,82 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/mui/js/mui.pullToRefresh.js"></script>
-    
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        var vm = new Vue({
+                el: "body",
+                data: {
+                    records: [],
+                    page: 1
+                },
+                computed: {},
+                methods: {
+                    typeName: function(data) {
+                        switch (data.type) {
+                            case 0:
+                                return "支付抵现"
+                                break;
+                            case 1:
+                                return "积分兑换"
+                                break;
+                            case 2:
+                                return "零钱提现"
+                        }
+                    }
+                },
+                created: function() {
+                    var self = this;
+                    var id = localStorage.getItem("id");
+                    $.when(moneyRecordList(self.page, 10)).done(function(data) {
+                        console.log(data);
+                        self.$data.records = data.data.moneyRecords;
+                        console.log(JSON.parse(JSON.stringify(self.records)));
+                        vm.page++;
+                    });
+                },
+                ready: function() {
+
+                }
+            })
+            //阻尼系数
+        var deceleration = mui.os.ios ? 0.0006 : 0.0009;
+        mui('.mui-scroll-wrapper').scroll({
+            bounce: false,
+            indicators: true, //是否显示滚动条
+            deceleration: deceleration
+        });
+        mui.ready(function() {
+            //循环初始化所有下拉刷新，上拉加载。
+            mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+                mui(pullRefreshEl).pullToRefresh({
+                    up: {
+                        callback: function() {
+                            var self = this;
+                            vm.page++;
+                            setTimeout(function() {
+                                $.when(moneyRecordList(vm.page, 10)).done(function(data) {
+                                    console.log(data);
+                                    if (data.data.moneyRecords) {
+                                        vm.records = vm.records.concat(data.data.moneyRecords);
+                                        self.endPullUpToRefresh();
+                                        vm.page++;
+                                    } else {
+                                        self.endPullUpToRefresh(true);
+                                    }
+                                });
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </head>
 
 <body>
@@ -43,76 +114,7 @@
             </div>
         </div>
     </div>
-    <script>
-    mui.init();
-    var vm = new Vue({
-            el: "body",
-            data: {
-                records: [],
-                page: 1
-            },
-            computed: {},
-            methods: {
-                typeName: function(data) {
-                    switch (data.type) {
-                        case 0:
-                            return "支付抵现"
-                            break;
-                        case 1:
-                            return "积分兑换"
-                            break;
-                        case 2:
-                            return "零钱提现"
-                    }
-                }
-            },
-            created: function() {
-                var self = this;
-                var id = localStorage.getItem("id");
-                $.when(moneyRecordList(self.page, 10)).done(function(data) {
-                    console.log(data);
-                    self.$data.records = data.data.moneyRecords;
-                    console.log(JSON.parse(JSON.stringify(self.records)));
-                    vm.page++;
-                });
-            },
-            ready: function() {
 
-            }
-        })
-        //阻尼系数
-    var deceleration = mui.os.ios ? 0.0006 : 0.0009;
-    mui('.mui-scroll-wrapper').scroll({
-        bounce: false,
-        indicators: true, //是否显示滚动条
-        deceleration: deceleration
-    });
-    mui.ready(function() {
-        //循环初始化所有下拉刷新，上拉加载。
-        mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
-            mui(pullRefreshEl).pullToRefresh({
-                up: {
-                    callback: function() {
-                        var self = this;
-                        vm.page++;
-                        setTimeout(function() {
-                            $.when(moneyRecordList(vm.page, 10)).done(function(data) {
-                                console.log(data);
-                                if (data.data.moneyRecords) {
-                                    vm.records = vm.records.concat(data.data.moneyRecords);
-                                    self.endPullUpToRefresh();
-                                    vm.page++;
-                                } else {
-                                    self.endPullUpToRefresh(true);
-                                }
-                            });
-                        }, 1000);
-                    }
-                }
-            });
-        });
-    });
-    </script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +14,30 @@
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
     <script src="../source/js/public.js"></script>
+        <script>
+    $(function() {
+        mui.init();
+        $("#getVerifyCodeButton").on('tap', function() {
+            var phone_number = $.trim($("#phone_number").val());
+            if (!phone_number) {
+                mui.toast("请输入正确的手机号");
+            } else {
+                $("#getVerifyCodeButton").removeClass("linkColor").addClass("greyColor");
+                $("#savePhoneButton").removeClass("greyColor").addClass("linkColor");
+            }
+        });
+        $("#savePhoneButton").on('tap', function() {
+            var phone_verifyCode = $.trim($("#phone_verifyCode").val());
+            if (!phone_verifyCode) {
+                mui.toast("请输入验证码");
+            } else {
+
+            }
+        })
+    });
+    </script>
 </head>
+
 <body>
     <nav class="mui-bar mui-bar-tab">
         <a id="savePhoneButton" class="greyColor">
@@ -24,8 +48,7 @@
         <ul class="mui-table-view" style="margin-bottom: 10px;margin-top: 10px;">
             <li class="mui-table-view-cell">
                 <a class="mui-navigate-right" href="userPage_userInfo_phone.html">
-                    <img class="imageIcon" style="width: 20px;" src="../source/webslice/4.2_4.4_integral&coin/wechat_binding.png" alt="">
-                    Jingdong@云书
+                    <img class="imageIcon" style="width: 20px;" src="../source/webslice/4.2_4.4_integral&coin/wechat_binding.png" alt=""> Jingdong@云书
                     <span class="mui-tip">已绑定</span>
                 </a>
             </li>
@@ -38,41 +61,6 @@
         </form>
         <p style="margin: 10px 15px;">可提现余额：104.33</p>
     </div>
-<script>
-mui.init();
-$("#getVerifyCodeButton").on('tap',function(){
-    var phone_number = $.trim($("#phone_number").val());
-    if(!phone_number){
-        mui.toast("请输入正确的手机号");
-    }
-    else{
-        $("#getVerifyCodeButton").removeClass("linkColor").addClass("greyColor");
-        $("#savePhoneButton").removeClass("greyColor").addClass("linkColor");
-    }
-});
-$("#savePhoneButton").on('tap',function(){
-    var phone_verifyCode = $.trim($("#phone_verifyCode").val());
-    if(!phone_verifyCode){
-        mui.toast("请输入验证码");
-    }
-    else{
-        
-    }
-})
-</script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
