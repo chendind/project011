@@ -40,12 +40,12 @@
             <h5 style="margin-top: 15px;">热门搜索</h5>
             <div class="user-city-list">
                 <div id="user_city_row" class="user-city-row">
-                    <div class="user-city-item">毛概马哲</div>
+                    <div class="user-city-item">毛概</div>
                     <div class="user-city-item">心理学</div>
                     <div class="user-city-item">经济学</div>
                     <div class="user-city-item">数据库</div>
                     <div class="user-city-item">Java</div>
-                    <div class="user-city-item">艺术史</div>
+                    <div class="user-city-item">艺术</div>
                 </div>
             </div>
         </div>
@@ -73,15 +73,37 @@
         <img src="../source/webslice/0_common/web_common_cart.png" />
     </a>
 <script>
+mui.init({
+    pullRefresh: {
+        container: '#pullrefresh',
+        up: {
+            contentinit: '',
+            contentdown: '',
+            contentrefresh: ' ',
+            contentnomore: '',
+            callback: pullupRefresh
+        }
+    }
+});
+
 var params = getQueryData();
+
 if(params&&params.keyword){
     $("#searchCityInput").val(params.keyword);
-    checkInputValueAndShowBlock(params.keyword);
+
+    $("#hotSearchBlock").hide();
+    $("#searchResultBlock").show();
+
+    mui.ready(function() {
+        mui('#pullrefresh').pullRefresh().pullupLoading();
+    });
 }
 else{
-    mui.alert("查询参数错误","",["确定"],function(){
-        mui.back();
-    });
+    $("#hotSearchBlock").show();
+    $("#searchResultBlock").hide();
+    // mui.alert("查询参数错误","",["确定"],function(){
+    //     mui.back();
+    // });
 }
 var pageCount = 1;
 $("#searchCityInput").on('keyup',function(e){
@@ -151,21 +173,8 @@ function searchBooksByKeyWord(keyword, currentCityId, page){
         }
     });
 }
-mui.init({
-    pullRefresh: {
-        container: '#pullrefresh',
-        up: {
-            contentinit: '',
-            contentdown: '',
-            contentrefresh: ' ',
-            contentnomore: '',
-            callback: pullupRefresh
-        }
-    }
-});
-mui.ready(function() {
-    mui('#pullrefresh').pullRefresh().pullupLoading();
-});
+
+
 function pullupRefresh() {
     searchBooksByKeyWord(params.keyword, currentCityId, pageCount);
 }
@@ -196,7 +205,14 @@ $("#bookList").on('tap','.smallCartIcon',function(){
     else{
         mui.toast("请勿重复添加");
     }
-})
+});
+
+
+// 热门搜索
+$("#hotSearchBlock").on('tap','.user-city-item',function(){
+    var keyword = $(this).text();
+    toSearchPage(keyword);
+});
 </script>
 </body>
 </html>
