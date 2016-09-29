@@ -157,7 +157,7 @@
                 <div v-for="num in bookNumArr" track-by="$index">{{num}}</div>
                 <span>本</span>
             </div>
-            <p class="recycleTreeNum">共减少树木砍伐 <span>{{treeNum}}</span> 棵</p>
+            <p class="recycleTreeNum">共减少树木砍伐 <span>{{(bookNum/30).toFixed(1)}}</span> 棵</p>
         </section>
         <hr>
         <footer class="footer">
