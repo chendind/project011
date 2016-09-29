@@ -56,7 +56,7 @@
             </div>
             <div id="couponsList">
                 <div class="coupon" v-for="coupon in couponList" data-href="userPage_coupon_detail.html?{{getQueryParams(coupon.id)}}">
-                    <div class="couponBody" :style="{backgroundColor: '#'+coupon.backgroundColor}">
+                    <div class="couponBody" :style="{backgroundColor: '#'+coupon.backgroundColor, backgroundImage: 'url('+coupon.backgroundImg+')'}">
                         <img class="mui-pull-left" :src="coupon.logo" alt="">
                         <div class="mui-pull-right" style="text-align: right;">
                             <h5 style="color: #fff;font-size: 16px;margin-top: 10px;">{{coupon.powerValue}}</h5>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="couponFoot">
-                        <span class="mui-h5 mui-ellipsis">{{coupon.useDesc}}</span>
+                        <span class="mui-h5 mui-ellipsis">{{coupon.timeDesc?coupon.timeDesc:coupon.useDesc}}</span>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     <p>
                         <a style="color: inherit;" data-href="http://h5.qess.me/help/couponProblem.html">优惠券说明</a>
                         ｜
-                        <a style="color: inherit;">过期优惠券</a>
+                        <a style="color: inherit;" data-href="userPage_coupon_expired.html">过期优惠券</a>
                     </p>
                 </div>
             </div>

@@ -13,45 +13,19 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="../source/js/jquery-1.11.1.min.js"></script>
     <script src="../source/mui/js/mui.js"></script>
+    
     <!-- <script src="//npmcdn.com/vue/dist/vue.min.js"></script> -->
     <script src="../source/js/vue.js"></script>
     <script src="../source/js/ajax.js"></script>
     <script src="../source/js/ajax_my.js"></script>
     <script src="../source/js/public.js"></script>
-        <script>
-    $(function() {
-        mui.init();
-        var vm = new Vue({
-            el: 'body',
-            data: {
-                couponList: []
-            },
-            created: function() {
-                var self = this;
-                $.when(getExpiredCouponsList(1)).done(function(data) {
-                    if (data.resultCode == 200) {
-                        self.couponList = data.data.unexpiredCoupons;
-                    }
-                });
-            }
-        });
-    });
-    </script>
 </head>
-
 <body>
     <div class="mui-content">
-        <div style="padding: 0 12px;">
-            <div class="innerCenter" style="padding: 29px 0;">
-                <div>
-                    <a class="linkColor" data-href="userPage_coupon_add.html">
-                        <img class="imageIcon" style="width: 21px; height: 21px;" src="../source/images/rect.jpg" alt="">添加优惠券
-                    </a>
-                </div>
-            </div>
+        <div style="padding: 10px 12px;">
             <div id="couponsList">
-                <div class="coupon" v-for="coupon in couponList" data-href="userPage_coupon_detail.html?{{encodeURI(JSON.stringify({'couponId':coupon.id}))}}">
-                    <div class="couponBody" :style="{backgroundColor: '#'+coupon.backgroundColor}">
+                <div class="coupon" v-for="coupon in couponList">
+                    <div class="couponBody" style="background-color: #ccc">
                         <img class="mui-pull-left" :src="coupon.logo" alt="">
                         <div class="mui-pull-right" style="text-align: right;">
                             <h5 style="color: #fff;font-size: 16px;margin-top: 10px;">{{coupon.powerValue}}</h5>
@@ -59,19 +33,42 @@
                         </div>
                     </div>
                     <div class="couponFoot">
-                        <span class="mui-h5 mui-ellipsis">{{coupon.useDesc}}</span>
+                        <span class="mui-h5 mui-ellipsis">{{coupon.timeDesc?coupon.timeDesc:coupon.useDesc}}</span>
                     </div>
-                </div>
-            </div>
-            <div class="innerCenter" style="padding: 29px 0;">
-                <div>
-                    <p>
-                        <a style="color: inherit;" data-href="http://h5.qess.me/help/couponProblem.html">优惠券说明</a> ｜
-                        <a style="color: inherit;">过期优惠券</a>
-                    </p>
                 </div>
             </div>
         </div>
     </div>
+<script>
+mui.init();
+var vm = new Vue({
+    el: 'body',
+    data: {
+        couponList: []
+    },
+    created: function(){
+        var self = this;
+        $.when(getExpiredCouponsList(1)).done(function(data){
+            if(data.resultCode == 200){
+                self.couponList = data.data.expiredCoupons;
+            }
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
 </body>
 <html>

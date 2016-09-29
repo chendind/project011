@@ -33,37 +33,14 @@
                     <div>
                         <span class="mui-h4">{{coupon.powerValue}}</span>
                     </div>
-                    <div>
-                        <button id="exchangeButton" class="mui-btn mui-btn-long mui-btn-primary" style="min-width: 150px;border-radius: 5px;margin-top: 20px;background-color: #3aa337;padding: 8px 12px;border: none;" v-tap="showQRCode(coupon.id)">
-                            立即使用
-                        </button>
-                    </div>
                 </div>
-                <table>
-                    <tr>
-                        <th>使用说明：</th>
-                        <td>{{coupon.useDesc}}</td>
-                    </tr>
-                    <tr>
-                        <th>可用时间：</th>
-                        <td>{{coupon.useTime}}</td>
-                    </tr>
-                    <tr>
-                        <th>联系电话：</th>
-                        <td><a href="tel:{{coupon.shopPhone}}">{{coupon.shopPhone}}</a></td>
-                    </tr>
-                </table>
                 <div class="afterFakeClass" style="background-color: #3aa337;"></div>
             </div>
-            <div class="bottomPart">
-                <div style="margin: 0px 15px;">
-                    <img style="width: 100%;" :src="coupon.shopImg" alt="">
+            <div class="bottomPart" style="padding-top: 0;">
+                <div style="margin: 0px;">
+                    <img style="width: 167px;display:block;margin: 0 auto;" :src="coupon.qrcodeUrl" alt="">
                 </div>
-                <ul class="mui-table-view">
-                    <li class="mui-table-view-cell" v-for="menu in coupon.menus">
-                        <a data-href="{{menu}}" class="mui-navigate-right">{{$key}}</a>
-                    </li>
-                </ul>
+                <p style="text-align: center;">请向商家出示二维码</p>
             </div>
         </div>
             
@@ -71,36 +48,18 @@
 <script>
 mui.init();
 var params = getQueryData();
-if(params&&params.couponId){
+if(params&&params.qrcodeUrl){
     var vm = new Vue({
         el: 'body',
         data: {
             coupon: ""
         },
         methods: {
-            showQRCode: function(couponId){
-                var self = this;
-                var qrcodeUrl = baseUrl +"/qrcode/coupon/"+couponId+"/"+cookieObj.Token;
-                window.location.href="userPage_coupon_qrcode.html?"+encodeURI(JSON.stringify({
-                    "qrcodeUrl":qrcodeUrl,
-                    "logo": self.coupon.logo,
-                    "shopName": self.coupon.shopName,
-                    "powerValue": self.coupon.powerValue
-                }));
-                // $.when(getQRCodeByCouponId(couponId)).done(function(data){
-                //     if(data.resultCode == 200){
-
-                //     }
-                // })
-            }
+            
         },
         created: function(){
             var self = this;
-            $.when(getCouponById(params.couponId)).done(function(data){
-                if(data.resultCode == 200){
-                    self.coupon = data.data.coupon;
-                }
-            });
+            self.coupon = params;
         }
     });
 }
@@ -109,7 +68,6 @@ else{
         mui.back();
     });
 }
-
 
 
 
