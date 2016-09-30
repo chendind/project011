@@ -3734,6 +3734,7 @@ function editCookie(cityId){
 function getCouponsList(page){
     var ajax = $.ajax({
         url: baseUrl +"/users/coupons/page/"+page,
+        cache: false,
         type: "GET"
     });
     return ajax;
