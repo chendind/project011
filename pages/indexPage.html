@@ -19,8 +19,7 @@
     <script>
     $(function(){
         $("#currentCityName").text(currentCityName);
-        var currentCityNameBoxWidth = $("#currentCityNameBox").width();
-        $("#header>.mui-title").css({"left":currentCityNameBoxWidth+12+"px"});
+        
         var cityId = currentCityId;
         $.when(getBannersByCityId(cityId)).done(function(data){
             if(data.resultCode == 200){
@@ -101,8 +100,11 @@
                 }
                 $("#thirdRecommendBlock").next("ul").append(thirdRecommendBlockHtml);
                 $(".lazy").lazyload();
-                $("body").show();
             }
+        }).always(function(){
+            $("body").show();
+            var currentCityNameBoxWidth = $("#currentCityNameBox").width();
+            $("#header>.mui-title").css({"left":currentCityNameBoxWidth+12+"px"});
         });
 
         $(window).on('touchmove scroll',function(e){
