@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta content="telephone=no" name="format-detection" />
@@ -179,9 +179,9 @@
     }
     </style>
     <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="../source/js/vue.js"></script>
-    <script type="text/javascript" src="../source/js/encoding-indexes.js"></script>
-    <script type="text/javascript" src="../source/js/encoding.js"></script>
+    <script type="text/javascript" src="../source/js/vue.min.js"></script>
+    <!-- <script type="text/javascript" src="../source/js/encoding-indexes.js"></script> -->
+    <!-- <script type="text/javascript" src="../source/js/encoding.js"></script> -->
     <script src="../source/js/public.js"></script>
     <script src="../source/mui/js/mui.min.js"></script>
     <script type="text/javascript" src="../source/js/common.js"></script>
@@ -353,7 +353,7 @@
 </head>
 
 <body id="app">
-    <div class="container" v-cloak v-show="show">
+    <div class="container">
         <div class="weui_cells weui_cells_access">
             <a class="weui_cell" href="userPage_userInfo_address.html?{{token}}" v-show="schoolAddressId">
                 <div class="weui_cell_hd">

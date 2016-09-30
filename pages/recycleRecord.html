@@ -12,7 +12,7 @@
     <meta name="description" content="seodescription" />
     <link rel="stylesheet" href="../source/css/weui.min.css" />
     <link rel="stylesheet" href="../source/css/mui_overwrite.css">
-    <script type="text/javascript" src="../source/js/vue.js"></script>
+    <script type="text/javascript" src="../source/js/vue.min.js"></script>
     <script type="text/javascript" src="../source/js/fastclick.min.js"></script>
     <title>捐书记录</title>
     <style>
@@ -106,7 +106,10 @@
                 console.log(ret);
                 if (ret.resultCode == 200) {
                     // ret.data.records=null;
-                    data.recordList = ret.data.records;
+                    if (ret.data.records!=null) {
+                         data.recordList = data.recordList.concat(ret.data.records);
+                    }
+                   
                     if (!data.recordList) {
                         data.recordList=[]
                     }
