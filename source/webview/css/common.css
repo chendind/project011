@@ -15,7 +15,7 @@
 	.contant .desc .middle .text_desc .bookname{font-size: 18px;font-weight: 400;color: #262626;margin-top:27px;}
 	.contant .desc .middle .text_desc .actor{font-size: 12px;font-weight: 400;color: #666666;margin-top:8px;}
 	.contant .desc .middle .text_desc .chubanshe{font-size: 12px;font-weight: 400;color: #666666;margin-top:5px;}
-	.contant .desc .middle .text_desc .miaoshu{width: 176px;height: 154px;overflow: hidden;font-size: 12px;font-weight: 400;line-height: 1.5;color: #666666;margin-top:24px;}
+	.contant .desc .middle .text_desc .miaoshu{width: 176px;height: 154px;overflow: hidden;font-size: 12px;font-weight: 400;line-height: 1.5;color: #666666;margin-top:24px;max-width: 100%;}
 	.contant .jiage{width: 100%;position: absolute;bottom: 18px;}
 	.contant .jiage .new_prize{float: left;margin-top:5px;margin-left: 5%;height: 28px;font-size: 32px;font-weight: 300;line-height: 0.88;color: #ff3a52;}
 	.contant .jiage .old_prize{float: left;margin-left: 5px;margin-top: 5px;}
