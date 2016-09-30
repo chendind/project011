@@ -33,6 +33,9 @@
                             if (data.resultCode == 200) {
                                 mui.toast("添加成功");
                                 self.couponCode == "";
+                                setTimeout(function(){
+                                    window.location.href="userPage_coupon.html";
+                                },2500)
                             }
                         })
                     } else {

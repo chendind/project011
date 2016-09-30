@@ -31,7 +31,7 @@
                 for(var i = 0, length = banners.length; i < length; i++){
                     var _banner = banners[i];
 
-                    bannersHTML += '<div class="mui-slider-item"><a><img src="'+_banner.path+'"></a></div>';
+                    bannersHTML += '<div class="mui-slider-item"><a data-href="'+_banner.url+'"><img src="'+_banner.path+'"></a></div>';
                     // 第一个元素 
                     if(i == 0){
                         firstImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a data-href="'+_banner.url+'"><img src="'+_banner.path+'"></a></div>';
@@ -42,7 +42,7 @@
                     }
                     // 最后一个元素
                     if(i == length - 1){
-                        lastImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a><img src="'+_banner.path+'"></a></div>';
+                        lastImage = '<div class="mui-slider-item mui-slider-item-duplicate"><a data-href="'+_banner.url+'"><img src="'+_banner.path+'"></a></div>';
                     }
 
                 }
