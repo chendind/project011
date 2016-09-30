@@ -49,7 +49,7 @@
     
     .recycleBook {
         width: 100%;
-        height: 220px;
+        height: 33vh;
         float: left;
         clear: both;
         position: relative
@@ -63,22 +63,22 @@
     .recycleBook .recycleBookTitle {
         text-align: center;
         font-size: 17px;
-        margin: 50px 0 18px 0;
+        margin: 8vh 0 18px 0;
     }
     
     .recycleBookNum {
         width: 100%;
-        height: 52px;
+        height: 8vh;
     }
     
     .recycleBookNum div {
         width: 10.15%;
-        height: 50px;
+        height: 8vh;
         border: 1px solid #ccc;
         border-radius: 4.5px;
         float: left;
         margin-left: 2.5%;
-        line-height: 50px;
+        line-height: 8vh;
         text-align: center;
         font-size: 24px;
         color: #5fbfaf;
@@ -87,7 +87,7 @@
     
     .recycleBookNum span {
         display: inline-block;
-        margin-top: 13px;
+        margin-top: 2vh;
         margin-left: 5px;
         color: #666;
     }
@@ -96,7 +96,7 @@
         text-align: center;
         font-size: 15px;
         color: #666;
-        margin-top: 17px;
+        margin-top: 2vh;
     }
     
     p.recycleTreeNum span {
@@ -110,7 +110,7 @@
     
     .footer {
         width: 100%;
-        height: 240px;
+        height: 30vh;
     }
     
     .footer button {
@@ -138,7 +138,7 @@
         font-size: 15px;
         color: #5fbfaf;
         display: block;
-        margin: 29px auto 0;
+        margin: 10vh auto 0;
     }
     [v-cloak]{
     	display: none;
@@ -209,7 +209,7 @@
                 $.when(DonateTotalNum()).done(function(data) {
                     console.log(data);
                     if (data.resultCode == 200) {
-                    	self.bookNum=data.data.contributionValue+"";
+                    	self.bookNum=(data.data.contributionValue+600000)+"";
                     	self.bookNumArr = self.bookNum.split('');
                     	self.show=true;
                     }

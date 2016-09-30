@@ -20,6 +20,7 @@
         mui.init();
         $("#loginButton").on('tap', function(event) {
             event.preventDefault();
+            console.log(mui.os.android);
             if (mui.os.ios) {
                 window.location.href = "https://appsto.re/cn/kKwVeb.i"
             } else if (mui.os.android) {

@@ -40,6 +40,9 @@
     
     .container {
         width: 100%;
+        overflow: hidden;
+        height: 100vh;
+        position: relative;
     }
     
     .weui_cell {
@@ -104,7 +107,7 @@
     }
     
     .confirm {
-        position: fixed;
+        position: absolute;
         height: 85px;
         bottom: 0;
         width: 100%;
@@ -139,7 +142,7 @@
         vertical-align: -3px;
     }
     
-    .A {
+    #confirmBtn:checked+label {
         background: url('../source/images/choice_on.png') no-repeat;
         background-size: 16px 16px;
     }
@@ -176,7 +179,7 @@
     }
     </style>
     <script type="text/javascript" src="../source/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="../source/js/vue.min.js"></script>
+    <script type="text/javascript" src="../source/js/vue.js"></script>
     <script type="text/javascript" src="../source/js/encoding-indexes.js"></script>
     <script type="text/javascript" src="../source/js/encoding.js"></script>
     <script src="../source/js/public.js"></script>
@@ -189,9 +192,10 @@
     <script src="../source/js/ajax_my.min.js"></script>
     <script>
     </script>
-        <script>
+    <script>
     $(function() {
         mui.init();
+        $(".container").css('height', $(window).height()+"px");
         window.onload = function() {
             function getAddress(id, addressId, userName, userPhone, userAddress) {
                 $('.userName').text(userName);
@@ -213,11 +217,11 @@
             event.preventDefault();
         });
         //注册checkbox表单美化
-        $('.checkboxDiv').click(function() {
-            $(this).toggleClass('A');
-            var isA = $(this).hasClass('A');
-            $('.checkbox').click();
-        })
+        // $('.checkboxDiv').click(function() {
+        //     $(this).toggleClass('A');
+        //     var isA = $(this).hasClass('A');
+        //     // $('.checkbox').click();
+        // })
 
 
 
@@ -244,7 +248,8 @@
             },
             computed: {
                 canSubmit: function() {
-                    if (this.count && this.appoinTime && this.schoolAddressId && confirm) {
+                    console.log(!this.count || !this.appoinTime || !this.schoolAddressId || !this.confirm);
+                    if (this.count && this.appoinTime && this.schoolAddressId && this.confirm) {
                         return true
                     } else {
                         return false
@@ -257,14 +262,18 @@
                     var year = val.split("T")[0].split("-")[0]
                     var month = val.split("T")[0].split("-")[1]
                     var day = val.split("T")[0].split("-")[2]
+                    var hour = val.split("T")[1].split(":")[0]
+                    var minute = val.split("T")[1].split(":")[1]
                     var time = new Date();
                     time.setFullYear(year);
                     time.setMonth(month - 1);
                     time.setDate(day);
+                    time.setHours(hour);
+                    time.setMinutes(minute-1);
                     var now = new Date()
                     console.log(now.getTime());
                     console.log(time.getTime());
-                    if (now.getTime() > time.getTime()) {
+                    if (now.getTime() >= time.getTime()) {
                         this.timeLater = false;
                     } else {
                         this.timeLater = true
@@ -273,36 +282,34 @@
             },
             methods: {
                 ensure: function() {
-                    //点击确认预约信息
-                    if (this.canSubmit) {
-                        if (this.timeLater) {
-                            var params = {
-                                "userAddressId": this.schoolAddressId,
-                                "appointTime": this.appoinTime,
-                                "remark": this.remark,
-                                "count": this.count
-                            }
-                            $.when(donateBook(params)).done(function(data) {
-                                console.log(data);
-                                if (data.resultCode == 200) {
-                                    console.log(data.data);
-                                    window.location.href = 'recycleDetail.html?' + encodeObj({
-                                        id: data.data.id
-                                    });
-                                    self.address = data.data.address;
-                                    self.schoolAddressId = data.data.address.id
-                                } else {
-                                    $('.weui_dialog_title').text(data.message);
-                                    $('.weui_dialog,.weui_mask').show();
-                                }
-                            });
-                        } else {
-                            mui.toast("请选择有效的时间")
-                        }
-                    } else {
+                    if (!this.confirm) {
+                        mui.toast("请同意服务条款")
+                    } else if (!this.canSubmit) {
                         mui.toast("请填写完整信息")
+                    } else if (!this.timeLater) {
+                        mui.toast("请选择有效的时间")
+                    } else {
+                        var params = {
+                            "userAddressId": this.schoolAddressId,
+                            "appointTime": this.appoinTime,
+                            "remark": this.remark,
+                            "count": this.count
+                        }
+                        $.when(donateBook(params)).done(function(data) {
+                            console.log(data);
+                            if (data.resultCode == 200) {
+                                console.log(data.data);
+                                window.location.href = 'recycleDetail.html?' + encodeObj({
+                                    id: data.data.id
+                                });
+                                self.address = data.data.address;
+                                self.schoolAddressId = data.data.address.id
+                            } else {
+                                $('.weui_dialog_title').text(data.message);
+                                $('.weui_dialog,.weui_mask').show();
+                            }
+                        });
                     }
-
                 }
             },
             created: function() {
@@ -402,12 +409,12 @@
         <div>
             <p class="preScore">预计可获得积分：<span>{{count * 50}}</span>，积分可换算零钱用于消费抵现。</p>
         </div>
-    </div>
-    <div class="confirm">
+            <div class="confirm">
         <p>
-            <input type="checkbox" name="checkbox" class="checkbox" hidden v-model="confirm"><span class="checkboxDiv A"></span>我已阅读并同意<a href="recycleAnnounce.html" style="color:#5fbfaf
-;">云书捐书服务条款</a></p>
+            <input type="checkbox" name="checkbox" class="checkbox" hidden v-model="confirm" id="confirmBtn">
+            <label class="checkboxDiv" for="confirmBtn"></label>我已阅读并同意<a href="recycleAnnounce.html" style="color:#5fbfaf;">云书捐书服务条款</a></p>
         <div class="ensure" @click="ensure" :class="{'disabled':!canSubmit}"><span>立即预约</span></div>
+    </div>
     </div>
     <div class="weui_dialog_confirm">
         <div class="weui_mask"></div>
