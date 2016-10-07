@@ -113,7 +113,7 @@
         color: #666;
     }
     </style>
-        <script>
+    <script>
     $(function() {
         mui.init();
         var params = getQueryData();
@@ -210,11 +210,26 @@
                         if (data.index == 0) {
                             $.when(cancelOrder(orderNo)).done(function(data) {
                                 if (data.resultCode == 200) {
-                                    $.when(getOrderList(self.page, self.orderStatus)).done(function(data) {
-                                        self.$data.orders = data.data.orders
+                                    self.page[0]=1;
+                                    self.page[1]=1;
+                                    $.when(getOrderList(self.page[0], self.orderStatus)).done(function(data) {
+                                        if (data.resultCode == 200) {
+                                            self.$data.orders = data.data.orders;
+                                            console.log(self.seeData(self.orders));
+                                            self.page[0]++;
+                                        }
+                                        self.hasAjaxEnd_all = true;
                                     });
-                                    $.when(getOrderList(self.page, 0)).done(function(data) {
-                                        self.$data.subOrders0 = data.data.orders
+                                    $.when(getOrderList(self.page[1], 0)).done(function(data) {
+                                        if (data.resultCode == 200) {
+                                            if (data.data && data.data.orders) {
+                                                self.$data.subOrders0 = data.data.orders;
+                                                self.page[data.data.orders[0].orderStatus + 1]++;
+                                            }else{
+                                                self.$data.subOrders0 = data.data.orders=[];
+                                            }
+                                        }
+                                        self["hasAjaxEnd_0"] = true;
                                     });
                                 }
                             });
