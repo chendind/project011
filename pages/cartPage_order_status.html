@@ -53,6 +53,7 @@
                 encode: function(data) {
                     return encodeObj(data);
                 },
+                // 申请退款
                 applyRefund: function(data) {
                     var self = this;
                     mui.confirm("确定申请退款吗？", " ", ["<span class='redColor'>确定</span>", "取消"], function(data) {

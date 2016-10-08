@@ -79,6 +79,7 @@
                 encode: function(data) {
                     return encodeObj(data);
                 },
+                // 微信支付
                 wechatPay: function() {
                     var self = this;
                     if (self.payMoney > 0) {
@@ -103,6 +104,7 @@
                             mui("#loadPopover").popover("toggle");
                         });
                     } else {
+                        // 零钱支付
                         mui("#loadPopover").popover("toggle");
                         mui.confirm("确定使用零钱支付吗？", " ", ["确定", "<span style='font-weight: normal;'>取消</span>"], function(data) {
                             if (data.index == 0) {
@@ -118,6 +120,7 @@
                         })
                     }
                 },
+                // 修改备注
                 changeMessage: function() {
                     var self = this;
                     mui("#loadPopover").popover("toggle");

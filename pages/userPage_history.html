@@ -49,6 +49,7 @@
                 encode: function(data) {
                     return encodeObj(data);
                 },
+                // 检测是否存在
                 noExisted: function(id) {
                     console.log(id);
                     if (this.cartList.indexOf(id) !== -1) {
@@ -58,6 +59,7 @@
                         return true;
                     }
                 },
+                // 加入购物车
                 addToCart: function(id) {
                     var self = this;
                     console.log(id);

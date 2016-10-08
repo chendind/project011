@@ -34,3 +34,6 @@
 
 ### html 结构
 - 由于微信浏览器自带的一些诡异bug，我们将页面内的JavaScript放置于head内，并在jquery的``` $(function(){//...}) ```函数体内执行。
+- 页面的中的JavaScript主要通过vue处理数据及更新DOM，使用Vue-tap替代原生的v-bind:click。
+- 首页采用了lazyload加载图片 [相关文档](https://github.com/tuupola/jquery_lazyload)
+- 对于没有使用mui的捐书部分，使用了fastclick来提升ios下点击的反应速度

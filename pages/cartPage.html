@@ -78,6 +78,7 @@
                 }
             },
             methods: {
+                //全选
                 allSelect: function() {
                     var self = this;
                     if (self.allState == true) {
@@ -90,6 +91,7 @@
                         }
                     }
                 },
+                // 删除项目
                 deleteItem: function(id, record, index) {
                     var self = this;
                     mui.confirm("确定删除吗？", " ", ["<span class='redColor'>删除</span>", "取消"], function(data) {
@@ -103,6 +105,7 @@
                         }
                     })
                 },
+                // 创建订单
                 createOrder: function() {
                     var self = this;
                     var data = self.choseList.slice(0, 6);

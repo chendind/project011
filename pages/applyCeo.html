@@ -70,13 +70,16 @@
                 }
             },
             methods: {
+                // 编辑性别
                 editSex: function(sex) {
                     this.sex = sex;
                     mui("#applyCeo_userSexSheet").popover('hide');
                 },
+                // 取消编辑
                 cancelEdit: function() {
                     mui("#applyCeo_userSexSheet").popover('hide')
                 },
+                // 城市选择
                 cityChoose: function() {
                     var data = [];
                     var self = this;
@@ -99,6 +102,7 @@
                         })
                     });
                 },
+                // 城市选择
                 schoolChoose: function(e) {
                     var data = [];
                     var self = this;
@@ -120,6 +124,7 @@
                     }
 
                 },
+                // 获得验证码
                 getMessage: function() {
                     var self = this;
 
@@ -142,6 +147,7 @@
                         }
                     }
                 },
+                // 提交申请
                 applyCeo: function() {
                     var self = this;
                     if (self.hasBeenApply) {
