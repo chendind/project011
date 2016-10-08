@@ -1,11 +1,3 @@
-// var currentCityId = window.localStorage.getItem("cityId");
-// var currentCityName = window.localStorage.getItem("cityName");
-// if(currentCityName&&currentCityId){
-// 	// 已获取当前城市及id
-// }
-// else{
-// 	window.location.href = "index.html";
-// }
 // 百度统计
 var _hmt = _hmt || [];
 (function() {
@@ -15,12 +7,14 @@ var _hmt = _hmt || [];
   s.parentNode.insertBefore(hm, s);
 })();
 $(function(){
+    // 因为手机触屏点击事件的延迟，以及mui禁用了一般的a标签的href属性，所以使用data-href属性与tap事件进行页面跳转
 	$("body").on('tap','[data-href]',function(e){
 		e.stopPropagation();
 		e.preventDefault();
 		var href = $(this).attr("data-href");
 		href&&(window.location.href=href);
 	});
+    // 配置微信分享参数
     $.when(getWechatShareConfig(window.location.href)).done(function(data){
         if(data.resultCode == 200){
             wx.config({
@@ -31,13 +25,16 @@ $(function(){
                 signature: data.data.signature,// 必填，签名，见附录1
                 jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
+            // 该函数见ajax.js
             setWechatShareConfig("","","","");
         }
     });
 });
+// 把对象转换成字符串，并进行URI编码，用于url中的查询参数拼接
 function encodeObj(obj){
 	return encodeURI(JSON.stringify(obj));
 }
+// 获取url中的search，提取数据
 function getQueryData(){
     var searchUrl = window.location.search.split("?")[1];
     if(searchUrl&&searchUrl.search("=")>0){

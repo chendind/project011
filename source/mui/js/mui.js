@@ -4349,7 +4349,6 @@ Function.prototype.bind = Function.prototype.bind || function(to) {
 			}
 		},
 		_scrollbottom: function() {
-			console.log("_scrollbottom: "+this.loading);
 			if (!this.pulldown && !this.loading) {
 				this.pulldown = false;
 				this._initPullupRefresh();

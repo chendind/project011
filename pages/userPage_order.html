@@ -125,64 +125,7 @@
             indicators: true, //是否显示滚动条
             deceleration: deceleration
         });
-        mui.ready(function() {
-            //循环初始化所有下拉刷新，上拉加载。
-            // down: {
-            //     callback: function() {
-            //         var self = this;
-            //         setTimeout(function() {
-            //             var status = index == 0 ? 100 : index;
-            //             $.when(getOrderList(1, status)).done(function(data) {
-            //                 if (data.data.orders) {
-            //                     vm.$data.orders = data.data.orders;
-            //                     self.endPullDownToRefresh();
-            //                     vm.page[index] = 2;
-            //                 } else {
-            //                     self.endPullDownToRefresh(true);
-            //                     vm.page[index] = 1;
-            //                 }
-            //             });
-            //         }, 1000);
-            //     }
-            // },
-            mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
-                mui(pullRefreshEl).pullToRefresh({
-                    up: {
-                        contentinit: '',
-                        contentdown: '',
-                        contentrefresh: '',
-                        contentnomore: '',
-                        callback: function() {
-                            var self = this;
-                            // setTimeout(function() {
-                            if (vm.page[index] == 1) {
-                                self.endPullUpToRefresh(true);
-                            } else {
-                                var status = index == 0 ? 100 : index;
-                                $.when(getOrderList(vm.page[index], status)).done(function(data) {
-                                    if (data.data.orders) {
-                                        vm.$data.orders = vm.$data.orders.concat(data.data.orders);
-                                        self.endPullUpToRefresh();
-                                        vm.page[index]++;
-                                    } else {
-                                        self.endPullUpToRefresh(true);
-                                    }
-                                });
-                            }
-                            // }, 1000);
-                        }
-                    }
-                });
-            });
-            // 根据参数进行位置初始化
-            if (params) {
-                if (params.orderStatus) {
-                    mui('.mui-slider').slider().gotoItem(params.orderStatus - 1, 0);
-                }
-            } else {
-                mui('.mui-slider').slider().gotoItem(0, 0);
-            }
-        });
+        
         var vm = new Vue({
             el: "body",
             data: {
@@ -297,21 +240,52 @@
                     }
                     self["hasAjaxEnd_3"] = true;
                 });
-                // for (var i = 0; i < 4; i++) {
-                //     $.when(getOrderList(self.page[i + 1], i)).done(function(data) {
-                //         if(data.resultCode == 200){
-                //             if (data.data&&data.data.orders) {
-                //                 self.$data["subOrders" + "" + data.data.orders[0].orderStatus] = data.data.orders;
-                //                 self.page[data.data.orders[0].orderStatus + 1]++;
-                //             }
-                //         }
-                //     });
-                // }
             },
             ready: function() {
 
             }
-        })
+        });
+        mui.ready(function() {
+            mui.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+                mui(pullRefreshEl).pullToRefresh({
+                    up: {
+                        contentinit: '',
+                        contentdown: '',
+                        contentrefresh: '',
+                        contentnomore: '',
+                        callback: function() {
+                            var self = this;
+                            // setTimeout(function() {
+                            if (vm.page[index] == 1) {
+                                self.endPullUpToRefresh(true);
+                            } else {
+                                var status = index == 0 ? 100 : index;
+                                $.when(getOrderList(vm.page[index], status)).done(function(data) {
+                                    if (data.data.orders) {
+                                        vm.$data.orders = vm.$data.orders.concat(data.data.orders);
+                                        self.endPullUpToRefresh();
+                                        vm.page[index]++;
+                                    } else {
+                                        self.endPullUpToRefresh(true);
+                                    }
+                                });
+                            }
+                            // }, 1000);
+                        }
+                    }
+                });
+            });
+            // 根据参数进行位置初始化
+            // setTimeout(function(){
+                if (params) {
+                    if (params.orderStatus) {
+                        mui('.mui-slider').slider().gotoItem(params.orderStatus - 1, 0);
+                    }
+                } else {
+                    mui('.mui-slider').slider().gotoItem(0, 0);
+                }
+            // },0);
+        });
     });
     </script>
 </head>

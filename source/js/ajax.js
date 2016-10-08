@@ -3329,11 +3329,11 @@ function getCookieObj(){
 	var cookieObj = {};
   if(!cookie){
     // 测试用
-    document.cookie = "Token=b88a7979a2192ebba5e18b59f5bfa7a2";
-    document.cookie = "cityInfo=1"; 
-    document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
-    document.cookie = "utrace=1bba7fcb571bc0cc8e82fefde3eea763";
-    document.cookie = "isLogin=true";
+    // document.cookie = "Token=b88a7979a2192ebba5e18b59f5bfa7a2";
+    // document.cookie = "cityInfo=1"; 
+    // document.cookie = "cityName=%E6%9D%AD%E5%B7%9E";
+    // document.cookie = "utrace=1bba7fcb571bc0cc8e82fefde3eea763";
+    // document.cookie = "isLogin=true";
   }
 	if(cookie){
 		var arr = cookie.split("; ");
