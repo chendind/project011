@@ -2,7 +2,7 @@
 
 ### 项目目录
 - /pages : 该目录存放所有的html文件
-- ／source : 该目录存放所有的资源文件
+- /source : 该目录存放所有的资源文件
     - /source/css : 存放css文件，由 /source/less目录中的less文件编译而来
     - /source/js : 存放js文件
     - /source/images : 存放一些零散的图片
